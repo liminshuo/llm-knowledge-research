@@ -76,16 +76,7 @@ def heading_page(title: str, body: str, page_id: str, heading_tag: str = "h2") -
 
 
 def page_nav(prev_href, prev_label, prev_title, next_href, next_label, next_title):
-    return f"""    <nav class="page-nav">
-      <a href="{prev_href}">
-        <span class="nav-label">{prev_label}</span>
-        <span class="nav-title">{prev_title}</span>
-      </a>
-      <a href="{next_href}" class="next">
-        <span class="nav-label">{next_label}</span>
-        <span class="nav-title">{next_title}</span>
-      </a>
-    </nav>"""
+    return ""
 
 
 def render_page(
@@ -121,6 +112,16 @@ def render_page(
             active = ' class="active"' if key == module else ""
             nav_links.append(f'    <a href="{href}"{active}>{name}</a>')
 
+    is_wide = module == "background"
+    body_tag_attrs = (
+        ""
+        if is_wide
+        else f' class="inner-page" data-module="{module}" data-page="{page_id}"'
+    )
+    sidebar_html = "" if is_wide else "  <aside id=\"module-sidebar\"></aside>\n\n"
+    main_class = "main-content content-wide" if is_wide else "main-content"
+    sidebar_script = "" if is_wide else '\n<script src="assets/js/module-sidebar.js"></script>'
+
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -129,21 +130,18 @@ def render_page(
   <title>{title} · {mod_label.split(" · ")[1]} · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="inner-page" data-module="{module}" data-page="{page_id}">
+<body{body_tag_attrs}>
 
 <header class="site-header">
   <div class="site-logo">大模型知识获取研究</div>
   <nav class="site-nav">
 {chr(10).join(nav_links)}
   </nav>
-  <div class="site-meta">{mod_label.split(" · ")[0]} / 04</div>
 </header>
 
 <div class="page-wrapper">
 
-  <aside id="module-sidebar"></aside>
-
-  <main class="main-content">
+{sidebar_html}  <main class="{main_class}">
 
     <div class="page-header">
 {module_label_html}      <h1>{title}</h1>
@@ -160,8 +158,7 @@ def render_page(
 <footer class="site-footer">
   {mod_label} · Ascend C 文档大模型亲和规则研究
 </footer>
-
-<script src="assets/js/module-sidebar.js"></script>
+{sidebar_script}
 </body>
 </html>
 """

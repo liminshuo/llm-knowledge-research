@@ -237,7 +237,7 @@ DEMOS: dict[str, list[str] | None] = {
 SKIP = {"principles-general.html"}
 
 STRIP = re.compile(
-    r"\s*<div class=\"(?:principle-guide|ui-render-examples)[^\"]*\">.*?</div>\s*(?=<nav class=\"page-nav\">|</section>)",
+    r"\s*<div class=\"(?:principle-guide|ui-render-examples)[^\"]*\">.*?</div>\s*(?=</section>)",
     re.DOTALL,
 )
 

@@ -87,7 +87,7 @@
       "group": "时效",
       "id": "timeliness",
       "href": "principles-timeliness.html",
-      "label": "版本滞后"
+      "label": "版本外显"
     },
     {
       "group": "语义理解",
@@ -111,13 +111,13 @@
       "group": null,
       "id": "tab",
       "href": "principles-tab.html",
-      "label": "隐藏的语义（Tab）"
+      "label": "Tab 语义"
     },
     {
       "group": null,
       "id": "collapse",
       "href": "principles-collapse.html",
-      "label": "隐藏的语义（折叠面板）"
+      "label": "折叠语义"
     },
     {
       "group": null,
@@ -129,37 +129,37 @@
       "group": null,
       "id": "table",
       "href": "principles-table.html",
-      "label": "表格与列表结构语义"
+      "label": "表格结构"
     },
     {
       "group": null,
       "id": "note",
       "href": "principles-note.html",
-      "label": "注意提示（Note）类型语义"
+      "label": "Note 类型"
     },
     {
       "group": "交付格式",
       "id": "format",
       "href": "principles-format.html",
-      "label": "交付格式"
+      "label": "双轨交付"
     },
     {
       "group": "信息结构",
       "id": "structure-llms",
       "href": "principles-structure-llms.html",
-      "label": "llms.txt 与机器入口"
+      "label": "机器入口"
     },
     {
       "group": null,
       "id": "structure-metadata",
       "href": "principles-structure-metadata.html",
-      "label": "元数据字段规范"
+      "label": "元数据规范"
     },
     {
       "group": null,
       "id": "tensor",
       "href": "principles-tensor.html",
-      "label": "复杂内容：静态 Tensor"
+      "label": "Tensor 表达"
     },
     {
       "group": null,

@@ -287,13 +287,23 @@ PAGES: dict[str, dict] = {
 }
 
 
+def problem_label_for(data: dict) -> str:
+    if data.get("problem_label"):
+        return data["problem_label"]
+    problem_path = ROOT / data["problem"]
+    if problem_path.exists():
+        match = re.search(r"<h1>([^<]+)</h1>", problem_path.read_text(encoding="utf-8"))
+        if match:
+            return match.group(1)
+    return data["problem"]
+
+
 def patch_file(path: Path, data: dict) -> None:
     text = path.read_text(encoding="utf-8")
-    title_match = re.search(r"<h1>([^<]+)</h1>", text)
-    h1 = title_match.group(1) if title_match else path.stem
+    problem_label = problem_label_for(data)
 
     new_desc = (
-        f'      <p class="page-desc">对应 <a href="{data["problem"]}">当前问题 · {h1}</a>。{data["desc"]}</p>'
+        f'      <p class="page-desc">对应 <a href="{data["problem"]}">当前问题 · {problem_label}</a>。{data["desc"]}</p>'
     )
     text = re.sub(
         r"      <p class=\"page-desc\">.*?</p>",
@@ -314,8 +324,8 @@ def patch_file(path: Path, data: dict) -> None:
         content += "\n\n" + data["extra_section"]
 
     text = re.sub(
-        r"    <section class=\"section\".*?    <nav class=\"page-nav\">",
-        content + "\n\n    <nav class=\"page-nav\">",
+        r"    <section class=\"section\".*?</section>",
+        content,
         text,
         count=1,
         flags=re.DOTALL,

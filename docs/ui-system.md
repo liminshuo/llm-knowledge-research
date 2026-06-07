@@ -36,6 +36,26 @@
 | `--radius` | `8px` |
 | `--shadow` | `0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04)` |
 
+### 1.4 布局 · 正文最大宽度
+
+| 令牌 | 值 | 说明 |
+|------|-----|------|
+| `--content-max-width` | `1280px` | 正文内容区最大宽度（不含左右 padding） |
+| `--content-wide-pad-x` | `clamp(24px, 4vw, 48px)` | 水平内边距，随视口缩放 |
+
+全站正文遵循同一原则：1920 视口下内容区宽 **1280px**；视口变窄时 `width: 100%` + `clamp` 边距自适应。
+
+| 页面类型 | 实现 |
+|----------|------|
+| 无侧栏（首页、研究概览） | `<main class="main-content content-wide">`，整体居中；无 `#module-sidebar`、无 `body.inner-page` |
+| 有侧栏（当前问题、亲和原则等） | `<main class="main-content">` 占满侧栏以外区域；其直接子块（`.page-header`、`.section`、`.content-tabs` 等）`max-width: calc(1280px + 2 × pad)`，左对齐 |
+
+| 视口 | 行为 |
+|------|------|
+| 宽屏（如 1920） | 正文内容区最大 **1280px** |
+| 中间分辨率 | 随可用宽度缩小，保留 `clamp` 水平边距 |
+| ≤ 900px | 水平 padding **24px**；侧栏隐藏；首页模块卡片单列 |
+
 ---
 
 ## 2. 标题层级（H1–H4）
@@ -224,10 +244,24 @@
 </p>
 ```
 
-### 5.4 顶栏
+### 5.4 无侧栏宽版页（首页、研究概览）
+
+```html
+<body>
+  <header class="site-header">…</header>
+  <div class="page-wrapper">
+    <main class="main-content content-wide">
+      <!-- 首页：hero、module-grid；研究概览：page-header、section -->
+    </main>
+  </div>
+</body>
+```
+
+示例：`index.html`、`background-motivation.html`。有侧栏时勿加 `content-wide`；正文宽度由 `main` 内直接子块的选择器约束（见 §1.4）。
+
+### 5.5 顶栏
 
 - 全站「当前问题」入口：`problems-answer-search.html`
-- 右上角 `site-meta` 含 `UI 规范` 链至 `ui-system.html`
 
 ---
 

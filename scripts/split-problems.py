@@ -54,7 +54,6 @@ HEAD = '''<!DOCTYPE html>
     <a href="solutions.html">解决方案</a>
     <a href="principles.html">亲和原则</a>
   </nav>
-  <div class="site-meta">模块 02 / 04</div>
 </header>
 
 <div class="page-wrapper">
@@ -146,18 +145,7 @@ def page_header(h1, desc):
     </div>'''
 
 def page_nav(prev, nxt):
-    p_href, p_label, p_title = prev
-    n_href, n_label, n_title = nxt
-    return f'''    <nav class="page-nav">
-      <a href="{p_href}">
-        <span class="nav-label">{p_label}</span>
-        <span class="nav-title">{p_title}</span>
-      </a>
-      <a href="{n_href}" class="next">
-        <span class="nav-label">{n_label}</span>
-        <span class="nav-title">{n_title}</span>
-      </a>
-    </nav>'''
+    return ""
 
 bodies = {**sections, "detail": detail_content}
 

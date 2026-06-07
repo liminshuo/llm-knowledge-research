@@ -6,7 +6,7 @@
   <title>研究概览 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="inner-page" data-module="background" data-page="motivation">
+<body>
 
 <header class="site-header">
   <div class="site-logo">大模型知识获取研究</div>
@@ -16,14 +16,11 @@
     <a href="problems-answer-search.html">当前问题</a>
     <a href="principles-general.html">亲和原则</a>
   </nav>
-  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 01 / 04</div>
 </header>
 
 <div class="page-wrapper">
 
-  <aside id="module-sidebar"></aside>
-
-  <main class="main-content">
+  <main class="main-content content-wide">
 
     <div class="page-header">
       <div class="module-label">模块 01 · 研究概览</div>
@@ -115,7 +112,7 @@
           <tr><td>核心原理 / API 参考 / 算子实践卡片图</td><td>卡片主题与入口意图</td></tr>
         </tbody>
       </table>
-      <p>详见 <a href="problems-content-image.html">当前问题 · 图片图意</a>、<a href="principles-image.html">亲和原则 · 图片</a>（IMG-01 / IMG-02）。</p>
+      <p>详见 <a href="problems-content-image.html">当前问题 · 图片图意</a>、<a href="principles-image.html">亲和原则 · 图片图意</a>（IMG-01 / IMG-02）。</p>
 
       <h3>2. 图片热区（Image Map）</h3>
       <p><code>&lt;img usemap&gt;</code> + <code>&lt;area href&gt;</code> 将跳转藏在坐标里。成长地图单图含 <strong>28 个</strong>热区链接；纯文本抽取时<strong>28 个跳转关系全部丢失</strong>。解析 HTML 可抽出 href，但默认 RAG 管道通常不做，且无 <code>alt</code>/<code>title</code> 时缺少链接语义标签。</p>
@@ -143,7 +140,7 @@
         <li><strong>折叠面板</strong>：默认折叠区内步骤不可见</li>
         <li><strong><code>display:none</code></strong>：渲染层隐藏的正文片段</li>
       </ul>
-      <p>详见 <a href="problems-content-tab.html">当前问题 · 隐藏的语义（Tab）</a>、<a href="problems-content-collapse.html">当前问题 · 隐藏的语义（折叠面板）</a>、<a href="principles-tab.html">亲和原则 · Tab</a>。</p>
+      <p>详见 <a href="problems-content-tab.html">当前问题 · 隐藏的语义（Tab）</a>、<a href="problems-content-collapse.html">当前问题 · 隐藏的语义（折叠面板）</a>、<a href="principles-tab.html">亲和原则 · Tab 语义</a>、<a href="principles-collapse.html">折叠语义</a>。</p>
 
       <h3>5. 代码语义</h3>
       <ul>
@@ -229,16 +226,6 @@
       </div>
     </section>
 
-    <nav class="page-nav">
-      <a href="index.html">
-        <span class="nav-label">← 返回</span>
-        <span class="nav-title">研究首页</span>
-      </a>
-      <a href="problems-answer-search.html" class="next">
-        <span class="nav-label">下一模块 →</span>
-        <span class="nav-title">当前问题</span>
-      </a>
-    </nav>
 
   </main></div>
 
@@ -246,6 +233,5 @@
   模块 01 · 研究概览 · Ascend C 文档大模型亲和规则研究
 </footer>
 
-<script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

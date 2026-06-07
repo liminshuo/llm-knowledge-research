@@ -68,14 +68,7 @@ def inject_site_meta_ui_link(content: str, filename: str) -> str:
             )
         return content
 
-    def repl(match: re.Match[str]) -> str:
-        inner = match.group(1).strip()
-        if inner.startswith('<a href="ui-system.html"'):
-            return match.group(0)
-        prefix = '<a href="ui-system.html">UI 规范</a> · '
-        return f'<div class="site-meta">{prefix}{inner}</div>'
-
-    return re.sub(r'<div class="site-meta">([^<]+(?:<[^>]+>[^<]*)*)</div>', repl, content, count=1)
+    return re.sub(r'\n  <div class="site-meta">.*?</div>', "", content, count=1)
 
 
 def fix_nav(content: str, filename: str) -> str:

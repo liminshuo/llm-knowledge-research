@@ -16,7 +16,6 @@
     <a href="problems-answer-search.html">当前问题</a>
     <a href="principles-general.html">亲和原则</a>
   </nav>
-  <div class="site-meta"><a href="ui-system.html" class="is-active">UI 规范</a> · <a href="docs/ui-system.md">Markdown</a></div>
 </header>
 
 <div class="page-wrapper">
@@ -112,6 +111,28 @@
       </table>
     </section>
 
+    <section class="section" id="layout">
+      <h2>页面布局</h2>
+      <p>全站正文内容区最大宽度 <strong>1280px</strong>（1920 视口下）；视口变窄时自适应缩小。</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>令牌 / 类名</th><th>值</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--content-max-width</code></td><td>1280px</td><td>正文内容最大宽度</td></tr>
+          <tr><td><code>--content-wide-pad-x</code></td><td>clamp(24px, 4vw, 48px)</td><td>水平内边距</td></tr>
+          <tr><td><code>.main-content.content-wide</code></td><td>—</td><td>无侧栏页（首页），整体居中</td></tr>
+          <tr><td><code>body.inner-page:has(#module-sidebar) .main-content &gt; …</code></td><td>max 1280px</td><td>有侧栏内页：约束 page-header / section / content-tabs 等直接子块</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <div class="box-title">示例</div>
+        无侧栏：<code>index.html</code>、<code>background-motivation.html</code> 使用 <code>content-wide</code>。有侧栏模块内页：<code>&lt;main class="main-content"&gt;</code> + 侧栏，正文块左对齐、最大 1280px。
+      </div>
+    </section>
+
     <section class="section" id="spacing">
       <h2>间距速查</h2>
       <table class="data-table">
@@ -131,16 +152,6 @@
       </table>
     </section>
 
-    <nav class="page-nav">
-      <a href="index.html">
-        <span class="nav-label">← 返回</span>
-        <span class="nav-title">研究首页</span>
-      </a>
-      <a href="docs/ui-system.md" class="next">
-        <span class="nav-label">源文件 →</span>
-        <span class="nav-title">docs/ui-system.md</span>
-      </a>
-    </nav>
 
   </main>
 </div>
