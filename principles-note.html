@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注意提示（Note）类型语义 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="note">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>注意提示（Note）类型语义</h1>
+      <p class="page-desc">对应 <a href="problems-content-note.html">当前问题 · 注意提示（Note）类型语义</a>。注意/警告/提示用文本表达类型；装饰图标对模型无意义，应从渲染页与源码同时移除。</p>
+    </div>
+
+
+    <section class="section" id="note">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="note-01"><td>1</td><td>源码用 <code>data-admonition-type</code> 标注 note / warning / tip / danger</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="note-02"><td>2</td><td>渲染页 Note 正文完整展开，不折叠、不 Tooltip 藏字</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="note-03"><td>3</td><td>移除 Note 装饰图标；类型改用文本前缀「注意：」「警告：」显示在渲染页</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="note-04"><td>4</td><td>机器层转为 Markdown 引用块（<code>&gt; **注意**</code>）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>Note 正文完整展开</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装后需设置环境变量 <em>（悬停才显示全文…）</em></span></div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-3">
+        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>移除图标，类型用文本前缀</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">⚠️</span><span>请勿在生产环境直接调试</span></div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">警告：</span>请勿在生产环境直接调试，可能导致服务中断。</div></div></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-table.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">表格与列表结构语义</span>
+      </a>
+      <a href="principles-format.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

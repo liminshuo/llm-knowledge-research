@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>能抓取的内容 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="detail-can-capture">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>能抓取的内容</h1>
+      <p class="page-desc">源 HTML 端点下可较准确获取的内容类型。</p>
+    </div>
+
+    <section class="section" id="can-capture">
+      <p>通过 <code>/doc_center/source/</code> 源 HTML 或带 SSR 的静态抓取，以下内容可较准确获取：</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>内容类型</th><th>质量</th><th>实测示例</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>页面标题 / H1</td><td><span class="badge badge-ok">高</span></td><td>什么是 Ascend C、编程模型概述</td></tr>
+          <tr><td>段落正文</td><td><span class="badge badge-ok">高</span></td><td>Ascend C 定义、AI Core 说明</td></tr>
+          <tr><td>有序 / 无序列表</td><td><span class="badge badge-ok">高</span></td><td>API 层级、环境准备步骤</td></tr>
+          <tr><td>数据表格</td><td><span class="badge badge-ok">高</span></td><td>表1 编程模型分类</td></tr>
+          <tr><td>代码块主体</td><td><span class="badge badge-should">中高</span></td><td>hello_world.asc、cmake 命令</td></tr>
+          <tr><td>注意提示正文</td><td><span class="badge badge-should">中高</span></td><td>set_env.sh 说明</td></tr>
+          <tr><td>站外链接</td><td><span class="badge badge-ok">高</span></td><td>Ascend C 主页、PyAsc</td></tr>
+          <tr><td>面包屑 / 父主题</td><td><span class="badge badge-should">中</span></td><td>父主题：入门教程</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box success">
+        <div class="box-title">抓取标杆 · 编程模型概述</div>
+        该页表格结构完整、链接文本清晰、无图片热区，是大模型亲和度最高的页面（★★★★★）。
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-format.html#format-noise">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+      <a href="problems-detail-cannot-capture.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">不能抓取的内容</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

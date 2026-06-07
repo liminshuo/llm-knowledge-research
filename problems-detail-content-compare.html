@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容对比分析 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="detail-content-compare">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>内容对比分析</h1>
+      <p class="page-desc">人类可见内容与模型抓取结果的系统性差异。</p>
+    </div>
+
+    <section class="section" id="content-compare">
+      <p>核心问题：同一页面，人类与模型「读到的内容」存在系统性差异。</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>对比维度</th><th>人类阅读体验</th><th>大模型抓取结果</th><th>差异程度</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>正文段落</td>
+            <td>正常渲染，排版清晰</td>
+            <td>可完整获取</td>
+            <td><span class="badge badge-ok">低</span></td>
+          </tr>
+          <tr>
+            <td>数据表格</td>
+            <td>表头高亮，行列对齐</td>
+            <td>结构完整（编程模型概述 ★★★★★）</td>
+            <td><span class="badge badge-ok">低</span></td>
+          </tr>
+          <tr>
+            <td>代码块</td>
+            <td>语法高亮 + 行号</td>
+            <td>行号污染代码文本（1 2 3…31 前缀）</td>
+            <td><span class="badge badge-should">中</span></td>
+          </tr>
+          <tr>
+            <td>注意提示</td>
+            <td>图标 + 黄色背景框</td>
+            <td>正文可获取，但不知类型是「注意」还是「警告」</td>
+            <td><span class="badge badge-should">中</span></td>
+          </tr>
+          <tr>
+            <td>图片热区</td>
+            <td>可点击跳转的成长地图</td>
+            <td>仅 PNG 文件名，28 个链接全丢</td>
+            <td><span class="badge badge-bad">极高</span></td>
+          </tr>
+          <tr>
+            <td>Tab 切换</td>
+            <td>bisheng / CMake 分 Tab 展示</td>
+            <td>可能只抓到第一个 Tab 内容</td>
+            <td><span class="badge badge-bad">高</span></td>
+          </tr>
+          <tr>
+            <td>导航菜单</td>
+            <td>左侧栏快速跳转</td>
+            <td>282 个 o-link 污染上下文</td>
+            <td><span class="badge badge-bad">高</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="explore-note">
+        <div class="explore-label">来自对话 · Ascend-C 文档内容对比分析</div>
+        该对话对四页文档进行了人类可见内容与模型抓取结果的逐项对比，是本模块的核心论据来源。
+        <a href="https://claude.ai/share/3f2d4c30-6210-4259-9a9b-de7943cf6fff" target="_blank" rel="noopener">查看完整对话 ↗</a>
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-detail-diagnosis.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">四页诊断</span>
+      </a>
+      <a href="problems-detail-ref-dialogs.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">参考对话</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

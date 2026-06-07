@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片图意 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-image">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>图片图意</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>图片图意</strong>指信息型图片所承载、但<strong>未写成正文</strong>的文档语义——层级结构、学习阶段划分、卡片主题与意图等。知识库入库时，这些内容应被转写为可检索、可引用的文本 chunk；若只入库 PNG 文件名或图片二进制，则视为<strong>图意未入库</strong>。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-bad">未入库</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>信息型图片的图意（API 分层关系、成长地图阶段、卡片主题）无法成为可检索 chunk——<strong>对人类可见，对 RAG 不可见</strong></li>
+          <li>实测「什么是 Ascend C」：6 张信息型 PNG 在转文本管道中<strong>完全缺失</strong>，HTML 解析仅见 <code>zh-cn_image_….png</code> 文件名，源站普遍无 <code>alt</code>、无内容转写</li>
+          <li>图片直链可下载，但 PNG 本身不产生可召回语义；检索「API 有几层」「成长路径分几阶段」时<strong>知识库无对应 chunk</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="图片问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-image-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a>，你能读取里面的图片吗？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：图意未入库</h2>
+            <p><strong>能拿到图片文件地址，但图意无法进入知识库。</strong>默认 RAG / 网页 Reader 管道下，用户问「Ascend C API 有几层」「学习路径分几阶段」时，知识库中<strong>没有对应 chunk 可召回</strong>——图里的信息对人类可见，对检索不可见。</p>
+
+            <h3>1. 常规抓取 → 图意 chunk 不存在</h3>
+          <p>页面转 Markdown / 纯文本时，只能得到正文段落（Ascend C 定义、API 分层<strong>文字列表</strong>、产品型号等）。<strong>6 张信息型 PNG 完全不在输出里</strong>——不是「图意劣化」，而是知识库中根本没有承载这些语义的文本块。</p>
+
+          <h3>2. 解析 HTML → 只见文件名，不见图意</h3>
+          <p>即使深入解析 HTML，正文区 6 张信息型图片也几乎无可用语义字段：</p>
+          <table class="data-table">
+            <thead>
+              <tr><th>图片</th><th>HTML 特征</th><th>入库后可见内容</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>API 层级架构图</td>
+                <td><code>zh-cn_image_0000002531512958.png</code>，<strong>无 <code>alt</code></strong></td>
+                <td>无意义文件名；分层关系未转写</td>
+              </tr>
+              <tr>
+                <td>成长地图</td>
+                <td><code>zh-cn_image_0000002562432937.png</code>，带 <code>usemap</code></td>
+                <td>文件名 + 坐标热区；阶段标题与意图未转写</td>
+              </tr>
+              <tr>
+                <td>核心原理 / API 参考 / 算子实践卡片图（4 张）</td>
+                <td>均带 <code>usemap</code>，无 <code>alt</code></td>
+                <td>卡片主题与入口意图未转写</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>典型抓取结果仅为：</p>
+          <pre><code>&lt;img usemap="#d90300e79" src=".../zh-cn_image_0000002562432937.png"&gt;</code></pre>
+          <p>对向量检索与 LLM 引用而言，这等价于<strong>空白 chunk</strong>。</p>
+
+          <h3>3. 丢失的图意清单</h3>
+          <p>以下语义<strong>只存在于图片像素中</strong>，当前文档未提供文本等价物，入库后即丢失：</p>
+          <table class="data-table">
+            <thead><tr><th>图片</th><th>丢失的图意</th></tr></thead>
+            <tbody>
+              <tr><td>API 层级架构图</td><td>C API → 基础 API → 高阶 API → 算子模板库 → PyAsc 的分层与从属关系</td></tr>
+              <tr><td>成长地图</td><td>五行学习阶段、每阶段卡片标题、学习意图与先后次序</td></tr>
+              <tr><td>核心原理 / API 参考 / 算子实践卡片图</td><td>各模块卡片主题、视觉分组与入口意图</td></tr>
+            </tbody>
+          </table>
+          <p>正文虽有 API 分层<strong>列表</strong>，但与架构图的<strong>结构关系</strong>（嵌套、箭头、分组）并不等价；成长地图的阶段路径在正文中亦无完整文字表述。</p>
+
+          <h3>4. 下载 PNG ≠ 图意入库</h3>
+          <p>图片直链可访问（HTTP 200），例如：</p>
+          <p><code>https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/figure/zh-cn_image_0000002562432937.png</code></p>
+          <p>但「入库」要求图意变成<strong>可检索文本</strong>。除非额外接入视觉模型转写或多模态向量索引（属 P3 补救路径），否则 PNG 文件本身不会自动产生「API 分层图」「成长地图五阶段」等可召回 chunk。</p>
+
+          <h3>入库状态对照</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>入库环节</th><th>图意状态</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>正文段落</td><td><span class="badge badge-ok">已入库</span></td><td>定义、列表等文字语义可检索</td></tr>
+              <tr><td>信息型 PNG（转文本管道）</td><td><span class="badge badge-bad">完全丢失</span></td><td>图片不出现在 chunk 中</td></tr>
+              <tr><td>信息型 PNG（解析 HTML）</td><td><span class="badge badge-bad">完全丢失</span></td><td>仅见文件名，无 alt / 转写</td></tr>
+              <tr><td>图意转写（<code>alt</code> + 内容描述）</td><td><span class="badge badge-bad">源站缺失</span></td><td>文档未提供，管道无法生成</td></tr>
+              <tr><td>视觉模型离线转写</td><td><span class="badge badge-should">可补救</span></td><td>需额外成本，属 P3，不宜作唯一依赖</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-image-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让图片图意以<strong>文本 chunk</strong>进入知识库——用户检索「API 分层」「成长地图阶段」时能召回对应语义，LLM 引用时有据可依。<strong>不要求在线看图</strong>，要求图意事先转写完毕。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：图意文本化（P0，治本）</h3>
+            <p>核心原则：<strong>图意先行入库</strong>——图里承载什么结构、层次、阶段，页面上必须有可被抓取的文本等价物。详见 <a href="principles-image.html">亲和原则 · 图片</a>。</p>
+          <table class="data-table">
+            <thead>
+              <tr><th></th><th>做法</th><th>入库效果</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1</strong></td>
+                <td>信息型图片必须有 <code>alt</code></td>
+                <td>产生基础 chunk：「API 层级架构图」「Ascend C 成长地图」——至少可检索到图的存在与类型</td>
+              </tr>
+              <tr>
+                <td><strong>2</strong></td>
+                <td>复杂图附「图片内容转写」</td>
+                <td>产生高价值 chunk：层级列表（C API → 基础 API → … → PyAsc）、成长地图五阶段标题与意图</td>
+              </tr>
+              <tr>
+                <td><strong>3</strong></td>
+                <td>提供 SVG / Mermaid 替代源</td>
+                <td>结构图以可解析代码入库，优于 PNG 二进制或文件名</td>
+              </tr>
+              <tr>
+                <td><strong>4</strong></td>
+                <td>装饰图标 <code>aria-hidden</code></td>
+                <td>避免无意义 PNG 稀释正文 chunk 密度</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>「什么是 Ascend C」改造示例</h4>
+          <p><strong>❌ 当前：图意未入库</strong></p>
+          <div class="arch-diagram">&lt;img class="eddx" src="figure/zh-cn_image_0000002531512958.png"&gt;</div>
+          <p>知识库 chunk：<em>（无）</em> 或仅含无意义文件名。</p>
+
+          <p><strong>✅ 改造后：图意已入库</strong></p>
+          <div class="arch-diagram">&lt;figure id="ascend-c-api-layers"&gt;
+  &lt;img src="figure/zh-cn_image_0000002531512958.png"
+       alt="Ascend C API 层级：语言扩展层 C API、基础 API、高阶 API、算子模板库、Python 前端"&gt;
+  &lt;figcaption&gt;图1 Ascend C 多层级 API 体系&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;div data-llm-transcription="true" hidden&gt;
+  Ascend C API 自下而上分为五层：
+  1. 语言扩展层 C API — 指针编程，芯片级能力
+  2. 基础 API — Tensor 级 C++ 类库
+  3. 高阶 API — 卷积、矩阵等公共算法
+  4. 算子模板库 — Tiling 模板
+  5. Python 前端 — PyAsc
+&lt;/div&gt;</div>
+          <p>知识库 chunk：可检索「API 分层」「C API 与高阶 API 关系」。</p>
+
+          <h4>成长地图转写要点</h4>
+          <p>除 <code>alt</code> 外，用正文列表写出每阶段标题、学习目标与推荐顺序——使「学习路径」语义不依赖读图：</p>
+          <div class="arch-diagram">## Ascend C 学习路径（成长地图转写）
+
+1. 了解概念 — 什么是 Ascend C、编程模型概述
+2. 环境准备 — 安装 CANN、配置环境变量
+3. …</div>
+            <p>热区跳转链接的文本冗余属<strong>链接维度</strong>，见 <a href="problems-content-link.html">链接语义</a> 页；与图意转写配合使用，但不替代图意本身。</p>
+
+            <h3>二、架构侧：双轨交付</h3>
+            <p>双轨交付——人类层保留 PNG 视觉体验，机器层预置图意转写：</p>
+          <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：PNG + 热区 + 交互 UI（体验不变）
+    │
+    └──► 机器层：MD / JSON + llms.txt
+              └── 每张信息型图 → alt + 内容转写 chunk
+              └── 架构图优先 Mermaid / SVG 源</div>
+            <p>RAG 只消费机器层；<strong>图意入库在发布环节完成</strong>，而非检索时临时「看图」。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+          <table class="data-table">
+            <thead>
+              <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>官方文档长期建设</td><td><strong>规则 1 + 2 + 双轨交付</strong></td><td><span class="badge badge-bad">P0</span></td></tr>
+              <tr><td>架构图、层级图</td><td>优先 <strong>Mermaid / SVG</strong>（规则 3），附内容转写</td><td><span class="badge badge-bad">P0</span></td></tr>
+              <tr><td>成长地图、阶段路径图</td><td>正文列表转写阶段标题与意图</td><td><span class="badge badge-bad">P0</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-timeliness-disambiguation.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">多版本并存与消歧</span>
+      </a>
+      <a href="problems-content-hotzone.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">图片热区</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">什么是 Ascend C</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/ascend-c-test-embed.html"
+      title="什么是 Ascend C 测试页面"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>元数据字段规范 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="structure-metadata">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>元数据字段规范</h1>
+      <p class="page-desc">对应 <a href="problems-structure-metadata.html">当前问题 · 元数据字段规范</a>。版本、产品、适用设备、摘要等须在文章头部可视化呈现，并同步元数据。</p>
+    </div>
+
+
+    <section class="section" id="metadata">
+      <h3>元数据与文章头部</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="h-01"><td>1</td><td>渲染页有且仅有一个 H1，与浏览器 title 语义一致</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="h-02"><td>2</td><td>标题层级连续（H1→H2→H3），渲染页大纲结构清晰</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="h-03"><td>3</td><td>H2/H3 文本自解释，避免孤立「概述」「说明」</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="h-04"><td>4</td><td>保留稳定锚点 ID（<code>ZH-CN_TOPIC_xxx</code>）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-summary"><td>5</td><td>文章头部渲染摘要块，<strong>60–120 字</strong>，概括本文解决的问题与适用读者</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-version"><td>6</td><td>头部展示 version / product / doc_type 徽章，源码 Front Matter 同步</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="mdm-breadcrumb"><td>7</td><td>渲染页面包屑 <code>&lt;nav aria-label="breadcrumb"&gt;</code> 文本路径可见</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-jsonld"><td>8</td><td>管道输出 JSON-LD TechArticle，字段与可见头部一致</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-canonical"><td>9</td><td><code>canonical</code> 指向稳定文档 ID，避免同题异版</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-tags"><td>10</td><td>适用芯片 / 算子类别在渲染页以标签展示，非仅后台字段</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="mdm-sync"><td>11</td><td>渲染页可见元数据与入库字段一致，避免「页面有据、入库无情」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-1">
+        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>有且仅有一个 H1</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发</div><div class="rf-h1" style="font-size:15px">算子开发入门</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><div class="rf-h2">环境准备</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>标题层级连续</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><div class="rf-h3">（跳级 H3，无 H2）</div><p>正文…</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><div class="rf-h2">环境准备</div><div class="rf-h3">安装 CANN</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-3">
+        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>标题文本自解释</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h2">概述</div><div class="rf-h2">说明</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-h2">Ascend C 算子工程结构</div><div class="rf-h2">编译与部署流程</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-5">
+        <div class="ui-demo-head"><span class="ui-demo-num">5</span><span>文章头部摘要块（60–120 字）</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><p>正文直接开始…</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><p class="rf-summary">本文介绍 Ascend C 算子开发的基本流程与工程结构，面向已完成环境安装、希望编写首个自定义算子的开发者。（78 字）</p></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-6">
+        <div class="ui-demo-head"><span class="ui-demo-num">6</span><span>头部版本 / 产品徽章</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><span class="rf-badge">CANN 9.0.0</span><span class="rf-badge">Ascend C</span><span class="rf-badge">算子开发</span><div class="rf-h1">算子开发入门</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-7">
+        <div class="ui-demo-head"><span class="ui-demo-num">7</span><span>面包屑文本路径可见</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p class="rf-muted">（无面包屑，仅靠侧栏定位）</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><nav class="rf-breadcrumb">文档中心 / Ascend C / 算子开发 / 算子开发入门</nav><div class="rf-h1">算子开发入门</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-10">
+        <div class="ui-demo-head"><span class="ui-demo-num">10</span><span>适用芯片标签在渲染页展示</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">Add 算子 API</div><p>支持 Atlas 训练系列产品。</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><span class="rf-badge">Atlas A2</span><span class="rf-badge">Atlas 200I</span><div class="rf-h1">Add 算子 API</div></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <section class="section" id="heading-rules">
+      <h3>标题层级（并入本篇）</h3>
+      <p class="page-desc" style="margin:-8px 0 16px;">标题规则已并入上表第 1 ~ 4 条；原独立「标题」页见 <a href="principles-structure-metadata.html#h-01">第 1 条</a>。</p>
+    </section>
+
+    <nav class="page-nav">
+      <a href="principles-structure-llms.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">llms.txt 与机器入口</span>
+      </a>
+      <a href="principles-tensor.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">复杂内容：静态 Tensor</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

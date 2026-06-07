@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>链接语义 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-link">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>链接语义</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>链接语义</strong>指锚文本、目标 URL 与链接意图对模型是否可读。站内相对链接、占位符「LINK」、全站导航噪声、以及<a href="problems-content-hotzone.html">图片热区</a>中的裸 <code>href</code>，都会影响知识库中<strong>链接是否可理解、可检索、可引用</strong>。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">部分可抓</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>正文 <code>&lt;a&gt;</code> 多数可解析，但<strong>占位符锚文本</strong>（如 HelloWorld 页「请参考 LINK」）使目标语义<strong>劣化入库</strong></li>
+          <li><a href="problems-content-hotzone.html">图片热区</a>链接无文本表达，模型无法感知跳转目标；全页约 <strong>282 个</strong>全局导航链接稀释正文链接权重</li>
+          <li>面包屑 / 上下篇等 IA 链接在 HTML 中存在，但未标准化进 chunk 元数据，跨页关系难以召回</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="链接问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-link-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a>，完整样例代码在哪个仓库？再读 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a>，成长地图里的阶段入口链接能检索到吗？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：链接语义劣化或未入库</h2>
+            <p><strong>部分链接能进知识库，但关键跳转语义不可用。</strong>用户问「HelloWorld 样例仓库地址」「环境准备文档在哪」时，要么得到无意义锚文本「LINK」，要么<strong>根本没有热区链接 chunk</strong>——链接 URL 可能存在，语义对人类不可核对、对 RAG 不可检索。</p>
+
+            <h3>1. 占位符链接 → 语义劣化</h3>
+            <p>HelloWorld 等页出现「完整样例请参考 <code>LINK</code>」类表述：<code>href</code> 指向 GitCode 仓库，但锚文本不提供目标描述。入库后 chunk 中仅出现「LINK」——模型无法推断这是 <strong>hello_world 样例仓库</strong>。</p>
+            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div>
+
+            <h3>2. 热区链接 → 未入库（链接维度）</h3>
+            <p>成长地图等热区图的 <code>area href</code> 不属于正文 <code>&lt;a&gt;</code>，默认转文本管道<strong>完全丢失</strong>。详见 <a href="problems-content-hotzone.html">图片热区</a>。即使解析 HTML，裸文件名（如 <code>atlas_ascendc_map_10_0003.html</code>）也缺少「环境准备」等可读标签。</p>
+
+            <h3>3. 全站导航噪声 → 正文链接稀释</h3>
+            <p>渲染页 HTML 含约 <strong>282 个</strong> <code>o-link</code> 全局导航（社区菜单、页脚、侧栏等）。默认整页抓取时，这些链接与正文链接混在同一上下文，<strong>稀释正文链接的语义权重</strong>，干扰 RAG 对文档内关键引用的识别。</p>
+
+            <h3>4. IA 元数据链接 → 未标准化入库</h3>
+            <p>面包屑、上一篇 / 下一篇、版本切换等链接在 HTML 中存在，但通常未作为结构化元数据写入 chunk。用户问「Ascend C 入门上一篇是什么」「当前文档版本」时，知识库缺少标准化字段可召回。</p>
+
+            <h3>链接类型实测对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>链接类型</th><th>典型问题</th><th>入库后效果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>正文描述性链接</td><td>相对路径需转绝对 URL</td><td><span class="badge badge-ok">基本可用</span></td></tr>
+                <tr><td>占位符链接（LINK）</td><td>锚文本无意义</td><td><span class="badge badge-should">劣化入库</span></td></tr>
+                <tr><td>热区 <code>area</code> 链接</td><td>坐标绑定，非正文链接</td><td><span class="badge badge-bad">完全丢失</span></td></tr>
+                <tr><td>全站导航（~282 项）</td><td>与正文无关</td><td><span class="badge badge-should">噪声污染</span></td></tr>
+                <tr><td>面包屑 / 上下篇</td><td>未进 chunk 元数据</td><td><span class="badge badge-bad">未结构化</span></td></tr>
+              </tbody>
+            </table>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>链接语义状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>正文 <code>&lt;a&gt;</code>（描述性锚文本）</td><td><span class="badge badge-ok">已入库</span></td><td>目标与意图可检索</td></tr>
+                <tr><td>占位符「LINK」</td><td><span class="badge badge-should">劣化入库</span></td><td>有 URL，锚文本不可用</td></tr>
+                <tr><td>热区链接</td><td><span class="badge badge-bad">完全丢失</span></td><td>默认管道不保留 <code>area</code></td></tr>
+                <tr><td>导航噪声剥离前</td><td><span class="badge badge-should">噪声污染</span></td><td>282 项导航稀释正文</td></tr>
+                <tr><td>IA 元数据（breadcrumb 等）</td><td><span class="badge badge-bad">未标准化</span></td><td>HTML 有、chunk 无字段</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-link-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让每条进入知识库的链接都携带<strong>可读的锚文本与明确目标</strong>——用户检索「样例仓库」「环境准备文档」「上一篇主题」时能召回正确 URL 与意图。热区链接须文本冗余，导航噪声须在机器层剥离。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：链接文本化（P0，治本）</h3>
+            <p>核心原则：<strong>链接意图先行入库</strong>——模型读到的文字应能回答「链到哪里、为什么链」。详见 <a href="principles-link.html">亲和原则 · 链接</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>锚文本必须描述性，禁止「LINK」「点击这里」（L-01）</td>
+                  <td>chunk 可直接回答「样例在 hello_world 仓库」</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>站外链接保留完整 <code>href</code>，标注 external（L-02）</td>
+                  <td>外部仓库 URL 可核对、可引用</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>站内链接机器层转绝对 URL（L-03）</td>
+                  <td>相对路径不歧义，可跨页召回</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>热区 <code>area</code> 冗余为文本链接列表（L-04）</td>
+                  <td>成长地图阶段入口可检索（见 <a href="problems-content-hotzone.html">图片热区</a>）</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>链接附 <code>title</code> 或上下文说明（L-05）</td>
+                  <td>增强向量检索与 LLM 引用准确性</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>HelloWorld「LINK」改造示例</h4>
+            <p><strong>❌ 当前：语义劣化</strong></p>
+            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div>
+            <p>知识库 chunk：仅见「LINK」，无法回答样例仓库是什么。</p>
+
+            <p><strong>✅ 改造后：语义已入库</strong></p>
+            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"
+   data-link-purpose="完整样例代码仓库"&gt;
+  hello_world 完整样例（GitCode 仓库）
+&lt;/a&gt;</div>
+            <p>知识库 chunk：可检索「HelloWorld 样例」「ascendc-samples hello_world」。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">完整样例请参考 [hello_world 完整样例（GitCode 仓库）](https://gitcode.com/cann/ascendc-samples/tree/master/hello_world)</div>
+
+            <h3>二、架构侧：双轨交付 + 噪声剥离</h3>
+            <p>双轨交付——人类层保留完整站点导航，机器层只保留正文区链接与元数据：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：全站导航 + 热区 + 交互 UI（体验不变）
+    │
+    └──► 机器层：正文 MD / JSON + llms.txt
+              └── 剥离 ~282 项全局导航噪声
+              └── 描述性锚文本 + 绝对 URL
+              └── breadcrumb / prev-next 写入元数据字段</div>
+            <p>RAG 只消费机器层；<strong>链接语义在发布环节规范化</strong>，而非检索时从噪声 HTML 中猜测。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>占位符「LINK」类链接</td><td><strong>规则 1</strong>：改为描述性锚文本</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>成长地图 / 热区导航图</td><td><strong>规则 4</strong> + <a href="problems-content-hotzone.html">热区文本化</a></td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>全站 HTML 抓取</td><td>机器层剥离导航，仅保留正文区链接</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>跨页 IA 关系</td><td>breadcrumb / prev-next 写入 chunk 元数据</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-hotzone.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">图片热区</span>
+      </a>
+      <a href="problems-content-tab.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">隐藏的语义（Tab）</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">HelloWorld</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/helloworld-link-snippet.html"
+      title="HelloWorld 链接测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

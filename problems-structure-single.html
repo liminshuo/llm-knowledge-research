@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单文档结构感知 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="structure-single">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>单文档结构感知</h1>
+      <p class="page-desc">标题层级、Tab 扁平化与切片边界。</p>
+    </div>
+
+    <section class="section" id="structure-single">
+      <h2>单文档结构感知</h2>
+<div class="component-problem">
+        <div class="cp-label">当前问题</div>
+        <ul>
+          <li>标题层级（H1–H6）整体清晰，但部分页面存在<strong>空段落</strong>作间距，干扰 chunk 边界</li>
+          <li>列表嵌套注意提示时结构良好（环境准备页），但未形成统一规范</li>
+          <li>Tab / 折叠导致页内结构在机器层<strong>扁平化失败</strong>——模型看到的顺序与人类阅读顺序不一致</li>
+          <li>代码块、表格、提示之间的<strong>从属关系</strong>（如「安装 CANN」步骤下的注意提示）在渲染层清晰，但抓取后可能丢失嵌套语义</li>
+          <li>Topic 锚点 ID（ZH-CN_TOPIC_xxx）存在且稳定，但未在机器层作为切片边界显式标注</li>
+        </ul>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>IA 层级</th><th>内容</th><th>跨文档 / 单文档</th><th>是否需要</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Level 0</td><td>单页正文</td><td>单文档</td><td>✅ 基础</td></tr>
+          <tr><td>Level 1</td><td>breadcrumb、上下篇、版本</td><td>跨文档</td><td>✅ 最低标准</td></tr>
+          <tr><td>Level 2</td><td>章节子树（入门教程完整路径）</td><td>跨文档</td><td>按需</td></tr>
+          <tr><td>Level 3</td><td>全站 282 项导航</td><td>跨文档</td><td>❌ 噪声</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-structure-cross.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">跨文档结构感知</span>
+      </a>
+      <a href="problems-format.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

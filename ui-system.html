@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI 规范 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page ui-system-page">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html" class="is-active">UI 规范</a> · <a href="docs/ui-system.md">Markdown</a></div>
+</header>
+
+<div class="page-wrapper">
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">设计系统</div>
+      <h1>UI 规范</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">研究站静态页的统一文字、颜色、间距与结构约定。</span>
+        <span class="page-desc-line">实现于 <code>assets/css/style.css</code>；完整说明见 <a href="docs/ui-system.md">docs/ui-system.md</a>。</span>
+      </p>
+    </div>
+
+    <section class="section" id="typography">
+      <h2>标题层级</h2>
+      <p>每页仅一个 H1，置于 <code>.page-header</code>。章节内从 H2 起递进。</p>
+
+      <div class="ui-spec-demo">
+        <div class="ui-spec-row">
+          <span class="ui-spec-tag">H1 · 28px / 800</span>
+          <h1 class="ui-spec-sample-h1">页面主标题示例</h1>
+        </div>
+        <div class="ui-spec-row">
+          <span class="ui-spec-tag">H2 · 20px / 700</span>
+          <h2 class="ui-spec-sample-h2">章节标题示例</h2>
+        </div>
+        <div class="ui-spec-row">
+          <span class="ui-spec-tag">H3 · 16px / 600</span>
+          <h3 class="ui-spec-sample-h3">小节标题示例</h3>
+        </div>
+        <div class="ui-spec-row">
+          <span class="ui-spec-tag">H4 · 15px / 600</span>
+          <h4 class="ui-spec-sample-h4">四级标题示例</h4>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="body-text">
+      <h2>正文与说明</h2>
+
+      <h3>全局正文</h3>
+      <p>全局正文 15px，行高 1.7，颜色 <code>#1e293b</code>。段落下边距 12px。行内代码如 <code>hiascend.com</code> 使用等宽字体与浅灰底。</p>
+
+      <h3>页头描述</h3>
+      <p class="page-desc ui-spec-inline-desc">页头描述 14px，行高 22px，颜色 60% 黑。（此为演示，非真实页头位置）</p>
+
+      <h3>模块标签</h3>
+      <div class="module-label ui-spec-inline-label">模块 02 · 当前问题 · 示例</div>
+    </section>
+
+    <section class="section" id="components">
+      <h2>核心组件</h2>
+
+      <h3>核心结论卡片</h3>
+      <div class="component-problem">
+        <div class="cp-label">核心结论</div>
+        <ul>
+          <li><strong>昇腾社区占比分化</strong>：千问 <strong>54%</strong>、DeepSeek <strong>33%</strong>、Claude <strong>21%</strong>；三模型检索阶段对官方社区文档的覆盖差异显著，直接决定后续生成能否优先召回 <code>hiascend.com</code> 内容。</li>
+        </ul>
+      </div>
+
+      <h3>核心问题卡片</h3>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-bad">未入库</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>信息型图片图意无法成为可检索 chunk</li>
+          <li>HTML 解析仅见 <code>zh-cn_image_….png</code> 文件名</li>
+        </ul>
+      </div>
+
+      <h3>信息框</h3>
+      <div class="info-box">
+        <div class="box-title">提示</div>
+        默认信息框：主色左边线 + 浅蓝背景。
+      </div>
+      <div class="info-box warning">
+        <div class="box-title">警告</div>
+        警告信息框样式。
+      </div>
+
+      <h3>数据表</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>属性</th><th>值</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>字号</td><td>13.5px</td><td>表格正文</td></tr>
+          <tr><td>单元格 padding</td><td>10px 14px</td><td>th / td</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="spacing">
+      <h2>间距速查</h2>
+      <table class="data-table">
+        <thead>
+          <tr><th>元素</th><th>间距</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>.page-header</code></td><td>margin-bottom 36px；padding-bottom 24px</td></tr>
+          <tr><td><code>.module-label</code></td><td>margin-bottom 8px</td></tr>
+          <tr><td><code>.page-header h1</code></td><td>margin-bottom 10px</td></tr>
+          <tr><td><code>.section</code></td><td>margin-bottom 48px</td></tr>
+          <tr><td><code>.section p</code></td><td>margin-bottom 12px</td></tr>
+          <tr><td><code>.section h3</code></td><td>margin 28px 0 12px（首个 16px 0 12px）</td></tr>
+          <tr><td><code>.page-desc--split</code> 行间距</td><td>4px</td></tr>
+          <tr><td><code>.component-problem</code></td><td>margin 12px 0；padding 20px</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="nav-label">← 返回</span>
+        <span class="nav-title">研究首页</span>
+      </a>
+      <a href="docs/ui-system.md" class="next">
+        <span class="nav-label">源文件 →</span>
+        <span class="nav-title">docs/ui-system.md</span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  UI 设计系统 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>版本滞后 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="timeliness">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>版本滞后</h1>
+      <p class="page-desc">对应 <a href="problems-timeliness.html">当前问题 · 版本滞后</a>。版本、弃用状态须在渲染页头部可见，并写入结构化字段供检索过滤。</p>
+    </div>
+
+
+    <section class="section" id="timeliness">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="ver-01"><td>1</td><td>文章头部（H1 下方）展示版本徽章，如「CANN 8.0.RC1」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="ver-02"><td>2</td><td>已废弃章节在渲染页顶部显示弃用横幅，并链接替代文档</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="ver-03"><td>3</td><td>Front Matter 与 JSON-LD 写入 <code>version</code>、<code>deprecated_since</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="ver-04"><td>4</td><td>机器层导出须携带版本字段，供 RAG 按版本过滤</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-1">
+        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>文章头部展示版本徽章</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><p class="rf-muted">（页头无版本信息，版本仅存在于 URL 参数）</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><span class="rf-badge">CANN 8.0.RC1</span><span class="rf-badge">Ascend C</span><div class="rf-h1">算子开发入门</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>弃用章节顶部横幅</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">旧版 API 说明</div><p>本文介绍已下线的接口…</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-banner">⚠ 本文档已废弃（CANN 8.0 起）· <a href="#">见 CANN 9.0 替代文档</a></div><div class="rf-h1">旧版 API 说明</div></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-general.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">总原则</span>
+      </a>
+      <a href="principles-image.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">图片图意</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

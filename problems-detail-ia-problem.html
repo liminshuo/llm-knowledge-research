@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IA 理解问题 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="detail-ia-problem">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>IA 理解问题</h1>
+      <p class="page-desc">模型理解文档信息架构的深度与噪声权衡。</p>
+    </div>
+
+    <section class="section" id="ia-problem">
+      <p>模型面临两个极端：要么缺乏上下文（只有单页正文），要么被全站导航淹没。</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>层级</th><th>内容</th><th>是否需要？</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Level 0</td><td>单页正文</td><td>✅ 基础</td></tr>
+          <tr><td>Level 1</td><td>页面元数据（breadcrumb、上下篇、版本）</td><td>✅ 最低标准</td></tr>
+          <tr><td>Level 2</td><td>章节子树（如「入门教程」完整路径）</td><td>按需</td></tr>
+          <tr><td>Level 3</td><td>全站 282 项导航菜单</td><td>❌ 噪声</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box warning">
+        <div class="box-title">典型消歧场景</div>
+        「环境准备」同时存在于 Ascend C 入门教程与 CANN 软件安装文档——
+        缺乏 breadcrumb 时，模型无法判断用户指的是哪一个。
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-detail-endpoint.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">端点对比</span>
+      </a>
+      <a href="problems-detail-diagnosis.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">四页诊断</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

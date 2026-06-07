@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown vs HTML · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="format-md-vs-html">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>Markdown vs HTML</h1>
+      <p class="page-desc">纯 Markdown 与 HTML 渲染页在知识获取场景下的对比。</p>
+    </div>
+
+    <section class="section" id="format-md-vs-html">
+      <h2>要点一：Markdown 与 HTML，哪个对大模型更友好？</h2>
+<div class="info-box success">
+        <div class="box-title">结论（知识获取场景）</div>
+        在<strong>大模型读取、抓取、RAG 入库</strong>场景下，<strong>纯文本 Markdown 比 HTML 更友好，读取效率更高</strong>。
+        前提：必须是<strong>真正的 Markdown 源文件</strong>，而非带 .md 后缀的 SPA 渲染页。
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>维度</th><th>纯 Markdown</th><th>HTML（渲染页）</th><th>评判</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>信噪比</strong></td>
+            <td>标题、列表、代码块均为显式文本标记，几乎无布局噪声</td>
+            <td>含 class、Vue 指令、导航壳、Cookie 横幅、282 个 o-link</td>
+            <td>MD 胜</td>
+          </tr>
+          <tr>
+            <td><strong>Token 效率</strong></td>
+            <td>同内容 Token 消耗低，结构可预测</td>
+            <td>同内容约为 MD 的 2–4 倍；昇腾实测单页 200KB+</td>
+            <td>MD 胜</td>
+          </tr>
+          <tr>
+            <td><strong>解析稳定性</strong></td>
+            <td><code>#</code> <code>##</code> <code>-</code> <code>```</code> 边界清晰，RAG 切片可靠</td>
+            <td>依赖 DOM 解析，标签嵌套复杂，hidden/tab 内容易遗漏</td>
+            <td>MD 胜</td>
+          </tr>
+          <tr>
+            <td><strong>抓取依赖</strong></td>
+            <td>静态文件，无需 JS 渲染</td>
+            <td>Nuxt SPA，161 处 v-if，静态爬虫可能不完整</td>
+            <td>MD 胜</td>
+          </tr>
+          <tr>
+            <td><strong>人类交互</strong></td>
+            <td>纯文本，无品牌视觉、Tab、热区导航</td>
+            <td>支持图片热区、折叠、Tab、侧边导航</td>
+            <td>HTML 胜</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size:14px;font-weight:600;margin:20px 0 10px;">为什么 Markdown 读取效率更高？</h4>
+      <ul class="key-points">
+        <li><strong>结构即文本</strong> — 标题层级（<code>#</code>）、列表（<code>-</code>）、代码块（<code>```</code>）直接写在正文中，模型无需从 DOM 树反推语义</li>
+        <li><strong>无壳层污染</strong> — 不包含全站导航、页脚、广告、JS 变量，有效 Token 几乎全部用于正文</li>
+        <li><strong>切片友好</strong> — RAG 按 H2/H3 边界切分时可精确定位；HTML 中同级语义可能散落在 div/span 中</li>
+        <li><strong>行业共识</strong> — <a href="https://llmstxt.org/" target="_blank" rel="noopener">llms.txt 规范</a> 明确推荐 Markdown 作为 LLM 友好格式；Anthropic 文档站亦提供 <code>/llms.txt</code> 索引</li>
+      </ul>
+
+      <div class="explore-note">
+        <div class="explore-label">补充 · Anthropic 的另一面观点</div>
+        Anthropic Claude Code 工程师 Thariq Shihipar 在
+        <a href="https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html" target="_blank" rel="noopener">《The unreasonable effectiveness of HTML》</a>
+        中主张 HTML 优于 Markdown——但讨论的是 <strong>Agent 输出给人看</strong>（计划、Spec、Review），而非文档抓取入库。
+        两个场景结论相反，不可混用。
+      </div>
+
+      <!-- 要点二 -->
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-format.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">页面形式</span>
+      </a>
+      <a href="problems-format-md-suffix.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">.md 后缀 ≠ Markdown</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

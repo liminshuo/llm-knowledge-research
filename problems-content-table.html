@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格与列表结构语义 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-table">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>表格与列表结构语义</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>表格与列表结构语义</strong>指行列关系、表头含义、列表嵌套层级对模型是否可读。标准数据表（如「表1 编程模型分类」）是四页中<strong>亲和度标杆</strong>；问题出在 <code>highlighttable</code> 误用于代码行号、部分表格缺 caption，以及嵌套列表 + 注意提示抓取后<strong>扁平化丢失从属关系</strong>。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">两极分化</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>「编程模型概述」页「表1 编程模型分类」结构完整（★★★★★），但 HelloWorld 将代码行号混为 <code>highlighttable</code>——<strong>表格语义被滥用</strong></li>
+          <li>部分表格缺乏 <code>&lt;caption&gt;</code> 或前置标题，模型难以理解表格主题与检索上下文</li>
+          <li>环境准备页列表嵌套注意提示结构良好，但抓取后嵌套从属关系可能扁平化，步骤与提示的<strong>层级语义弱化</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="表格问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-table-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_10_10062.html" target="_blank" rel="noopener">编程模型概述（CANN 9.0.0）</a>，SIMD / SIMT / AI CPU 三种编程模型分别适用于什么计算空间？再对比 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 页代码区——表格结构是否被误用？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：标杆与滥用并存</h2>
+            <p><strong>标准数据表亲和度极高，表格滥用则严重劣化代码语义。</strong>用户问「三种编程模型计算空间」时，编程模型概述页可准确召回；问「贴出 hello_world 源码」时，highlighttable 使<strong>表格结构与代码文本混杂</strong>。</p>
+
+            <h3>1. 标杆：表1 编程模型分类</h3>
+            <p>编程模型概述页表格具备完整语义要素：</p>
+            <table class="data-table">
+              <thead><tr><th>要素</th><th>现状</th><th>入库效果</th></tr></thead>
+              <tbody>
+                <tr><td><code>&lt;caption&gt;</code></td><td>「表1 编程模型分类」</td><td><span class="badge badge-ok">主题可检索</span></td></tr>
+                <tr><td><code>&lt;th&gt;</code> 表头</td><td>编程模型 / 计算空间 / 特点</td><td><span class="badge badge-ok">列语义清晰</span></td></tr>
+                <tr><td>行列数据</td><td>SIMD→AI Core、SIMT→AI Core 等</td><td><span class="badge badge-ok">结构完整</span></td></tr>
+              </tbody>
+            </table>
+            <p>该页为四页诊断中<strong>唯一 ★★★★★ 完整度</strong>，表格是核心贡献因素。</p>
+
+            <h3>2. 滥用：highlighttable 充当代码容器</h3>
+            <p>HelloWorld 页用 <code>highlighttable</code> 承载代码行号——表格语义与代码语义混淆，详见 <a href="problems-content-code.html">代码语义</a>：</p>
+            <div class="arch-diagram">&lt;table class="highlighttable"&gt;
+  &lt;tr&gt;&lt;td class="linenos"&gt;行号列&lt;/td&gt;
+      &lt;td class="code"&gt;代码列&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</div>
+            <p>违反 TBL-03「不在单元格内嵌套代码块」——代码应独立于表外，行号由 CSS 渲染。</p>
+
+            <h3>3. caption 缺失的表格</h3>
+            <p>部分页面表格仅有视觉样式表头，无 <code>&lt;caption&gt;</code> 或前置「表 N」标题。入库后 chunk 缺少表格主题上下文，向量检索「表1」「编程模型分类」等锚点困难。</p>
+
+            <h3>4. 嵌套列表 + 注意提示扁平化</h3>
+            <p>环境准备页将注意提示嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 步骤内，源 HTML 结构良好。但部分转文本管道将列表与提示<strong>压平为连续段落</strong>，「安装 CANN」步骤与其下「注意：set_env.sh」的从属关系弱化——影响 <a href="problems-content-note.html">注意提示</a> 与步骤的联合检索。</p>
+
+            <h3>对比：两类表格入库效果</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>表格类型</th><th>典型页面</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>标准数据表（tablenoborder）</td><td>编程模型概述 · 表1</td><td><span class="badge badge-ok">结构完整</span></td></tr>
+                <tr><td>highlighttable（代码行号）</td><td>HelloWorld</td><td><span class="badge badge-bad">语义滥用</span></td></tr>
+                <tr><td>无 caption 数据表</td><td>部分参考页</td><td><span class="badge badge-should">主题不明</span></td></tr>
+                <tr><td>嵌套列表 + note</td><td>环境准备</td><td><span class="badge badge-should">可能扁平化</span></td></tr>
+              </tbody>
+            </table>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>表格/列表状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>标准数据表（有 caption + th）</td><td><span class="badge badge-ok">已入库</span></td><td>行列语义完整</td></tr>
+                <tr><td>highlighttable 代码区</td><td><span class="badge badge-bad">语义滥用</span></td><td>表格≠数据表</td></tr>
+                <tr><td>无 caption 表格</td><td><span class="badge badge-should">劣化入库</span></td><td>缺主题锚点</td></tr>
+                <tr><td>有序列表步骤</td><td><span class="badge badge-ok">已入库</span></td><td>步骤序列可检索</td></tr>
+                <tr><td>列表嵌套注意提示</td><td><span class="badge badge-should">从属弱化</span></td><td>扁平化后层级丢失</td></tr>
+                <tr><td>机器层 Markdown 表格</td><td><span class="badge badge-bad">源站缺失</span></td><td>未额外输出 MD 表</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-table-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让每张数据表以<strong>带 caption、表头明确的结构化 chunk</strong>入库；列表保持嵌套层级；代码不再占用表格单元格。检索「编程模型分类」「SIMD 计算空间」时能准确召回表格语义。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：表格与列表规范化（P0，治本）</h3>
+            <p>核心原则：<strong>表格表达数据、列表表达层级</strong>，代码独立于表外。详见 <a href="principles-table.html">亲和原则 · 表格</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>表格必须有 caption 或前置标题（TBL-01）</td>
+                  <td>chunk 含「表1 编程模型分类」锚点</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>表头 <code>&lt;th&gt;</code> 明确（TBL-02）</td>
+                  <td>列语义不依赖 CSS</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>不在单元格内嵌套代码块（TBL-03）</td>
+                  <td>代码归 <a href="problems-content-code.html">代码语义</a> 维度</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>机器层额外输出 Markdown 表格（TBL-04）</td>
+                  <td>LLM 可直接解析 pipe 表</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>列表嵌套提示时保持 <code>&lt;li&gt;</code> 完整展开（P-01）</td>
+                  <td>步骤与注意提示从属清晰</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>表1 编程模型分类（保持标杆）</h4>
+            <div class="arch-diagram">&lt;table&gt;
+  &lt;caption&gt;&lt;b&gt;表1 &lt;/b&gt;编程模型分类&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;编程模型&lt;/th&gt;&lt;th&gt;计算空间&lt;/th&gt;&lt;th&gt;特点&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;...&lt;/tbody&gt;
+&lt;/table&gt;</div>
+
+            <h4>highlighttable 改造方向</h4>
+            <p><strong>❌ 当前</strong>：代码在行号表格内 → 表格语义污染。</p>
+            <p><strong>✅ 改造</strong>：代码移出表外，改用 <code>pre &gt; code</code>；行号仅人类层 CSS 渲染。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">**表1 编程模型分类**
+
+| 编程模型 | 计算空间 | 特点 |
+|----------|----------|------|
+| SIMD编程 | AI Core | 适合矩阵计算、连续计算的矢量算子... |
+| SIMT编程 | AI Core | 适用于离散访问场景... |
+| AI CPU编程 | AI CPU | 作为 AI Core 计算的补充 |</div>
+
+            <h3>二、架构侧：双轨交付 + 切片策略</h3>
+            <p>架构侧双轨交付与知识库切片策略——整张表作为一个切片单元，不拆分行列：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：表格样式 + 行号 UI（体验不变）
+    │
+    └──► 机器层：MD / JSON
+              └── 数据表 → caption + MD 表格 + JSON 数组
+              └── highlighttable → 剥离为独立代码块（非表格）
+              └── 列表嵌套结构保留缩进层级</div>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>标准数据表（编程模型概述）</td><td>保持标杆，推广 caption + th 模式</td><td><span class="badge badge-ok">标杆</span></td></tr>
+                <tr><td>HelloWorld highlighttable</td><td><strong>规则 3</strong>：代码移出表格</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>无 caption 表格</td><td><strong>规则 1</strong>：补 caption 或前置标题</td><td><span class="badge badge-should">P1</span></td></tr>
+                <tr><td>环境准备嵌套列表</td><td><strong>规则 5</strong>：切片时保留 li 边界</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-code.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">代码语义</span>
+      </a>
+      <a href="problems-content-note.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">注意提示（Note）类型语义</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">编程模型概述 · 表1</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_10_10062.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/programming-model-table-snippet.html"
+      title="编程模型概述表格测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

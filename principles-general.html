@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>总原则 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="general">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>总原则</h1>
+      <p class="page-desc">「当前问题」回答<strong>为什么痛</strong>；「亲和原则」回答<strong>怎么改</strong>。各语义维度页含<strong>原则描述</strong>与<strong>调整层面</strong>，指导渲染页、源码与管道分别改什么。</p>
+    </div>
+
+    <section class="section" id="scope">
+      <h3>调整层面说明</h3>
+      <p style="margin:0 0 16px;font-size:14px;color:var(--color-text-secondary);line-height:1.65;">以下三层定义适用于侧栏各语义维度页原则表中的「调整层面」列；阅读具体规则前请先理解各层含义。</p>
+      <div class="scope-legend">
+        <span><span class="badge badge-scope-ui">UI</span> 渲染页可见元素（用户打开页面能看到的内容与版式）</span>
+        <span><span class="badge badge-scope-src">源码</span> 源 HTML / RST / 写作模板中的结构与标记</span>
+        <span><span class="badge badge-scope-pipe">管道</span> 机器层转换、发布管线、站点配置</span>
+      </div>
+      <p style="margin:16px 0 0;font-size:14px;color:var(--color-text-secondary);line-height:1.65;"><strong>UI</strong> 指渲染出来的可视化页面——页头信息块、标签、Note 样式、Tab 是否藏字、表格表题等。<strong>源码</strong> 指作者写作层——alt、data 属性、Front Matter、语义标签。<strong>管道</strong> 指发布与机器层——双轨导出、JSON-LD、sitemap、llms.txt。同一问题可能需多层同时改：例如 Note 图标在 UI 与源码同时去掉；元数据在头部展示（UI）、Front Matter 写入（源码）、入库同步（管道）。</p>
+    </section>
+
+    <section class="section" id="general">
+      <h3>五条总原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>原则</th><th>说明</th><th>主要层面</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>语义先行</strong></td><td>信息须有文本表达，不依赖图标、坐标、样式暗示</td><td><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr><td><strong>头部外显</strong></td><td>版本、摘要、适用设备等选型信息放在文章头部可见区</td><td><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr><td><strong>扁平交付</strong></td><td>Tab / 折叠内容在抓取源中全部展开</td><td><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr><td><strong>双通道一致</strong></td><td>渲染页可见信息 ≈ 模型读到的信息</td><td>三层协同</td></tr>
+          <tr><td><strong>源页瘦身</strong></td><td>机器源剥离导航壳、脚本、全站噪声</td><td><span class="badge badge-scope-pipe">管道</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>总原则中涉及 <span class="badge badge-scope-ui">UI</span> 的条目示意如下；各语义维度完整对照见侧栏对应页面。</p>
+        <div class="ui-demo" id="ui-demo-semantic">
+          <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>语义先行：信息由文本承载，不依赖图标</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p><span class="rf-note-icon">⚠️</span> 请注意环境配置</p></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p><strong>注意：</strong>安装 CANN 后须执行 <code>source set_env.sh</code> 完成环境配置。</p></div></div>
+          </div>
+        </div>
+        <div class="ui-demo" id="ui-demo-header">
+          <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>头部外显：版本 + 摘要 + 标签</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><p>正文开始，无版本、无摘要…</p></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><nav class="rf-breadcrumb">文档中心 / Ascend C / 算子开发入门</nav><span class="rf-badge">CANN 9.0.0</span><span class="rf-badge">Atlas A2</span><div class="rf-h1">算子开发入门</div><p class="rf-summary">本文介绍 Ascend C 算子开发基本流程，面向已完成环境安装的开发者。（60–120 字）</p></div></div>
+          </div>
+        </div>
+        <div class="ui-demo" id="ui-demo-flat">
+          <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>扁平交付：Tab / 折叠内容默认可见</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng</span><span class="rf-tab">CMake</span></div><div class="rf-tab-panel">bisheng 步骤…</div><div class="rf-tab-panel rf-tab-panel--hidden">CMake 步骤（隐藏）</div></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">bisheng 编译</div>步骤…</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">CMake 编译</div>步骤…</div></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dimension-map">
+      <h3>各语义维度入口</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>分组</th><th>亲和原则</th><th>一句话</th><th>当前问题</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>时效</td><td><a href="principles-timeliness.html">版本滞后</a></td><td>版本与弃用状态须在文章头部可见</td><td><a href="problems-timeliness.html">版本滞后</a></td></tr>
+          <tr><td rowspan="8">语义理解</td><td><a href="principles-image.html">图片图意</a></td><td>图意用可见转写 + alt 表达</td><td><a href="problems-content-image.html">图片图意</a></td></tr>
+          <tr><td><a href="principles-hotzone.html">图片热区</a></td><td>热区须配渲染页文本链接列表</td><td><a href="problems-content-hotzone.html">图片热区</a></td></tr>
+          <tr><td><a href="principles-link.html">链接语义</a></td><td>锚文本自解释，禁止 LINK 占位</td><td><a href="problems-content-link.html">链接语义</a></td></tr>
+          <tr><td><a href="principles-tab.html">隐藏的语义（Tab）</a></td><td>非激活 Tab 不得从渲染 DOM 藏掉</td><td><a href="problems-content-tab.html">Tab</a></td></tr>
+          <tr><td><a href="principles-collapse.html">隐藏的语义（折叠面板）</a></td><td>折叠正文默认可抓取</td><td><a href="problems-content-collapse.html">折叠面板</a></td></tr>
+          <tr><td><a href="principles-code.html">代码语义</a></td><td>代码块纯净，行号不污染文本</td><td><a href="problems-content-code.html">代码语义</a></td></tr>
+          <tr><td><a href="principles-table.html">表格与列表结构语义</a></td><td>表题与 th 在渲染页可见</td><td><a href="problems-content-table.html">表格语义</a></td></tr>
+          <tr><td><a href="principles-note.html">注意提示（Note）类型语义</a></td><td>类型用文本前缀，去掉无意义图标</td><td><a href="problems-content-note.html">Note 语义</a></td></tr>
+          <tr><td>交付格式</td><td><a href="principles-format.html">交付格式</a></td><td>双轨出口，渲染页可链机器源</td><td><a href="problems-format.html">交付格式</a></td></tr>
+          <tr><td rowspan="2">信息结构</td><td><a href="principles-structure-llms.html">llms.txt 与机器入口</a></td><td>站点级机器发现配置</td><td><a href="problems-structure-llms.html">llms.txt</a></td></tr>
+          <tr><td><a href="principles-structure-metadata.html">元数据字段规范</a></td><td>头部展示元数据 + 60–120 字摘要</td><td><a href="problems-structure-metadata.html">元数据</a></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-structure-metadata.html">
+        <span class="nav-label">← 上一模块</span>
+        <span class="nav-title">当前问题</span>
+      </a>
+      <a href="principles-timeliness.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">版本滞后</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注意提示（Note）类型语义 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-note">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>注意提示（Note）类型语义</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>注意提示类型语义</strong>指 note / warning / caution / tip 等提示级别对模型是否可识别。<code>&lt;div class="note"&gt;</code> 内 <code>notebody</code> 正文可获取，但装饰图标 <code>note_3.0-zh-cn.png</code> 无文本——模型<strong>不知道这是「注意」还是「警告」</strong>，也无法按类型过滤检索。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">正文可抓</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>环境准备页 <code>notebody</code> 正文可入库（如 <code>set_env.sh</code> 说明），但<strong>提示类型语义丢失</strong>——图标 PNG 不产生可检索文本</li>
+          <li>无 <code>data-admonition-type</code> 等结构化字段，RAG 无法按「注意 / 警告」过滤；LLM 引用时缺少 <code>&gt; **注意**</code> 级别前缀</li>
+          <li>四页诊断：环境准备 ★★★★☆，主要丢失项即<strong>注意图标语义</strong>；嵌套在列表步骤内时，从属关系见 <a href="problems-content-table.html">表格与列表结构语义</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="注意提示问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-note-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备（CANN 9.0.0）</a>，安装 CANN 后需要执行什么命令设置环境变量？这条信息是<strong>普通正文还是「注意」类提示</strong>？能否只检索文档中的「警告」而不混入「注意」？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：正文可抓，类型语义缺失</h2>
+            <p><strong>提示正文能进入知识库，但类型不可识别。</strong>用户问「set_env.sh 怎么执行」时可召回正文；问「环境准备有哪些注意事项（注意级别）」时，chunk 中<strong>缺少类型标签</strong>，与正文段落难以区分。</p>
+
+            <h3>1. notebody 正文 → 可入库</h3>
+            <p>环境准备页典型结构：</p>
+            <div class="arch-diagram">&lt;div class="note"&gt;
+  &lt;img src="public_sys-resources/note_3.0-zh-cn.png"&gt;
+  &lt;span class="notetitle"&gt; &lt;/span&gt;
+  &lt;div class="notebody"&gt;安装CANN软件后...执行 source ${INSTALL_DIR}/set_env.sh...&lt;/div&gt;
+&lt;/div&gt;</div>
+            <p><code>notebody</code> 内文字可完整抓取——<code>set_env.sh</code> 命令语义可检索。环境准备页完整度 ★★★★☆，正文获取是主要得分项。</p>
+
+            <h3>2. 图标 → 类型语义为零</h3>
+            <p>提示类型由黄色背景 + <code>note_3.0-zh-cn.png</code> 图标传达，图标无 <code>alt</code>、无文本。入库后模型只见 PNG 路径或空白，<strong>无法推断 admonition 类型</strong>：</p>
+            <table class="data-table">
+              <thead><tr><th>人类感知</th><th>模型抓取</th><th>差异</th></tr></thead>
+              <tbody>
+                <tr><td>黄色框 + 注意图标 →「注意」</td><td><code>note_3.0-zh-cn.png</code> 或无输出</td><td><span class="badge badge-bad">类型丢失</span></td></tr>
+                <tr><td>警告框 →「警告」</td><td>同类装饰 PNG</td><td><span class="badge badge-bad">不可区分</span></td></tr>
+                <tr><td>与步骤的从属关系</td><td>嵌套在 <code>&lt;li&gt;</code> 内时可保留</td><td><span class="badge badge-should">视管道而定</span></td></tr>
+              </tbody>
+            </table>
+
+            <h3>3. 无结构化类型字段</h3>
+            <p>当前 <code>&lt;div class="note"&gt;</code> 无 <code>data-admonition-type="note"</code>，机器层未转换为 MD 引用块（<code>&gt; **注意**</code>）。后果：</p>
+            <ul>
+              <li>无法按类型过滤检索（「只查警告」）</li>
+              <li>LLM 引用时缺少严重程度信号，可能将「注意」与正文同等对待</li>
+              <li>与 <a href="problems-content-image.html">装饰图标</a> 问题同类——视觉信息未文本化</li>
+            </ul>
+
+            <h3>4. 嵌套在步骤列表内</h3>
+            <p>环境准备页将注意提示嵌套在「安装 CANN 软件包」步骤的 <code>&lt;li&gt;</code> 内，源 HTML 结构亲和。但若列表被扁平化，提示与步骤的从属关系弱化——属 <a href="problems-content-table.html">列表结构</a> 维度，与类型缺失叠加。</p>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>注意提示状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>notebody 正文</td><td><span class="badge badge-ok">已入库</span></td><td>set_env.sh 等可检索</td></tr>
+                <tr><td>提示类型（注意/警告）</td><td><span class="badge badge-bad">完全丢失</span></td><td>图标无文本语义</td></tr>
+                <tr><td>data-admonition-type</td><td><span class="badge badge-bad">缺失</span></td><td>未结构化标注</td></tr>
+                <tr><td>MD 引用块转换</td><td><span class="badge badge-bad">未执行</span></td><td>无 <code>&gt; **注意**</code> 前缀</td></tr>
+                <tr><td>与步骤从属关系</td><td><span class="badge badge-should">部分保留</span></td><td>依赖列表嵌套是否扁平化</td></tr>
+                <tr><td>装饰图标</td><td><span class="badge badge-should">噪声或空白</span></td><td>应 aria-hidden</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-note-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让每条注意提示以<strong>带类型标签的结构化 chunk</strong>入库——正文可检索，类型可过滤（note / warning / caution / tip），LLM 引用时带 <code>&gt; **注意**</code> 级别前缀，与所属步骤的从属关系保留。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：提示类型文本化（P0，治本）</h3>
+            <p>核心原则：<strong>类型语义先行入库</strong>——图标装饰，文本承载类型。详见 <a href="principles-note.html">亲和原则 · 注意提示</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td><code>data-admonition-type</code> 标注类型（NOTE-01）</td>
+                  <td>可按 note / warning 过滤检索</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>notebody 完整展开（NOTE-02）</td>
+                  <td>正文不依赖图标</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>图标 <code>aria-hidden</code>，类型用文本前缀（NOTE-03）</td>
+                  <td>PNG 不稀释 chunk</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>机器层转 MD 引用块（NOTE-04）</td>
+                  <td><code>&gt; **注意**</code> 前缀可识别</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>提示不嵌套折叠（NOTE-05）</td>
+                  <td>避免与 <a href="problems-content-collapse.html">折叠隐藏</a> 叠加</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>环境准备 set_env.sh 改造示例</h4>
+            <p><strong>❌ 当前：类型不可识别</strong></p>
+            <div class="arch-diagram">&lt;div class="note"&gt;
+  &lt;img src="note_3.0-zh-cn.png"&gt;
+  &lt;div class="notebody"&gt;安装CANN软件后...set_env.sh...&lt;/div&gt;
+&lt;/div&gt;</div>
+            <p>知识库 chunk：仅有正文段落，无「注意」标签。</p>
+
+            <p><strong>✅ 改造后：类型已入库</strong></p>
+            <div class="arch-diagram">&lt;aside class="admonition note" data-admonition-type="note" role="note"&gt;
+  &lt;p class="admonition-title"&gt;注意&lt;/p&gt;
+  &lt;p&gt;安装CANN软件后，使用CANN运行用户进行编译、运行时，
+     需要执行 &lt;code&gt;source ${INSTALL_DIR}/set_env.sh&lt;/code&gt; 设置环境变量。&lt;/p&gt;
+&lt;/aside&gt;</div>
+            <p>知识库 chunk：可检索「注意」「set_env.sh」「环境变量」。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">&gt; **注意**
+&gt; 安装CANN软件后，使用CANN运行用户进行编译、运行时，需要以CANN运行用户登录环境，执行 `source ${INSTALL_DIR}/set_env.sh` 命令设置环境变量。</div>
+
+            <h3>二、架构侧：双轨交付 + 切片绑定</h3>
+            <p>架构侧双轨交付与知识库切片策略——注意提示与上下文步骤绑定切片，不脱离所属步骤：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：黄色框 + 图标 UI（体验不变）
+    │
+    └──► 机器层：MD / JSON
+              └── note → &gt; **注意** 引用块
+              └── 写入 admonition-type 元数据字段
+              └── 与父级 &lt;li&gt; 步骤同 chunk 或显式 parent_id</div>
+            <p>类型语义在<strong>发布转换环节</strong>完成，而非依赖模型从图标猜测。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>环境准备 note（set_env.sh）</td><td><strong>规则 1–4</strong>：补类型 + MD 引用块</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>全站 note / warning 图标</td><td><strong>规则 3</strong>：aria-hidden + 文本前缀</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>嵌套在步骤列表内</td><td>切片保留 li 边界 + 类型元数据</td><td><span class="badge badge-should">P1</span></td></tr>
+                <tr><td>按类型检索</td><td>chunk 索引 admonition-type 字段</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-table.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">表格与列表结构语义</span>
+      </a>
+      <a href="problems-format.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">环境准备 · 注意提示</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/env-note-snippet.html"
+      title="环境准备注意提示测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

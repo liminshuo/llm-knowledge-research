@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片热区 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="hotzone">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>图片热区</h1>
+      <p class="page-desc">对应 <a href="problems-content-hotzone.html">当前问题 · 图片热区</a>。热区坐标对模型不可读，须在渲染页提供等价的文本链接列表。</p>
+    </div>
+
+
+    <section class="section" id="hotzone">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="img-03"><td>1</td><td>带热区的图片下方渲染完整链接列表（<code>&lt;nav aria-label&gt;</code>），覆盖全部热区目标</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="l-04"><td>2</td><td>每个热区目标须有描述性锚文本链接，禁止「区域1」「点击这里」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-1">
+        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>热区图片下方完整链接列表</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-img-placeholder">成长地图（仅图片热区可点）</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-img-placeholder">成长地图</div><nav><ul class="rf-nav-links"><li><a href="#">环境准备</a></li><li><a href="#">算子开发</a></li><li><a href="#">算子调试</a></li><li><a href="#">性能优化</a></li></ul></nav></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>热区链接使用描述性锚文本</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">区域1</a></li><li><a href="#">点击这里</a></li></ul></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">环境准备与 CANN 安装</a></li><li><a href="#">首个 Ascend C 算子样例</a></li></ul></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-image.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">图片图意</span>
+      </a>
+      <a href="principles-link.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">链接语义</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

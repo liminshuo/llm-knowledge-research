@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码语义 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-code">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>代码语义</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>代码语义</strong>指代码块的语言类型、文件名、纯净源码文本对模型是否可读。HelloWorld 等页代码主体可获取，但 <code>highlighttable</code> 将<strong>行号混入代码文本</strong>，且缺少 <code>language-xxx</code> 标注；非激活 <a href="problems-content-tab.html">Tab</a> 内的代码还可能被隐藏遗漏。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">部分可抓</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li><code>highlighttable</code> 将行号与代码混为表格单元格，入库后出现 <strong>1 2 3…31 行号前缀</strong>，干扰代码复用与精确检索</li>
+          <li>未标注 <code>class="language-xxx"</code>，模型难以区分 bash / C++ / CMake / Ascend C 源码</li>
+          <li>HTML 实体（<code>&amp;quot;</code> 等）未解码时进一步污染代码 chunk；Tab 隐藏可导致 CMake 分支代码<strong>完全缺失</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="代码语义问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-code-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a>，<code>hello_world.asc</code> 核函数代码前几行是什么？复制出来的代码有没有 <strong>1 2 3 行号前缀</strong>？bisheng 与 CMake 命令分别是什么语言？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：代码主体可抓，语义劣化</h2>
+            <p><strong>代码内容能进入知识库，但不够「可复用」。</strong>用户问「贴出 hello_world.asc 头文件 include」时，模型可能返回带行号污染的文本；问「CMake 编译命令」时，若 CMake Tab 被隐藏则<strong>无 chunk 可召回</strong>。</p>
+
+            <h3>1. highlighttable 行号污染</h3>
+            <p>HelloWorld 页将代码行号与源码混为 <code>highlighttable</code> 两列：左列 <code>linenos</code>、右列 <code>code</code>。转文本时行号数字与代码合并，出现如下污染：</p>
+            <div class="arch-diagram">&lt;table class="highlighttable"&gt;
+  &lt;tr&gt;
+    &lt;td class="linenos"&gt;&lt;pre&gt;1\n2\n3...&lt;/pre&gt;&lt;/td&gt;
+    &lt;td class="code"&gt;&lt;pre&gt;// Host侧...#include "acl/acl.h"&lt;/pre&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</div>
+            <p>典型抓取结果：</p>
+            <pre><code>1 2 3 // Host侧应用程序需要包含的头文件
+#include "acl/acl.h"</code></pre>
+            <p>行号前缀使代码<strong>无法直接编译运行</strong>，也干扰「精确匹配代码片段」类检索。</p>
+
+            <h3>2. 语言类型未标注</h3>
+            <p>代码块缺少 <code>class="language-cpp"</code> / <code>language-bash"</code> / <code>language-cmake"</code> 等标注。模型输出时难以区分：</p>
+            <table class="data-table">
+              <thead><tr><th>代码片段</th><th>实际语言</th><th>入库后问题</th></tr></thead>
+              <tbody>
+                <tr><td><code>hello_world.asc</code> 核函数</td><td>Ascend C / C++</td><td>无 language 标注，与 bash 命令混淆</td></tr>
+                <tr><td><code>bisheng hello_world.asc ...</code></td><td>bash</td><td>未标 <code>language-bash</code></td></tr>
+                <tr><td><code>cmake_minimum_required...</code></td><td>CMake</td><td>非激活 Tab 时可能丢失；无 language-cmake</td></tr>
+              </tbody>
+            </table>
+
+            <h3>3. 表格语义滥用</h3>
+            <p>将代码拆入表格单元格，使<strong>表格语义与代码语义混杂</strong>——详见 <a href="problems-content-table.html">表格与列表结构语义</a>。环境准备页的 cmake 安装命令结构较简洁，亲和度相对较好，可作对照标杆。</p>
+
+            <h3>4. Tab 隐藏导致的代码遗漏</h3>
+            <p>HelloWorld 的 CMake 代码位于非默认 Tab，渲染层隐藏时<strong>代码块完全不在输出中</strong>——属 <a href="problems-content-tab.html">Tab 隐藏</a> 维度，与行号污染叠加后，CMake 分支双重不可用。</p>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>代码语义状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>代码主体文本</td><td><span class="badge badge-should">部分可抓</span></td><td>逻辑内容可获取</td></tr>
+                <tr><td>行号分离</td><td><span class="badge badge-bad">污染入库</span></td><td>1 2 3… 前缀混入</td></tr>
+                <tr><td>语言标注</td><td><span class="badge badge-bad">缺失</span></td><td>无 language-xxx</td></tr>
+                <tr><td>文件名 / 场景标注</td><td><span class="badge badge-bad">缺失</span></td><td>未标 hello_world.asc、bisheng 场景</td></tr>
+                <tr><td>非激活 Tab 内代码</td><td><span class="badge badge-bad">完全丢失</span></td><td>display:none 跳过</td></tr>
+                <tr><td>HTML 实体解码</td><td><span class="badge badge-should">视管道而定</span></td><td><code>&amp;quot;</code> 可能残留</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-code-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让每段代码以<strong>纯净、带语言标注、可独立检索的 chunk</strong>入库——用户检索「hello_world.asc include」「bisheng 编译命令」时能返回可直接复用的代码，LLM 引用时不含行号噪声。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：代码规范化（P0，治本）</h3>
+            <p>核心原则：<strong>代码语义先行入库</strong>——源码与行号分离，语言与文件名显式标注。详见 <a href="principles-code.html">亲和原则 · 代码块</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>置于 <code>&lt;pre&gt;&lt;code class="language-xxx"&gt;</code>（CODE-01）</td>
+                  <td>模型识别 bash / cpp / cmake</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>行号与代码分离，行号不写入 code 文本（CODE-02）</td>
+                  <td>chunk 可直接复制运行</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>不使用 highlighttable 拆分代码（CODE-03）</td>
+                  <td>表格语义不再污染代码</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>标注文件名、语言、适用场景（CODE-04）</td>
+                  <td>可检索「hello_world.asc」「bisheng 编译」</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>HTML 实体解码后再入模型层（CODE-06）</td>
+                  <td><code>"</code> 等符号正确还原</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>hello_world.asc 改造示例</h4>
+            <p><strong>❌ 当前：highlighttable + 行号污染</strong></p>
+            <div class="arch-diagram">&lt;table class="highlighttable"&gt;
+  &lt;tr&gt;&lt;td class="linenos"&gt;1 2 3&lt;/td&gt;
+      &lt;td class="code"&gt;&lt;pre&gt;// code...&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</div>
+            <p>知识库 chunk：<code>1 2 3 // Host侧...</code> — 不可直接编译。</p>
+
+            <p><strong>✅ 改造后：pre + code + 元数据</strong></p>
+            <div class="arch-diagram">&lt;div class="code-block" data-filename="hello_world.asc" data-language="asc"&gt;
+  &lt;pre&gt;&lt;code class="language-cpp"&gt;// Host侧应用程序需要包含的头文件
+#include "acl/acl.h"
+#include "kernel_operator.h"
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</div>
+            <p>知识库 chunk：纯净源码，可检索文件名与语言。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">```cpp
+// 文件：hello_world.asc
+#include "acl/acl.h"
+...
+```
+
+```bash
+# 使用 bisheng 编译
+bisheng hello_world.asc --npu-arch=dav-2201 -o demo
+```</div>
+
+            <h3>二、架构侧：双轨交付 + 转换管道</h3>
+            <p>双轨交付与转换管道——人类层保留语法高亮与行号 UI，机器层输出纯净代码块：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：highlighttable + 行号 UI（体验不变）
+    │
+    └──► 机器层：MD / JSON
+              └── highlighttable → 提取 code 列，剥离 linenos
+              └── 标注 ```language + 文件名
+              └── Tab 内代码全展开后独立成块</div>
+            <p>行号剥离在<strong>发布转换环节</strong>完成，而非指望模型自行忽略数字前缀。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>HelloWorld highlighttable</td><td><strong>规则 2 + 3</strong>：剥离行号，改 pre+code</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>编译命令（bash / cmake）</td><td><strong>规则 1 + 4</strong> + <a href="problems-content-tab.html">Tab 全展开</a></td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>已有源 HTML 管道</td><td>转换脚本自动剥离 linenos 列</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>代码块切片策略</td><td>按文件名独立成块，不跨 H2 截断</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-collapse.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">隐藏的语义（折叠面板）</span>
+      </a>
+      <a href="problems-content-table.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">表格与列表结构语义</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">HelloWorld · 代码块</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/helloworld-code-snippet.html"
+      title="HelloWorld 代码块测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

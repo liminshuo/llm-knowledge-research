@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>.md vs .html 实测 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="format-md-vs-html-url">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>.md vs .html 实测</h1>
+      <p class="page-desc">同一页面两种 URL 在昇腾社区实测下的差异。</p>
+    </div>
+
+    <section class="section" id="format-md-vs-html-url">
+      <h2>要点三：.md 形式与 .html 形式，哪个对大模型更友好？</h2>
+<div class="info-box warning">
+        <div class="box-title">结论（昇腾社区实测）</div>
+        在<strong>当前社区实现</strong>下，同一「什么是 Ascend C」页面：
+        <strong>.html 链接对大模型反而比 .md 链接更友好</strong>——但这不代表 HTML 优于 Markdown，
+        而是说明<strong>两种 URL 都是 SPA 渲染页，.md 管线的文本丢失更严重</strong>。
+        真正的最优解是独立的纯 Markdown / 源 HTML 出口（<code>/doc_center/source/</code>）。
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-format-md-suffix.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">.md 后缀 ≠ Markdown</span>
+      </a>
+      <a href="problems-format.html#format-compare" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

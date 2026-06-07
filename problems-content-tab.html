@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐藏的语义（Tab） · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-tab">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>隐藏的语义（Tab）</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>Tab 隐藏语义</strong>指被交互 UI 折叠、未进入默认抓取管道的正文——非激活 Tab 面板常被 <code>display:none</code> 隐藏。用户切换 Tab 能看到 bisheng / CMake 等分支内容，知识库可能<strong>只入库第一个 Tab</strong>，其余编译步骤与代码语义丢失。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-bad">抓取差</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>渲染页 <code>/document/detail/</code> 将 HelloWorld「bisheng / CMake」编译方式做成 Tab UI，非激活面板被 CSS 隐藏——默认抓取可能<strong>只抓到 bisheng 分支</strong></li>
+          <li>源 HTML <code>/doc_center/source/</code> 中两分支为同级顺序排列，源层较亲和；风险在<strong>渲染层与 RAG 管道消费渲染页</strong>时的隐藏截断</li>
+          <li>全站渲染页约 <strong>34 处</strong> <code>display:none</code>（含 Tab、折叠等），与用户可见内容存在系统性差异</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="Tab 问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-tab-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a>，除了 bisheng 命令行编译，<strong>CMake 编译步骤和命令是什么</strong>？两分支的代码块是否都进入了知识库？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：非激活 Tab 语义未入库或截断</h2>
+            <p><strong>用户切换 Tab 能看到两分支，默认 RAG 管道可能只入库第一个。</strong>问「HelloWorld 如何用 CMake 编译」时，若抓取消费的是渲染页 DOM 且跳过 <code>display:none</code> 区域，知识库中<strong>没有 CMake 步骤 chunk 可召回</strong>。</p>
+
+            <h3>1. 渲染层 Tab UI → 隐藏非激活面板</h3>
+            <p>HelloWorld 页将「使用 bisheng 命令行进行编译」与「使用 CMake 进行编译」呈现为 Tab 切换。渲染层 CSS 含 <code>.tab-hover .more-tab-item{display:none}</code> 等规则，非激活 Tab 正文与代码<strong>不在默认可见 DOM 中</strong>。</p>
+            <div class="arch-diagram">&lt;div class="tab-hover"&gt;
+  &lt;!-- 默认可见：bisheng 分支 --&gt;
+  &lt;pre&gt;bisheng hello_world.asc --npu-arch=dav-2201 -o demo&lt;/pre&gt;
+  &lt;!-- display:none：CMake 分支 --&gt;
+  &lt;div class="more-tab-item" style="display:none"&gt;
+    &lt;pre&gt;cmake_minimum_required(VERSION 3.16)...&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+            <h3>2. 源 HTML 层 → 顺序展开（较亲和）</h3>
+            <p>若抓取 <code>/doc_center/source/</code> 端点，bisheng 与 CMake 在源 HTML 中为同级 <code>&lt;li&gt;</code> 顺序排列，<strong>两分支均存在于源文件</strong>。问题在于多数 RAG 管道默认消费 <code>/document/detail/</code> 渲染页（~224 KB），而非 4–11 KB 源 HTML。</p>
+
+            <h3>3. 丢失的 Tab 语义清单（HelloWorld）</h3>
+            <table class="data-table">
+              <thead><tr><th>Tab 标签</th><th>丢失或截断的语义</th></tr></thead>
+              <tbody>
+                <tr><td>使用 bisheng 命令行进行编译</td><td>通常作为默认 Tab <strong>可入库</strong>（仍受行号污染影响，见<a href="problems-content-code.html">代码语义</a>）</td></tr>
+                <tr><td>使用 CMake 进行编译</td><td>CMakeLists 内容、<code>cmake</code> / <code>make</code> 步骤——<strong>非激活时可能完全丢失</strong></td></tr>
+              </tbody>
+            </table>
+
+            <h3>4. 端点差异 → 同一页两种入库结果</h3>
+            <table class="data-table">
+              <thead><tr><th>抓取端点</th><th>Tab 语义状态</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td><code>/doc_center/source/</code></td><td><span class="badge badge-ok">两分支均存在</span></td><td>源层顺序展开，无 Tab 隐藏</td></tr>
+                <tr><td><code>/document/detail/</code> 渲染页</td><td><span class="badge badge-bad">可能只入库默认 Tab</span></td><td>非激活面板 <code>display:none</code></td></tr>
+                <tr><td>转 Markdown / Reader 管道</td><td><span class="badge badge-bad">取决于是否跳过隐藏节点</span></td><td>多数管道忽略隐藏 DOM</td></tr>
+              </tbody>
+            </table>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>Tab 语义状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>默认 Tab（bisheng）</td><td><span class="badge badge-should">部分可抓</span></td><td>正文与命令可入库</td></tr>
+                <tr><td>非激活 Tab（CMake）</td><td><span class="badge badge-bad">完全丢失</span></td><td>渲染层隐藏，管道跳过</td></tr>
+                <tr><td>源 HTML 顺序展开</td><td><span class="badge badge-ok">已入库</span></td><td>需显式消费 source 端点</td></tr>
+                <tr><td>Tab 标签文本</td><td><span class="badge badge-should">可能丢失</span></td><td>未结构化进 chunk 元数据</td></tr>
+                <tr><td>机器层全展开（TAB-03）</td><td><span class="badge badge-bad">源站缺失</span></td><td>发布环节未扁平化输出</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-tab-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让每个 Tab 面板的正文与代码以<strong>独立文本 chunk</strong>进入知识库——检索「CMake 编译 HelloWorld」「bisheng 命令参数」时均能召回，<strong>不要求用户在线切换 Tab</strong>，要求机器层事先全量展开。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：Tab 全量文本化（P0，治本）</h3>
+            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。详见 <a href="principles-tab.html">亲和原则 · Tab 切换</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>源 HTML 中所有 Tab 面板完整存在，不依赖 JS 懒加载（TAB-01）</td>
+                  <td>抓取不遗漏任一 Tab 正文</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>每个 Tab 有明确文本标签（TAB-02）</td>
+                  <td>chunk 可区分「bisheng」与「CMake」</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>机器层全部展开，用 H3 标注各 Tab 标题（TAB-03）</td>
+                  <td>扁平 MD 中两分支均可检索</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>禁止在源 HTML 用 <code>display:none</code> 隐藏非默认 Tab（TAB-04）</td>
+                  <td>源层与机器层一致，无隐藏截断</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>HelloWorld 编译分支改造示例</h4>
+            <p><strong>❌ 当前：渲染层 Tab 隐藏</strong></p>
+            <div class="arch-diagram">&lt;!-- 仅默认 Tab 可见，CMake 在 display:none 内 --&gt;
+&lt;div class="tab-card"&gt;...bisheng...&lt;/div&gt;
+&lt;div class="more-tab-item" style="display:none"&gt;...cmake...&lt;/div&gt;</div>
+            <p>知识库 chunk：可能仅有 bisheng 命令，无 CMake 步骤。</p>
+
+            <p><strong>✅ 改造后：源层 + 机器层全展开</strong></p>
+            <div class="arch-diagram">&lt;h3 id="compile-bisheng"&gt;使用 bisheng 命令行进行编译&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;bisheng hello_world.asc --npu-arch=dav-2201 -o demo&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id="compile-cmake"&gt;使用 CMake 进行编译&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="language-cmake"&gt;cmake_minimum_required(VERSION 3.16)...&lt;/code&gt;&lt;/pre&gt;</div>
+            <p>知识库 chunk：可分别检索「bisheng 编译」「CMake 编译 HelloWorld」。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">### 使用 bisheng 命令行进行编译
+```bash
+bisheng hello_world.asc --npu-arch=dav-2201 -o demo
+```
+
+### 使用 CMake 进行编译
+```cmake
+cmake_minimum_required(VERSION 3.16)
+...
+```</div>
+
+            <h3>二、架构侧：双轨交付 + 端点优先级</h3>
+            <p>双轨交付——人类层保留 Tab 交互，机器层消费源 HTML 或预展开 MD：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：Tab UI + 交互切换（体验不变）
+    │
+    └──► 机器层：MD / JSON + llms.txt
+              └── 优先消费 /doc_center/source/（4–11 KB）
+              └── 各 Tab 扁平为 H3 + 正文 chunk
+              └── 禁止依赖渲染页 display:none 区域</div>
+            <p>RAG 管道应声明抓取端点；<strong>Tab 语义在发布环节全量展开</strong>，而非检索时模拟点击 Tab。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>HelloWorld 等编译分支 Tab</td><td><strong>规则 1–4</strong> + 机器层 H3 全展开</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>RAG 默认抓取渲染页</td><td>切换至 <code>/doc_center/source/</code> 或预生成 MD</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>多 Tab 含代码块</td><td>配合 <a href="problems-content-code.html">代码语义</a> 去行号与语言标注</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>Tab 标签进元数据</td><td>chunk 标注 <code>tab_label</code> 字段</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-link.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">链接语义</span>
+      </a>
+      <a href="problems-content-collapse.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">隐藏的语义（折叠面板）</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">HelloWorld · Tab</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/helloworld-tab-snippet.html"
+      title="HelloWorld Tab 测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

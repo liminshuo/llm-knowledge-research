@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>元数据字段规范 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="structure-metadata">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题 · 信息结构</div>
+      <h1>元数据字段规范</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">元数据回答的不是「正文写了什么」，而是<strong>这篇 chunk 是谁、属于哪一版、在知识体系哪一节</strong>——RAG 检索与过滤的前置条件。</span>
+        <span class="page-desc-line">本页论证：版本、breadcrumb、doc_id 等在页面上隐含存在，入库后未标准化为 chunk 字段，导致<strong>无法按版本过滤、消歧同名章节、稳定溯源</strong>。</span>
+      </p>
+      <div class="component-problem">
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li><strong>页面有据、入库无情</strong>：「什么是 Ascend C」在 900 / 850 / 910beta 下 <code>&lt;title&gt;</code> 均含版本与章节路径，但无 JSON-LD / Front Matter；<code>version</code>、<code>breadcrumb</code>、<code>doc_id</code> 不进 chunk 元数据。</li>
+          <li><strong>同题异版不可分</strong>：同一 <code>atlas_ascendc_map_10_0002</code> 对应三套 URL，正文高度相似；无 <code>version</code> 字段时向量检索<strong>无法排除旧版</strong>。</li>
+          <li><strong>关系语义未结构化</strong>：设备型号、上下篇、Tab/Note 类型等可见但未字段化——检索只能做全文相似度，不能做字段约束。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="元数据问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+
+        <section class="section is-active" id="structure-metadata-problem" role="tabpanel" data-tab-panel="problem">
+
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>正文已进入向量库之后，能否回答：</p>
+            <ul class="key-points">
+              <li>这条 chunk 适用于<strong>哪一版 CANN</strong>？</li>
+              <li>「环境准备」属于<strong>入门教程</strong>还是<strong>软件安装</strong>？</li>
+              <li>引用能否稳定回溯到<strong>唯一 doc_id</strong>？</li>
+            </ul>
+            <p>若三者皆否，说明缺的是<strong>元数据字段</strong>，而非更多正文。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>页面有据 · 入库未结构化</h2>
+            <p>以 <code>atlas_ascendc_map_10_0002</code> 为例（<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a>）。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>信息</th><th>页面上</th><th>入库后</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>version</code></td>
+                  <td>✅ URL <code>…/900/…</code> + title「CANN社区版9.0.0」</td>
+                  <td>❌ chunk 无 <code>version</code> 键</td>
+                </tr>
+                <tr>
+                  <td><code>breadcrumb</code></td>
+                  <td>✅ 压缩在 <code>&lt;title&gt;</code> 字符串</td>
+                  <td>❌ 未拆成数组，无法消歧</td>
+                </tr>
+                <tr>
+                  <td><code>doc_id</code></td>
+                  <td>✅ URL 文件名</td>
+                  <td>❌ 未写入 chunk</td>
+                </tr>
+                <tr>
+                  <td><code>applicable_devices</code></td>
+                  <td>✅ 正文列出 Atlas A2/A3</td>
+                  <td>❌ 无结构化列表</td>
+                </tr>
+                <tr>
+                  <td>JSON-LD</td>
+                  <td>❌ 实测 <strong>0</strong> 条</td>
+                  <td>— 无标准头信息可继承</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="info-box warning">
+              <div class="box-title">「未结构化」入库态</div>
+              见 <a href="background-motivation.html#dimensions">研究维度 · 入库状态</a>：页面上有，但未变成可检索元数据。
+            </div>
+          </div>
+
+          <div class="content-unit">
+            <h2>同题异版 · 无字段则不可分</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>路径版本</th><th><code>&lt;title&gt;</code> 版本串（实测）</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>900 社区版</td><td>…<strong>CANN社区版9.0.0</strong>…</td></tr>
+                <tr><td>850 商用版</td><td>…<strong>CANN商用版8.5.0</strong>…</td></tr>
+                <tr><td>910 beta</td><td>…<strong>CANN社区版9.1.0-beta.1</strong>…</td></tr>
+              </tbody>
+            </table>
+            <p>三版 chunk 语义相近，无 <code>version</code> 字段时 RAG 无法默认「只取 900」。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>下游失败印证</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>现象</th><th>实测表现</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>脚注版本混杂</td>
+                  <td>千问 <code>[^10]</code> 将「什么是 Ascend C」指向 <strong>850 商用</strong>（<a href="references/官方信源感知弱/千问-检索网页.md">千问-检索网页.md</a>）</td>
+                </tr>
+                <tr>
+                  <td>三模型世代不一致</td>
+                  <td>900 均未稳定出现（<a href="problems-timeliness-disambiguation.html">多版本消歧</a>）</td>
+                </tr>
+                <tr>
+                  <td>同名章节歧义</td>
+                  <td>「环境准备」无法判断教程线（<a href="problems-structure-cross.html">跨文档结构感知</a>）</td>
+                </tr>
+                <tr>
+                  <td>引用难稳定</td>
+                  <td>仅附 URL，同 doc 多版本时难以唯一对应</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="info-box warning">
+              <div class="box-title">论证链</div>
+              <a href="problems-structure-llms.html">机器入口</a> 决定抓哪条 URL → 本文论证入库须带哪些字段 → <a href="problems-structure-metadata.html#solution">知识库集成</a> 用元数据做过滤与溯源。
+            </div>
+          </div>
+
+        </section>
+
+        <section class="section" id="structure-metadata-solution" role="tabpanel" data-tab-panel="solution" hidden>
+
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>每篇文档、每个 chunk 入库时附带<strong>可检索、可过滤</strong>的结构化字段——使 RAG 能按版本、章节路径、设备型号约束召回，引用可稳定映射到 <code>doc_id</code>。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、页面级 Front Matter（P0）</h3>
+            <p>转换管道从 source HTML 提取并注入 YAML 头信息。每篇文档的机器层标准头信息：</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>字段</th><th>作用</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>version</code></td><td>版本过滤、<a href="problems-timeliness-disambiguation.html">多版本消歧</a></td></tr>
+                <tr><td><code>doc_id</code></td><td>稳定引用、跨页去重</td></tr>
+                <tr><td><code>breadcrumb</code></td><td>章节路径、消歧同名页</td></tr>
+                <tr><td><code>prev</code> / <code>next</code></td><td>上下篇与学习顺序</td></tr>
+                <tr><td><code>applicable_devices</code></td><td>按设备型号过滤</td></tr>
+                <tr><td><code>source_url</code> / <code>human_url</code></td><td>机器层 vs 人类层双轨标注</td></tr>
+              </tbody>
+            </table>
+
+            <div class="arch-diagram">---
+doc_id: atlas_ascendc_map_10_0005
+title: HelloWorld
+product: Ascend C算子开发
+version: CANN社区版 9.0.0
+language: zh-CN
+breadcrumb:
+  - Ascend C算子开发
+  - 入门教程
+  - 基于SIMD编程
+  - 快速入门
+  - HelloWorld
+keywords: [HelloWorld, 核函数, bisheng, CMake]
+applicable_devices:
+  - Atlas A2 训练系列产品
+  - Atlas A3 训练系列产品
+source_url: https://www.hiascend.com/doc_center/source/...
+human_url: https://www.hiascend.com/document/detail/...
+---</div>
+
+            <h3>轻量 IA（P1）</h3>
+            <p>提供<strong>页面级元数据</strong>，而非全站 282 项导航树：</p>
+            <ul class="key-points">
+              <li><code>breadcrumb</code>：消歧 + 定位章节</li>
+              <li><code>prev / next</code>：支持多跳推理与学习顺序</li>
+              <li><code>version</code>：锁定 CANN 9.0.0，避免版本混淆</li>
+              <li><code>keywords / applicable_devices</code>：精准检索过滤</li>
+            </ul>
+            <div class="info-box success">
+              <div class="box-title">实施方式</div>
+              机器层 Front Matter 输出完整字段；人类层可保留现有可视面包屑，并可选 JSON-LD breadcrumb。
+            </div>
+
+            <h3>二、chunk 级字段（P1）</h3>
+            <p>切片时把组件类型写入 chunk 元数据，衔接语义维度页规则：</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>字段</th><th>关联维度</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>admonition-type</code></td><td><a href="problems-content-note.html">注意提示类型</a></td></tr>
+                <tr><td><code>tab_label</code></td><td><a href="problems-content-tab.html">Tab 分支</a></td></tr>
+                <tr><td><code>code_language</code> / <code>filename</code></td><td><a href="problems-content-code.html">代码语义</a></td></tr>
+              </tbody>
+            </table>
+
+            <h3>三、知识库集成与检索策略（P0）</h3>
+            <div class="arch-diagram">文档源（doc_center/source）
+    │
+    ▼
+转换管道（HTML → MD + Front Matter）
+    │
+    ├──► 向量库（Embedding + 切片索引）
+    │       └── RAG 检索（语义搜索 + 元数据过滤）
+    │
+    └──► JSON API（Agent Tool Calling）</div>
+            <ul class="key-points">
+              <li><strong>按 H2/H3 边界切片</strong> — 避免截断代码块</li>
+              <li><strong>元数据前置</strong> — 每片附带 breadcrumb、version、keywords</li>
+              <li><strong>表格不拆分</strong> — 整张表作为一个切片单元</li>
+              <li><strong>注意提示与上下文绑定</strong> — 提示不脱离所属步骤</li>
+            </ul>
+            <table class="data-table">
+              <thead>
+                <tr><th>策略</th><th>依赖字段</th><th>示例</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>版本过滤</td><td><code>version</code></td><td><code>filter(version="CANN社区版 9.0.0")</code></td></tr>
+                <tr><td>设备过滤</td><td><code>applicable_devices</code></td><td>Atlas A2 专属算子</td></tr>
+                <tr><td>breadcrumb 消歧</td><td><code>breadcrumb</code></td><td>入门教程/环境准备 vs 软件安装/环境准备</td></tr>
+                <tr><td>关键词增强</td><td><code>keywords</code></td><td>核函数、bisheng、Tiling、SIMD</td></tr>
+              </tbody>
+            </table>
+
+            <h3>四、与转换管道衔接（P1）</h3>
+            <p>元数据在 <a href="problems-format.html#solution">转换管道</a> 第 6 步注入——从 <code>doc_center/source</code> 解析 title 路径、URL 版本段、设备列表，输出标准 Front Matter，而非依赖渲染页剥壳猜测。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>多版本混召</td><td>每篇强制 <code>version</code> 字段 + 检索默认过滤</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>同名章节</td><td><code>breadcrumb</code> 数组写入 chunk 头</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>引用溯源</td><td><code>doc_id</code> + 双轨 URL</td><td><span class="badge badge-should">P1</span></td></tr>
+                <tr><td>组件语义</td><td>chunk 级 <code>admonition-type</code> / <code>tab_label</code></td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+            <p>探测脚本：<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a> · 历史 IA 实测：<a href="problems-structure-cross.html">跨文档结构感知</a>（附录）</p>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-structure-llms.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">llms.txt 与机器入口</span>
+      </a>
+      <a href="principles-general.html" class="next">
+        <span class="nav-label">下一模块 →</span>
+        <span class="nav-title">亲和原则</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+</body>
+</html>

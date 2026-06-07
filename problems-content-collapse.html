@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐藏的语义（折叠面板） · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-collapse">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <div class="page-header-top">
+        <h1>隐藏的语义（折叠面板）</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+      <p class="page-desc"><strong>折叠隐藏语义</strong>指默认收起面板内的步骤说明、代码与表格——折叠区常被 <code>display:none</code> 或手风琴组件隐藏。<strong>用户展开能看到 ≠ 知识库读得到</strong>；入库后即丢失，检索无法召回折叠区内正文。</p>
+      <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-bad">抓取差</span></span>
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li>全站渲染页约 <strong>34 处</strong> <code>display:none</code>，含折叠面板、Tab 等非默认可见区域——默认管道跳过隐藏节点</li>
+          <li>四页实测样本中折叠使用较少，但全站广泛存在 <code>collapse</code> / <code>accordion</code> 模式；一旦默认收起，区内步骤与代码<strong>不在抓取输出中</strong></li>
+          <li>与 <a href="problems-content-tab.html">Tab 隐藏</a> 同属「交互/UI 隐藏」维度——人类靠点击展开，模型无「点击」能力</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="折叠面板问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+        <section class="section is-active" id="content-collapse-problem" role="tabpanel" data-tab-panel="problem">
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>读取含折叠面板的昇腾文档页（如环境准备中的可折叠配置说明、或全站 <code>accordion</code> 组件页），<strong>默认折叠区内的环境变量设置步骤、详细参数说明</strong>是否进入了知识库？不手动展开页面，模型能否回答「set_env.sh 在什么步骤下需要执行」？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>结论：折叠区语义未入库或截断</h2>
+            <p><strong>折叠面板是模型抓取的头号敌人之一。</strong>默认抓取跳过 <code>display:none</code> 区域时，折叠区内正文、代码块、嵌套表格对 RAG <strong>不可见</strong>——与用户展开后看到的内容存在系统性差异。</p>
+
+            <h3>1. 默认折叠 → DOM 隐藏</h3>
+            <p>折叠/手风琴组件通常将 <code>collapse-body</code> 设为 <code>display:none</code> 或 <code>visibility:hidden</code>，直至用户点击标题展开。多数 HTML→文本管道<strong>不遍历隐藏节点</strong>，折叠区内容不出现在 chunk 中。</p>
+            <div class="arch-diagram">&lt;div class="collapse"&gt;
+  &lt;div class="collapse-header"&gt;高级配置&lt;/div&gt;
+  &lt;div class="collapse-body" style="display:none"&gt;
+    &lt;p&gt;执行 source ${INSTALL_DIR}/set_env.sh ...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+            <h3>2. 四页实测 vs 全站模式</h3>
+            <p>本次四页样本（什么是 Ascend C、环境准备、HelloWorld、编程模型概述）<strong>未大量使用折叠面板</strong>，但环境准备等页存在步骤 + 注意提示的嵌套结构；全站其他章节广泛采用折叠收纳次要步骤、高级参数、故障排查等——这些语义在默认抓取中<strong>同样面临丢失风险</strong>。</p>
+            <table class="data-table">
+              <thead><tr><th>页面类型</th><th>折叠内容示例</th><th>入库风险</th></tr></thead>
+              <tbody>
+                <tr><td>环境准备类</td><td>安装子步骤、环境变量详细说明</td><td><span class="badge badge-bad">高</span></td></tr>
+                <tr><td>算子开发类</td><td>高级编译选项、调试参数</td><td><span class="badge badge-bad">高</span></td></tr>
+                <tr><td>API 参考类</td><td>可选参数、返回值细节</td><td><span class="badge badge-should">中</span></td></tr>
+              </tbody>
+            </table>
+
+            <h3>3. 与 Tab 隐藏的共性</h3>
+            <p>折叠与 <a href="problems-content-tab.html">Tab 隐藏</a> 均依赖 CSS/JS 控制可见性。全站渲染页统计约 <strong>34 处</strong> <code>display:none</code>（见 <a href="problems-format.html">交付格式</a>），折叠与 Tab 是主要来源。差异在于：Tab 通常保留默认面板可见，折叠则<strong>默认全部隐藏</strong>，丢失比例更高。</p>
+
+            <h3>4. 嵌套内容的连锁丢失</h3>
+            <p>折叠区内常嵌套代码块、表格、注意提示。一旦外层折叠未展开入库，内层语义一并丢失——例如折叠区内的 <code>set_env.sh</code> 说明、CMake 可选参数表、警告类提示等，均无法被独立检索。</p>
+
+            <h3>入库状态对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>折叠语义状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>折叠标题（header）</td><td><span class="badge badge-should">部分可抓</span></td><td>可见标题可入库，但无区内正文</td></tr>
+                <tr><td>折叠正文（默认收起）</td><td><span class="badge badge-bad">完全丢失</span></td><td><code>display:none</code> 被管道跳过</td></tr>
+                <tr><td>折叠区内代码块</td><td><span class="badge badge-bad">完全丢失</span></td><td>连带 <a href="problems-content-code.html">代码语义</a> 一并缺失</td></tr>
+                <tr><td>折叠区内注意提示</td><td><span class="badge badge-bad">完全丢失</span></td><td>连带 <a href="problems-content-note.html">提示类型</a> 一并缺失</td></tr>
+                <tr><td>机器层默认展开（COLL-01）</td><td><span class="badge badge-bad">源站缺失</span></td><td>发布环节未扁平化输出</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="content-collapse-solution" role="tabpanel" data-tab-panel="solution" hidden>
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>让折叠面板内的全部正文以<strong>可检索文本 chunk</strong>进入知识库——检索「环境变量配置」「高级编译参数」时能召回折叠区内步骤，<strong>不要求用户在线展开</strong>，要求机器层默认全量展开。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、内容侧：折叠默认展开（P0，治本）</h3>
+            <p>核心原则：<strong>折叠内容先行入库</strong>——机器可读层无「收起」状态。详见 <a href="principles-collapse.html">亲和原则 · 折叠面板</a>。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th></th><th>做法</th><th>入库效果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>机器层默认「展开」（COLL-01）</td>
+                  <td>全部步骤与代码进入 chunk</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>折叠标题用 <code>&lt;h3&gt;</code> 或 <code>&lt;summary&gt;</code>（COLL-02）</td>
+                  <td>chunk 边界清晰，可检索标题</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>不用 <code>display:none</code> 隐藏正文（COLL-03）</td>
+                  <td>源层与抓取结果一致</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td><code>&lt;details&gt;</code> 添加 <code>open</code> 属性（COLL-04）</td>
+                  <td>源 HTML 默认态即展开</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>折叠面板改造示例</h4>
+            <p><strong>❌ 当前：默认收起</strong></p>
+            <div class="arch-diagram">&lt;div class="collapse"&gt;
+  &lt;div class="collapse-header"&gt;配置环境变量&lt;/div&gt;
+  &lt;div class="collapse-body" style="display:none"&gt;
+    source ${INSTALL_DIR}/set_env.sh
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+            <p>知识库 chunk：可能仅有标题「配置环境变量」，无 <code>set_env.sh</code> 命令。</p>
+
+            <p><strong>✅ 改造后：源层 + 机器层展开</strong></p>
+            <div class="arch-diagram">&lt;details open data-llm-expanded="true"&gt;
+  &lt;summary&gt;&lt;h3&gt;配置 CANN 环境变量&lt;/h3&gt;&lt;/summary&gt;
+  &lt;p&gt;执行 &lt;code&gt;source ${INSTALL_DIR}/set_env.sh&lt;/code&gt; 设置环境变量。&lt;/p&gt;
+&lt;/details&gt;</div>
+            <p>知识库 chunk：可检索「set_env.sh」「环境变量配置步骤」。</p>
+
+            <h4>机器层 Markdown 输出要点</h4>
+            <div class="arch-diagram">### 配置 CANN 环境变量
+
+执行 `source ${INSTALL_DIR}/set_env.sh` 设置环境变量。</div>
+
+            <h3>二、架构侧：双轨交付</h3>
+            <p>双轨交付——人类层保留折叠交互节省版面，机器层预展开全部内容：</p>
+            <div class="arch-diagram">HTML 源（doc_center）
+    │
+    ├──► 人类层：折叠 / 手风琴 UI（体验不变）
+    │
+    └──► 机器层：MD / JSON + llms.txt
+              └── 所有折叠区扁平为 H3 + 正文
+              └── 剥离 display:none 依赖
+              └── 嵌套代码 / 表格 / 提示一并展开</div>
+            <p>折叠语义在<strong>发布环节展开完毕</strong>；RAG 不模拟用户点击。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>含步骤说明的折叠面板</td><td><strong>规则 1–3</strong>：机器层全展开</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>折叠内嵌代码 / 表格</td><td>展开后配合 <a href="problems-content-code.html">代码</a> / <a href="problems-content-table.html">表格</a> 规则</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>全站 display:none 统计项</td><td>抓取管道显式遍历或消费 source 端点</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>details 原生折叠</td><td>源层加 <code>open</code> + <code>data-llm-expanded</code></td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-tab.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">隐藏的语义（Tab）</span>
+      </a>
+      <a href="problems-content-code.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">代码语义</span>
+      </a>
+    </nav>
+
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">折叠面板示意</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/env-collapse-snippet.html"
+      title="折叠面板测试片段"
+    ></iframe>
+  </aside></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
+</body>
+</html>

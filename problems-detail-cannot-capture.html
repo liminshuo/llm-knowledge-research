@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不能抓取的内容 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="detail-cannot-capture">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>不能抓取的内容</h1>
+      <p class="page-desc">热区、Tab、行号污染等难以准确抓取的内容。</p>
+    </div>
+
+    <section class="section" id="cannot-capture">
+      <table class="data-table">
+        <thead>
+          <tr><th>内容类型</th><th>问题</th><th>实测影响</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>图片热区</strong></td>
+            <td><code>&lt;area href&gt;</code> 链接藏在坐标里</td>
+            <td>成长地图 <strong>丢失 28 个跳转关系</strong></td>
+          </tr>
+          <tr>
+            <td><strong>无 alt 示意图</strong></td>
+            <td>PNG 无替代文本</td>
+            <td>API 层级图语义为零</td>
+          </tr>
+          <tr>
+            <td><strong>Tab 隐藏面板</strong></td>
+            <td>非激活 Tab 被 CSS 隐藏</td>
+            <td>可能只抓到第一个 Tab</td>
+          </tr>
+          <tr>
+            <td><strong>行号污染代码</strong></td>
+            <td>highlighttable 混入行号</td>
+            <td>代码出现 1 2 3…31 前缀</td>
+          </tr>
+          <tr>
+            <td><strong>占位符链接</strong></td>
+            <td>「请参考 LINK」</td>
+            <td>模型无法追溯样例仓库</td>
+          </tr>
+          <tr>
+            <td><strong>装饰性图标</strong></td>
+            <td>note_3.0-zh-cn.png 无文本</td>
+            <td>不知道这是「注意」类型</td>
+          </tr>
+          <tr>
+            <td><strong>折叠面板</strong></td>
+            <td>默认折叠状态</td>
+            <td>正文被截断</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="compare-grid">
+        <div class="compare-col human">
+          <h4>👤 人类看到（成长地图）</h4>
+          可点击的热区导航图，包含 28 个跳转节点：环境准备、SIMD 编程、API 参考、算子实践等完整学习路径。
+        </div>
+        <div class="compare-col machine">
+          <h4>🤖 模型抓到</h4>
+          <code>zh-cn_image_0000002562432937.png</code> — 一张 PNG 文件名，28 个跳转关系全部丢失。
+        </div>
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-detail-can-capture.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">能抓取的内容</span>
+      </a>
+      <a href="problems-detail-endpoint.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">端点对比</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

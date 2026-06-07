@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>端点与格式选择 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="format-endpoint">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题 · 交付格式</div>
+      <h1>端点与格式选择</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">端点即机器实际请求的 URL 路径——同一篇文档可有渲染页与源 HTML 两份载体。</span>
+        <span class="page-desc-line">本页论证<strong>抓哪条链路</strong>：对比 <code>/document/detail/</code> 与 <code>/doc_center/source/</code> 的体积、噪声与入库亲和度。</span>
+      </p>
+      <div class="component-problem">
+        <div class="cp-label">核心结论</div>
+        <ul>
+          <li><strong>渲染页噪声主导</strong>：<code>/document/detail/</code> 单页约 224 KB，含全站导航（实测约 282 个菜单链接）与 Nuxt 壳层；正文语义被壳层稀释，默认抓取路径对 RAG 不友好。</li>
+          <li><strong>源 HTML 更宜入库</strong>：<code>/doc_center/source/</code> 仅 4–11 KB，无导航壳、结构接近写作源；是当前社区站内<strong>最优可用载体</strong>，但入口未在机器层显式声明，爬虫难以自动发现。</li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="section" id="endpoint">
+      <div class="content-unit">
+        <h2>端点对比</h2>
+        <p>口径见 <a href="problems-format.html">交付格式</a>；扩展名差异（<code>.md</code> vs <code>.html</code>）见 <a href="problems-format.html#format-compare">实测章节</a>。</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>端点</th><th>路径</th><th>体积</th><th>适合模型？</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>渲染页</td>
+            <td><code>/document/detail/...</code></td>
+            <td>~224 KB</td>
+            <td><span class="badge badge-bad">❌ 噪声大</span></td>
+          </tr>
+          <tr>
+            <td>源 HTML</td>
+            <td><code>/doc_center/source/...</code></td>
+            <td>4–11 KB</td>
+            <td><span class="badge badge-ok">✅ 推荐</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-format.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">交付格式</span>
+      </a>
+      <a href="problems-structure-llms.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">llms.txt 与机器入口</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

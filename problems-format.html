@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>交付格式 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="format">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题 · 交付格式</div>
+      <h1>交付格式</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">交付格式决定大模型抓取时读到的是纯净正文，还是 Nuxt SPA 壳层与全站导航噪声。</span>
+        <span class="page-desc-line">本页界定<strong>机器可选载体层级</strong>，以「什么是 Ascend C」实测 <code>.md</code> / <code>.html</code> 两种 URL，并量化渲染页噪声与全站壳层对入库的影响。</span>
+      </p>
+      <div class="component-problem">
+        <div class="cp-label">核心问题</div>
+        <ul>
+          <li><strong>双轨缺失</strong>：人类阅读走 <code>/document/detail/</code> 渲染页（单页 ~200KB+），机器层缺乏稳定、低噪声的并行 Markdown 出口；默认爬虫落在渲染页，全站导航与壳层稀释正文，RAG 入库信噪比差。</li>
+          <li><strong>.md 名实不符</strong>：<code>.md</code> URL 仍走 Nuxt SPA，非纯 Markdown 交付；同页实测 MD 管线出现 <code>[object Object]</code>、锚文本丢失——扩展名不能作为「模型友好」判断依据。</li>
+          <li><strong>渲染页均非最优</strong>：无论 <code>.md</code> 还是 <code>.html</code>，热区等问题均未解决；<code>/doc_center/source/</code> 源 HTML（4–11 KB）才是当前最佳可用载体，但入口未在机器层显式声明。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-tabs" data-content-tabs>
+      <div class="content-tabs-nav" role="tablist" aria-label="交付格式问题与方案">
+        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
+      </div>
+
+      <div class="content-tabs-panels">
+
+        <section class="section is-active" id="format-problem" role="tabpanel" data-tab-panel="problem">
+
+          <div class="content-unit">
+            <h2>测试问题</h2>
+            <p>同一篇「什么是 Ascend C」，机器层应通过哪条 URL、哪种载体读到<strong>完整正文、低噪声、可预测</strong>的文本？<code>.md</code> 扩展名是否等于 Markdown 文件？</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>载体层级</h2>
+            <p>机器抓取社区文档时，理论上存在四层载体；实测主要针对最下两层渲染页。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>载体</th><th>典型路径</th><th>体积</th><th>模型友好度</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>预生成 Markdown</td>
+                  <td>（方案出口，站点尚无正式提供）</td>
+                  <td>最小</td>
+                  <td><span class="badge badge-ok">★★★★★</span></td>
+                  <td>理想机器层</td>
+                </tr>
+                <tr>
+                  <td>源 HTML</td>
+                  <td><code>/doc_center/source/...</code></td>
+                  <td>4–11 KB</td>
+                  <td><span class="badge badge-ok">★★★★☆</span></td>
+                  <td>无导航壳，正文纯净——<strong>当前最佳可用</strong></td>
+                </tr>
+                <tr>
+                  <td>渲染页 <code>.html</code></td>
+                  <td><code>/document/detail/.../*.html</code></td>
+                  <td>~224 KB</td>
+                  <td><span class="badge badge-should">★★★☆☆</span></td>
+                  <td>文本语义较完整，噪声大；热区仍不可见</td>
+                </tr>
+                <tr>
+                  <td>渲染页 <code>.md</code></td>
+                  <td><code>/document/detail/.../*.md</code></td>
+                  <td>~211 KB</td>
+                  <td><span class="badge badge-bad">★★☆☆☆</span></td>
+                  <td>仍为 SPA；MD 管线成熟度低，实测劣于同页 <code>.html</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="content-unit" id="format-compare">
+            <h2>实测 ·「什么是 Ascend C」两种 URL</h2>
+            <p>以「什么是 Ascend C」为例，对比 Claude AI 问答中涉及的两条社区文档链接。页面<strong>正文内容整体相同</strong>，但渲染逻辑不同，导致大模型读到的信息存在显著差异。</p>
+
+            <table class="data-table">
+              <thead>
+                <tr><th>维度</th><th>.md 链接（9.1.0-beta.1）</th><th>.html 链接（9.0.0）</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>URL</strong></td>
+                  <td style="font-size:12px;word-break:break-all;"><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/910beta1/programug/Ascendcopdevg/docs/guide/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/%E4%BB%80%E4%B9%88%E6%98%AFAscend-C.md" target="_blank" rel="noopener">…/什么是Ascend-C.md</a></td>
+                  <td style="font-size:12px;word-break:break-all;"><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">…/atlas_ascendc_map_10_0002.html</a></td>
+                </tr>
+                <tr>
+                  <td>版本</td>
+                  <td>CANN 社区版 9.1.0-beta.1</td>
+                  <td>CANN 社区版 9.0.0</td>
+                </tr>
+                <tr>
+                  <td>页面体积</td>
+                  <td>~211 KB</td>
+                  <td>~224 KB</td>
+                </tr>
+                <tr>
+                  <td>实际交付</td>
+                  <td>仍为 Nuxt SPA 渲染页，<strong>非纯 Markdown 文件</strong></td>
+                  <td>Nuxt SPA 渲染页</td>
+                </tr>
+                <tr>
+                  <td>渲染管线</td>
+                  <td>MD 组件渲染器</td>
+                  <td>HTML 组件渲染器（图片热区 + 章节标题）</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="compare-grid">
+              <div class="compare-col machine">
+                <h4>📄 .md 链接 · 大模型读到</h4>
+                <ul style="margin:0;padding-left:18px;font-size:13px;">
+                  <li>正文段落、API 五层列表 ✅</li>
+                  <li>链接锚文本丢失 ❌</li>
+                  <li>快速入门等区域 <code>[object Object]</code> × 6 ❌</li>
+                  <li>无 H1 标题 ⚠️</li>
+                </ul>
+              </div>
+              <div class="compare-col human">
+                <h4>🌐 .html 链接 · 大模型读到</h4>
+                <ul style="margin:0;padding-left:18px;font-size:13px;">
+                  <li>正文段落、API 五层列表 ✅</li>
+                  <li>链接锚文本、章节标题保留 ✅</li>
+                  <li>H1「什么是 Ascend C」清晰 ✅</li>
+                  <li>图片热区 28 个跳转仍不可见 ❌</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3>抓取文本差异对照</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>内容片段</th><th>.md 抓取结果</th><th>.html 抓取结果</th><th>差异</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>页面标题</td>
+                  <td>仅 &lt;title&gt;，正文无 H1</td>
+                  <td><code># 什么是 Ascend C</code></td>
+                  <td><span class="badge badge-bad">MD 更差</span></td>
+                </tr>
+                <tr>
+                  <td>导航区块</td>
+                  <td><code>[object Object]</code> × 6</td>
+                  <td>「快速入门」「成长地图」等文本标题</td>
+                  <td><span class="badge badge-bad">MD 更差</span></td>
+                </tr>
+                <tr>
+                  <td>站点导航壳层</td>
+                  <td>~211 KB 含全站菜单</td>
+                  <td>~224 KB 含全站菜单</td>
+                  <td><span class="badge badge-should">两者均差</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="info-box warning">
+              <div class="box-title">渲染逻辑差异 · 根因分析</div>
+              <ul style="margin:8px 0 0 18px;font-size:14px;">
+                <li><strong>.md 管线</strong>：内嵌组件未正确序列化为文本 → <code>[object Object]</code>；锚文本、H1 易丢失</li>
+                <li><strong>.html 管线</strong>：文本标题与锚文本可抓取，但热区坐标仍不可见</li>
+                <li><strong>共同问题</strong>：均走 Nuxt 壳层，体积 200KB+；均不如 <code>/doc_center/source/</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="content-unit" id="format-noise">
+            <h2>渲染页噪声</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>维度</th><th>渲染页现状</th><th>对模型的影响</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>页面体积</td><td>~224 KB / 页</td><td>Token 约为纯净源 20–50 倍</td></tr>
+                <tr><td>导航链接</td><td>每页 282 个 <code>o-link</code></td><td>稀释正文语义</td></tr>
+                <tr><td>JS 渲染</td><td>161 处 <code>v-if</code></td><td>静态爬虫可能内容不完整</td></tr>
+                <tr><td>隐藏层</td><td>34 处 <code>display:none</code></td><td>Tab / 折叠可能被跳过</td></tr>
+                <tr><td>壳层内容</td><td>Cookie、页脚、营销链接</td><td>无关 Token 占上下文</td></tr>
+              </tbody>
+            </table>
+            <div class="info-box danger">
+              <div class="box-title">核心矛盾</div>
+              同一套 HTML 服务人类与模型，但人类需要「丰富交互」，模型需要「纯净语义」——二者目标冲突。
+            </div>
+          </div>
+
+          <div class="content-unit" id="format-shell">
+            <h2>页头页脚与全局导航</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>壳层组件</th><th>实测规模</th><th>对 RAG 的影响</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>全站导航 <code>o-link</code></td><td>每页约 <strong>282</strong> 个</td><td>与正文链接混排（见 <a href="problems-content-link.html">链接语义</a>）</td></tr>
+                <tr><td>页头 / 社区菜单</td><td>固定于每页顶部</td><td>重复入库，占用 token</td></tr>
+                <tr><td>页脚 / Cookie / 法务</td><td>版权、备案、营销链接</td><td>无关语义进入 chunk</td></tr>
+                <tr><td>侧栏文档树</td><td>全站章节链接</td><td>Level 3 IA 噪声</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="content-unit">
+            <h2>问题收束</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>问题</th><th>现状</th><th>对模型的影响</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>扩展名误导</strong></td><td><code>.md</code> URL 仍走 SPA</td><td>误以为 MD 即模型友好</td></tr>
+                <tr><td><strong>渲染页噪声大</strong></td><td>单页 200KB+，282 个导航链接</td><td>Token 浪费，正文被稀释</td></tr>
+                <tr><td><strong>双管线不一致</strong></td><td><code>.md</code> 与 <code>.html</code> 渲染逻辑不同</td><td>同内容不同 URL 读到不同信息</td></tr>
+                <tr><td><strong>机器源未声明</strong></td><td><code>doc_center/source</code> 存在但未关联入口</td><td>爬虫无法选最优路径</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <section class="section" id="format-solution" role="tabpanel" data-tab-panel="solution" hidden>
+
+          <div class="content-unit">
+            <h2>改进目标</h2>
+            <p>人类层保留现有渲染页体验；机器层通过<strong>同源双发</strong>获得纯净 MD / JSON——体积极小、噪声剥离、抓取结果可预测。RAG 与 Agent <strong>只消费机器层</strong>，不再默认剥 224KB 渲染页壳层。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进措施</h2>
+
+            <h3>一、双轨交付架构（P0）</h3>
+            <p>结论：<strong>同源双发（Single Source, Dual Output）</strong>——不牺牲人类体验，同时为模型提供纯净消费层。</p>
+            <div class="arch-diagram">内容生产（HTML 源 /doc_center/source/）
+    │
+    ├──► 人类阅读层：品牌化 HTML + 交互 UI（document/detail）
+    │
+    └──► 模型消费层：MD / JSON + llms.txt 索引
+              └──► RAG 向量库 / Agent Tool Calling</div>
+            <table class="data-table">
+              <thead>
+                <tr><th>方案</th><th>优势</th><th>劣势</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>只给 MD</td><td>模型友好、Token 高效</td><td>失去热区、Tab、品牌视觉</td></tr>
+                <tr><td>只给 HTML</td><td>人类体验完整</td><td>282 个导航链接污染上下文</td></tr>
+                <tr><td><strong>双轨交付</strong></td><td>各取所长，同源维护</td><td>需建设转换管道</td></tr>
+              </tbody>
+            </table>
+            <ul class="key-points">
+              <li><strong>内容源</strong> — <code>/doc_center/source/</code> 干净 HTML，4–11 KB / 页</li>
+              <li><strong>人类出口</strong> — 现有 document/detail 站点</li>
+              <li><strong>模型出口</strong> — MD / JSON API / llms.txt（见 <a href="problems-structure-llms.html#solution">机器入口 · 解决方案</a>）</li>
+            </ul>
+
+            <h3>二、格式优先级（P0）</h3>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>推荐格式</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>RAG 入库</td><td>MD + Front Matter</td><td>切片友好，元数据可过滤</td></tr>
+                <tr><td>Agent 调用</td><td>JSON API</td><td>含 title、breadcrumb、code_blocks[]</td></tr>
+                <tr><td>人类阅读</td><td>现有 HTML 站点</td><td>保留交互与视觉</td></tr>
+                <tr><td>发现索引</td><td>llms.txt</td><td>声明机器友好 URL（见 <a href="problems-structure-llms.html">机器入口</a>）</td></tr>
+              </tbody>
+            </table>
+
+            <h3>三、转换管道（P0–P1）</h3>
+            <p>以 <code>/doc_center/source/</code> 为输入，自动执行：</p>
+            <ol>
+              <li>剥离导航壳层、脚本、样式</li>
+              <li>图片热区 → 文本链接列表</li>
+              <li>注意提示 → MD 引用块</li>
+              <li>Tab / 折叠 → 扁平 H3 展开</li>
+              <li>代码块 → 标注语言 + 文件名，去除行号</li>
+              <li>注入 YAML Front Matter（见 <a href="problems-structure-metadata.html#solution">元数据 · 解决方案</a>）</li>
+            </ol>
+            <table class="data-table">
+              <thead>
+                <tr><th>步骤</th><th>输入</th><th>输出</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>源提取</td><td>doc_center/source HTML</td><td>纯净 DOM</td></tr>
+                <tr><td>噪声剥离</td><td>导航、脚本、样式</td><td>正文 + 元数据</td></tr>
+                <tr><td>组件转换</td><td>note / tab / imagemap / code</td><td>MD 等价结构</td></tr>
+                <tr><td>入库</td><td>MD + 元数据</td><td>向量库 / JSON API</td></tr>
+              </tbody>
+            </table>
+
+            <h3>四、与语义维度的边界</h3>
+            <p>交付格式解决<strong>载体与噪声</strong>；正文内语义损失（热区、Tab、图意等）见 <a href="problems-content-image.html">图片图意</a>、<a href="problems-content-tab.html">Tab</a> 等语义页——双轨交付提供干净载体，语义页规则在转换管道中落地。</p>
+          </div>
+
+          <div class="content-unit">
+            <h2>全站落地路线图</h2>
+            <h3>Phase 1 · 快速修复 <span class="badge badge-must">优先</span></h3>
+            <ul class="key-points">
+              <li>在 llms.txt 中声明机器可读源地址</li>
+              <li>改抓 <code>doc_center/source</code>，剥离导航噪声</li>
+              <li>语义维度快速修复：alt、热区冗余、LINK 修复、代码行号分离（各语义页解决方案 Tab）</li>
+            </ul>
+            <h3>Phase 2 · 管道建设</h3>
+            <ul class="key-points">
+              <li>建立 HTML → MD 自动转换管道</li>
+              <li>每页输出 JSON-LD breadcrumb / Front Matter</li>
+              <li>Tab / 折叠在源层扁平展开</li>
+            </ul>
+            <h3>Phase 3 · 体验统一</h3>
+            <ul class="key-points">
+              <li>人类 UI 与机器源双轨发布纳入 CI/CD</li>
+              <li>RAG 切片按 H2/H3 + 元数据过滤</li>
+              <li>建立抓取质量回归测试</li>
+            </ul>
+          </div>
+
+          <div class="content-unit">
+            <h2>改进路径</h2>
+            <table class="data-table">
+              <thead>
+                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>默认爬虫 / RAG 入口</td><td>改抓 <code>doc_center/source</code> + llms.txt 声明</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>渲染页整站抓取</td><td>剥离壳层，仅保留正文区</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td><code>.md</code> URL 误导</td><td>机器层提供真实 MD 文件，不以 SPA 冒充</td><td><span class="badge badge-bad">P0</span></td></tr>
+                <tr><td>长期维护</td><td>建设 HTML→MD 转换管道 + Front Matter</td><td><span class="badge badge-should">P1</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+
+    <nav class="page-nav">
+      <a href="problems-content-note.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">注意提示（Note）类型语义</span>
+      </a>
+      <a href="problems-structure-llms.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">llms.txt 与机器入口</span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/content-tabs.js"></script>
+</body>
+</html>

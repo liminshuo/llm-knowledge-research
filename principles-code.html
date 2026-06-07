@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码语义 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="code">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>代码语义</h1>
+      <p class="page-desc">对应 <a href="problems-content-code.html">当前问题 · 代码语义</a>。代码块须纯净可复制，行号与语法高亮不得污染正文。</p>
+    </div>
+
+
+    <section class="section" id="code">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="code-01"><td>1</td><td>源码使用 <code>pre &gt; code</code> 并标注 <code>language-xxx</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="code-02"><td>2</td><td>渲染页行号与代码分离，行号不写入 <code>code</code> 文本节点</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="code-03"><td>3</td><td>弃用 highlighttable 表格布局渲染代码块</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="code-04"><td>4</td><td>代码块上方在渲染页标注文件名、语言、适用场景</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="code-06"><td>5</td><td>管道入模前解码 <code>&amp;lt;</code> 等 HTML 实体</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>行号与代码分离（CSS 渲染）</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><table class="rf-code-table"><tr><td class="rf-ln">1</td><td><code>int main() {</code></td></tr><tr><td class="rf-ln">2</td><td><code>  return 0;</code></td></tr></table></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-code-head">main.cpp · C++</div><pre class="rf-code">int main() {
+  return 0;
+}</pre><p class="rf-muted">行号由 CSS 伪元素渲染，不进 code 文本</p></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-3">
+        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>弃用 highlighttable 布局</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><table class="rf-code-table"><tr><td class="rf-ln">1</td><td>#include &lt;acl/acl.h&gt;</td></tr><tr><td class="rf-ln">2</td><td>int Init() { … }</td></tr></table></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><pre class="rf-code">#include &lt;acl/acl.h&gt;
+int Init() { … }</pre></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-4">
+        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>代码块上方标注文件名与场景</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><pre class="rf-code">kernel_add.cpp</pre></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-code-head">kernel_add.cpp · Ascend C · 矢量算子示例</div><pre class="rf-code">// kernel 实现…</pre></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-collapse.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">隐藏的语义（折叠面板）</span>
+      </a>
+      <a href="principles-table.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">表格与列表结构语义</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

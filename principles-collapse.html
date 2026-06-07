@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐藏的语义（折叠面板） · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="collapse">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>隐藏的语义（折叠面板）</h1>
+      <p class="page-desc">对应 <a href="problems-content-collapse.html">当前问题 · 隐藏的语义（折叠面板）</a>。折叠面板正文须在渲染页默认可读，标题须有文本语义。</p>
+    </div>
+
+
+    <section class="section" id="collapse">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="coll-01"><td>1</td><td>机器层导出时默认展开全部折叠块</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="coll-02"><td>2</td><td>折叠标题在渲染页可见且有语义（<code>&lt;summary&gt;</code> 或 H3 文本）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="coll-03"><td>3</td><td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="coll-04"><td>4</td><td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>折叠标题有语义文本</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-collapse-empty">▸ <em>（空 div，无标题文本）</em></div><p class="rf-muted">正文被折叠…</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><details open><summary>高级配置参数说明</summary><p>参数 A 用于控制 tiling 策略…</p></details></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-3">
+        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>折叠正文不用 display:none 移除</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><details><summary>参数说明</summary><p class="rf-muted">（折叠时正文 display:none，抓取为空）</p></details></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><details open><summary>参数说明</summary><p>参数 A：控制 tiling…<br>参数 B：控制内存复用…</p></details></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-tab.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">隐藏的语义（Tab）</span>
+      </a>
+      <a href="principles-code.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">代码语义</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐藏的语义（Tab） · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="tab">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>隐藏的语义（Tab）</h1>
+      <p class="page-desc">对应 <a href="problems-content-tab.html">当前问题 · 隐藏的语义（Tab）</a>。Tab 隐藏的面板须在源码完整存在，渲染层不得用 CSS 藏掉非激活项。</p>
+    </div>
+
+
+    <section class="section" id="tab">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="tab-01"><td>1</td><td>所有 Tab 面板内容在源 HTML 中完整输出，不依赖 JS 懒加载正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="tab-02"><td>2</td><td>每个 Tab 标签在渲染页有明确文本（如「bisheng 编译」「CMake 编译」）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="tab-03"><td>3</td><td>机器层将全部 Tab 展开，以 H3 标注各面板标题</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="tab-04"><td>4</td><td>渲染组件禁止用 <code>display:none</code> / <code>visibility:hidden</code> 隐藏非激活面板正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>Tab 标签有明确文本</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">Tab1</span><span class="rf-tab">Tab2</span></div><div class="rf-tab-panel">编译步骤…</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng 编译</span><span class="rf-tab">CMake 编译</span></div><div class="rf-tab-panel">bisheng 编译步骤…</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-4">
+        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>非激活 Tab 正文仍在 DOM 可见</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng</span><span class="rf-tab">CMake</span></div><div class="rf-tab-panel">bisheng 内容</div><div class="rf-tab-panel rf-tab-panel--hidden">CMake 内容（display:none）</div></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">bisheng 编译</div>bisheng 编译步骤…</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">CMake 编译</div>CMake 编译步骤…</div></div></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-link.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">链接语义</span>
+      </a>
+      <a href="principles-collapse.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">隐藏的语义（折叠面板）</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

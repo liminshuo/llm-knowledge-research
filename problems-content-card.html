@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>卡片 · 当前问题 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="problems" data-page="content-card">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="principles-general.html">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 02 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 02 · 当前问题</div>
+      <h1>卡片（已拆分）</h1>
+      <p class="page-desc">原「卡片」页已拆为 <a href="problems-content-tab.html">隐藏的语义（Tab）</a> 与 <a href="problems-content-collapse.html">隐藏的语义（折叠面板）</a>，请从侧栏进入对应条目。</p>
+    </div>
+
+    <section class="section" id="content-card">
+      <h2>卡片</h2>
+<div class="component-problem">
+        <span class="cp-status"><span class="badge badge-bad">抓取差</span></span>
+        <div class="cp-label">当前问题</div>
+        <ul>
+          <li>Tab 切换卡片：非激活 Tab 被 <code>display:none</code> 隐藏，模型可能<strong>只抓到第一个 Tab</strong>（如 bisheng / CMake 编译方式）</li>
+          <li>折叠面板卡片：默认折叠状态下正文不可见，<strong>用户看得到 ≠ 模型读得到</strong></li>
+          <li>信息卡片（设备型号、适用产品）常以视觉卡片呈现，缺乏结构化字段（applicable_devices）</li>
+        </ul>
+      </div>
+    </section>
+
+    <nav class="page-nav">
+      <a href="problems-content-note.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">注意提示（Note）类型语义</span>
+      </a>
+      <a href="problems-structure-llms.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">llms.txt 与机器入口</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

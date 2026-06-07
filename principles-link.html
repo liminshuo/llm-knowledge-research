@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>链接语义 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="link">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">当前问题</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+  <div class="site-meta"><a href="ui-system.html">UI 规范</a> · 模块 03 / 03</div>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="module-label">模块 03 · 亲和原则</div>
+      <h1>链接语义</h1>
+      <p class="page-desc">对应 <a href="problems-content-link.html">当前问题 · 链接语义</a>。链接目标须由锚文本自解释，禁止无意义占位符。</p>
+    </div>
+
+
+    <section class="section" id="link">
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="l-01"><td>1</td><td>渲染页链接文字描述目标，如「HelloWorld 完整样例（GitCode）」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="l-02"><td>2</td><td>站外链接在渲染页标注 external 或图标旁附完整域名</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="l-03"><td>3</td><td>机器层将站内相对链转为绝对 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="l-05"><td>4</td><td>必要时用 <code>title</code> 或前后句补充链接用途</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+      <div class="ui-demo" id="ui-demo-1">
+        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>链接锚文本描述目标</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p>完整样例请参考 <a class="rf-link-bad" href="#">LINK</a></p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p>完整样例请参考 <a class="rf-link-good" href="#">HelloWorld 完整样例（GitCode）</a></p></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-2">
+        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>站外链接标注来源</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p><a class="rf-link-bad" href="#">示例仓库</a></p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p><a class="rf-link-good" href="#">示例仓库</a><span class="rf-ext">↗ gitcode.com</span></p></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-4">
+        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>链接附上下文说明</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p><a class="rf-link-bad" href="#">详情</a></p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p>环境变量配置步骤见 <a class="rf-link-good" href="#">安装后环境变量设置</a>（需 root 权限）。</p></div></div>
+        </div>
+      </div>
+      </div>
+</section>
+
+    <nav class="page-nav">
+      <a href="principles-hotzone.html">
+        <span class="nav-label">← 上一页</span>
+        <span class="nav-title">图片热区</span>
+      </a>
+      <a href="principles-tab.html" class="next">
+        <span class="nav-label">下一页 →</span>
+        <span class="nav-title">隐藏的语义（Tab）</span>
+      </a>
+    </nav>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>
