@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html" class="active">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html">亲和原则</a>
   </nav>
 </header>
@@ -23,35 +23,34 @@
   <main class="main-content content-wide">
 
     <div class="page-header">
-      <div class="module-label">模块 01 · 研究概览</div>
       <h1>研究概览</h1>
-      <p class="page-desc">昇腾官方文档如何完整进入 RAG / 知识库——研究动机、目标与维度。</p>
     </div>
 
     <section class="section" id="motivation">
-      <h2>研究目标</h2>
       <p>
-        本研究聚焦<strong>昇腾社区 Ascend C 官方文档</strong>如何进入大模型 RAG / 知识库。
+        本研究聚焦昇腾社区 Ascend C 官方文档 如何进入大模型 RAG / 知识库。
         这些页面原先面向人类开发者设计——依赖视觉层次、图片热区、Tab 交互与品牌化排版；
-        而知识库入库需要的是可检索、可引用、可跨页推理的<strong>完整文档语义</strong>，远不止正文段落。
+        而知识库入库需要的是可检索、可引用、可跨页推理的完整文档语义，远不止正文段落。
       </p>
       <ul>
-        <li><strong>人类阅读</strong>：快速浏览、热区跳转、Tab 切换、复制代码——体验与效率优先</li>
-        <li><strong>知识库入库</strong>：正文、图意转写、热区链接、代码与表格结构、IA 元数据（版本 / 面包屑 / 上下篇）——<strong>语义尽量完整、噪声尽量剥离</strong></li>
+        <li><strong>人类阅读注重体验与效率优先</strong>：主要场景为快速浏览、热区跳转、Tab 切换、复制代码。</li>
+        <li><strong>知识库入库，语义尽量完整、噪声尽量剥离</strong>：准确将正文、图意、热区链接、代码与表格结构、IA 元数据（版本 / 面包屑 ）进行转写与入库。</li>
       </ul>
       <p>同一套源文档需同时回答两个问题：<em>人读得顺</em>，与 <em>机器读得全</em>——后者是本研究的主线。</p>
 
-      <div class="info-box success">
-        <div class="box-title">核心命题</div>
-        RAG / 知识库尽量完整收录昇腾官方文档的<strong>文档语义</strong>。
+      <div class="summary-card">
+        <p>
+          <span class="cp-label">核心命题</span>
+          RAG / 知识库尽量完整收录昇腾官方文档的<strong>文档语义</strong>。
+        </p>
       </div>
     </section>
 
     <section class="section" id="scope">
       <h2>研究范围</h2>
       <p>
-        整体范围是昇腾官方文档 <strong>Ascend C 算子开发</strong>（CANN 社区版 9.0.0 编程指南）。
-        本研究主要聚焦下列四个典型页面——它们承载不同的组件类型与语义载体，覆盖了后续维度分析中的主要研究对象。
+        整体范围是昇腾官方文档 Ascend C 算子开发。
+        本研究主要聚焦下列五个典型页面——它们承载不同的组件类型与语义载体，覆盖了后续语义维度中的主要研究对象。
       </p>
 
       <table class="data-table">
@@ -81,149 +80,123 @@
           <tr>
             <td>4</td>
             <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a></td>
-            <td>流程示意图、规格表格、多代码块、跨页链接、设备型号提示</td>
+            <td>流程示意图（图1–图4）、表1 设计规格、LINK 占位符、多代码块与行号表格、跨页文档链接</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a></td>
+            <td>多轴 Tab 选型（版本、架构、发行版、在线/离线安装）、折叠面板收纳安装步骤与部署命令</td>
           </tr>
         </tbody>
       </table>
     </section>
 
     <section class="section" id="dimensions">
-      <h2>研究维度</h2>
+      <h2>语义维度</h2>
       <p>昇腾官方文档的语义不只存在于正文段落，还分布在图片、热区、链接、交互组件、代码、表格、提示框、页面元数据与版本信息等多层。默认抓取 <code>/document/detail/</code> 渲染页时，大量语义无法进入 RAG，或被噪声稀释。</p>
-
-      <table class="data-table">
-        <thead>
-          <tr><th>入库状态</th><th>含义</th><th>示例</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>完全丢失</strong></td><td>知识库里根本没有对应 chunk</td><td>热区 28 条跳转、无 alt 的图意</td></tr>
-          <tr><td><strong>劣化入库</strong></td><td>有文本，但结构或类型被破坏</td><td>代码带行号、链接写成 <code>LINK</code></td></tr>
-          <tr><td><strong>未结构化</strong></td><td>页面上有，但未变成可检索元数据</td><td>breadcrumb、version、设备型号</td></tr>
-        </tbody>
-      </table>
-
-      <h3>1. 图片语义（图意）</h3>
-      <p>信息型图片普遍无 <code>alt</code>，复杂示意图无「内容转写」。以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a> 为例：正文区约 <strong>6 张</strong>信息型 PNG；常规转文本时<strong>图片完全不在输出里</strong>；读 HTML 只见 <code>zh-cn_image_….png</code> 文件名。</p>
-      <table class="data-table">
-        <thead><tr><th>图片</th><th>丢失的语义</th></tr></thead>
-        <tbody>
-          <tr><td>API 层级架构图</td><td>C API → 基础 API → 高阶 API → 算子模板库 → PyAsc 分层关系</td></tr>
-          <tr><td>成长地图</td><td>五行学习阶段、每阶段卡片标题与意图</td></tr>
-          <tr><td>核心原理 / API 参考 / 算子实践卡片图</td><td>卡片主题与入口意图</td></tr>
-        </tbody>
-      </table>
-      <p>详见 <a href="problems-content-image.html">当前问题 · 图片图意</a>、<a href="principles-image.html">亲和原则 · 图片图意</a>（IMG-01 / IMG-02）。</p>
-
-      <h3>2. 图片热区（Image Map）</h3>
-      <p><code>&lt;img usemap&gt;</code> + <code>&lt;area href&gt;</code> 将跳转藏在坐标里。成长地图单图含 <strong>28 个</strong>热区链接；纯文本抽取时<strong>28 个跳转关系全部丢失</strong>。解析 HTML 可抽出 href，但默认 RAG 管道通常不做，且无 <code>alt</code>/<code>title</code> 时缺少链接语义标签。</p>
       <ul>
-        <li><code>atlas_ascendc_map_10_0003.html</code>（环境准备）</li>
-        <li><code>atlas_ascendc_10_10063.html</code>（HelloWorld）</li>
-        <li><code>atlas_ascendc_10_0032.html</code> 等算子开发入口</li>
+        <li><strong>语义完全丢失</strong>：知识库里根本没有对应 chunk，例如热区 28 条跳转、无 alt 的图意。</li>
+        <li><strong>语义劣化入库</strong>：有文本，但结构或类型被破坏，例如代码带行号、链接写成 <code>LINK</code>。</li>
+        <li><strong>语义未结构化</strong>：页面上有，但未变成可检索元数据，例如 breadcrumb、version、设备型号。</li>
       </ul>
 
-      <h3>3. 链接语义</h3>
-      <table class="data-table">
-        <thead><tr><th>类型</th><th>问题</th></tr></thead>
-        <tbody>
-          <tr><td>热区链接</td><td>坐标绑定，非正文链接（见上节）</td></tr>
-          <tr><td>占位符链接</td><td>「完整样例请参考 <code>LINK</code>」——无法追溯样例仓库</td></tr>
-          <tr><td>面包屑 / 上下篇</td><td>HTML 有，但未标准化进 chunk 元数据</td></tr>
-          <tr><td>全站导航（~282 个 <code>o-link</code>）</td><td>噪声稀释正文链接语义</td></tr>
-        </tbody>
-      </table>
-      <p>详见 <a href="problems-content-link.html">当前问题 · 链接</a>。</p>
-
-      <h3>4. 交互 / UI 隐藏的语义</h3>
-      <ul>
-        <li><strong>Tab 非激活面板</strong>：第二、三 Tab 正文/代码（如 bisheng vs CMake）可能缺失</li>
-        <li><strong>折叠面板</strong>：默认折叠区内步骤不可见</li>
-        <li><strong><code>display:none</code></strong>：渲染层隐藏的正文片段</li>
+      <h3>1. 图片语义 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
+      <p><strong>常规抓取：</strong>图意只存在于图片像素里，文档没提供文字等价物，默认管道不会「看图」，所以不会产生可检索正文。</p>
+      <p><strong>抓 HTML 源码：</strong>能读到 <code>&lt;img&gt;</code> 标签，但图意仍进不了库，还需：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：图片标签上补充图片说明，而非无意义文件名</li>
+        <li><span class="badge badge-priority badge-must">必要</span><code>data-llm-transcription</code>：补充图片内容转写，图里的节点、层级、箭头关系都写成正文</li>
+        <li><span class="badge badge-priority badge-should">可选</span><code>figcaption</code>：补充图注，如「图1：xxx」这类说明段落</li>
+        <li><span class="badge badge-priority badge-should">可选</span><code>title</code>：图片标签上补充可用的标题说明</li>
+        <li><span class="badge badge-priority badge-should">可选</span>流程图替换图源：如 Mermaid 图源可读取可编辑</li>
       </ul>
-      <p>详见 <a href="problems-content-tab.html">当前问题 · 隐藏的语义（Tab）</a>、<a href="problems-content-collapse.html">当前问题 · 隐藏的语义（折叠面板）</a>、<a href="principles-tab.html">亲和原则 · Tab 语义</a>、<a href="principles-collapse.html">折叠语义</a>。</p>
+      <p class="text-auxiliary">当前以抓取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a> 为例，正文区 <strong>6 张</strong>说明图对向量检索和 LLM 引用而言，<strong>等价于空白</strong>。具体实测见 <a href="problems-content-image.html">问题论证 · 图片图意</a>。</p>
 
-      <h3>5. 代码语义</h3>
-      <ul>
-        <li><code>highlighttable</code> 行号污染（<code>1 2 3…31</code> 混入代码）</li>
-        <li>无 <code>language-xxx</code> 标注，难分 bash / C++ / CMake</li>
-        <li>Tab 下隐藏代码、表格内嵌代码导致结构破碎</li>
+      <h3>2. 图片热区 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
+      <p>图片热区在默认抓取 / 默认 RAG 管道下属于<strong>语义完全丢失</strong>；只有在专门解析 HTML 时才能看到裸 <code>href</code>，但那仍没有可检索的链接语义。除了要补充上文<strong>图片语义</strong>的字段，热区额外需补充：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span><code>nav</code>：补充文本链接列表，覆盖全部热区目标</li>
+        <li><span class="badge badge-priority badge-must">必要</span><code>area alt</code> / <code>area title</code>：补充热区标签，当前热区中多数无标签，只有坐标与裸 href</li>
+        <li><span class="badge badge-priority badge-must">必要</span>描述性锚文本：补充 <code>&lt;a&gt;</code> 标签内的文字内容；当前缺阶段名/文档名，仅有文件名</li>
+        <li><span class="badge badge-priority badge-must">必要</span>绝对 URL：<code>&lt;a href&gt;</code> / <code>&lt;area href&gt;</code> 的属性值须为完整 URL；当前为相对路径，机器层难直接引用与跳转</li>
       </ul>
-      <p>详见 <a href="problems-content-code.html">当前问题 · 代码语义</a>。</p>
+      <p class="text-auxiliary">当前以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a> 页的<strong>成长地图</strong>为例：单图 <strong>14 个</strong>热区入口（环境准备、HelloWorld 等）对向量检索和 LLM 引用而言，<strong>等价于空白链接</strong>。具体实测见 <a href="problems-content-hotzone.html">问题论证 · 图片热区</a>。</p>
 
-      <h3>6. 表格与列表结构语义</h3>
-      <ul>
-        <li>标准数据表亲和度较好；无 caption 时表格主题不明</li>
-        <li><code>highlighttable</code> 滥用使表格语义变成代码容器</li>
-        <li>嵌套列表 + 注意提示抓取后扁平化，从属关系丢失</li>
+      <h3>3. 链接语义 <span class="badge badge-status badge-should">语义劣化入库</span></h3>
+      <p>占位符链接在默认抓取 / 默认 RAG 管道下属于<strong>语义劣化入库</strong>：<code>href</code> 会入库，但锚文本不提供目标描述，chunk 中仅出现「LINK」等无意义字样，模型无法推断跳转意图。需补充：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>描述性锚文本：<code>&lt;a&gt;</code> 内文字须描述目标（如「HelloWorld 完整样例（GitCode）」），禁止「LINK」「点击这里」</li>
+        <li><span class="badge badge-priority badge-should">可选</span><code>title</code>：链接标签上可补充用途说明</li>
+        <li><span class="badge badge-priority badge-should">可选</span>站外来源标注：GitCode 等外链旁附完整域名或 external 标记</li>
       </ul>
-      <p>详见 <a href="problems-content-table.html">当前问题 · 表格与列表结构语义</a>。</p>
+      <p class="text-auxiliary">当前以抓取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a> 为例：「完整样例请参考 <strong>LINK</strong>」对向量检索和 LLM 引用而言，<strong>等价于无目标语义的链接</strong>。具体实测见 <a href="problems-content-link.html">问题论证 · 链接语义</a>。</p>
 
-      <h3>7. 注意提示（Note）类型语义</h3>
-      <ul>
-        <li><code>notebody</code> 正文可入库，但<strong>提示类型</strong>（注意/警告/说明）丢失</li>
-        <li>装饰图标 <code>note_3.0-zh-cn.png</code> 无语义</li>
-        <li>无结构化 <code>admonition-type</code>，无法按类型检索</li>
+      <h3>4. 隐藏语义 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
+      <p>Tab 非激活面板、折叠面板等交互 UI 在默认抓取 / 默认 RAG 管道下属于<strong>语义完全丢失</strong>：正文存在于 DOM，但被 <code>display:none</code> 等 CSS 隐藏，多数管道<strong>不遍历隐藏节点</strong>，知识库里无对应 chunk。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>Tab 全量展开：源 HTML 中各 Tab 面板完整存在，机器层以 H3 扁平输出全部面板（非仅默认 Tab）</li>
+        <li><span class="badge badge-priority badge-must">必要</span>折叠默认展开：机器层导出时展开全部折叠块，区内步骤、代码、提示一并入库</li>
+        <li><span class="badge badge-priority badge-must">必要</span>禁止 <code>display:none</code> 藏正文：非激活 Tab 面板、折叠正文不得用 CSS 从管道可见流中移除</li>
+        <li><span class="badge badge-priority badge-should">可选</span><code>details open</code>：原生折叠组件建议默认展开，或加 <code>data-llm-expanded</code></li>
       </ul>
-      <p>详见 <a href="problems-content-note.html">当前问题 · 注意提示（Note）类型语义</a>。</p>
 
-      <h3>8. 信息架构（IA）与跨页语义</h3>
-      <table class="data-table">
-        <thead><tr><th>元数据</th><th>作用</th><th>现状</th></tr></thead>
-        <tbody>
-          <tr><td>breadcrumb / 父主题</td><td>消歧同名章节</td><td>有 HTML，机器层未标准输出</td></tr>
-          <tr><td>prev / next</td><td>学习顺序</td><td>未作关系边入库</td></tr>
-          <tr><td>doc_id / Topic 锚点</td><td>精确定位、切片边界</td><td>存在但未标注 chunk</td></tr>
-          <tr><td>version（8.5 / 9.0）</td><td>防版本混淆</td><td>多版本并存，检索常混</td></tr>
-          <tr><td>applicable_devices</td><td>设备适用性</td><td>视觉卡片，无结构化字段</td></tr>
-        </tbody>
-      </table>
-      <p>详见 <a href="problems-structure-cross.html">跨文档结构感知</a>、<a href="problems-structure-single.html">单文档结构感知</a>。</p>
+      <h3>5. 代码语义 <span class="badge badge-status badge-should">语义劣化入库</span></h3>
+      <p>代码块在默认抓取 / 默认 RAG 管道下属于<strong>语义劣化入库</strong>：源码逻辑能进 chunk，但 <code>highlighttable</code> 将行号混入代码文本。缺少 <code>language-xxx</code> 标注，模型拿到的代码<strong>不可直接复用</strong>，也难以区分 bash / C++ / CMake。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>行号与代码分离：行号由 CSS 渲染，不写入 <code>code</code> 文本节点；弃用 <code>highlighttable</code> 表格布局承载代码</li>
+        <li><span class="badge badge-priority badge-must">必要</span><code>language-xxx</code> 标注：<code>pre &gt; code</code> 须标明语言（如 <code>language-cpp</code>、<code>language-bash</code>、<code>language-cmake</code>）</li>
+        <li><span class="badge badge-priority badge-should">可选</span>文件名 / 场景标注：代码块上方注明 <code>hello_world.asc</code>、编译场景等上下文</li>
+        <li><span class="badge badge-priority badge-should">可选</span>HTML 实体解码：管道入模前将 <code>&amp;quot;</code> 等实体还原为可读字符</li>
+      </ul>
+      <p class="text-auxiliary">当前以抓取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a> 为例：<code>hello_world.asc</code> 核函数代码入库后出现 <strong>1 2 3…31 行号前缀</strong>，对向量检索和 LLM 引用而言<strong>等价于不可编译的噪声文本</strong>。具体实测见 <a href="problems-content-code.html">问题论证 · 代码语义</a>。</p>
 
-      <h3>9. 格式、交付与抓取入口</h3>
-      <table class="data-table">
-        <thead><tr><th>问题</th><th>后果</th></tr></thead>
-        <tbody>
-          <tr><td>抓渲染页（~224KB）而非 <code>doc_center/source/</code>（4–11KB）</td><td>噪声大、结构乱</td></tr>
-          <tr><td><code>.md</code> 后缀 ≠ Markdown</td><td>误判格式亲和度</td></tr>
-          <tr><td>无 <code>llms.txt</code> 机器友好入口</td><td>爬虫不知 canonical 源</td></tr>
-          <tr><td>JS 动态渲染（Nuxt <code>v-if</code> 等）</td><td>静态抓取不完整</td></tr>
-        </tbody>
-      </table>
-      <p>详见 <a href="problems-format.html">交付格式</a>（含<a href="problems-format.html#solution">双轨交付方案</a>）。</p>
+      <h3>6. 表格语义 <span class="badge badge-status badge-should">语义劣化入库</span></h3>
+      <p>标准数据表在默认管道下结构完整、可检索；但 <code>highlighttable</code> 滥用或缺 <code>caption</code> 的表格属于<strong>语义劣化入库</strong>——行列关系被破坏，chunk 缺表题等主题锚点。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>表题 / <code>caption</code>：表格上方须有可见主题（如「表1 编程模型分类」），入库后可作检索锚点</li>
+        <li><span class="badge badge-priority badge-must">必要</span><code>th</code> 表头：列名用表头单元格标注，不用样式伪装的 <code>td</code></li>
+        <li><span class="badge badge-priority badge-must">必要</span>禁止单元格嵌大段代码：代码独立于表格外；<code>highlighttable</code> 不得充当代码容器</li>
+        <li><span class="badge badge-priority badge-should">可选</span>机器层 Markdown 表格：数据表额外输出 MD 副本，保留行列结构</li>
+      </ul>
+      <p class="text-auxiliary">当前以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_10_10062.html" target="_blank" rel="noopener">编程模型概述（CANN 9.0.0）</a>「表1 编程模型分类」为标杆（★★★★★），对比 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 的 <code>highlighttable</code> 代码区——前者行列语义完整，后者表格与代码语义混杂。具体实测见 <a href="problems-content-table.html">问题论证 · 表格与列表结构语义</a>。</p>
 
-      <h3>10. 噪声污染</h3>
-      <p>全站导航、Cookie / 法务页脚、布局 class 等无关内容入库后，<strong>稀释正文语义密度</strong>，导致 RAG 召回时正文 chunk 被导航 chunk 干扰——语义不是消失，而是被淹没。</p>
+      <h3>7. 提示语义 <span class="badge badge-status badge-should">语义劣化入库</span></h3>
+      <p>「注意提示」在默认抓取 / 默认 RAG 管道下属于<strong>语义劣化入库</strong>：<code>notebody</code> 正文可入库，但提示类型（注意 / 警告 / 说明）由装饰图标传达，无文本等价物，模型<strong>无法区分提示级别</strong>，也无法按类型过滤检索。嵌套在步骤列表内的提示若被扁平化，步骤与提示的从属关系亦会丢失。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span><code>data-admonition-type</code>：源码标注 <code>note</code> / <code>warning</code> / <code>tip</code> / <code>danger</code> 等类型</li>
+        <li><span class="badge badge-priority badge-must">必要</span>补充文本类型前缀：渲染页用「注意：」「警告：」等文字替代 <code>note_3.0-zh-cn.png</code> 装饰图标</li>
+        <li><span class="badge badge-priority badge-must">必要</span>机器层引用块（blockquote）：转为 Markdown <code>&gt; **注意**</code> 格式，保留类型与正文</li>
+        <li><span class="badge badge-priority badge-should">可选</span>补充与步骤从属关系：嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的提示，抓取时保留层级而非扁平化</li>
+      </ul>
+      <p class="text-auxiliary">当前以抓取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备（CANN 9.0.0）</a> 为例：<code>set_env.sh</code> 说明正文可检索，但 chunk 中<strong>缺少「注意」类型标签</strong>，与普通段落难以区分。具体实测见 <a href="problems-content-note.html">问题论证 · 注意提示（Note）类型语义</a>。</p>
 
-      <h3>11. 时效与信源语义</h3>
-      <p>多版本并存、检索偏旧版或第三方教程、检索与生成阶段来源不一致，会导致知识库中<strong>版本错误</strong>或<strong>非官方来源优先</strong>。详见 <a href="problems-answer-search.html">检索阶段</a>、<a href="problems-answer-generate.html">生成阶段</a>、<a href="problems-timeliness.html">版本滞后问题</a>。</p>
+      <h3>8. 信息架构与跨页语义 <span class="badge badge-status badge-ok">语义未结构化</span></h3>
+      <p>面包屑、版本、上下篇、锚点等在渲染页可见，但默认管道只抓正文段落，不进 chunk 元数据——属于语义未结构化。RAG 只能做全文相似度，无法按版本过滤、消歧同名章节或推理学习顺序。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>定义页级身份：<code>version</code>、<code>doc_id</code>、<code>applicable_devices</code>——回答「哪一版、适用谁」</li>
+        <li><span class="badge badge-priority badge-must">必要</span>绑定跨页关系：<code>breadcrumb</code>、<code>prev</code> / <code>next</code>、父主题——消歧「环境准备」属于入门教程还是软件安装，并保留章节间跳转</li>
+        <li><span class="badge badge-priority badge-must">必要</span>管道同步入库：页面上能看到的版本、面包屑等，入库时也要写成 chunk 的结构化字段（如 JSON-LD / Front Matter），不能只有人类能读、向量库里没有</li>
+        <li><span class="badge badge-priority badge-should">可选</span>文章摘要：头部 60–120 字概括本文主题与适用读者，作检索锚点（当前普遍缺失）</li>
+      </ul>
 
-      <h3>入库改造优先级</h3>
-      <table class="data-table">
-        <thead><tr><th>优先级</th><th>维度</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><span class="badge badge-bad">P0</span></td>
-            <td>图片图意 + 热区导航 + 链接（含占位符）+ Tab/折叠展开 + IA 元数据（breadcrumb、version、prev/next、doc_id）</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-should">P1</span></td>
-            <td>代码去行号与语言标注 + 注意提示类型 + 表格 caption + 设备适用性字段化</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-should">P2</span></td>
-            <td>改抓 <code>doc_center/source</code> + 剥离导航噪声 + <code>llms.txt</code> + 版本消歧</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-ok">P3</span></td>
-            <td>关键 PNG 视觉转写 + 多模态向量索引 + Topic ID 切片边界</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>9. 格式交付与抓取入口 <span class="badge badge-status badge-should">语义劣化入库</span></h3>
+      <p>当前抓 <code>.html</code> / <code>.md</code> 渲染页，均非机器层。壳层入库，语义被淹没。正文 chunk 与页头页脚、全站导航争 token、争向量召回。优先 source 或 markdown。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>采用双轨交付：人类渲染页与 <code>doc_center/source</code> / markdown 并行发布；<br><code>.md</code> URL 不是真 markdown</li>
+        <li><span class="badge badge-priority badge-must">必要</span>定义机器消费规则：机器直接抓 <code>doc_center/source</code> 或 markdown，别抓用户浏览器里那套带导航的大页面</li>
+        <li><span class="badge badge-priority badge-must">必要</span>增强站点发现：部署 <code>llms.txt</code>，放行 <code>doc_center/source/</code>，sitemap 优先收录机器源 URL</li>
+        <li><span class="badge badge-priority badge-should">可选</span>增加全站索引链接：全局模板在 <code>&lt;head&gt;</code> 增加 <code>&lt;link rel="llms" href="/llms.txt"&gt;</code></li>
+        <li><span class="badge badge-priority badge-should">可选</span>增加站点 Markdown 入口：渲染页提供「机器可读版本」链到 markdown</li>
+      </ul>
 
-      <div class="info-box">
-        <div class="box-title">维度总结</div>
-        完整收录文档语义，不能只抓正文段落。除<strong>图片图意、图片热区、链接</strong>外，还必须处理被 UI 藏住的内容、代码与提示的结构化类型、跨页 IA 元数据，以及抓取入口与噪声治理——在机器层把图、链、关系写成文本和元数据再入库，而非指望大模型在线「看图」或只抓渲染页正文。
-      </div>
+      <h3>10. 信源时效</h3>
+      <p>信源可能来自第三方和旧版本，导致版本错误、非官方内容优先。调整策略为：</p>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span>站点版本外显：页头展示 <code>version</code> 徽章；旧版章节标注弃用并链到替代文档</li>
+        <li><span class="badge badge-priority badge-must">必要</span>定义版本过滤规则：chunk 入库带 <code>version</code> 字段，RAG 默认过滤 CANN 9.0.0（900）社区版</li>
+        <li><span class="badge badge-priority badge-must">必要</span>站点主推声明：<code>llms.txt</code> / sitemap 声明 canonical 源与主推 900，减少旧版与 beta 被默认拉入</li>
+        <li><span class="badge badge-priority badge-should">可选</span>定义溯源输出规则：生成回答脚注附带 <code>version</code>、<code>doc_id</code> 与来源 URL，不只裸链接</li>
+      </ul>
     </section>
 
 

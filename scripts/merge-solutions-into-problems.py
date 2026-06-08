@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""将独立「解决方案」模块并入当前问题各页，移除顶栏入口。"""
+"""将独立「解决方案」模块并入问题论证各页，移除顶栏入口。"""
 from pathlib import Path
 import re
 
@@ -44,11 +44,11 @@ def redirect_page(target: str) -> str:
   <meta charset="UTF-8">
   <meta http-equiv="refresh" content="0; url={target}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>已并入当前问题 · 大模型知识获取研究</title>
+  <title>已并入问题论证 · 大模型知识获取研究</title>
   <link rel="canonical" href="{target}">
 </head>
 <body>
-  <p>解决方案内容已并入 <a href="{target}">当前问题</a> 对应页的「解决方案」页签。</p>
+  <p>解决方案内容已并入 <a href="{target}">问题论证</a> 对应页的「解决方案」页签。</p>
 </body>
 </html>
 """
@@ -68,7 +68,7 @@ def patch_html(path: Path) -> bool:
     if "data-module=\"principles\"" in text:
         text = META_0404.sub("模块 03 / 03", text)
 
-    # 顶栏：当前问题 active 时不再指向 solutions
+    # 顶栏：问题论证 active 时不再指向 solutions
     text = text.replace(
         '下一模块 →</span>\n        <span class="nav-title">解决方案</span>',
         '下一模块 →</span>\n        <span class="nav-title">亲和原则</span>',

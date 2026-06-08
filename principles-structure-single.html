@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单文档结构感知 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="structure-single">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>单文档结构感知</h1>
+      <p class="page-desc">对应 <a href="problems-structure-single.html">问题论证 · 单文档结构感知</a>。页内标题层级、切片边界与列表嵌套须在源码与管道层可感知，避免 chunk 边界错乱或从属关系丢失。</p>
+    </div>
+
+    <section class="section" id="structure-single">
+
+      <div class="content-unit" id="single-boundary">
+        <h3>页内结构与 chunk 边界</h3>
+        <p class="section-heading-desc">标题层级（H1–H6）规则见 <a href="principles-structure-metadata.html#h-01">元数据字段规范 · 第 1–4 条</a>；Tab / 折叠全量展开见 <a href="principles-tab.html">隐藏语义 · Tab</a>、<a href="principles-collapse.html">隐藏语义 · 折叠</a>。问题实测见 <a href="problems-structure-single.html">单文档结构感知</a>。</p>
+        <table class="data-table">
+          <thead>
+            <tr><th>结构要素</th><th>典型问题</th><th>后果</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>空 <code>&lt;p&gt;</code> 作间距</td><td>chunk 切分出现空白段</td><td>向量召回噪声、上下文断裂</td></tr>
+            <tr><td>Topic 锚点 ID</td><td>存在但未标注切片</td><td>无法精确定位章节</td></tr>
+            <tr><td>步骤内 Note</td><td>扁平化抓取</td><td>提示与步骤从属丢失</td></tr>
+            <tr><td>Tab / 折叠</td><td>仅默认态入库</td><td>页内顺序与人类阅读不一致</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="single-01"><td>1</td><td>禁止用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 堆叠代替段落间距；用 CSS margin 控制版式</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="single-02"><td>2</td><td>保留稳定锚点 ID（如 <code>ZH-CN_TOPIC_xxx</code>），管道将其作为 chunk 切片边界标记</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="single-03"><td>3</td><td>有序 / 无序列表表达步骤与层级，不用多个独立段落模拟列表</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="single-04"><td>4</td><td>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 须保留 DOM 层级，管道抓取时不扁平化</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="single-05"><td>5</td><td>代码块、表格、提示与所属步骤 / 小节保持 DOM 邻接，避免跨块插入无关元素</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+        <div class="ui-demo" id="ui-demo-1">
+          <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>不用空段落作间距</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h2">安装步骤</div><p>&nbsp;</p><p>&nbsp;</p><p>1. 下载 CANN 包</p></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-h2">安装步骤</div><ol><li>下载 CANN 包</li><li>执行安装脚本</li></ol></div></div>
+          </div>
+        </div>
+        <div class="ui-demo" id="ui-demo-3">
+          <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>列表表达步骤结构</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p>步骤一：配置环境</p><p>步骤二：编译算子</p></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><ol><li>配置环境</li><li>编译算子</li></ol></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

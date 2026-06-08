@@ -40,7 +40,7 @@ HEAD = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} · 当前问题 · 大模型知识获取研究</title>
+  <title>{title} · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-problems-page="{page_id}">
@@ -50,7 +50,7 @@ HEAD = '''<!DOCTYPE html>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background.html">研究背景</a>
-    <a href="problems.html" class="active">当前问题</a>
+    <a href="problems.html" class="active">问题论证</a>
     <a href="solutions.html">解决方案</a>
     <a href="principles.html">亲和原则</a>
   </nav>
@@ -70,7 +70,7 @@ HEAD = '''<!DOCTYPE html>
 </div>
 
 <footer class="site-footer">
-  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+  模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/problems-sidebar.js"></script>
@@ -139,7 +139,6 @@ PAGES = [
 
 def page_header(h1, desc):
     return f'''    <div class="page-header">
-      <div class="module-label">模块 02 · 当前问题</div>
       <h1>{h1}</h1>
       <p class="page-desc">{desc}</p>
     </div>'''

@@ -7,7 +7,7 @@
 | `ascend-c-test-embed.html` | 什么是 Ascend C · 抽屉内嵌（推荐） |
 | `ascend-c-test-page.html` | 完整页面镜像（依赖 Nuxt JS，iframe 内易空白） |
 | `helloworld-link-snippet.html` | 链接语义 · LINK 占位符示意 |
-| `helloworld-tab-snippet.html` | Tab 隐藏 · bisheng/CMake 示意 |
+| `helloworld-tab-snippet.html` | Tab 隐藏 · 全站 Tab 组件风险示意（非 HelloWorld 实页 UI） |
 | `env-collapse-snippet.html` | 折叠面板 · 默认收起示意 |
 | `helloworld-code-snippet.html` | 代码语义 · highlighttable 示意 |
 | `programming-model-table-snippet.html` | 表格语义 · 表1 标杆 |

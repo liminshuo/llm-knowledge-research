@@ -7,14 +7,14 @@ ROOT = Path(__file__).resolve().parent.parent
 
 HEADER_NAV = {
     "background": ("background-motivation.html", "研究概览"),
-    "problems": ("problems-answer.html", "当前问题"),
+    "problems": ("problems-answer.html", "问题论证"),
     "solutions": ("solutions-architecture.html", "解决方案"),
     "principles": ("principles-general.html", "亲和原则"),
 }
 
 MODULE_META = {
     "background": ("模块 01 · 研究概览", "01"),
-    "problems": ("模块 02 · 当前问题", "02"),
+    "problems": ("模块 02 · 问题论证", "02"),
     "solutions": ("模块 03 · 解决方案", "03"),
     "principles": ("模块 04 · 亲和原则", "04"),
 }
@@ -91,16 +91,12 @@ def render_page(
     nxt: tuple[str, str, str],
 ):
     mod_label, _mod_num = MODULE_META[module]
-    module_label_html = (
-        ""
-        if module == "background"
-        else f'      <div class="module-label">{mod_label}</div>\n'
-    )
+    module_label_html = ""
 
     nav_order = [
         ("index.html", "首页", None),
         ("background", "研究概览", HEADER_NAV["background"][0]),
-        ("problems", "当前问题", HEADER_NAV["problems"][0]),
+        ("problems", "问题论证", HEADER_NAV["problems"][0]),
         ("solutions", "解决方案", HEADER_NAV["solutions"][0]),
         ("principles", "亲和原则", HEADER_NAV["principles"][0]),
     ]
@@ -145,8 +141,7 @@ def render_page(
 
     <div class="page-header">
 {module_label_html}      <h1>{title}</h1>
-      <p class="page-desc">{desc}</p>
-    </div>
+{("      <p class=\"page-desc\">" + desc + "</p>\n") if desc else ""}    </div>
 
 {body}
 
@@ -207,7 +202,7 @@ def chain_pages(pages: list[dict], module: str):
 def build_background():
     sections = extract_sections((ROOT / "background.html").read_text(encoding="utf-8"))
     defs = [
-        ("motivation", "研究概览", "昇腾官方文档如何完整进入 RAG / 知识库——研究动机、目标与维度。"),
+        ("motivation", "研究概览", ""),
     ]
     pages = []
     for pid, title, desc in defs:
@@ -219,7 +214,7 @@ def build_background():
             "body": section_page(sections[pid], pid),
         })
     pages[0]["prev_module"] = ("index.html", "← 返回", "研究首页")
-    pages[-1]["next_module"] = ("problems-answer.html", "下一模块 →", "当前问题")
+    pages[-1]["next_module"] = ("problems-answer.html", "下一模块 →", "问题论证")
     chain_pages(pages, "background")
 
 
@@ -244,7 +239,7 @@ def build_solutions():
             "desc": desc,
             "body": section_page(sections[pid], pid),
         })
-    pages[0]["prev_module"] = ("problems-detail-ref-dialogs.html", "← 上一模块", "当前问题")
+    pages[0]["prev_module"] = ("problems-detail-ref-dialogs.html", "← 上一模块", "问题论证")
     pages[-1]["next_module"] = ("principles-general.html", "下一模块 →", "亲和原则")
     chain_pages(pages, "solutions")
 

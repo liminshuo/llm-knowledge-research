@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>折叠语义 · 亲和原则 · 大模型知识获取研究</title>
+  <title>隐藏语义 · 折叠 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="collapse">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,9 +25,8 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
-      <h1>折叠语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-collapse.html">当前问题 · 隐藏的语义（折叠面板）</a>。折叠面板正文须在渲染页默认可读，标题须有文本语义。</p>
+      <h1>隐藏语义 · 折叠</h1>
+      <p class="page-desc">对应 <a href="problems-content-collapse.html">问题论证 · 隐藏语义 · 折叠</a>。折叠面板正文须在渲染页默认可读，标题须有文本语义。</p>
     </div>
 
 
@@ -42,6 +41,7 @@
           <tr id="coll-02"><td>2</td><td>折叠标题在渲染页可见且有语义（<code>&lt;summary&gt;</code> 或 H3 文本）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="coll-03"><td>3</td><td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="coll-04"><td>4</td><td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="coll-05"><td>5</td><td>自定义折叠组件可加 <code>data-llm-expanded</code>，声明机器层默认展开</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">

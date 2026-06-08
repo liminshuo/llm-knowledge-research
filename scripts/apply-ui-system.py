@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SKIP_DIRS = {"assets", "scripts", "references", "docs"}
 
 NAV_PATTERNS = (
-    ('<a href="problems-answer.html">当前问题</a>', '<a href="problems-answer-search.html">当前问题</a>'),
-    ('<a href="problems-answer.html" class="active">当前问题</a>', '<a href="problems-answer-search.html" class="active">当前问题</a>'),
+    ('<a href="problems-answer.html">问题论证</a>', '<a href="problems-answer-search.html">问题论证</a>'),
+    ('<a href="problems-answer.html" class="active">问题论证</a>', '<a href="problems-answer-search.html" class="active">问题论证</a>'),
 )
 
 DETAIL_NESTED = re.compile(
@@ -74,24 +74,12 @@ def inject_site_meta_ui_link(content: str, filename: str) -> str:
 def fix_nav(content: str, filename: str) -> str:
     if filename == "problems-answer.html":
         return content.replace(
-            '<a href="problems-answer-search.html" class="active">当前问题</a>',
-            '<a href="problems-answer.html" class="active">当前问题</a>',
+            '<a href="problems-answer-search.html" class="active">问题论证</a>',
+            '<a href="problems-answer.html" class="active">问题论证</a>',
         )
     for old, new in NAV_PATTERNS:
         content = content.replace(old, new)
     return content
-
-
-def add_module_label_motivation(content: str) -> str:
-    if 'background-motivation.html' not in str(content):
-        return content
-    marker = '<div class="page-header">\n      <h1>研究概览</h1>'
-    replacement = (
-        '<div class="page-header">\n'
-        '      <div class="module-label">模块 01 · 研究概览</div>\n'
-        '      <h1>研究概览</h1>'
-    )
-    return content.replace(marker, replacement, 1)
 
 
 def unwrap_nested_sections(content: str) -> str:
@@ -200,7 +188,6 @@ def process_file(path: Path) -> bool:
     if path.name != "ui-system.html" and '<body' in content:
         content = fix_nav(content, path.name)
         content = inject_site_meta_ui_link(content, path.name)
-        content = add_module_label_motivation(content)
         content = unwrap_nested_sections(content)
         content = add_section_h3(content, path)
         content = align_generate_page(content, path)

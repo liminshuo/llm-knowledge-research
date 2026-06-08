@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Note 类型 · 亲和原则 · 大模型知识获取研究</title>
+  <title>注意提示（Note）语义 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="note">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,9 +25,8 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
-      <h1>Note 类型</h1>
-      <p class="page-desc">对应 <a href="problems-content-note.html">当前问题 · 注意提示（Note）类型语义</a>。注意/警告/提示用文本表达类型；装饰图标对模型无意义，应从渲染页与源码同时移除。</p>
+      <h1>注意提示（Note）语义</h1>
+      <p class="page-desc">对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。注意/警告/提示用文本表达类型；装饰图标对模型无意义，应从渲染页与源码同时移除。</p>
     </div>
 
 
@@ -42,6 +41,7 @@
           <tr id="note-02"><td>2</td><td>渲染页 Note 正文完整展开，不折叠、不 Tooltip 藏字</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="note-03"><td>3</td><td>移除 Note 装饰图标；类型改用文本前缀「注意：」「警告：」显示在渲染页</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="note-04"><td>4</td><td>机器层转为 Markdown 引用块（<code>&gt; **注意**</code>）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="note-05"><td>5</td><td>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 保留层级，管道抓取时不扁平化</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跨文档结构感知 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="structure-cross">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>跨文档结构感知</h1>
+      <p class="page-desc">对应 <a href="problems-structure-cross.html">问题论证 · 跨文档结构感知</a>。面包屑、上下篇、父主题须在渲染页可见，并作为关系边同步入库——不是把全站 282 项导航灌进 chunk。</p>
+    </div>
+
+    <section class="section" id="structure-cross">
+
+      <div class="content-unit" id="cross-ia-levels">
+        <h3>IA 层级与入库边界</h3>
+        <p class="section-heading-desc">页级身份（<code>version</code>、<code>doc_id</code>）见 <a href="principles-structure-metadata.html#ia-fields">元数据字段规范</a>；本篇聚焦<strong>跨页关系</strong>。问题实测见 <a href="problems-structure-cross.html">跨文档结构感知</a>。</p>
+        <table class="data-table">
+          <thead>
+            <tr><th>IA 层级</th><th>内容</th><th>入库策略</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Level 1</td><td>breadcrumb、上下篇、版本</td><td>✅ 每篇 chunk 元数据</td></tr>
+            <tr><td>Level 2</td><td>章节子树（入门教程完整路径）</td><td>按需，关系边或专题索引</td></tr>
+            <tr><td>Level 3</td><td>全站 282 项侧栏导航</td><td>❌ 禁止灌库</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>亲和原则</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+        </thead>
+        <tbody>
+          <tr id="cross-01"><td>1</td><td>渲染页面包屑 <code>&lt;nav aria-label="breadcrumb"&gt;</code> 展示完整文本路径（消歧同名章节）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="cross-02"><td>2</td><td>渲染页页脚或文首展示「上一篇 / 下一篇」导航，锚文本须描述目标章节</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="cross-03"><td>3</td><td>Front Matter 写入 <code>breadcrumb</code>、<code>prev</code>、<code>next</code>、<code>parent_topic</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="cross-04"><td>4</td><td>管道将关系边写入 JSON-LD / chunk 元数据，与渲染页可见导航一致</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="cross-05"><td>5</td><td>机器源剥离全站侧栏文档树（Level 3 IA），只保留本篇 + Level 1 关系</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="cross-06"><td>6</td><td>成长地图等热区入口须另有文本链接列表（见 <a href="principles-hotzone.html">图片热区</a>）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ui-render-examples">
+        <h3>UI 渲染示例</h3>
+        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
+        <div class="ui-demo" id="ui-demo-1">
+          <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>面包屑文本路径可见</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">环境准备</div><p class="rf-muted">（无 breadcrumb，「环境准备」无法区分所属教程）</p></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><nav class="rf-breadcrumb">Ascend C 开发指南 › 入门教程 › 环境准备</nav><div class="rf-h1">环境准备</div></div></div>
+          </div>
+        </div>
+        <div class="ui-demo" id="ui-demo-2">
+          <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>上下篇导航</span></div>
+          <div class="compare-grid">
+            <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-footer-bar">© 昇腾社区</div></div></div>
+            <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-footer-bar">← 上一篇：什么是 Ascend C · 下一篇：HelloWorld →</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

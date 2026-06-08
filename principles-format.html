@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>双轨交付 · 亲和原则 · 大模型知识获取研究</title>
+  <title>格式交付与抓取入口 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="format">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,13 +25,42 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
-      <h1>双轨交付</h1>
-      <p class="page-desc">对应 <a href="problems-format.html">当前问题 · 交付格式</a>。人类渲染页与机器源双轨交付；渲染页可声明机器入口。</p>
+      <h1>格式交付与抓取入口</h1>
+      <p class="page-desc">对应 <a href="problems-format.html">问题论证 · 格式交付与抓取入口</a>。人类渲染页与机器源双轨交付；须定义机器消费规则，禁止默认抓渲染页。</p>
     </div>
 
 
     <section class="section" id="format">
+
+      <div class="content-unit" id="delivery-entry">
+        <h3>交付与抓取入口一览</h3>
+        <p class="section-heading-desc">各载体与入口问题的后果；站点发现层（<code>llms.txt</code> / robots / sitemap）详见 <a href="principles-structure-llms.html#delivery-discovery">机器入口 · 发现层一览</a>。问题实测见 <a href="problems-format.html">交付格式</a>。</p>
+        <table class="data-table">
+          <thead><tr><th>问题</th><th>后果</th></tr></thead>
+          <tbody>
+            <tr><td>抓渲染页（~224KB）而非 <code>doc_center/source/</code>（4–11KB）</td><td>噪声大、结构乱</td></tr>
+            <tr><td><code>.md</code> 后缀 ≠ Markdown</td><td>误判格式亲和度</td></tr>
+            <tr><td>无 <code>llms.txt</code> 机器友好入口</td><td>爬虫不知 canonical 源</td></tr>
+            <tr><td>JS 动态渲染（Nuxt <code>v-if</code> 等）</td><td>静态抓取不完整</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-unit" id="noise-pollution">
+        <h3>渲染页噪声一览</h3>
+        <p class="section-heading-desc">壳层入库后的信噪比问题；抓错层的入口原因见 <a href="principles-format.html#delivery-entry">交付与抓取入口一览</a>（研究概览第 9 节）。Level 3 导航<strong>不应灌库</strong>见 <a href="principles-structure-metadata.html#ia-fields">元数据规范</a>（第 8 节）。问题实测见 <a href="problems-format.html#format-noise">交付格式</a>。</p>
+        <table class="data-table">
+          <thead><tr><th>噪声来源</th><th>实测规模</th><th>对 RAG 的影响</th></tr></thead>
+          <tbody>
+            <tr><td>全站导航 <code>o-link</code></td><td>每页约 <strong>282</strong> 个</td><td>与正文链接混排，争向量召回</td></tr>
+            <tr><td>页头 / 社区菜单</td><td>每页固定重复</td><td>无关 token 重复入库</td></tr>
+            <tr><td>页脚 / Cookie / 法务</td><td>版权、备案、营销链接</td><td>无关语义进入 chunk</td></tr>
+            <tr><td>侧栏文档树</td><td>全站章节链接</td><td>Level 3 IA 噪声（见单文档结构 Level 划分）</td></tr>
+            <tr><td>页面总体积</td><td>渲染页 ~224 KB / 页</td><td>约为 source（4–11 KB）<strong>20–50 倍</strong>，语义密度低</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h3>亲和原则</h3>
       <table class="data-table">
         <thead>
@@ -39,10 +68,11 @@
         </thead>
         <tbody>
           <tr id="fmt-dual"><td>1</td><td>每篇文档提供渲染页 + 机器源（<code>/doc_center/source/</code> 或纯 MD）双轨</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="fmt-md"><td>2</td><td><code>.md</code> URL 返回真实 Markdown，非 SPA 壳层</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="fmt-strip"><td>3</td><td>机器源剥离全站导航、页头页脚、脚本与样式</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="fmt-link"><td>4</td><td>渲染页页脚或工具栏提供「机器可读版本」链接</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
-          <tr id="fmt-priority"><td>5</td><td>sitemap / robots 优先声明机器源 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="fmt-consume"><td>2</td><td>定义机器消费规则：爬虫 / RAG 默认抓 <code>doc_center/source/</code> 或 markdown，禁止抓 <code>/document/detail/</code> 渲染页</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="fmt-md"><td>3</td><td><code>.md</code> URL 返回真实 Markdown，非 SPA 壳层</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="fmt-strip"><td>4</td><td>机器源剥离全站导航、页头页脚、脚本与样式</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="fmt-link"><td>5</td><td>渲染页页脚或工具栏提供「机器可读版本」链接</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
+          <tr id="fmt-priority"><td>6</td><td>sitemap / robots 优先声明机器源 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">

@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,9 +25,8 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
       <h1>速查表</h1>
-      <p class="page-desc">各语义维度规则速查。调整层面定义见 <a href="principles-general.html#scope">总原则 · 调整层面说明</a>。</p>
+      <p class="page-desc">各语义维度规则速查。调整层面见各维度页原则表。</p>
     </div>
 
     <section class="section" id="cheatsheet">
@@ -35,7 +34,7 @@
       <div class="rule-grid">
         <div class="rule-card">
           <div class="rule-id">1 ~ 4</div>
-          <h4><a href="principles-structure-metadata.html#heading-rules">标题 / 元数据</a></h4>
+          <h4><a href="principles-structure-metadata.html#heading-rules">元数据字段规范</a></h4>
           <p>一个 H1，层级连续，有锚点 ID <span class="badge badge-bad">UI</span></p>
         </div>
         <div class="rule-card">
@@ -50,7 +49,7 @@
         </div>
         <div class="rule-card">
           <div class="rule-id">1 ~ 4</div>
-          <h4>表格结构</h4>
+          <h4><a href="principles-table.html">表格与列表结构语义</a></h4>
           <p>有 caption，不嵌代码</p>
         </div>
         <div class="rule-card">
@@ -59,28 +58,47 @@
           <p>标注语言，行号与代码分离</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4>Note 类型</h4>
+          <div class="rule-id">1 ~ 5</div>
+          <h4><a href="principles-note.html">注意提示（Note）语义</a></h4>
           <p>类型文本化，MD 引用块输出</p>
         </div>
         <div class="rule-card">
           <div class="rule-id">1 ~ 4</div>
-          <h4>Tab 语义</h4>
+          <h4><a href="principles-tab.html">隐藏语义 · Tab</a></h4>
           <p>源层全展开，标签作 H3</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4>折叠语义</h4>
+          <div class="rule-id">1 ~ 5</div>
+          <h4><a href="principles-collapse.html">隐藏语义 · 折叠</a></h4>
           <p>机器层默认展开</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4>段落 / 列表</h4>
+          <div class="rule-id">1 ~ 5</div>
+          <h4><a href="principles-structure-single.html">单文档结构感知</a></h4>
           <p>列表即结构，不嵌空段落</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">1 ~ 6</div>
+          <h4><a href="principles-structure-cross.html">跨文档结构感知</a></h4>
+          <p>breadcrumb + 上下篇入库</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">1 ~ 6</div>
+          <h4><a href="principles-format.html">格式交付与抓取入口</a></h4>
+          <p>双轨 + 机器只抓 source</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">1 ~ 5</div>
+          <h4><a href="principles-structure-llms.html">llms.txt 与机器入口</a></h4>
+          <p>发现层 + 主推版本</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">1 ~ 5</div>
+          <h4><a href="principles-timeliness-disambiguation.html">多版本消歧</a></h4>
+          <p>RAG 默认过滤 900</p>
         </div>
       </div>
 
-    </section>
     </section>
 
 

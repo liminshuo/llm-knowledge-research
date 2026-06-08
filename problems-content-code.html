@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>代码语义 · 当前问题 · 大模型知识获取研究</title>
+  <title>代码语义 · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="problems" data-page="content-code">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html" class="active">当前问题</a>
+    <a href="problems-answer-search.html" class="active">问题论证</a>
     <a href="principles-general.html">亲和原则</a>
   </nav>
 </header>
@@ -25,7 +25,6 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 02 · 当前问题</div>
       <div class="page-header-top">
         <h1>代码语义</h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
@@ -37,7 +36,7 @@
         <ul>
           <li><code>highlighttable</code> 将行号与代码混为表格单元格，入库后出现 <strong>1 2 3…31 行号前缀</strong>，干扰代码复用与精确检索</li>
           <li>未标注 <code>class="language-xxx"</code>，模型难以区分 bash / C++ / CMake / Ascend C 源码</li>
-          <li>HTML 实体（<code>&amp;quot;</code> 等）未解码时进一步污染代码 chunk；Tab 隐藏可导致 CMake 分支代码<strong>完全缺失</strong></li>
+          <li>HTML 实体（<code>&amp;quot;</code> 等）未解码时进一步污染代码 chunk；全站 Tab 组件中非激活面板内的代码还可能<strong>完全缺失</strong>（见 <a href="problems-content-tab.html">Tab 隐藏</a>）</li>
         </ul>
       </div>
     </div>
@@ -57,7 +56,7 @@
 
           <div class="content-unit">
             <h2>结论：代码主体可抓，语义劣化</h2>
-            <p><strong>代码内容能进入知识库，但不够「可复用」。</strong>用户问「贴出 hello_world.asc 头文件 include」时，模型可能返回带行号污染的文本；问「CMake 编译命令」时，若 CMake Tab 被隐藏则<strong>无 chunk 可召回</strong>。</p>
+            <p><strong>代码内容能进入知识库，但不够「可复用」。</strong>用户问「贴出 hello_world.asc 头文件 include」时，模型可能返回带行号污染的文本；问「CMake 编译命令」时，正文虽默认可见，但可能因<strong>无 language 标注</strong>而与 bash 命令混淆。</p>
 
             <h3>1. highlighttable 行号污染</h3>
             <p>HelloWorld 页将代码行号与源码混为 <code>highlighttable</code> 两列：左列 <code>linenos</code>、右列 <code>code</code>。转文本时行号数字与代码合并，出现如下污染：</p>
@@ -79,15 +78,15 @@
               <tbody>
                 <tr><td><code>hello_world.asc</code> 核函数</td><td>Ascend C / C++</td><td>无 language 标注，与 bash 命令混淆</td></tr>
                 <tr><td><code>bisheng hello_world.asc ...</code></td><td>bash</td><td>未标 <code>language-bash</code></td></tr>
-                <tr><td><code>cmake_minimum_required...</code></td><td>CMake</td><td>非激活 Tab 时可能丢失；无 language-cmake</td></tr>
+                <tr><td><code>cmake_minimum_required...</code></td><td>CMake</td><td>无 <code>language-cmake</code> 标注</td></tr>
               </tbody>
             </table>
 
             <h3>3. 表格语义滥用</h3>
             <p>将代码拆入表格单元格，使<strong>表格语义与代码语义混杂</strong>——详见 <a href="problems-content-table.html">表格与列表结构语义</a>。环境准备页的 cmake 安装命令结构较简洁，亲和度相对较好，可作对照标杆。</p>
 
-            <h3>4. Tab 隐藏导致的代码遗漏</h3>
-            <p>HelloWorld 的 CMake 代码位于非默认 Tab，渲染层隐藏时<strong>代码块完全不在输出中</strong>——属 <a href="problems-content-tab.html">Tab 隐藏</a> 维度，与行号污染叠加后，CMake 分支双重不可用。</p>
+            <h3>4. Tab 隐藏导致的代码遗漏（全站风险）</h3>
+            <p>HelloWorld 的 bisheng / CMake 代码<strong>以列表并列默认展示</strong>，非 Tab 隐藏场景。全站其他章节的非激活 Tab 面板内，代码块可能因 <code>display:none</code> <strong>完全不在输出中</strong>——见 <a href="problems-content-tab.html">Tab 隐藏</a>，与行号污染等问题可叠加。</p>
 
             <h3>入库状态对照</h3>
             <table class="data-table">
@@ -227,7 +226,7 @@ bisheng hello_world.asc --npu-arch=dav-2201 -o demo
   </aside></div>
 
 <footer class="site-footer">
-  模块 02 · 当前问题 · Ascend C 文档大模型亲和规则研究
+  模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>

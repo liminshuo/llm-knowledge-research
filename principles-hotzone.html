@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,9 +25,8 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
       <h1>图片热区</h1>
-      <p class="page-desc">对应 <a href="problems-content-hotzone.html">当前问题 · 图片热区</a>。热区坐标对模型不可读，须在渲染页提供等价的文本链接列表。</p>
+      <p class="page-desc">对应 <a href="problems-content-hotzone.html">问题论证 · 图片热区</a>。热区坐标对模型不可读，须在渲染页提供等价的文本链接列表。</p>
     </div>
 
 
@@ -40,6 +39,8 @@
         <tbody>
           <tr id="img-03"><td>1</td><td>带热区的图片下方渲染完整链接列表（<code>&lt;nav aria-label&gt;</code>），覆盖全部热区目标</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="l-04"><td>2</td><td>每个热区目标须有描述性锚文本链接，禁止「区域1」「点击这里」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="hz-area-alt"><td>3</td><td>源码 <code>&lt;area&gt;</code> 须写 <code>alt</code> / <code>title</code>，描述热区目标（非坐标）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="hz-abs-url"><td>4</td><td>热区 <code>href</code> 使用绝对 URL；相对路径须由管道或源码转为完整地址</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">

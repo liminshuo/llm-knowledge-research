@@ -226,7 +226,7 @@ PAGES: dict[str, dict] = {
         ],
         "guide": """      <div class="principle-guide info-box">
         <div class="box-title">落地指引</div>
-        双轨架构与转换管道见 <a href="problems-format.html#solution">当前问题 · 解决方案</a>；UI 侧仅需在渲染页增加可发现的机器源入口。
+        双轨架构与转换管道见 <a href="problems-format.html#solution">问题论证 · 解决方案</a>；UI 侧仅需在渲染页增加可发现的机器源入口。
       </div>""",
     },
     "principles-structure-llms.html": {
@@ -303,7 +303,7 @@ def patch_file(path: Path, data: dict) -> None:
     problem_label = problem_label_for(data)
 
     new_desc = (
-        f'      <p class="page-desc">对应 <a href="{data["problem"]}">当前问题 · {problem_label}</a>。{data["desc"]}</p>'
+        f'      <p class="page-desc">对应 <a href="{data["problem"]}">问题论证 · {problem_label}</a>。{data["desc"]}</p>'
     )
     text = re.sub(
         r"      <p class=\"page-desc\">.*?</p>",

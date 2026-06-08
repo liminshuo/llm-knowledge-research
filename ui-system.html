@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html">亲和原则</a>
   </nav>
 </header>
@@ -23,7 +23,6 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">设计系统</div>
       <h1>UI 规范</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">研究站静态页的统一文字、颜色、间距与结构约定。</span>
@@ -31,25 +30,89 @@
       </p>
     </div>
 
+    <section class="section" id="colors">
+      <h2>颜色令牌</h2>
+      <p>全站通过 <code>:root</code> CSS 变量引用，勿在页面内硬编码色值。</p>
+
+      <div class="ui-color-grid">
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#191919"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-text</strong><code>#191919</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#595959"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-text-secondary</strong><code>#595959</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#1476FF"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-primary</strong><code>#1476FF</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#F5F5F5"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-bg / --color-primary-light</strong><code>#F5F5F5</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#ffffff;border-color:#e2e8f0"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-surface</strong><code>#ffffff</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#e2e8f0"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-border</strong><code>#e2e8f0</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#f1f5f9"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-code-bg</strong><code>#f1f5f9</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:#1e293b"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-code-text</strong><code>#1e293b</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(0,0,0,0.6)"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-desc</strong><code>rgba(0,0,0,0.6)</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(20,118,255,0.1);border-color:#1476FF"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-primary-tint</strong><code>rgba(20,118,255,0.1)</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(20,118,255,0.25);border-color:#1476FF"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-primary-tint-strong</strong><code>rgba(20,118,255,0.25)</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.25)"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-danger-bg / border</strong><code>8% / 25%</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.25)"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-success-bg / border</strong><code>8% / 25%</code></div>
+        </div>
+        <div class="ui-color-swatch">
+          <span class="ui-color-swatch-chip" style="background:rgba(30,41,59,0.45)"></span>
+          <div class="ui-color-swatch-meta"><strong>--color-overlay</strong><code>rgba(30,41,59,0.45)</code></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="typography">
       <h2>标题层级</h2>
       <p>每页仅一个 H1，置于 <code>.page-header</code>。章节内从 H2 起递进。</p>
 
       <div class="ui-spec-demo">
         <div class="ui-spec-row">
-          <span class="ui-spec-tag">H1 · 28px / 800</span>
+          <span class="ui-spec-tag">H1 · 32px / 800 / 行高 48</span>
           <h1 class="ui-spec-sample-h1">页面主标题示例</h1>
         </div>
         <div class="ui-spec-row">
-          <span class="ui-spec-tag">H2 · 20px / 700</span>
+          <span class="ui-spec-tag">H2 · 24px / 700 / 行高 36</span>
           <h2 class="ui-spec-sample-h2">章节标题示例</h2>
         </div>
         <div class="ui-spec-row">
-          <span class="ui-spec-tag">H3 · 16px / 600</span>
+          <span class="ui-spec-tag">H3 · 18px / 600</span>
           <h3 class="ui-spec-sample-h3">小节标题示例</h3>
         </div>
         <div class="ui-spec-row">
-          <span class="ui-spec-tag">H4 · 15px / 600</span>
+          <span class="ui-spec-tag">H4 · 14px / 600</span>
           <h4 class="ui-spec-sample-h4">四级标题示例</h4>
         </div>
       </div>
@@ -59,17 +122,32 @@
       <h2>正文与说明</h2>
 
       <h3>全局正文</h3>
-      <p>全局正文 15px，行高 1.7，颜色 <code>#1e293b</code>。段落下边距 12px。行内代码如 <code>hiascend.com</code> 使用等宽字体与浅灰底。</p>
+      <p>全局正文 14px，行高 22，颜色 <code>#595959</code>（<code>--color-text-secondary</code>）。段落下边距 12px。</p>
+
+      <h3>代码文案</h3>
+      <p>段落与列表中的行内 <code>code</code> 统一高度 <strong>20px</strong>（13px 字号 + 16px 行高 + 上下 2px padding）。示例：<code>&lt;img&gt;</code>、<code>alt</code>、<code>data-llm-transcription</code>。</p>
+      <h3 class="ui-spec-sample-h3">小节标题 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
+      <ul class="list-badge-led">
+        <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：图片标签上缺图片说明</li>
+        <li><span class="badge badge-priority badge-should">可选</span><code>title</code>：图片标签上缺可用的标题说明</li>
+      </ul>
+      <p class="text-auxiliary">当前以抓取 <a href="#">什么是 Ascend C（CANN 9.0.0）</a> 为例，正文区 <strong>6 张</strong>说明图对向量检索和 LLM 引用而言，<strong>等价于空白</strong>。具体实测见 <a href="#">问题论证 · 图片图意</a>。</p>
 
       <h3>页头描述</h3>
-      <p class="page-desc ui-spec-inline-desc">页头描述 14px，行高 22px，颜色 60% 黑。（此为演示，非真实页头位置）</p>
+      <p class="page-desc ui-spec-inline-desc">页头描述 14px，行高 22px，颜色 <code>--color-desc</code>（60% 黑）。（此为演示，非真实页头位置）</p>
 
-      <h3>模块标签</h3>
-      <div class="module-label ui-spec-inline-label">模块 02 · 当前问题 · 示例</div>
     </section>
 
     <section class="section" id="components">
       <h2>核心组件</h2>
+
+      <h3>摘要卡片</h3>
+      <div class="summary-card">
+        <p>
+          <span class="cp-label">核心命题</span>
+          RAG / 知识库尽量完整收录昇腾官方文档的<strong>文档语义</strong>。
+        </p>
+      </div>
 
       <h3>核心结论卡片</h3>
       <div class="component-problem">
@@ -81,7 +159,7 @@
 
       <h3>核心问题卡片</h3>
       <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-bad">未入库</span></span>
+        <span class="cp-status"><span class="badge badge-status badge-bad">未入库</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
           <li>信息型图片图意无法成为可检索 chunk</li>
@@ -92,7 +170,7 @@
       <h3>信息框</h3>
       <div class="info-box">
         <div class="box-title">提示</div>
-        默认信息框：主色左边线 + 浅蓝背景。
+        默认信息框：主色左边线 + <code>--color-primary-light</code>（<code>#F5F5F5</code>）背景。
       </div>
       <div class="info-box warning">
         <div class="box-title">警告</div>
@@ -113,23 +191,26 @@
 
     <section class="section" id="layout">
       <h2>页面布局</h2>
-      <p>全站正文内容区最大宽度 <strong>1280px</strong>（1920 视口下）；视口变窄时自适应缩小。</p>
+      <p>全站正文内容区最大宽度 <strong>1000px</strong>（1920 视口下）；视口变窄时自适应缩小。</p>
 
       <table class="data-table">
         <thead>
           <tr><th>令牌 / 类名</th><th>值</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>--content-max-width</code></td><td>1280px</td><td>正文内容最大宽度</td></tr>
-          <tr><td><code>--content-wide-pad-x</code></td><td>clamp(24px, 4vw, 48px)</td><td>水平内边距</td></tr>
-          <tr><td><code>.main-content.content-wide</code></td><td>—</td><td>无侧栏页（首页），整体居中</td></tr>
-          <tr><td><code>body.inner-page:has(#module-sidebar) .main-content &gt; …</code></td><td>max 1280px</td><td>有侧栏内页：约束 page-header / section / content-tabs 等直接子块</td></tr>
+          <tr><td><code>--content-max-width</code></td><td>1000px</td><td>正文内容最大宽度</td></tr>
+          <tr><td><code>--content-wide-pad-x</code></td><td>clamp(24px, 4vw, 48px)</td><td>无侧栏页 / main 右内边距</td></tr>
+          <tr><td><code>--content-main-pad-left</code></td><td>clamp(24px, 10.4167vw, 200px)</td><td>有侧栏内页：正文距 main 左缘（1920 下 200px）</td></tr>
+          <tr><td><code>--content-main-pad-top</code></td><td>clamp(32px, 2.5vw, 48px)</td><td>内页 main 上内边距（1920 下 48px，H1 顶对齐）</td></tr>
+          <tr><td><code>--content-offset-left</code></td><td>sidebar + main 左 pad</td><td>无侧栏页正文左缘与有侧栏内页对齐（1920 下 448px）</td></tr>
+          <tr><td><code>.main-content.content-wide</code></td><td>白底满宽</td><td>首页 / 研究概览：padding-left 用 offset，子块 max 1000px</td></tr>
+          <tr><td><code>body.inner-page:has(#module-sidebar) .main-content</code></td><td>左 pad 200px（1920）</td><td>有侧栏内页：main 左 padding + 子块 max 1000px 左对齐</td></tr>
         </tbody>
       </table>
 
       <div class="info-box">
         <div class="box-title">示例</div>
-        无侧栏：<code>index.html</code>、<code>background-motivation.html</code> 使用 <code>content-wide</code>。有侧栏模块内页：<code>&lt;main class="main-content"&gt;</code> + 侧栏，正文块左对齐、最大 1280px。
+        无侧栏：<code>content-wide</code> 用 <code>--content-offset-left</code>（1920 下 448px），1000px 正文与有侧栏页同起点。有侧栏内页：侧栏 248px + main 左 pad 200px + 正文 1000px。
       </div>
     </section>
 
@@ -140,14 +221,15 @@
           <tr><th>元素</th><th>间距</th></tr>
         </thead>
         <tbody>
+          <tr><td><code>body.inner-page .main-content</code></td><td>padding-top clamp(32px, 2.5vw, 48px)</td></tr>
           <tr><td><code>.page-header</code></td><td>margin-bottom 36px；padding-bottom 24px</td></tr>
-          <tr><td><code>.module-label</code></td><td>margin-bottom 8px</td></tr>
-          <tr><td><code>.page-header h1</code></td><td>margin-bottom 10px</td></tr>
+          <tr><td><code>.page-header h1</code></td><td>margin-bottom 24px</td></tr>
+          <tr><td><code>.section h3</code></td><td>margin 32px 0 16px</td></tr>
           <tr><td><code>.section</code></td><td>margin-bottom 48px</td></tr>
           <tr><td><code>.section p</code></td><td>margin-bottom 12px</td></tr>
-          <tr><td><code>.section h3</code></td><td>margin 28px 0 12px（首个 16px 0 12px）</td></tr>
           <tr><td><code>.page-desc--split</code> 行间距</td><td>4px</td></tr>
-          <tr><td><code>.component-problem</code></td><td>margin 12px 0；padding 20px</td></tr>
+          <tr><td><code>.summary-card</code></td><td>margin 24px 0；padding 16px 0 24px</td></tr>
+          <tr><td><code>.component-problem</code></td><td>margin 12px 0；padding 20px 0（左右 0）</td></tr>
         </tbody>
       </table>
     </section>
@@ -160,6 +242,5 @@
   UI 设计系统 · Ascend C 文档大模型亲和规则研究
 </footer>
 
-<script src="assets/js/main.js"></script>
 </body>
 </html>

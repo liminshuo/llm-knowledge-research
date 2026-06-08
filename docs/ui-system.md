@@ -10,24 +10,49 @@
 
 | 用途 | 字体栈 |
 |------|--------|
-| 全局正文 | `-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif` |
+| 全局正文 | `"PingFang SC", sans-serif` |
 | 等宽 / 代码 | `"SF Mono", "Fira Code", "Cascadia Code", monospace` |
-| 页头描述 | `"PingFang SC"`（`.page-header .page-desc` 单独指定） |
 
 ### 1.2 颜色
 
 | 令牌 | 色值 | 用途 |
 |------|------|------|
-| `--color-text` | `#1e293b` | 主标题、正文 |
-| `--color-text-secondary` | `#64748b` | 辅助说明、导航未选中 |
-| `--color-primary` | `#2563eb` | 链接、标签、激活态 |
-| `--color-primary-dark` | `#1d4ed8` | 链接 hover |
-| `--color-primary-light` | `#eff6ff` | h2 下划线、h3 左边线、信息框背景 |
-| `--color-bg` | `#f8fafc` | 页面背景 |
+| `--color-text` | `#191919` | 主标题、正文 |
+| `--color-text-secondary` | `#595959` | 辅助说明、导航未选中 |
+| `--color-primary` | `#1476FF` | 链接、标签、激活态 |
+| `--color-primary-dark` | `#1476FF` | 链接 hover |
+| `--color-primary-light` | `#F5F5F5` | 信息框背景、导航激活底 |
+| `--color-bg` | `#F5F5F5` | 页面背景 |
 | `--color-surface` | `#ffffff` | 卡片、侧栏、表格面 |
 | `--color-border` | `#e2e8f0` | 分割线、边框 |
-| 页头描述 | `rgba(0, 0, 0, 0.6)` | `.page-desc` |
-| 区块小字说明 | `rgba(0, 0, 0, 0.6)` | `.section-heading-desc` |
+| `--color-code-bg` | `#f1f5f9` | 行内 `code` 背景 |
+| `--color-code-text` | `#1e293b` | 行内 `code` 文字 |
+| `--color-desc` | `rgba(0, 0, 0, 0.6)` | `.page-desc`、`.section-heading-desc` |
+| `--color-primary-tint` | `rgba(20, 118, 255, 0.1)` | 主色浅底（标签、检索徽章等） |
+| `--color-primary-tint-strong` | `rgba(20, 118, 255, 0.25)` | 主色描边 / hover 强调 |
+| `--color-primary-subtle` | `rgba(20, 118, 255, 0.06)` | 导航激活底、侧栏选中 |
+| `--color-primary-block-bg` | `rgba(20, 118, 255, 0.07)` | 第三方信源区块底 |
+| `--color-success` | `#16a34a` | 成功 / 官方语义色 |
+| `--color-success-bg` | `rgba(22, 163, 74, 0.08)` | 成功浅底（信息框、标签） |
+| `--color-success-border` | `rgba(22, 163, 74, 0.25)` | 成功描边 |
+| `--color-success-tint` | `rgba(22, 163, 74, 0.12)` | 成功徽章底 |
+| `--color-warning` | `#d97706` | 警告 / 可选语义色 |
+| `--color-warning-bg` | `rgba(217, 119, 6, 0.08)` | 警告浅底 |
+| `--color-warning-border` | `rgba(217, 119, 6, 0.28)` | 警告描边 |
+| `--color-warning-tint` | `rgba(217, 119, 6, 0.12)` | 警告徽章底 |
+| `--color-danger` | `#dc2626` | 危险 / 必要语义色 |
+| `--color-danger-bg` | `rgba(220, 38, 38, 0.08)` | 危险浅底 |
+| `--color-danger-border` | `rgba(220, 38, 38, 0.25)` | 危险描边 |
+| `--color-accent` | `#7c3aed` | 辅助强调色 |
+| `--color-accent-tint` | `rgba(124, 58, 237, 0.12)` | 辅助色徽章底 |
+| `--color-accent-block-bg` | `rgba(124, 58, 237, 0.07)` | 辅助色区块底 |
+| `--color-neutral-bg` | `rgba(89, 89, 89, 0.08)` | 未知 / 中性区块底 |
+| `--color-neutral-tint` | `rgba(89, 89, 89, 0.12)` | 未知 / 中性徽章底 |
+| `--color-overlay` | `rgba(30, 41, 59, 0.45)` | 抽屉遮罩（基于 `--color-code-text`） |
+| `--color-panel-shadow` | `rgba(30, 41, 59, 0.08)` | 侧栏面板阴影 |
+| `--color-panel-shadow-strong` | `rgba(30, 41, 59, 0.12)` | 抽屉面板阴影 |
+
+语义色浅底统一为 **8% / 12% / 25–28%** 三档透明度（底 / 徽章 / 描边），主色基于 `#1476FF`（`rgb(20, 118, 255)`）。
 
 ### 1.3 圆角与阴影
 
@@ -40,21 +65,30 @@
 
 | 令牌 | 值 | 说明 |
 |------|-----|------|
-| `--content-max-width` | `1280px` | 正文内容区最大宽度（不含左右 padding） |
-| `--content-wide-pad-x` | `clamp(24px, 4vw, 48px)` | 水平内边距，随视口缩放 |
+| `--content-max-width` | `1000px` | 正文内容区最大宽度（不含左右 padding） |
+| `--content-wide-pad-x` | `clamp(24px, 4vw, 48px)` | 无侧栏页 / main 右内边距，随视口缩放 |
+| `--content-main-pad-left-max` | `200px` | 有侧栏内页：正文距 `main.main-content` 左缘最大 padding |
+| `--content-main-pad-left` | `clamp(24px, 10.4167vw, 200px)` | 有侧栏内页：`main` 左 padding；1920 视口为 **200px**（`200 ÷ 1920 ≈ 10.4167vw`），更窄视口等比缩小，下限 **24px** |
+| `--content-main-pad-top-max` | `48px` | 内页 `main.main-content` 上内边距最大值（H1 距 `main` 顶缘） |
+| `--content-main-pad-top` | `clamp(32px, 2.5vw, 48px)` | 正文距 `main` 顶缘；1920 视口为 **48px**（`48 ÷ 1920 = 2.5vw`），更窄视口等比缩小，下限 **32px** |
+| `--sidebar-width-max` | `248px` | 模块侧栏（`#module-sidebar`）最大宽度 |
+| `--sidebar-width` | `clamp(200px, 12.9167vw, 248px)` | 侧栏实际宽度：1920 视口为 **248px**，更窄视口按 `12.9167vw` 缩小，下限 **200px** |
+| `--toc-width` | `200px` | 右侧本篇目录（`#page-toc`）宽度 |
+| `--content-offset-left` | `calc(var(--sidebar-width) + var(--content-main-pad-left))` | 无侧栏页 `main` 左 padding：模拟侧栏占位，使 1000px 正文与有侧栏内页**左缘对齐**（1920 下 **448px** = 248 + 200） |
 
-全站正文遵循同一原则：1920 视口下内容区宽 **1280px**；视口变窄时 `width: 100%` + `clamp` 边距自适应。
+全站正文遵循同一原则：1920 视口下内容区宽 **1000px**；视口变窄时 `width: 100%` + `clamp` 边距自适应。模块侧栏在 1920 视口下为 **248px**（`248 ÷ 1920 ≈ 12.9167vw`），作为最大宽度，随分辨率等比收窄。
 
 | 页面类型 | 实现 |
 |----------|------|
-| 无侧栏（首页、研究概览） | `<main class="main-content content-wide">`，整体居中；无 `#module-sidebar`、无 `body.inner-page` |
-| 有侧栏（当前问题、亲和原则等） | `<main class="main-content">` 占满侧栏以外区域；其直接子块（`.page-header`、`.section`、`.content-tabs` 等）`max-width: calc(1280px + 2 × pad)`，左对齐 |
+| 无侧栏（首页、研究概览） | `<main class="main-content content-wide">`：白底满宽；`padding-left: var(--content-offset-left)`；子块 `max-width: 1000px`——与有侧栏页正文**同一水平起点** |
+| 有侧栏（问题论证、亲和原则等） | 左 `#module-sidebar`（248px @1920）+ 中 `main`（`padding-left: 200px` @1920）+ 右 `#page-toc`；正文子块 `max-width: 1000px` |
 
 | 视口 | 行为 |
 |------|------|
-| 宽屏（如 1920） | 正文内容区最大 **1280px** |
-| 中间分辨率 | 随可用宽度缩小，保留 `clamp` 水平边距 |
-| ≤ 900px | 水平 padding **24px**；侧栏隐藏；首页模块卡片单列 |
+| 宽屏（如 1920） | 正文左缘距视口 **448px**（侧栏 248 + main 左 pad 200）；宽 **1000px**；`main` 上 padding **48px**（H1 顶对齐） |
+| 中间分辨率 | 侧栏与 `main` 左 padding 随 `vw` 缩小；正文最大仍 **1000px** |
+| ≤ 1280px | 隐藏右侧本篇目录（`#page-toc`） |
+| ≤ 900px | `main` 水平 padding **24px**；侧栏隐藏；首页模块卡片单列 |
 
 ---
 
@@ -65,11 +99,11 @@
 | 属性 | 值 |
 |------|-----|
 | 选择器 | `.page-header h1` |
-| 字号 | **28px** |
+| 字号 | **32px** |
 | 字重 | **800** |
-| 行高 | **1.3** |
-| 颜色 | `#1e293b` |
-| 下边距 | **10px** |
+| 行高 | **48** |
+| 颜色 | `#191919` |
+| 下边距 | **32px**（至 `.page-desc`） |
 
 > 首页 Hero 例外：`32px / 700 / line-height 1.25`，仅用于 `index.html`。
 
@@ -78,24 +112,27 @@
 | 属性 | 值 |
 |------|-----|
 | 选择器 | `.section h2` |
-| 字号 | **20px** |
+| 字号 | **24px** |
 | 字重 | **700** |
-| 颜色 | `#1e293b` |
-| 下边距 | **16px** |
-| 内边距（底） | **10px** |
-| 装饰 | 底边 `2px solid #eff6ff` |
+| 行高 | **36** |
+| 颜色 | `#191919` |
+| 文字与底边线间距 | **24px**（`padding-bottom`） |
+| 上边距 | **32px**|
+| 下边距 | **16px**（边框线以下至下一元素） |
+| 装饰 | 底边 `2px solid #f0f0f0` |
 
 ### H3 · 小节标题
 
 | 属性 | 值 |
 |------|-----|
 | 选择器 | `.section h3` |
-| 字号 | **16px** |
-| 字重 | **600** |
-| 颜色 | `#1e293b` |
-| 上边距 | **28px**（首个 **16px**） |
-| 下边距 | **12px** |
-| 装饰 | 左侧 `3px solid #eff6ff` |
+| 字号 | **18px** |
+| 字重 | **700** |
+| 行高 | **28px** |
+| 字体 | **PingFang SC**（`--font`） |
+| 颜色 | `#191919` |
+| 上边距 | **32px**|
+| 下边距 | **16px** |
 
 用于「结论」「论证」「说明」等小节，不重复 H1 文案。
 
@@ -104,11 +141,11 @@
 | 属性 | 值 |
 |------|-----|
 | 选择器 | `.section h4` |
-| 字号 | **15px** |
-| 字重 | **600** |
-| 颜色 | `#1e293b` |
-| 上边距 | **20px** |
-| 下边距 | **10px** |
+| 字号 | **14px** |
+| 字重 | **700** |
+| 颜色 | `#191919` |
+| 上边距 | **24px** |
+| 下边距 | **16px** |
 
 **卡片内 H4**（`.answer-card-header h4`）：`14px / 700`。
 
@@ -120,9 +157,9 @@
 
 | 属性 | 值 |
 |------|-----|
-| 字号 | **15px** |
-| 行高 | **1.7** |
-| 颜色 | `#1e293b` |
+| 字号 | **14px** |
+| 行高 | **22** |
+| 颜色 | `#595959` |
 
 ### 页头描述（`.page-desc`）
 
@@ -130,7 +167,7 @@
 |------|-----|
 | 字号 | **14px** |
 | 行高 | **22px** |
-| 颜色 | `rgba(0, 0, 0, 0.6)` |
+| 颜色 | `rgba(0, 0, 0, 0.6)`（`--color-desc`） |
 
 **分行版**（`.page-desc--split` + `.page-desc-line`）：
 
@@ -143,43 +180,108 @@
 
 | 属性 | 值 |
 |------|-----|
-| 字号 | **15px**（继承） |
-| 行高 | **1.7** |
+| 字号 | **14px**（继承） |
+| 行高 | **22** |
 | 段落下边距 | **12px** |
 
-### 模块标签（`.module-label`）
+### 章节引导（`.section-heading-desc`）
 
 | 属性 | 值 |
 |------|-----|
-| 字号 | **12px** |
-| 字重 | **600** |
-| 字间距 | `0.06em` |
-| 大小写 | uppercase |
-| 颜色 | `#2563eb` |
-| 下边距 | **8px** |
+| 字号 | **14px** |
+| 行高 | **22px** |
+| 颜色 | `rgba(0, 0, 0, 0.6)`（`--color-desc`） |
+| 下边距 | **16px** |
 
-格式：`模块 NN · {模块名} · {可选子主题}`
+用于章节内表格/列表前的说明，勿用 inline `style`。
+
+### 辅助文字（`.text-auxiliary`）
+
+| 属性 | 值 |
+|------|-----|
+| 字号 | **12px**（`--text-auxiliary`） |
+| 行高 | **20px**（`--text-auxiliary-lh`） |
+| 颜色 | `#595959`（`--color-text-secondary`） |
+| 段落下边距 | **12px**（`--space-p`） |
+
+用于语义维度等小节后、措施列表下的**实测举例 / 延伸阅读**（如「当前以抓取 … 为例，具体实测见 …」），层级低于 `.section p` 正文，勿与论证段落混用。
+
+```html
+<ul class="list-badge-led">…</ul>
+<p class="text-auxiliary">当前以抓取 … 为例。具体实测见 <a href="…">问题论证 · …</a>。</p>
+```
+
+### 摘要卡片（`.summary-card`）
+
+用于章节内一句式摘要（如「核心命题」），标签与正文合为**一个 `<p>` 正文单元**。
+
+| 属性 | 值 |
+|------|-----|
+| 背景 | `#ffffff` |
+| 圆角 | `8px`（`--radius`） |
+| 描边 | 无 |
+| 内边距 | `16px 0 24px`（左右 0） |
+| 外边距 | **上 24px / 下 24px**（`margin: 24px 0`） |
+| 字号 | 14px，行高 22px |
+
+```html
+<div class="summary-card">
+  <p>
+    <span class="cp-label">核心命题</span>
+    RAG / 知识库尽量完整收录昇腾官方文档的<strong>文档语义</strong>。
+  </p>
+</div>
+```
+
+示例：`background-motivation.html` · 研究目标章节。
 
 ### 组件内文字
 
 | 组件 | 字号 | 行高 |
 |------|------|------|
+| `.summary-card` | 14px | 22px |
 | `.component-problem` | 14px | 1.65 |
 | `.info-box` | 14px | 继承 |
 | `.data-table` | 13.5px | 继承 |
 | `.key-points li` | 14px | 继承 |
 | `.cp-label` | 11px / 700 / 主色 | — |
 
-### 行内代码（`code`）
+### 代码文案（行内 `code`）
 
-| 属性 | 值 |
+段落、列表、`list-badge-led` 中的字段名与标签片段（如 `` `alt` ``、`` `<img>` ``）统一使用**代码文案**样式，全站高度一致（**20px** = 2 + 16 + 2）。
+
+| 令牌 / 属性 | 值 |
 |------|-----|
-| 字号 | `0.9em` |
-| 字体 | 等宽栈 |
-| 背景 | `#f1f5f9` |
-| 内边距 | `2px 6px` |
-| 圆角 | `4px` |
-| 颜色 | `#1e293b` |
+| `--code-copy-size` | `13px` |
+| `--code-copy-lh` | `16px`（固定行高，不继承正文 22px） |
+| `--code-copy-pad-y` / `--code-copy-pad-x` | `2px` / `6px` |
+| `--code-copy-radius` | `4px` |
+| 字体 | 等宽栈（`--font-mono`） |
+| 背景 / 字色 | `--color-code-bg` / `--color-code-text` |
+
+| 选择器 | 说明 |
+|------|------|
+| `code` | 默认代码文案 |
+| `pre` | 多行代码块容器（独立 padding） |
+| `pre code` | 块内 `code` 重置为透明底、无 padding，避免双重包裹 |
+
+### 标签（两套样式）
+
+| 类型 | 类名 | 用途 | 视觉 |
+|------|------|------|------|
+| **状态标签** | `badge badge-status badge-bad` 等 | 小节标题旁入库状态（「语义完全丢失」）、`cp-status`、表格评级 | 12px、左右 padding 10px、**描边** |
+| **优先级标签** | `badge badge-priority badge-must` 等 | `list-badge-led` 内「必要 / 可选」 | 11px、**固定宽 40px** 居中、无描边 |
+
+`list-badge-led > li` 用 **左缩进 + badge 绝对定位**（`padding-left: 48px`），正文与行内 `code` 保持**同一文本流**自然换行；勿用 flex 横排（会把文字与 `code` 拆成多个 flex 项，窄屏下出现「拼接式」断行）。
+
+色阶 modifier 共用：`badge-bad` / `badge-should` / `badge-ok`（状态）；`badge-must` / `badge-should`（优先级）。背景与描边分别使用 `--color-danger-bg` / `--color-danger-border` 等语义透明度令牌。未写 `badge-status` 时，`.section h3 > .badge` 与 `.list-badge-led .badge` 仍按上下文自动套用对应样式。
+
+```html
+<h3>1. 图片语义 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
+<ul class="list-badge-led">
+  <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：…</li>
+</ul>
+```
 
 ---
 
@@ -187,13 +289,15 @@
 
 | 区块 | 间距 |
 |------|------|
+| `body.inner-page .main-content` 上内边距 | `clamp(32px, 2.5vw, 48px)`（1920 下 **48px**，H1 距 `main` 顶缘） |
 | `.page-header` 下边距 | 36px |
 | `.page-header` 底内边距 | 24px |
 | `.section` 下边距 | 48px |
 | `.section p` 段间距 | 12px |
 | `.section ul/ol` 下边距 | 16px；左缩进 20px |
 | `.section li` 项间距 | 6px |
-| `.component-problem` | margin 12px 0；padding 20px |
+| `.summary-card` | margin **24px 0**；padding **16px 0 24px**（左右 0） |
+| `.component-problem` | margin 12px 0；padding **20px 0**（左右 0） |
 | `.info-box` / `.data-table` | margin 16px 0 |
 | `.page-nav` | margin-top 60px；padding-top 24px |
 
@@ -209,8 +313,8 @@
   <div class="page-wrapper">
     <aside id="module-sidebar"></aside>
     <main class="main-content">
+      <!-- #page-toc 由 module-sidebar.js 注入 -->
       <div class="page-header">
-        <div class="module-label">模块 02 · 当前问题 · 子主题</div>
         <h1>页面标题</h1>
         <p class="page-desc">一句话说明本页测什么。</p>
         <!-- 可选 -->
@@ -257,11 +361,11 @@
 </body>
 ```
 
-示例：`index.html`、`background-motivation.html`。有侧栏时勿加 `content-wide`；正文宽度由 `main` 内直接子块的选择器约束（见 §1.4）。
+示例：`index.html`、`background-motivation.html` 使用 `content-wide`（`padding-left: var(--content-offset-left)`，正文与有侧栏内页左缘对齐）。有侧栏模块内页勿加 `content-wide`（见 §1.4）。
 
 ### 5.5 顶栏
 
-- 全站「当前问题」入口：`problems-answer-search.html`
+- 全站「问题论证」入口：`problems-answer-search.html`
 
 ---
 
@@ -280,4 +384,4 @@
 |------|------|
 | `assets/css/style.css` | 全部样式实现 |
 | `ui-system.html` | 规范可视化示例 |
-| `assets/js/module-sidebar.js` | 侧栏导航 |
+| `assets/js/module-sidebar.js` | 模块侧栏 + 右侧本篇目录 |

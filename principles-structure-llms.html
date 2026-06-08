@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>机器入口 · 亲和原则 · 大模型知识获取研究</title>
+  <title>llms.txt 与机器入口 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="structure-llms">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,13 +25,26 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
-      <h1>机器入口</h1>
-      <p class="page-desc">对应 <a href="problems-structure-llms.html">当前问题 · llms.txt 与机器入口</a>。机器发现层靠站点配置，单篇文档 UI 改动极少。</p>
+      <h1>llms.txt 与机器入口</h1>
+      <p class="page-desc">对应 <a href="problems-structure-llms.html">问题论证 · llms.txt 与机器入口</a>。机器发现层靠站点配置；须声明主推版本与机器源基址。消歧策略见 <a href="principles-timeliness-disambiguation.html">多版本消歧</a>。</p>
     </div>
 
 
     <section class="section" id="structure-llms">
+
+      <div class="content-unit" id="delivery-discovery">
+        <h3>站点发现层一览</h3>
+        <p class="section-heading-desc">决定爬虫从哪条 URL 起步、能否访问 source；与 <a href="principles-format.html#delivery-entry">双轨交付 · 交付与抓取入口一览</a> 配套。概览见 <a href="background-motivation.html#dimensions">研究概览 · 第 9 节站点发现</a>。问题实测见 <a href="problems-structure-llms.html">llms.txt 与机器入口</a>。</p>
+        <table class="data-table">
+          <thead><tr><th>配置</th><th>现状</th><th>后果</th></tr></thead>
+          <tbody>
+            <tr><td><code>llms.txt</code></td><td>根路径 404</td><td>Agent 不知文档索引与机器源基址</td></tr>
+            <tr><td><code>robots.txt</code></td><td><code>Disallow: /doc_center/</code></td><td>最优 source 路径被主动屏蔽</td></tr>
+            <tr><td>sitemap</td><td>抽样均为 <code>/document/detail/</code></td><td>发现层默认导向高噪声渲染页</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h3>亲和原则</h3>
       <table class="data-table">
         <thead>
@@ -42,6 +55,7 @@
           <tr id="llms-02"><td>2</td><td><code>robots.txt</code> 不得禁止 <code>/doc_center/source/</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
           <tr id="llms-03"><td>3</td><td>sitemap 优先收录机器源 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
           <tr id="llms-04"><td>4</td><td>全局模板可选 <code>link rel="llms"</code> 指向站点索引</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="llms-canonical"><td>5</td><td><code>llms.txt</code> 声明 canonical 主推版本（如 CANN 社区版 9.0.0 / 900），旧版标注 <code>deprecated</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">

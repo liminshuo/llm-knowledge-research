@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>元数据规范 · 亲和原则 · 大模型知识获取研究</title>
+  <title>元数据字段规范 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="structure-metadata">
@@ -13,7 +13,7 @@
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">当前问题</a>
+    <a href="problems-answer-search.html">问题论证</a>
     <a href="principles-general.html" class="active">亲和原则</a>
   </nav>
 </header>
@@ -25,13 +25,29 @@
   <main class="main-content">
 
     <div class="page-header">
-      <div class="module-label">模块 03 · 亲和原则</div>
-      <h1>元数据规范</h1>
-      <p class="page-desc">对应 <a href="problems-structure-metadata.html">当前问题 · 元数据字段规范</a>。版本、产品、适用设备、摘要等须在文章头部可视化呈现，并同步元数据。</p>
+      <h1>元数据字段规范</h1>
+      <p class="page-desc">对应 <a href="problems-structure-metadata.html">问题论证 · 元数据字段规范</a>。版本、产品、适用设备、摘要等须在文章头部可视化呈现，并同步元数据。</p>
     </div>
 
 
     <section class="section" id="metadata">
+
+      <div class="content-unit" id="ia-fields">
+        <h3>IA 元数据字段一览</h3>
+        <p class="section-heading-desc">各字段在 RAG 中的作用与当前缺口；对应改造原则见下表编号。问题实测见 <a href="problems-structure-metadata.html">元数据字段规范</a>。</p>
+        <table class="data-table">
+          <thead><tr><th>元数据</th><th>作用</th><th>现状</th></tr></thead>
+          <tbody>
+            <tr><td>breadcrumb / 父主题</td><td>消歧同名章节</td><td>有 HTML，机器层未标准输出</td></tr>
+            <tr><td>prev / next</td><td>学习顺序</td><td>未作关系边入库</td></tr>
+            <tr><td>doc_id / Topic 锚点</td><td>精确定位、切片边界</td><td>存在但未标注 chunk</td></tr>
+            <tr><td>version（8.5 / 9.0）</td><td>防版本混淆</td><td>多版本并存，检索常混</td></tr>
+            <tr><td>applicable_devices</td><td>设备适用性</td><td>视觉卡片，无结构化字段</td></tr>
+            <tr><td>文章摘要（60–120 字）</td><td>检索主题锚点</td><td>普遍缺失</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h3>元数据与文章头部</h3>
       <table class="data-table">
         <thead>
@@ -108,7 +124,7 @@
 
     <section class="section" id="heading-rules">
       <h3>标题层级（并入本篇）</h3>
-      <p class="page-desc" style="margin:-8px 0 16px;">标题规则已并入上表第 1 ~ 4 条；原独立「标题」页见 <a href="principles-structure-metadata.html#h-01">第 1 条</a>。</p>
+      <p class="section-heading-desc">标题规则已并入上表第 1 ~ 4 条；原独立「标题」页见 <a href="principles-structure-metadata.html#h-01">第 1 条</a>。</p>
     </section>
 
 
