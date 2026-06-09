@@ -26,34 +26,42 @@
 
     <div class="page-header">
       <h1>检索阶段</h1>
-      <p class="page-desc page-desc--split">
-        <span class="page-desc-line">检索阶段即大模型在生成回答前、通过联网搜索拉取的网页池。</span>
-        <span class="page-desc-line">本页只聚焦这一阶段：统计三模型检索结果中，来源于「昇腾社区」官方（<code>hiascend.com</code>）的 URL 占比。</span>
-      </p>
-      <div class="component-problem">
-        <div class="cp-label">核心结论</div>
-        <ul>
-          <li><strong>昇腾社区占比分化</strong>：千问脚注参考链接 <strong>54%</strong>（13 条中 7 条）最高，DeepSeek <strong>33%</strong>（27 条中 9 条），Claude 仅 <strong>21%</strong>（19 条中 4 条）最低；三模型检索阶段对官方社区文档的覆盖差异显著，直接决定后续生成能否优先召回 <code>hiascend.com</code> 内容。</li>
-          <li><strong>非社区信源主导</strong>：Claude 检索池 <strong>79%</strong> 为第三方教程，DeepSeek 华为系渠道合计 <strong>56%</strong>（开发者 30% + 云博客 26%），昇腾社区并非二者检索主来源；联网检索更易拉入教程站与华为系页面，削弱「基于官方资料」prompt 的可执行性。</li>
-        </ul>
-      </div>
     </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="检索阶段问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
-      <div class="content-tabs-panels">
+    <p class="page-desc page-desc--split">
+      <span class="page-desc-line">检索阶段即大模型在生成回答前、通过联网搜索拉取的网页池。</span>
+      <span class="page-desc-line">本页只聚焦这一阶段：统计三模型检索结果中，来源于「昇腾社区」官方（<code>hiascend.com</code>）的 URL 占比。</span>
+    </p>
 
-    <section class="section is-active" id="answer-search-problem" role="tabpanel" data-tab-panel="problem">
+    <div class="component-problem">
+      <div class="cp-label">核心结论</div>
+      <ul>
+        <li><strong>昇腾社区占比分化</strong>：千问脚注参考链接 <strong>54%</strong>（13 条中 7 条）最高，DeepSeek <strong>33%</strong>（27 条中 9 条），Claude 仅 <strong>21%</strong>（19 条中 4 条）最低；三模型检索阶段对官方社区文档的覆盖差异显著，直接决定后续生成能否优先召回 <code>hiascend.com</code> 内容。</li>
+        <li><strong>非社区信源主导</strong>：Claude 检索池 <strong>79%</strong> 为第三方教程，DeepSeek 华为系渠道合计 <strong>56%</strong>（开发者 30% + 云博客 26%），昇腾社区并非二者检索主来源；联网检索更易拉入教程站与华为系页面，削弱「基于官方资料」prompt 的可执行性。</li>
+      </ul>
+    </div>
+
+    <section class="section" id="answer-search-problem">
+      <h2>问题实测</h2>
+
       <div class="content-unit">
-        <h2>测试问题</h2>
-        <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
+        <h3>测试问题</h3>
+        <div class="test-prompt-card">
+          <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
+        </div>
       </div>
 
       <div class="content-unit">
-      <h2>结论</h2>
+        <h3>回答源件</h3>
+        <p>
+          <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">Claude AI</a>
+          · <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">DeepSeek</a>
+          · <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">千问</a>
+        </p>
+      </div>
+
+      <div class="content-unit">
+      <h3>统计结果</h3>
       <div class="answer-card-grid">
 
         <div class="answer-card answer-card--claude">
@@ -85,7 +93,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>联网检索 19 条 URL（19 个唯一地址）；</li>
+            <li>联网检索 19 条 URL；</li>
             <li>昇腾社区 4 条（21%），第三方 15 条（79%）；</li>
             <li>官方含 8.5 alpha / 9.1 beta 导读，未见 CANN 9.0 社区版；第三方以 CSDN / 知乎 / 博客园为主。</li>
           </ul>
@@ -122,7 +130,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>浏览 27 页（27 个唯一 URL，含 PDF 锚点）；</li>
+            <li>浏览 27 页（含 PDF 锚点）；</li>
             <li>昇腾社区 9 条（33%），华为开发者 8 条（30%），华为云博客 7 条（26%），百度系 3 条（11%）；</li>
             <li>多为 CANN 8.0 / 8.1 / 8.2 RC 版 PDF，无 CANN 9.0。</li>
           </ul>
@@ -159,7 +167,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>脚注参考链接 13 条 URL（<code>[^1]</code>–<code>[^13]</code>，与回答文末一致）；</li>
+            <li>脚注参考链接 13 条 URL；</li>
             <li>昇腾社区 7 条（54%），华为开发者论坛 1 条（8%），第三方 5 条（38%）— 博客园 / CSDN / 阿里云 / 腾讯云；</li>
             <li>含 5 条 <code>document/detail</code> 与 <code>/zh/ascend-c</code> 入口，版本覆盖 83RC1 / 900beta1 / 80RC1 / 850 / 82RC1，未见 CANN 9.0.0（900）。</li>
           </ul>
@@ -169,7 +177,7 @@
 
       </div>
 
-      <div class="source-type-defs">
+      <div class="source-type-defs surface-card">
         <p class="source-type-defs-title">来源类型说明</p>
         <ul class="source-type-defs-list">
           <li>
@@ -205,35 +213,27 @@
       </div>
     </section>
 
-    <section class="section" id="answer-search-solution" role="tabpanel" data-tab-panel="solution" hidden>
+    <section class="section" id="answer-search-solution">
+      <h2>解决方案</h2>
+
       <div class="content-unit">
-        <h2>改进目标</h2>
+        <h3>改进目标</h3>
         <p>提升检索阶段<strong>昇腾社区官方 URL 占比</strong>，并确保拉取的是低噪声机器层（<code>doc_center/source</code> 或声明的 MD 出口），而非高噪声渲染页与旧版路径。</p>
       </div>
-      <div class="content-unit">
-        <h2>改进措施</h2>
-        <h3>一、机器发现层（P0）</h3>
-        <p>部署 <code>llms.txt</code> 声明 canonical 源与主推版本 900，避免 Agent 自行猜测入口。详见 <a href="problems-structure-llms.html#solution">llms.txt · 解决方案</a>。</p>
-        <h3>二、双轨交付与格式（P0）</h3>
-        <p>官方文档以机器层 MD / 源 HTML 并行发布，联网检索排序时优先暴露低噪声 URL。详见 <a href="problems-format.html#solution">交付格式 · 解决方案</a>。</p>
-        <h3>三、版本与元数据过滤（P1）</h3>
-        <p>入库标注 <code>version</code>，检索默认过滤 CANN 9.0.0，降低 8.x / 850 商用 / beta 路径被拉入检索池的概率。详见 <a href="problems-structure-metadata.html#solution">元数据 · 解决方案</a>、<a href="problems-timeliness.html#solution">版本滞后 · 解决方案</a>。</p>
-      </div>
-      <div class="content-unit">
-        <h2>改进路径</h2>
-        <table class="data-table">
-          <thead><tr><th>场景</th><th>建议</th><th>优先级</th></tr></thead>
-          <tbody>
-            <tr><td>官方占比低（如 Claude 21%）</td><td>llms.txt + sitemap 引导官方机器层</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>检索 URL 版本混杂</td><td>主推 900 + deprecated 标注旧版</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>第三方教程主导</td><td>提升官方 MD 可索引性与排序权重</td><td><span class="badge badge-should">P1</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
 
+      <div class="content-unit">
+
+        <h3>改进措施</h3>
+        <h4>1. 补充机器发现层 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>官方占比低</strong>（如 Claude 21%）：部署 <code>llms.txt</code> 声明 canonical 源与主推版本 900，以 sitemap 引导官方机器层，避免 Agent 自行猜测入口。详见 <a href="principles-structure-llms.html">亲和原则 · llms.txt 与机器入口</a>。</p>
+        <h4>2. 落实双轨交付与格式 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>第三方教程主导</strong>：官方文档以机器层 MD / 源 HTML 并行发布，提升官方 MD 可索引性与排序权重，联网检索排序时优先暴露低噪声 URL。详见 <a href="principles-format.html">亲和原则 · 格式交付与抓取入口</a>。</p>
+        <h4>3. 强化版本与元数据过滤 <span class="badge badge-priority badge-should">P1</span></h4>
+        <p>针对<strong>检索 URL 版本混杂</strong>：主推 900 并对旧版路径标注 <code>deprecated</code>；入库标注 <code>version</code>，检索默认过滤 CANN 9.0.0，降低 8.x / 850 商用 / beta 路径被拉入检索池的概率。详见 <a href="principles-structure-metadata.html">亲和原则 · 元数据字段规范</a>、<a href="principles-timeliness.html">亲和原则 · 版本外显</a>。</p>
       </div>
-    </div>
+
+      
+    </section>
 
 
   </main>
@@ -393,7 +393,6 @@
 
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
 <script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

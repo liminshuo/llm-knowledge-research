@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>跨文档结构感知 · 问题论证 · 大模型知识获取研究</title>
+  <title>跨页关系未结构化 · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="problems" data-page="structure-cross">
@@ -25,32 +25,167 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>跨文档结构感知</h1>
-      <p class="page-desc">breadcrumb、版本消歧与章节间跳转。</p>
+      <div class="page-header-top">
+        <h1>跨页关系未结构化</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
     </div>
 
-    <section class="section" id="structure-cross">
-      <h2>跨文档结构感知</h2>
-      <div class="component-problem">
-        <div class="cp-label">问题论证</div>
+    <p class="page-desc">对应研究概览第 8 节「信息架构与跨页语义」：breadcrumb、上下篇、父主题与章节间跳转<strong>在页面上对人类可见</strong>，入库后未标准化为 chunk 元数据与关系边——跨页 IA「有据、无情」。页级 <code>version</code> / <code>doc_id</code> 字段化论证见 <a href="problems-structure-metadata.html">页级元数据未结构化</a>。</p>
+
+    <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">语义未结构化</span></span>
+        <div class="cp-label">核心问题</div>
         <ul>
           <li>模型难以判断「环境准备」指向<strong>入门教程</strong>还是<strong>软件安装</strong>——缺乏 breadcrumb 消歧</li>
           <li>成长地图 28 个热区链接丢失，无法感知<strong>章节间跳转与学习顺序</strong></li>
-          <li>多版本文档（8.5 / 9.0）并存，无 version 元数据，检索时<strong>版本混淆</strong></li>
+          <li>多版本文档（8.5 / 9.0）并存，跨页关系未与 <code>version</code> 绑定，检索时<strong>版本混淆</strong></li>
           <li>全站 282 项导航菜单若灌入上下文，造成 IA 过载；若不灌入，又缺乏跨页关联</li>
           <li>上下篇、父主题链接存在但机器层未标准化输出</li>
         </ul>
       </div>
-      <p class="text-auxiliary">改造原则见 <a href="principles-structure-cross.html">亲和原则 · 跨文档结构感知</a>；页级元数据见 <a href="principles-structure-metadata.html">元数据字段规范</a>。</p>
-    </section>
+
+    <section class="section" id="structure-cross-problem">
+      <h2>问题实测</h2>
+
+          <div class="content-unit">
+
+            <h3>测试问题</h3>
+
+            <div class="test-prompt-card">
+
+              <p>向量库已入库 Ascend C 文档正文后，能否回答：</p>
+              <ul class="key-points">
+                <li>检索「<strong>环境准备</strong>」时，它属于<strong>入门教程</strong>还是<strong>软件安装</strong>？</li>
+                <li>读完「什么是 Ascend C」后，<strong>下一篇应读什么</strong>、成长地图各阶段如何跳转？</li>
+                <li>引用某 chunk 时，能否回溯到<strong>唯一章节路径</strong>而非仅 URL？</li>
+              </ul>
+
+            </div>
+
+            </div>
+
+          <div class="content-unit">
+            <h3>结论：跨页关系未结构化</h3>
+            <p><strong>人类在渲染页能看见章节位置，RAG 读不到关系边。</strong> breadcrumb 压缩在 <code>&lt;title&gt;</code> 字符串里、上下篇未进 Front Matter、成长地图热区未转写——chunk 之间<strong>没有可检索的 prev / next / parent_topic</strong>，多跳推理与学习顺序推理失败。</p>
+
+            <h4>1. breadcrumb 有文本、无字段</h4>
+            <p>以「什么是 Ascend C」为例（<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a>）：章节路径存在于 URL 与 <code>&lt;title&gt;</code>，但未拆成 <code>breadcrumb[]</code> 数组写入 chunk。同名「环境准备」在不同教程线下无法字段消歧。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>关系信息</th><th>页面上</th><th>入库后</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>章节路径</td><td>✅ 压缩在 title / URL</td><td>❌ 无 <code>breadcrumb</code> 字段</td></tr>
+                <tr><td>父主题</td><td>✅ 侧栏树可见</td><td>❌ 未写入 <code>parent_topic</code></td></tr>
+                <tr><td>上下篇</td><td>⚠️ 部分页脚有链接</td><td>❌ 无 <code>prev</code> / <code>next</code></td></tr>
+              </tbody>
+            </table>
+
+            <h4>2. 成长地图：章节关系只存在于热区</h4>
+            <p>「什么是 Ascend C」成长地图含 <strong>28 个热区</strong>跳转——对人类是导航图，对默认抓取管道是 PNG + 坐标（见 <a href="problems-content-hotzone.html">图片热区</a>）。即使正文段落可检索，<strong>阶段顺序与章节间跳转</strong>仍无法从 chunk 关系边还原。</p>
+
+            <h4>3. IA 层级：灌全站 vs 不灌都错</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>IA 层级</th><th>内容</th><th>跨页 / 单文档</th><th>当前入库态</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Level 0</td><td>单页正文</td><td>单文档</td><td><span class="badge badge-ok">基本可用</span></td></tr>
+                <tr><td>Level 1</td><td>breadcrumb、上下篇、版本</td><td>跨文档</td><td><span class="badge badge-should">未结构化</span></td></tr>
+                <tr><td>Level 2</td><td>章节子树（入门教程完整路径）</td><td>跨文档</td><td><span class="badge badge-bad">缺失</span></td></tr>
+                <tr><td>Level 3</td><td>全站 282 项导航</td><td>跨文档</td><td><span class="badge badge-bad">噪声灌库</span>（若抓渲染页）</td></tr>
+              </tbody>
+            </table>
+            <div class="info-box warning">
+              <div class="box-title">论证链</div>
+              <a href="problems-structure-llms.html">机器发现层</a> 引导爬虫抓渲染页 → 282 个导航链接与正文混排 → Level 1 关系反而未字段化 → 与 <a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a>、<a href="problems-answer-search.html">检索阶段</a> 观测一致。
+            </div>
+
+            <h4>入库状态对照</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>跨页关系状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>渲染页剥壳抓取</td><td><span class="badge badge-bad">Level 3 噪声</span></td><td>侧栏全站树与正文混排</td></tr>
+                <tr><td>title 路径字符串</td><td><span class="badge badge-should">未结构化</span></td><td>无法字段消歧、无法过滤</td></tr>
+                <tr><td>Front Matter 关系边</td><td><span class="badge badge-bad">源站缺失</span></td><td>无 prev / next / breadcrumb 标准输出</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+            </section>
+
+    <section class="section" id="structure-cross-solution">
+      <h2>解决方案</h2>
+
+          <div class="content-unit">
+            <h3>改进目标</h3>
+            <p>每篇 chunk 入库时附带<strong>Level 1 跨页关系</strong>——breadcrumb、上下篇、父主题与版本绑定可检索；同时<strong>剥离 Level 3 全站导航</strong>，避免 282 项侧栏稀释正文。</p>
+          </div>
+
+          <div class="content-unit">
+
+            <h3>改进措施</h3>
+
+            <h4>推进 UI 侧：面包屑与上下篇可见 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>渲染页展示完整 breadcrumb 文本路径——消歧同名章节（如两处「环境准备」）。</li>
+              <li>页脚或文首展示「上一篇 / 下一篇」，锚文本描述目标章节——人类可核对，管道可抽取。</li>
+              <li>成长地图等热区入口须另有<strong>文本链接列表</strong>——章节关系不依赖读图（配合 <a href="problems-content-hotzone.html">图片热区</a>）。</li>
+            </ul>
+
+            <h4>落实机器层：Front Matter 关系字段 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>每篇机器层输出 <code>breadcrumb</code>、<code>prev</code>、<code>next</code>、<code>parent_topic</code>——与渲染页可见导航一致。</li>
+              <li><code>version</code> 与关系字段同批写入——跨页跳转不脱离版本上下文（字段模板见 <a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a>）。</li>
+            </ul>
+            <div class="arch-diagram">---
+doc_id: atlas_ascendc_map_10_0002
+breadcrumb:
+  - Ascend C算子开发
+  - 入门教程
+  - 什么是 Ascend C
+prev: atlas_ascendc_map_10_0001
+next: atlas_ascendc_map_10_0003
+version: CANN社区版 9.0.0
+---</div>
+
+            <h4>收敛管道：只保留 Level 1、剥离 Level 3 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>机器源从 <code>/doc_center/source/</code> 抓取，自动剥离全站侧栏文档树——正文 chunk 不含 282 项导航链接。</li>
+              <li>管道将关系边写入 JSON-LD / chunk 元数据——与 UI 层 breadcrumb 一致，供 RAG 过滤与多跳推理。</li>
+              <li>Level 2 章节子树按需输出为专题索引或关系边，不默认灌入每篇正文。</li>
+            </ul>
+
+            <p>核心原则：<strong>轻量 IA 入库</strong>——不是把全站导航树灌进 chunk，而是每篇带上「我在哪、前后是什么」。详见 <a href="principles-structure-cross.html">亲和原则 · 跨文档结构感知</a>。</p>
+
+            </div>
+
+            </section>
 
 
-  </main></div>
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">什么是 Ascend C · 成长地图</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/ascend-c-test-embed.html"
+      title="什么是 Ascend C 测试页面"
+    ></iframe>
+  </aside></div>
 
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
 </body>
 </html>

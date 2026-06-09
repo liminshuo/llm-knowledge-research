@@ -26,11 +26,14 @@
 
     <div class="page-header">
       <h1>生成阶段</h1>
-      <p class="page-desc page-desc--split">
+    </div>
+
+    <p class="page-desc page-desc--split">
         <span class="page-desc-line">生成阶段即大模型输出回答并标注溯源（段末 URL、脚注）的阶段。</span>
         <span class="page-desc-line">本页只聚焦这一阶段：统计三模型生成回答的段末溯源与脚注中，来源于「昇腾社区」官方（<code>hiascend.com</code>）的引用占比。</span>
       </p>
-      <div class="component-problem">
+
+    <div class="component-problem">
         <div class="cp-label">核心结论</div>
         <ul>
           <li><strong>社区主信源识别失败</strong>：在「基于官方资料」约束下，三模型均未将 <code>hiascend.com</code> 昇腾社区稳定识别为 Ascend C 算子开发的首要权威来源；社区引用仅 <strong>22%–67%</strong>（Claude <strong>35%</strong> 最低），说明模型<strong>感知不到「何处才是本题所指的官方」</strong>，prompt 未能拉高社区文档的选材优先级。</li>
@@ -38,31 +41,39 @@
           <li><strong>约束难以纠偏选材</strong>：同一 prompt、同一「官方资料」表述，三模型给出截然不同的溯源构成，且均未见 CANN 9.0.0（900）社区版；说明仅靠自然语言约束<strong>不足以让模型跟昇腾社区文档体系对齐</strong>，官方信源感知弱将直接导致回答权威性与产品文档脱节。</li>
         </ul>
       </div>
-    </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="生成阶段问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
-      <div class="content-tabs-panels">
-
-    <section class="section is-active" id="answer-generate-problem" role="tabpanel" data-tab-panel="problem">
-      <div class="content-unit">
-        <h2>测试问题</h2>
-        <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
-      </div>
+    <section class="section" id="answer-generate-problem">
+      <h2>问题实测</h2>
 
       <div class="content-unit">
-      <h2>论证</h2>
-      <div class="answer-card-grid">
+
+        <h3>测试问题</h3>
+
+        <div class="test-prompt-card">
+
+          <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
+
+        </div>
+
+        </div>
+
+      <div class="content-unit">
+        <h3>回答源件</h3>
+        <p>
+          <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">Claude AI</a>
+          · <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">DeepSeek</a>
+          · <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">千问</a>
+        </p>
+      </div>
+
+      <div class="content-unit">
+        <h3>统计结果</h3>
+        <div class="answer-card-grid">
 
         <div class="answer-card answer-card--claude">
           <div class="answer-card-header">
             <h4>Claude AI 回答</h4>
           </div>
-
-          <p class="answer-card-prompt">来源构成（Pages 段末 URL 标注，共 17 个信息单元）</p>
 
           <div class="source-breakdown">
             <div class="source-row">
@@ -88,7 +99,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>段末 URL 标注 <strong>17</strong> 个信息单元（Pages <code>(URL:…)</code> 口径）；</li>
+            <li>段末 URL 标注 17 个信息单元；</li>
             <li>昇腾社区 <strong>6</strong> 条（35%），第三方 <strong>11</strong> 条（65%）— 知乎 / 博客园 / CSDN 等；</li>
             <li>官方多指向 9.1 beta 导读与 Ascend C 入口，未见 CANN 9.0.0（900）；正文 <strong>100%</strong> 含可核对链接，仅 <strong>35%</strong> 为 <code>hiascend.com</code>。</li>
           </ul>
@@ -100,8 +111,6 @@
           <div class="answer-card-header">
             <h4>DeepSeek 回答</h4>
           </div>
-
-          <p class="answer-card-prompt">来源构成（Pages 段末 URL 标注，共 23 个信息单元）</p>
 
           <div class="source-breakdown">
             <div class="source-row">
@@ -127,7 +136,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>段末 URL 标注 <strong>23</strong> 个信息单元（Pages <code>(URL:…)</code> 口径）；</li>
+            <li>段末 URL 标注 23 个信息单元；</li>
             <li>昇腾社区 <strong>5</strong> 条（22%），华为开发者 <strong>9</strong> 条（39%），华为云博客 <strong>7</strong> 条（30%），模型内化 <strong>2</strong> 条（9%）；</li>
             <li>官方路径多为 8.0 / 8.1 / 8.2 RC 版，未见 CANN 9.0.0（900）；<strong>91%</strong> 含可核对链接，仅 <strong>35%</strong> 标注含 <code>hiascend.com</code>。</li>
           </ul>
@@ -139,8 +148,6 @@
           <div class="answer-card-header">
             <h4>千问回答</h4>
           </div>
-
-          <p class="answer-card-prompt">来源构成（脚注标注口径，共 18 个信息单元）</p>
 
           <div class="source-breakdown">
             <div class="source-row">
@@ -166,7 +173,7 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>脚注 <code>[^1]–[^13]</code> 标注 <strong>18</strong> 个信息单元（<strong>17</strong> 单元含脚注可逐段核对）；</li>
+            <li>脚注 <code>[^1]–[^13]</code> 标注 18 个信息单元；</li>
             <li>昇腾社区 <strong>12</strong> 条（67%），第三方 <strong>5</strong> 条（28%），模型内化 <strong>1</strong> 条（5%）— 文末链接昇腾 <strong>7</strong> 条、华为论坛 <strong>1</strong> 条、第三方 <strong>5</strong> 条；</li>
             <li>官方脚注多指向 83RC1 / 900beta1 / 80RC1 / 850 / 82RC1，未见 CANN 9.0.0（900）；第三方集中于 TBE 替代、Host 指挥者、内存层次、SPMD、工程目录。</li>
           </ul>
@@ -176,7 +183,7 @@
 
       </div>
 
-      <div class="source-type-defs">
+      <div class="source-type-defs surface-card">
         <p class="source-type-defs-title">来源类型说明</p>
         <ul class="source-type-defs-list">
           <li>
@@ -210,37 +217,31 @@
         </ul>
       </div>
       </div>
-    </section>
+        </section>
 
-    <section class="section" id="answer-generate-solution" role="tabpanel" data-tab-panel="solution" hidden>
+    <section class="section" id="answer-generate-solution">
+      <h2>解决方案</h2>
+
       <div class="content-unit">
-        <h2>改进目标</h2>
+        <h3>改进目标</h3>
         <p>生成阶段回答应<strong>优先引用 CANN 9.0.0 官方社区文档</strong>，脚注/溯源可稳定映射到 <code>doc_id</code>，且社区主信源识别准确、非社区教程不冒充官方。</p>
       </div>
       <div class="content-unit">
-        <h2>改进措施</h2>
-        <h3>一、检索池治理（承接检索阶段）</h3>
-        <p>生成质量上限由检索池决定——先落实 <a href="problems-answer-search.html#solution">检索阶段 · 解决方案</a>（llms.txt、双轨交付、版本过滤）。</p>
-        <h3>二、元数据与溯源（P0）</h3>
-        <p>chunk 附带 <code>version</code>、<code>doc_id</code>、<code>source_url</code>，生成时默认过滤 900 社区版，脚注回链稳定。详见 <a href="problems-structure-metadata.html#solution">元数据 · 解决方案</a>。</p>
-        <h3>三、信源标注规范（P1）</h3>
-        <p>区分昇腾社区官方 / 华为系渠道 / 第三方教程，避免 CSDN 教程在「基于官方资料」prompt 下被标为官方。</p>
-      </div>
-      <div class="content-unit">
-        <h2>改进路径</h2>
-        <table class="data-table">
-          <thead><tr><th>场景</th><th>建议</th><th>优先级</th></tr></thead>
-          <tbody>
-            <tr><td>900 未进入生成溯源</td><td>检索默认 900 + 生成阶段 version 过滤</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>社区主信源识别失败</td><td>优先召回 <code>hiascend.com</code> 机器层 chunk</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>脚注仅裸 URL</td><td>输出 <code>doc_id</code> + 人类层/机器层双 URL</td><td><span class="badge badge-should">P1</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <h3>改进措施</h3>
+        <h4>1. 承接检索池治理</h4>
+        <p>针对<strong>900 未进入生成溯源</strong>：生成质量上限由检索池决定——先落实 <a href="problems-answer-search.html#solution">检索阶段 · 解决方案</a>（llms.txt、双轨交付、版本 过滤）；检索默认 900 + 生成阶段 version 过滤。</p>
+        <h4>2. 补充元数据与溯源 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>脚注仅裸 URL</strong>：chunk 附带 <code>version</code>、<code>doc_id</code>、<code>source_url</code>，生成时默认过滤 900 社区版，脚注回链稳定；输出 <code>doc_id</code> + 人类层/机器层双 URL。详见 <a href="principles-structure-metadata.html">亲和原则 · 元数据字段规范</a>。</p>
+        <h4>3. 规范信源标注 <span class="badge badge-priority badge-should">P1</span></h4>
+        <p>针对<strong>社区主信源识别失败</strong>：区分昇腾社区官方 / 华为系渠道 / 第三方教程，优先召回 <code>hiascend.com</code> 机器层 chunk，避免 CSDN 教程在「基于官方资料」prompt 下被标为官方。</p>
 
-      </div>
-    </div>
+
+
+        </div>
+      
+        </section>
+
+
 
 
   </main>
@@ -263,11 +264,10 @@
 
 
 <template data-drawer-template="claude" data-drawer-title="Claude AI 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">打开 Claude 分享页 ↗</a>
+  <p>
+    <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">Claude AI</a>
     · 导出文件：<a href="references/官方信源感知弱/claudeai-回答.md">claudeai-回答.md</a>（Pages 段末 <code>(URL:…)</code> 标注，17 单元溯源）· <a href="references/官方信源感知弱/claude-检索网页.md">claude-检索网页.md</a>（检索阶段 19 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -408,11 +408,10 @@
 </template>
 
 <template data-drawer-template="deepseek" data-drawer-title="DeepSeek 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">打开 DeepSeek 分享页 ↗</a>
+  <p>
+    <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">DeepSeek</a>
     · 导出文件：<a href="references/官方信源感知弱/deepseek-回答.md">deepseek-回答.md</a>（Pages 段末 <code>(URL:…)</code> 标注，23 单元溯源）· <a href="references/官方信源感知弱/deepseek-检索网页.md">deepseek-检索网页.md</a>（检索阶段 27 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -584,11 +583,10 @@
 </template>
 
 <template data-drawer-template="qwen" data-drawer-title="千问 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">打开千问分享页 ↗</a>
+  <p>
+    <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">千问</a>
     · 导出文件：<a href="references/官方信源感知弱/千问-回答.md">千问-回答.md</a>（Pages 脚注 <code>[^1]–[^13]</code> 标注，18 单元溯源）· <a href="references/官方信源感知弱/千问-检索网页.md">千问-检索网页.md</a>（检索阶段 13 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -650,7 +648,7 @@
         <p>Ascend C 采用 Host-Device 异构协同架构，一个完整的算子实现主要包含两个部分：</p>
       </div>
 
-      <h5>3.1 Host 侧 —— Tiling 实现（CPU 端）</h5>
+      <h4>3.1 Host 侧 —— Tiling 实现（CPU 端）</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -665,7 +663,7 @@
         <p>Host 侧充当「指挥者」角色，负责计算调度策略。</p>
       </div>
 
-      <h5>3.2 Device 侧 —— Kernel 实现（NPU 端）</h5>
+      <h4>3.2 Device 侧 —— Kernel 实现（NPU 端）</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -680,7 +678,7 @@
 
       <h4>四、核心编程概念</h4>
 
-      <h5>4.1 内存层次模型</h5>
+      <h4>4.1 内存层次模型</h4>
 
       <div class="source-block third">
         <span class="source-block-tag">第三方教程</span>
@@ -693,7 +691,7 @@
         </ul>
       </div>
 
-      <h5>4.2 并行执行模型（SPMD）</h5>
+      <h4>4.2 并行执行模型（SPMD）</h4>
 
       <div class="source-block third">
         <span class="source-block-tag">第三方教程</span>
@@ -706,7 +704,7 @@
         </ul>
       </div>
 
-      <h5>4.3 流水线编程范式</h5>
+      <h4>4.3 流水线编程范式</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -805,7 +803,6 @@
 </template>
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
 <script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

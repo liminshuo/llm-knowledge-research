@@ -11,7 +11,8 @@
 | `env-collapse-snippet.html` | 折叠面板 · 默认收起示意 |
 | `helloworld-code-snippet.html` | 代码语义 · highlighttable 示意 |
 | `programming-model-table-snippet.html` | 表格语义 · 表1 标杆 |
-| `env-note-snippet.html` | 注意提示 · set_env.sh 示意 |
+| `env-note-snippet.html` | 注意提示 / 单文档结构 · 环境准备步骤嵌套 Note 示意 |
+| `discovery-probe-snippet.html` | 机器发现层 · llms / robots / sitemap 探测示意 |
 
 ## 更新镜像
 

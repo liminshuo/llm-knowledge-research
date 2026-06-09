@@ -40,7 +40,8 @@
           <tr id="tab-01"><td>1</td><td>所有 Tab 面板内容在源 HTML 中完整输出，不依赖 JS 懒加载正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="tab-02"><td>2</td><td>每个 Tab 标签在渲染页有明确文本（如「bisheng 编译」「CMake 编译」）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="tab-03"><td>3</td><td>机器层将全部 Tab 展开，以 H3 标注各面板标题</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="tab-04"><td>4</td><td>渲染组件禁止用 <code>display:none</code> / <code>visibility:hidden</code> 隐藏非激活面板正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="tab-ui-expand"><td>4</td><td>各 Tab 面板正文在渲染页<strong>全量可见</strong>（纵向排列展示，或切换 Tab 时不隐藏非激活项正文）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
+          <tr id="tab-04"><td>5</td><td>渲染组件禁止用 <code>display:none</code> / <code>visibility:hidden</code> 隐藏非激活面板正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
@@ -54,7 +55,7 @@
         </div>
       </div>
       <div class="ui-demo" id="ui-demo-4">
-        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>非激活 Tab 正文仍在 DOM 可见</span></div>
+        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>Tab 各面板全量可见</span></div>
         <div class="compare-grid">
           <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng</span><span class="rf-tab">CMake</span></div><div class="rf-tab-panel">bisheng 内容</div><div class="rf-tab-panel rf-tab-panel--hidden">CMake 内容（display:none）</div></div></div>
           <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">bisheng 编译</div>bisheng 编译步骤…</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">CMake 编译</div>CMake 编译步骤…</div></div></div></div>

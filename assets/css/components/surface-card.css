@@ -1,0 +1,82 @@
+/* ── 卡片样式（见 docs/ui-system.md · 卡片样式） ── */
+.surface-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius);
+}
+
+.summary-card .cp-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.component-problem {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 20px 0;
+  margin: 12px 0;
+  font-size: var(--text-cp);
+}
+
+.component-problem .cp-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.component-problem .cp-status {
+  float: right;
+}
+
+.component-problem > p {
+  margin: 0;
+  line-height: 22px;
+  color: var(--color-text-secondary);
+}
+
+.section .component-problem > p,
+.section .component-problem > ul {
+  margin-bottom: 0;
+}
+
+.component-problem ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.component-problem li {
+  margin-bottom: 6px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+.component-problem li:last-child {
+  margin-bottom: 0;
+}
+
+.section p { margin-bottom: var(--space-p); color: var(--color-text-secondary); }
+.section p strong,
+.section li strong { color: var(--color-text); }
+.section ul, .section ol { margin: 0 0 16px 20px; }
+.section li { margin-bottom: 6px; color: var(--color-text-secondary); }
+
+.list-badge-led {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.list-badge-led > li {
+  position: relative;
+  padding-left: 48px; /* 40px badge + 8px gap */
+}
+
+.list-badge-led > li > .badge {
+  position: absolute;
+  left: 0;
+  top: 2px;
+}

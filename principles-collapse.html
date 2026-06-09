@@ -39,9 +39,10 @@
         <tbody>
           <tr id="coll-01"><td>1</td><td>机器层导出时默认展开全部折叠块</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
           <tr id="coll-02"><td>2</td><td>折叠标题在渲染页可见且有语义（<code>&lt;summary&gt;</code> 或 H3 文本）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-03"><td>3</td><td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-04"><td>4</td><td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-05"><td>5</td><td>自定义折叠组件可加 <code>data-llm-expanded</code>，声明机器层默认展开</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="coll-ui-open"><td>3</td><td>折叠面板在渲染页<strong>默认展开</strong>，初始状态即可阅读区内全部步骤与说明</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
+          <tr id="coll-03"><td>4</td><td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="coll-04"><td>5</td><td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="coll-05"><td>6</td><td>自定义折叠组件可加 <code>data-llm-expanded</code>，声明机器层默认展开</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
@@ -55,7 +56,7 @@
         </div>
       </div>
       <div class="ui-demo" id="ui-demo-3">
-        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>折叠正文不用 display:none 移除</span></div>
+        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>折叠面板默认展开</span></div>
         <div class="compare-grid">
           <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><details><summary>参数说明</summary><p class="rf-muted">（折叠时正文 display:none，抓取为空）</p></details></div></div>
           <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><details open><summary>参数说明</summary><p>参数 A：控制 tiling…<br>参数 B：控制内存复用…</p></details></div></div>

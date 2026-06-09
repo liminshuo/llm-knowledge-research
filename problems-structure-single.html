@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>单文档结构感知 · 问题论证 · 大模型知识获取研究</title>
+  <title>单文档结构边界 · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="problems" data-page="structure-single">
@@ -25,44 +25,145 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>单文档结构感知</h1>
-      <p class="page-desc">标题层级、Tab 扁平化与切片边界。</p>
+      <div class="page-header-top">
+        <h1>单文档结构边界</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
     </div>
 
-    <section class="section" id="structure-single">
-      <h2>单文档结构感知</h2>
-<div class="component-problem">
-        <div class="cp-label">问题论证</div>
+    <p class="page-desc">对应研究概览第 8 节「信息架构与跨页语义」的<strong>页内维度</strong>：标题层级、列表嵌套、Tab / 折叠与切片边界——页内结构在渲染层清晰，抓取后 chunk 边界错乱或从属关系丢失。</p>
+
+    <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">边界错乱</span></span>
+        <div class="cp-label">核心问题</div>
         <ul>
           <li>标题层级（H1–H6）整体清晰，但部分页面存在<strong>空段落</strong>作间距，干扰 chunk 边界</li>
-          <li>列表嵌套注意提示时结构良好（环境准备页），但未形成统一规范</li>
           <li>Tab / 折叠导致页内结构在机器层<strong>扁平化失败</strong>——模型看到的顺序与人类阅读顺序不一致</li>
-          <li>代码块、表格、提示之间的<strong>从属关系</strong>（如「安装 CANN」步骤下的注意提示）在渲染层清晰，但抓取后可能丢失嵌套语义</li>
+          <li>代码块、表格、提示之间的<strong>从属关系</strong>（如「安装 CANN」步骤下的注意提示）在渲染层清晰，抓取后可能丢失嵌套语义</li>
           <li>Topic 锚点 ID（ZH-CN_TOPIC_xxx）存在且稳定，但未在机器层作为切片边界显式标注</li>
         </ul>
       </div>
 
-      <table class="data-table">
-        <thead>
-          <tr><th>IA 层级</th><th>内容</th><th>跨文档 / 单文档</th><th>是否需要</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Level 0</td><td>单页正文</td><td>单文档</td><td>✅ 基础</td></tr>
-          <tr><td>Level 1</td><td>breadcrumb、上下篇、版本</td><td>跨文档</td><td>✅ 最低标准</td></tr>
-          <tr><td>Level 2</td><td>章节子树（入门教程完整路径）</td><td>跨文档</td><td>按需</td></tr>
-          <tr><td>Level 3</td><td>全站 282 项导航</td><td>跨文档</td><td>❌ 噪声</td></tr>
-        </tbody>
-      </table>
-      <p class="text-auxiliary">改造原则见 <a href="principles-structure-single.html">亲和原则 · 单文档结构感知</a>；标题层级见 <a href="principles-structure-metadata.html#h-01">元数据字段规范</a>。</p>
-    </section>
+    <section class="section" id="structure-single-problem">
+      <h2>问题实测</h2>
+
+          <div class="content-unit">
+
+            <h3>测试问题</h3>
+
+            <div class="test-prompt-card">
+
+              <p>以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0004.html" target="_blank" rel="noopener">环境准备（CANN 9.0.0）</a> 为例，入库后能否回答：</p>
+              <ul class="key-points">
+                <li>某条<strong>注意提示</strong>属于安装流程的<strong>哪一步</strong>？</li>
+                <li>CANN 软件下载页 Tab 中「我不知道硬件信息」折叠面板的内容<strong>是否在 chunk 中</strong>？</li>
+                <li>按 H2/H3 切片时，代码块会不会被<strong>拦腰截断</strong>？</li>
+              </ul>
+
+            </div>
+
+            </div>
+
+          <div class="content-unit">
+            <h3>结论：页内结构边界未稳定保留</h3>
+            <p><strong>对人类是层级清晰的文档，对 RAG 是扁平或错序的文本块。</strong> 空段落制造伪边界、Tab 只入库默认态、步骤内 Note 被抽离——检索「安装注意事项」时可能召回孤立提示，却看不出它依附于哪一步。</p>
+
+            <h4>1. 空段落与伪 chunk 边界</h4>
+            <p>部分页面用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 控制间距。管道按段落切分时产生<strong>空白 chunk</strong>或打断标题与正文邻接，向量召回出现噪声、上下文连贯性下降。</p>
+
+            <h4>2. Tab / 折叠：页内顺序与人类不一致</h4>
+            <p>CANN 软件下载页 Tab 与「我不知道硬件信息」折叠面板（见 <a href="problems-content-tab.html">Tab 语义</a>、<a href="problems-content-collapse.html">折叠语义</a>）在 UI 层组织信息，默认抓取往往<strong>只保留默认 Tab 态</strong>或跳过 <code>display:none</code> 区域——与用户实际阅读路径不一致。</p>
+            <table class="data-table">
+              <thead>
+                <tr><th>结构要素</th><th>典型问题</th><th>入库后后果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Tab 面板</td><td>仅默认态入库</td><td>隐藏分支内容不可召回</td></tr>
+                <tr><td>折叠面板</td><td><code>display:none</code> 被跳过</td><td>硬件选型指引等语义丢失</td></tr>
+                <tr><td>步骤内 Note</td><td>DOM 层级被扁平化</td><td>提示与步骤从属关系丢失</td></tr>
+                <tr><td>Topic 锚点 ID</td><td>存在但未标注切片</td><td>无法精确定位章节</td></tr>
+              </tbody>
+            </table>
+
+            <h4>3. 列表嵌套与从属关系</h4>
+            <p>环境准备页等用有序列表表达安装步骤时结构良好；但若用多个独立段落模拟步骤、或将 Note 与步骤拆成不相邻块，抓取后<strong>步骤序号与提示绑定</strong>断裂。代码块、表格若跨 chunk 插入无关元素，从属小节同样难以还原。</p>
+
+            <h4>入库状态对照</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>页内结构状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>标题层级 H1–H6</td><td><span class="badge badge-ok">基本可用</span></td><td>多数页层级清晰</td></tr>
+                <tr><td>Tab / 折叠全量展开</td><td><span class="badge badge-bad">未落实</span></td><td>隐藏语义见专项页论证</td></tr>
+                <tr><td>步骤—提示 DOM 嵌套</td><td><span class="badge badge-should">不稳定</span></td><td>依赖页面写法，管道未统一保留</td></tr>
+                <tr><td>Topic ID 切片标记</td><td><span class="badge badge-bad">缺失</span></td><td>锚点存在但未用于 chunk 边界</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+            </section>
+
+    <section class="section" id="structure-single-solution">
+      <h2>解决方案</h2>
+
+          <div class="content-unit">
+            <h3>改进目标</h3>
+            <p>页内标题、列表、提示与代码块的<strong>层级与邻接关系</strong>在源码与管道层可感知——chunk 按 H2/H3 + Topic ID 稳定切分，Tab / 折叠全量展开，步骤内 Note 不脱离所属条目。</p>
+          </div>
+
+          <div class="content-unit">
+
+            <h3>改进措施</h3>
+
+            <h4>规范源码：间距与列表结构 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>禁止用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 堆叠代替段落间距——用 CSS margin 控制版式，避免伪 chunk 边界。</li>
+              <li>步骤与层级用 <code>&lt;ol&gt;</code> / <code>&lt;ul&gt;</code> 表达，不用多个独立段落模拟列表——管道可稳定识别条目边界。</li>
+              <li>代码块、表格、提示与所属步骤 / 小节保持 DOM 邻接——避免跨块插入无关元素。</li>
+            </ul>
+
+            <h4>标注切片边界：Topic ID 与标题层级 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>保留稳定锚点 ID（如 <code>ZH-CN_TOPIC_xxx</code>），管道将其作为 chunk 切片边界标记。</li>
+              <li>标题层级规则（H1–H6 不跳级）见 <a href="principles-structure-metadata.html#h-01">元数据字段规范 · 标题规则</a>——与切片策略一致。</li>
+              <li>RAG 按 H2/H3 边界切片，表格整张入库、代码块不拦腰截断（衔接 <a href="problems-structure-metadata.html#solution">知识库集成</a>）。</li>
+            </ul>
+
+            <h4>落实管道：保留嵌套、展开隐藏语义 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 保留 DOM 层级——抓取时不扁平化（见 <a href="problems-content-note.html">注意提示语义</a>）。</li>
+              <li>Tab 各面板、折叠各区块在机器层<strong>全量扁平展开</strong>为 H3 小节——顺序与人类阅读路径一致（见 <a href="problems-content-tab.html">Tab</a>、<a href="problems-content-collapse.html">折叠</a>）。</li>
+              <li>转换管道在 <a href="problems-format.html#solution">HTML→MD</a> 步骤中统一落地上述规则，而非依赖渲染页剥壳猜测。</li>
+            </ul>
+
+            <p>核心原则：<strong>页内结构即切片契约</strong>——源码怎么嵌套，chunk 就怎么入库。详见 <a href="principles-structure-single.html">亲和原则 · 单文档结构感知</a>。</p>
+
+            </div>
+
+            </section>
 
 
-  </main></div>
+  </main>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">环境准备 · 步骤与 Note</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0004.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/env-note-snippet.html"
+      title="环境准备结构测试片段"
+    ></iframe>
+  </aside></div>
 
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
 </body>
 </html>

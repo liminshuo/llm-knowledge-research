@@ -29,8 +29,11 @@
         <h1>图片热区</h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
-      <p class="page-desc"><strong>图片热区</strong>指 <code>&lt;img usemap&gt;</code> + <code>&lt;area href&gt;</code> 把跳转目标绑在坐标上的导航方式。对人类是「点图跳转」，对默认 RAG 管道则是<strong>藏在像素坐标里的链接</strong>——若不冗余为文本链接列表，热区语义无法进入知识库。</p>
-      <div class="component-problem">
+    </div>
+
+    <p class="page-desc"><strong>图片热区</strong>指 <code>&lt;img usemap&gt;</code> + <code>&lt;area href&gt;</code> 把跳转目标绑在坐标上的导航方式。对人类是「点图跳转」，对默认 RAG 管道则是<strong>藏在像素坐标里的链接</strong>——若不冗余为文本链接列表，热区语义无法进入知识库。</p>
+
+    <div class="component-problem">
         <span class="cp-status"><span class="badge badge-bad">完全丢失</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
@@ -39,29 +42,30 @@
           <li>热区恢复的是<strong>链接目标</strong>而非<a href="problems-content-image.html">图片图意</a>；须与图意转写配合，链接文本规范见 <a href="problems-content-link.html">链接语义</a></li>
         </ul>
       </div>
-    </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="热区问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
-
-      <div class="content-tabs-panels">
-        <section class="section is-active" id="content-hotzone-problem" role="tabpanel" data-tab-panel="problem">
-          <div class="content-unit">
-            <h2>测试问题</h2>
-            <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a>，成长地图里的跳转链接你能拿到吗？环境准备、HelloWorld 等入口在知识库里能检索到吗？</p>
-          </div>
+    <section class="section" id="content-hotzone-problem">
+      <h2>问题实测</h2>
 
           <div class="content-unit">
-            <h2>结论：热区链接未入库</h2>
-            <p><strong>人类可点图跳转，默认 RAG 拿不到热区链接语义。</strong>用户问「Ascend C 学完环境准备下一步看什么」「成长地图有哪些阶段入口」时，知识库中<strong>没有对应链接 chunk 可召回</strong>——跳转目标对人类可见，对检索不可见。</p>
 
-            <h3>1. 常规抓取 → 热区 chunk 不存在</h3>
-            <p>页面转 Markdown / 纯文本时，<code>&lt;map&gt;</code> 与 <code>&lt;area&gt;</code> 完全不在输出里。正文区 5 张带 <code>usemap</code> 的信息型图在转文本管道中<strong>连同热区一并消失</strong>——不是「链接劣化」，而是知识库中根本没有承载跳转关系的文本块。</p>
+            <h3>测试问题</h3>
 
-            <h3>2. 解析 HTML → 只见坐标与裸 href</h3>
+            <div class="test-prompt-card">
+
+              <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a>，成长地图里的跳转链接你能拿到吗？环境准备、HelloWorld 等入口在知识库里能检索到吗？</p>
+
+            </div>
+
+            </div>
+
+          <div class="content-unit">
+            <h3>结论：热区链接未入库</h3>
+            <p><strong>人类可点图跳转，默认抓取 RAG 拿不到热区链接语义。</strong>用户问「Ascend C 学完环境准备下一步看什么」「成长地图有哪些阶段入口」时，知识库中没有对应链接 chunk 可召回——跳转目标对人类可见，对检索不可见。</p>
+
+            <h4>1. 常规抓取 → 热区 chunk 不存在</h4>
+            <p>页面转 markdown / 纯文本时，<code>&lt;map&gt;</code> 与 <code>&lt;area&gt;</code> 完全不在输出里。正文区 5 张带 <code>usemap</code> 的信息型图在转文本管道中连同热区一并消失——知识库中根本没有承载跳转关系的文本块。</p>
+
+            <h4>2. 解析 HTML → 只见坐标与裸 href</h4>
             <p>深入解析 HTML 时，热区以坐标 + 相对路径形式存在，几乎无可用链接文本：</p>
             <table class="data-table">
               <thead>
@@ -78,18 +82,13 @@
                   <td>均带 <code>usemap</code>，<code>area</code> 仅坐标 + href</td>
                   <td>卡片入口链接未附可读标签</td>
                 </tr>
-                <tr>
-                  <td>全页合计</td>
-                  <td><strong>28 个</strong> <code>&lt;area&gt;</code> 标签</td>
-                  <td>默认管道不解析时等价于零链接</td>
-                </tr>
               </tbody>
             </table>
             <p>典型抓取结果仅为：</p>
             <div class="arch-diagram">&lt;img usemap="#d90300e79" src=".../zh-cn_image_0000002562432937.png"&gt;</div>
             <p>对向量检索与 LLM 引用而言，这等价于<strong>空白链接 chunk</strong>。</p>
 
-            <h3>3. 丢失的热区链接清单（成长地图节选）</h3>
+            <h4>3. 丢失的热区链接清单（成长地图节选）</h4>
             <p>以下跳转目标<strong>只存在于热区坐标中</strong>，当前文档未提供文本链接冗余，入库后即丢失：</p>
             <table class="data-table">
               <thead><tr><th>热区 href（节选）</th><th>丢失的链接语义</th></tr></thead>
@@ -103,10 +102,10 @@
             </table>
             <p>少数 <code>area</code> 带 <code>title</code>（如「通过 printf 打印数据」），但<strong>不成体系</strong>，且默认转文本管道仍不会保留。</p>
 
-            <h3>4. 解析 HTML ≠ 热区自动入库</h3>
+            <h4>4. 解析 HTML ≠ 热区自动入库</h4>
             <p>即便手工解析出 28 条 <code>area href</code>，「入库」还要求每条链接有<strong>可检索文本标签</strong>（阶段名、目标文档标题）。裸文件名对向量检索几乎无意义；须在源站或机器层冗余为 <code>&lt;nav&gt;</code> / 列表链接。</p>
 
-            <h3>入库状态对照</h3>
+            <h4>入库状态对照</h4>
             <table class="data-table">
               <thead>
                 <tr><th>入库环节</th><th>热区状态</th><th>说明</th></tr>
@@ -120,46 +119,30 @@
               </tbody>
             </table>
           </div>
-        </section>
+            </section>
 
-        <section class="section" id="content-hotzone-solution" role="tabpanel" data-tab-panel="solution" hidden>
+    <section class="section" id="content-hotzone-solution">
+      <h2>解决方案</h2>
+
           <div class="content-unit">
-            <h2>改进目标</h2>
+            <h3>改进目标</h3>
             <p>让图片热区所承载的<strong>跳转关系</strong>以文本链接 chunk 进入知识库——用户检索「环境准备」「HelloWorld 入口」「成长地图下一阶段」时能召回对应 href 与目标语义。<strong>不要求在线点图</strong>，要求热区事先文本化冗余。</p>
           </div>
 
           <div class="content-unit">
-            <h2>改进措施</h2>
 
-            <h3>一、内容侧：热区文本化（P0，治本）</h3>
-            <p>核心原则：<strong>热区先行入库</strong>——图里每个可点击入口，页面上必须有可被抓取的文本链接等价物。详见 <a href="principles-hotzone.html">亲和原则 · 图片热区</a>（IMG-03）、<a href="principles-link.html">链接语义</a>（L-04）。</p>
-            <table class="data-table">
-              <thead>
-                <tr><th></th><th>做法</th><th>入库效果</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>1</strong></td>
-                  <td>每张 <code>usemap</code> 图附 <code>&lt;nav&gt;</code> 文本链接列表（L-04）</td>
-                  <td>产生可检索 chunk：「环境准备 → atlas_ascendc_map_10_0003.html」</td>
-                </tr>
-                <tr>
-                  <td><strong>2</strong></td>
-                  <td>链接文本用阶段/文档名，禁止裸 href（L-01）</td>
-                  <td>高价值 chunk：「AI Core SIMD 编程」「算子实践参考」</td>
-                </tr>
-                <tr>
-                  <td><strong>3</strong></td>
-                  <td>机器层站内链接转绝对 URL（L-03）</td>
-                  <td>链接目标可被 RAG 引用与跳转解析</td>
-                </tr>
-                <tr>
-                  <td><strong>4</strong></td>
-                  <td>与图意转写配合（IMG-02），不替代图意本身</td>
-                  <td>阶段路径 + 入口链接双重可检索</td>
-                </tr>
-              </tbody>
-            </table>
+
+
+            <h3>改进措施</h3>
+
+            <h4>1. 推进内容侧：热区文本化 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>每张带 <code>usemap</code> 的图，在图旁用 <code>&lt;nav&gt;</code> 链接列表写出全部热区入口——产生可检索 chunk：「环境准备 → atlas_ascendc_map_10_0003.html」。</li>
+              <li>链接文字用阶段名或文档名，不要只留 URL 或文件名；卡片式导航图每个入口都要有可读锚文本——高价值 chunk：「AI Core SIMD 编程」「算子实践参考」。</li>
+              <li>机器层输出时把站内相对路径补全为完整 URL——链接目标可被 RAG 引用与跳转解析。</li>
+              <li>与图片内容转写一并做，链接冗余不能代替图里的阶段、层次等语义——阶段路径与入口链接都应可检索。</li>
+            </ul>
+            <p>核心原则：<strong>热区先行入库</strong>——图里每个可点击入口，页面上必须有可被抓取的文本链接等价物。详见 <a href="principles-hotzone.html">亲和原则 · 图片热区</a>、<a href="principles-link.html">链接语义</a>。</p>
 
             <h4>成长地图热区改造示例</h4>
             <p><strong>❌ 当前：热区未入库</strong></p>
@@ -187,7 +170,7 @@
 - [AI Core SIMD 编程](./atlas_ascendc_10_10063.html)
 - [算子开发实践](./atlas_ascendc_10_0032.html)</div>
 
-            <h3>二、架构侧：双轨交付</h3>
+            <h4>2. 落实架构侧：双轨交付</h4>
             <p>双轨交付——人类层保留热区点图体验，机器层预置链接列表：</p>
             <div class="arch-diagram">HTML 源（doc_center）
     │
@@ -197,24 +180,15 @@
               └── 每张热区图 → nav 文本链接列表
               └── area href → 绝对 URL + 描述性锚文本</div>
             <p>RAG 只消费机器层；<strong>热区入库在发布环节完成</strong>，而非检索时临时解析坐标。</p>
-          </div>
 
-          <div class="content-unit">
-            <h2>改进路径</h2>
-            <table class="data-table">
-              <thead>
-                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>成长地图、阶段路径图</td><td><strong>规则 1 + 2</strong>：nav 列表转写全部热区入口</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>卡片式热区导航图</td><td>每个卡片附描述性 <code>&lt;a&gt;</code> 冗余</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>官方文档长期建设</td><td><strong>规则 1–4 + 双轨交付</strong></td><td><span class="badge badge-bad">P0</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    </div>
+
+
+            </div>
+
+          
+            </section>
+
+
 
 
   </main>
@@ -237,7 +211,6 @@
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
 </body>
 </html>

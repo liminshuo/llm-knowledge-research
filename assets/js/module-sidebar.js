@@ -52,25 +52,19 @@
       "label": "注意提示（Note）语义"
     },
     {
-      "group": "结构与交付",
-      "id": "structure-metadata",
-      "href": "problems-structure-metadata.html",
-      "label": "元数据字段规范"
-    },
-    {
-      "group": null,
+      "group": "信息架构与跨页语义",
       "id": "structure-cross",
       "href": "problems-structure-cross.html",
-      "label": "跨文档结构感知"
+      "label": "跨页关系未结构化"
     },
     {
       "group": null,
       "id": "structure-single",
       "href": "problems-structure-single.html",
-      "label": "单文档结构感知"
+      "label": "单文档结构边界"
     },
     {
-      "group": null,
+      "group": "格式交付与抓取入口",
       "id": "format",
       "href": "problems-format.html",
       "label": "格式交付与抓取入口"
@@ -79,19 +73,13 @@
       "group": null,
       "id": "structure-llms",
       "href": "problems-structure-llms.html",
-      "label": "llms.txt 与机器入口"
+      "label": "机器发现层缺失"
     },
     {
       "group": "信源时效",
       "id": "timeliness",
       "href": "problems-timeliness.html",
       "label": "版本滞后"
-    },
-    {
-      "group": null,
-      "id": "timeliness-disambiguation",
-      "href": "problems-timeliness-disambiguation.html",
-      "label": "多版本消歧"
     }
   ],
   "principles": [
@@ -150,7 +138,7 @@
       "label": "注意提示（Note）语义"
     },
     {
-      "group": "结构与交付",
+      "group": "信息架构与跨页语义",
       "id": "structure-metadata",
       "href": "principles-structure-metadata.html",
       "label": "元数据字段规范"
@@ -168,7 +156,7 @@
       "label": "单文档结构感知"
     },
     {
-      "group": null,
+      "group": "格式交付与抓取入口",
       "id": "format",
       "href": "principles-format.html",
       "label": "格式交付与抓取入口"

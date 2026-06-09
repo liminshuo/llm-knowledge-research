@@ -40,8 +40,9 @@
           <tr id="img-01"><td>1</td><td>信息型图片在源码中写有意义 <code>alt</code>（描述图意，非文件名）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="img-02"><td>2</td><td>复杂图表在渲染页图片下方附「图片内容转写」段落（逐步描述节点与关系）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
           <tr id="img-04"><td>3</td><td>纯装饰图标从渲染页移除或 <code>aria-hidden</code>，信息改由相邻文本承载</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="img-05"><td>4</td><td>架构类图片另提供 Mermaid / SVG 可编辑源，便于机器层直接读取</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="img-06"><td>5</td><td>信息型图片可附 <code>&lt;figcaption&gt;</code> 或 <code>title</code> 作图注 / 标题补充</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr id="img-ui-mermaid"><td>4</td><td>流程图 / 架构类图在渲染页以 <strong>Mermaid</strong> 呈现，替代不可读的 PNG 图源</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
+          <tr id="img-05"><td>5</td><td>架构类图片另提供 Mermaid / SVG 可编辑源，便于机器层直接读取</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="img-06"><td>6</td><td>信息型图片在渲染页附可见图注，如「图1：xxx」（<code>&lt;figcaption&gt;</code> 或等效段落）</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
@@ -52,6 +53,13 @@
         <div class="compare-grid">
           <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-img-placeholder">zh-cn_image_0280001505.png</div></div></div>
           <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-img-placeholder">架构示意图</div><p class="rf-caption"><strong>图1</strong> Ascend C 编译流程</p><div class="rf-transcript"><strong>图片内容转写：</strong>左侧为源码目录，箭头指向 bisheng 编译器，输出至 kernel 目录。</div></div></div>
+        </div>
+      </div>
+      <div class="ui-demo" id="ui-demo-4">
+        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>流程 / 架构图 Mermaid 呈现</span></div>
+        <div class="compare-grid">
+          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-img-placeholder">zh-cn_image_arch.png</div><p class="rf-muted">（仅 PNG，图意不可读）</p></div></div>
+          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><pre class="rf-code">graph LR; A[源码] --&gt; B[bisheng] --&gt; C[kernel]</pre><p class="rf-caption"><strong>图2</strong> Ascend C 编译流程（Mermaid）</p></div></div>
         </div>
       </div>
       <div class="ui-demo" id="ui-demo-3">

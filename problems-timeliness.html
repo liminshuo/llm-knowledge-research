@@ -25,35 +25,43 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>版本滞后</h1>
-      <p class="page-desc page-desc--split">
-        <span class="page-desc-line">版本滞后即大模型引用的文档版本落后于当前主推——本研究以 CANN 社区版 <strong>9.0.0（900）</strong> 为基准。</span>
-        <span class="page-desc-line">本页对照三模型<strong>检索池</strong>与<strong>生成溯源</strong>，统计是否出现 900 社区版及实际覆盖的版本分布。</span>
+      <div class="page-header-top">
+        <h1>版本滞后</h1>
+        <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
+      </div>
+    </div>
+
+    <p class="page-desc page-desc--split">
+        <span class="page-desc-line">对应研究概览第 10 节「信源时效」：<strong>版本滞后</strong>即大模型引用的文档世代落后于当前主推；<strong>多版本并存</strong>则是根因——8.x / 850 / 900 / beta 多套 URL 同时可被抓取，系统无法默认「最新版优先」。</span>
+        <span class="page-desc-line">本页以 CANN 社区版 <strong>9.0.0（900）</strong> 为基准，对照三模型<strong>检索池</strong>与<strong>生成溯源</strong>，并归纳多版本混淆的机制与后果。</span>
       </p>
-      <div class="component-problem">
-        <div class="cp-label">核心结论</div>
+
+    <div class="component-problem">
+        <span class="cp-status"><span class="badge badge-should">版本滞后</span></span>
+        <div class="cp-label">核心问题</div>
         <ul>
           <li><strong>版本滞后</strong>：三模型检索与生成均未引用 CANN 9.0.0（900）社区版 <code>document/detail/.../900/...</code>，实测多见 8.x / 850 商用 / 900beta1 / 910beta1 等旧版或 beta 路径；回答所依据的文档世代落后于当前主推版本，开发者按旧路径操作易与 CANN 9.0.0 产品面脱节。</li>
           <li><strong>多版本并存</strong>：8.x / 850 商用 / 900beta1 / 910beta1 等路径同时在检索池与生成溯源中出现，模型会把不同世代的 bisheng 命令、API 与工程结构混在同一回答里；开发者按旧版操作将与 CANN 9.0.0 产品面不匹配，导致环境准备与算子工程失败。</li>
         </ul>
       </div>
-    </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="版本滞后问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
-      <div class="content-tabs-panels">
-
-    <section class="section is-active" id="timeliness-problem" role="tabpanel" data-tab-panel="problem">
-      <div class="content-unit">
-        <h2>测试问题</h2>
-        <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
-      </div>
+    <section class="section" id="timeliness-problem">
+      <h2>问题实测</h2>
 
       <div class="content-unit">
-        <h2>检索阶段 · 版本分布</h2>
+
+        <h3>测试问题</h3>
+
+        <div class="test-prompt-card">
+
+          <p>「基于官方资料，介绍一下 Ascend C 算子开发」（三模型同 prompt）</p>
+
+        </div>
+
+        </div>
+
+      <div class="content-unit">
+        <h3>检索阶段 · 版本分布</h3>
         <p>统计各模型联网检索拉取的 URL 中，<strong>CANN 9.0.0（900）</strong> 占比及主要旧版形态。口径见 <a href="problems-answer-search.html">检索阶段</a>。</p>
 
         <div class="answer-card-grid">
@@ -250,7 +258,7 @@
       </div>
 
       <div class="content-unit">
-        <h2>生成阶段 · 版本分布</h2>
+        <h3>生成阶段 · 版本分布</h3>
         <p>统计各模型最终回答的段末溯源 / 脚注中，<strong>CANN 9.0.0（900）</strong> 引用情况。口径见 <a href="problems-answer-generate.html">生成阶段</a>。</p>
 
         <div class="answer-card-grid">
@@ -419,61 +427,97 @@
 
         </div>
       </div>
-    </section>
 
-    <section class="section" id="timeliness-solution" role="tabpanel" data-tab-panel="solution" hidden>
+      <div class="content-unit" id="timeliness-disambiguation">
+        <h3>多版本并存与消歧失败</h3>
+        <p><strong>站点多套 URL 并行存在，消费侧无法自动选出主推版。</strong> 上文检索统计已显示 900 未稳定出现；若各世代路径同时入库而 chunk 无 <code>version</code> 字段，向量检索无法按版本过滤——不同模型召回不同世代文档，用户难以判断命令适用于哪一版 CANN，旧版与新版的 bisheng 参数、API 名称也可能混在同一回答里。</p>
+
+        <h4>各版本实测分布</h4>
+        <table class="data-table">
+          <thead>
+            <tr><th>版本标识</th><th>典型路径特征</th><th>实测中出现场景</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CANN 8.0 / 8.1 / 8.2 RC</td><td><code>80RC</code>、<code>81RC1</code>、<code>82RC1</code>、PDF 源</td><td>DeepSeek 检索池主力</td></tr>
+            <tr><td>CANN 850 商用版</td><td><code>canncommercial/850</code></td><td>千问脚注、Claude 部分链接</td></tr>
+            <tr><td>CANN 9.0.0 社区版（900）</td><td><code>CANNCommunityEdition/900</code></td><td><strong>三模型检索/生成均未稳定出现</strong></td></tr>
+            <tr><td>CANN 9.1 beta</td><td><code>910beta1</code></td><td>Claude 检索、千问部分脚注</td></tr>
+            <tr><td>8.5 alpha</td><td><code>850alpha001</code></td><td>Claude 检索偶现</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box">
+          <div class="box-title">与信息结构的边界</div>
+          本页讨论<strong>多版本混淆的现象与机制</strong>；具体字段 schema（<code>doc_id</code>、<code>breadcrumb</code>、<code>applicable_devices</code>）在 <a href="problems-structure-metadata.html">页级元数据未结构化</a> 展开；站点发现层见 <a href="problems-structure-llms.html">机器发现层缺失</a>。
+        </div>
+      </div>
+
+        </section>
+
+    <section class="section" id="timeliness-solution">
+      <h2>解决方案</h2>
+
       <div class="content-unit">
-        <h2>改进目标</h2>
+        <h3>改进目标</h3>
         <p>保证检索与生成<strong>默认引用 CANN 9.0.0（900）社区版</strong>，多版本并存时可按策略降权旧版与 beta，用户能从回答判断命令适用于哪一版 CANN。</p>
       </div>
       <div class="content-unit">
-        <h2>改进措施</h2>
-        <table class="data-table">
-          <thead><tr><th>措施</th><th>作用</th><th>详见</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>Front Matter 标注 <code>version</code></td>
-              <td>入库过滤 <code>version=CANN社区版 9.0.0</code></td>
-              <td><a href="problems-structure-metadata.html#solution">元数据 · 解决方案</a></td>
-            </tr>
-            <tr>
-              <td>llms.txt 声明 canonical</td>
-              <td>避免 8.x 与 900 并行无主次</td>
-              <td><a href="problems-structure-llms.html#solution">机器入口 · 解决方案</a></td>
-            </tr>
-            <tr>
-              <td>RAG 默认 version 过滤</td>
-              <td>生成优先召回 900 chunk</td>
-              <td><a href="problems-structure-metadata.html#solution">知识库集成</a></td>
-            </tr>
-            <tr>
-              <td>废弃版 <code>deprecated</code> 标注</td>
-              <td>爬虫不将旧版作默认入口</td>
-              <td><a href="problems-format.html#solution">落地路线图</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <p>多版本混淆的问题归纳见 <a href="problems-timeliness-disambiguation.html">多版本并存与消歧</a>（附录）。</p>
-      </div>
-      <div class="content-unit">
-        <h2>改进路径</h2>
-        <table class="data-table">
-          <thead><tr><th>场景</th><th>建议</th><th>优先级</th></tr></thead>
-          <tbody>
-            <tr><td>三模型均未稳定出现 900</td><td>llms.txt 主推 900 + 检索 version 过滤</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>8.x / beta 与 900 混召</td><td>chunk 强制 <code>version</code> 字段</td><td><span class="badge badge-bad">P0</span></td></tr>
-            <tr><td>用户无法判断适用版本</td><td>生成输出附带 version 与 doc_id 溯源</td><td><span class="badge badge-should">P1</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
 
-      </div>
-    </div>
+
+        <h3>改进措施</h3>
+
+        <h4>补充 Front Matter 版本标注 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>8.x / beta 与 900 混召</strong>：每篇机器层强制 <code>version</code> 字段，入库默认过滤 <code>version=CANN社区版 9.0.0</code>。</p>
+        <ul>
+          <li>转换管道从 source HTML 提取版本段与 title 版本串，写入 YAML Front Matter</li>
+          <li>RAG 检索默认 <code>filter(version="CANN社区版 9.0.0")</code>，用户可显式指定其他版本</li>
+        </ul>
+
+        <h4>部署 llms.txt 与 canonical 声明 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>三模型均未稳定出现 900</strong>：发现层主推 900，避免 8.x 与 900 并行无主次。</p>
+        <ul>
+          <li>llms.txt 声明当前主推版本与机器源基址（详见 <a href="problems-structure-llms.html#solution">机器发现层 · 解决方案</a>）</li>
+          <li>同题多版文档设 <code>canonical</code> 指向主推 URL（详见 <a href="principles-timeliness-disambiguation.html">亲和原则 · 多版本消歧</a>）</li>
+        </ul>
+
+        <h4>强化 RAG 默认 version 过滤与溯源输出 <span class="badge badge-priority badge-must">P0</span></h4>
+        <p>针对<strong>用户无法判断适用版本</strong>：生成优先召回 900 chunk，脚注附带 <code>version</code> 与 <code>doc_id</code>。</p>
+        <ul>
+          <li>检索阶段默认过滤 900；生成阶段输出 version 溯源</li>
+          <li>字段模板与知识库集成见 <a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a></li>
+        </ul>
+
+        <h4>标注废弃版 deprecated <span class="badge badge-priority badge-should">P1</span></h4>
+        <p>针对<strong>旧版路径仍被默认抓取</strong>：对 8.x / beta 标注 <code>deprecated</code>，爬虫不将旧版作默认入口。</p>
+        <ul>
+          <li>llms.txt / sitemap 对 910beta、8.x 降权或标注废弃</li>
+          <li>渲染页旧版章节展示弃用提示并链到 900 替代文档（详见 <a href="principles-timeliness.html">亲和原则 · 版本外显</a>）</li>
+        </ul>
+
+        <p>核心原则：<strong>最新版优先、旧版可溯源</strong>——站点声明主推版本，入库带 <code>version</code> 字段，RAG 默认过滤 900，生成输出可核对适用版本。详见 <a href="principles-timeliness-disambiguation.html">亲和原则 · 多版本消歧</a>。</p>
+
+
+        </div>
+      
+        </section>
+
+
 
 
   </main>
-</div>
+
+  <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
+    <header class="preview-drawer-header">
+      <h2 class="preview-drawer-title">什么是 Ascend C · CANN 9.0.0（900）</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">新标签页打开</a>
+      <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
+    </header>
+    <iframe
+      class="preview-drawer-frame"
+      data-preview-src="assets/mirror/ascend-c-test-embed.html"
+      title="CANN 9.0.0 主推版本基准页"
+    ></iframe>
+  </aside></div>
 
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
@@ -628,11 +672,10 @@
 </template>
 
 <template data-drawer-template="claude" data-drawer-title="Claude AI 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">打开 Claude 分享页 ↗</a>
+  <p>
+    <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">Claude AI</a>
     · 导出文件：<a href="references/官方信源感知弱/claudeai-回答.md">claudeai-回答.md</a>（Pages 段末 <code>(URL:…)</code> 标注，17 单元溯源）· <a href="references/官方信源感知弱/claude-检索网页.md">claude-检索网页.md</a>（检索阶段 19 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -773,11 +816,10 @@
 </template>
 
 <template data-drawer-template="deepseek" data-drawer-title="DeepSeek 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">打开 DeepSeek 分享页 ↗</a>
+  <p>
+    <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">DeepSeek</a>
     · 导出文件：<a href="references/官方信源感知弱/deepseek-回答.md">deepseek-回答.md</a>（Pages 段末 <code>(URL:…)</code> 标注，23 单元溯源）· <a href="references/官方信源感知弱/deepseek-检索网页.md">deepseek-检索网页.md</a>（检索阶段 27 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -949,11 +991,10 @@
 </template>
 
 <template data-drawer-template="qwen" data-drawer-title="千问 对话">
-  <div class="explore-note">
-    <div class="explore-label">原始分享</div>
-    <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">打开千问分享页 ↗</a>
+  <p>
+    <a href="https://www.qianwen.com/share/chat/59a294a6cfc849c1b7ddd7737e977831" target="_blank" rel="noopener">千问</a>
     · 导出文件：<a href="references/官方信源感知弱/千问-回答.md">千问-回答.md</a>（Pages 脚注 <code>[^1]–[^13]</code> 标注，18 单元溯源）· <a href="references/官方信源感知弱/千问-检索网页.md">千问-检索网页.md</a>（检索阶段 13 条 URL）
-  </div>
+  </p>
 
   <div class="source-legend">
     <span class="source-legend-item"><span class="source-legend-dot official"></span>昇腾社区官方</span>
@@ -1015,7 +1056,7 @@
         <p>Ascend C 采用 Host-Device 异构协同架构，一个完整的算子实现主要包含两个部分：</p>
       </div>
 
-      <h5>3.1 Host 侧 —— Tiling 实现（CPU 端）</h5>
+      <h4>3.1 Host 侧 —— Tiling 实现（CPU 端）</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -1030,7 +1071,7 @@
         <p>Host 侧充当「指挥者」角色，负责计算调度策略。</p>
       </div>
 
-      <h5>3.2 Device 侧 —— Kernel 实现（NPU 端）</h5>
+      <h4>3.2 Device 侧 —— Kernel 实现（NPU 端）</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -1045,7 +1086,7 @@
 
       <h4>四、核心编程概念</h4>
 
-      <h5>4.1 内存层次模型</h5>
+      <h4>4.1 内存层次模型</h4>
 
       <div class="source-block third">
         <span class="source-block-tag">第三方教程</span>
@@ -1058,7 +1099,7 @@
         </ul>
       </div>
 
-      <h5>4.2 并行执行模型（SPMD）</h5>
+      <h4>4.2 并行执行模型（SPMD）</h4>
 
       <div class="source-block third">
         <span class="source-block-tag">第三方教程</span>
@@ -1071,7 +1112,7 @@
         </ul>
       </div>
 
-      <h5>4.3 流水线编程范式</h5>
+      <h4>4.3 流水线编程范式</h4>
 
       <div class="source-block official">
         <span class="source-block-tag">昇腾社区官方</span>
@@ -1170,7 +1211,7 @@
 </template>
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
+<script src="assets/js/preview-drawer.js"></script>
 <script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

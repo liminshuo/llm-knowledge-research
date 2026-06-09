@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>元数据字段规范 · 问题论证 · 大模型知识获取研究</title>
+  <title>页级元数据未结构化 · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="problems" data-page="structure-metadata">
@@ -25,12 +25,15 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>元数据字段规范</h1>
-      <p class="page-desc page-desc--split">
+      <h1>页级元数据未结构化</h1>
+    </div>
+
+    <p class="page-desc page-desc--split">
         <span class="page-desc-line">元数据回答的不是「正文写了什么」，而是<strong>这篇 chunk 是谁、属于哪一版、在知识体系哪一节</strong>——RAG 检索与过滤的前置条件。</span>
         <span class="page-desc-line">本页论证：版本、breadcrumb、doc_id 等在页面上隐含存在，入库后未标准化为 chunk 字段，导致<strong>无法按版本过滤、消歧同名章节、稳定溯源</strong>。</span>
       </p>
-      <div class="component-problem">
+
+    <div class="component-problem">
         <div class="cp-label">核心问题</div>
         <ul>
           <li><strong>页面有据、入库无情</strong>：「什么是 Ascend C」在 900 / 850 / 910beta 下 <code>&lt;title&gt;</code> 均含版本与章节路径，但无 JSON-LD / Front Matter；<code>version</code>、<code>breadcrumb</code>、<code>doc_id</code> 不进 chunk 元数据。</li>
@@ -38,31 +41,37 @@
           <li><strong>关系语义未结构化</strong>：设备型号、上下篇、Tab/Note 类型等可见但未字段化——检索只能做全文相似度，不能做字段约束。</li>
         </ul>
       </div>
-    </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="元数据问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
+    <section class="section" id="structure-metadata-problem">
+      <h2>问题实测</h2>
 
-      <div class="content-tabs-panels">
-
-        <section class="section is-active" id="structure-metadata-problem" role="tabpanel" data-tab-panel="problem">
 
           <div class="content-unit">
-            <h2>测试问题</h2>
-            <p>正文已进入向量库之后，能否回答：</p>
-            <ul class="key-points">
+
+            <h3>测试问题</h3>
+
+            <div class="test-prompt-card">
+
+              <p>正文已进入向量库之后，能否回答：</p>
+
+              <ul class="key-points">
+
               <li>这条 chunk 适用于<strong>哪一版 CANN</strong>？</li>
+
               <li>「环境准备」属于<strong>入门教程</strong>还是<strong>软件安装</strong>？</li>
+
               <li>引用能否稳定回溯到<strong>唯一 doc_id</strong>？</li>
-            </ul>
-            <p>若三者皆否，说明缺的是<strong>元数据字段</strong>，而非更多正文。</p>
-          </div>
+
+              </ul>
+
+              <p>若三者皆否，说明缺的是<strong>元数据字段</strong>，而非更多正文。</p>
+
+            </div>
+
+            </div>
 
           <div class="content-unit">
-            <h2>页面有据 · 入库未结构化</h2>
+            <h3>页面有据 · 入库未结构化</h3>
             <p>以 <code>atlas_ascendc_map_10_0002</code> 为例（<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a>）。</p>
             <table class="data-table">
               <thead>
@@ -103,7 +112,7 @@
           </div>
 
           <div class="content-unit">
-            <h2>同题异版 · 无字段则不可分</h2>
+            <h3>同题异版 · 无字段则不可分</h3>
             <table class="data-table">
               <thead>
                 <tr><th>路径版本</th><th><code>&lt;title&gt;</code> 版本串（实测）</th></tr>
@@ -118,7 +127,7 @@
           </div>
 
           <div class="content-unit">
-            <h2>下游失败印证</h2>
+            <h3>下游失败印证</h3>
             <table class="data-table">
               <thead>
                 <tr><th>现象</th><th>实测表现</th></tr>
@@ -130,11 +139,11 @@
                 </tr>
                 <tr>
                   <td>三模型世代不一致</td>
-                  <td>900 均未稳定出现（<a href="problems-timeliness-disambiguation.html">多版本消歧</a>）</td>
+                  <td>900 均未稳定出现（<a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a>）</td>
                 </tr>
                 <tr>
                   <td>同名章节歧义</td>
-                  <td>「环境准备」无法判断教程线（<a href="problems-structure-cross.html">跨文档结构感知</a>）</td>
+                  <td>「环境准备」无法判断教程线（<a href="problems-structure-cross.html">跨页关系未结构化</a>）</td>
                 </tr>
                 <tr>
                   <td>引用难稳定</td>
@@ -148,26 +157,32 @@
             </div>
           </div>
 
-        </section>
+            </section>
 
-        <section class="section" id="structure-metadata-solution" role="tabpanel" data-tab-panel="solution" hidden>
+    <section class="section" id="structure-metadata-solution">
+      <h2>解决方案</h2>
+
 
           <div class="content-unit">
-            <h2>改进目标</h2>
+            <h3>改进目标</h3>
             <p>每篇文档、每个 chunk 入库时附带<strong>可检索、可过滤</strong>的结构化字段——使 RAG 能按版本、章节路径、设备型号约束召回，引用可稳定映射到 <code>doc_id</code>。</p>
           </div>
 
           <div class="content-unit">
-            <h2>改进措施</h2>
 
-            <h3>一、页面级 Front Matter（P0）</h3>
-            <p>转换管道从 source HTML 提取并注入 YAML 头信息。每篇文档的机器层标准头信息：</p>
+
+
+
+            <h3>改进措施</h3>
+
+            <h4>1. 补充页面级 Front Matter <span class="badge badge-priority badge-must">P0</span></h4>
+            <p>针对<strong>多版本混召</strong>：每篇强制 version 字段 + 检索默认过滤。转换管道从 source HTML 提取并注入 YAML 头信息。每篇文档的机器层标准头信息：</p>
             <table class="data-table">
               <thead>
                 <tr><th>字段</th><th>作用</th></tr>
               </thead>
               <tbody>
-                <tr><td><code>version</code></td><td>版本过滤、<a href="problems-timeliness-disambiguation.html">多版本消歧</a></td></tr>
+                <tr><td><code>version</code></td><td>版本过滤、<a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a></td></tr>
                 <tr><td><code>doc_id</code></td><td>稳定引用、跨页去重</td></tr>
                 <tr><td><code>breadcrumb</code></td><td>章节路径、消歧同名页</td></tr>
                 <tr><td><code>prev</code> / <code>next</code></td><td>上下篇与学习顺序</td></tr>
@@ -196,7 +211,7 @@ source_url: https://www.hiascend.com/doc_center/source/...
 human_url: https://www.hiascend.com/document/detail/...
 ---</div>
 
-            <h3>轻量 IA（P1）</h3>
+            <h4>轻量 IA（P1）</h4>
             <p>提供<strong>页面级元数据</strong>，而非全站 282 项导航树：</p>
             <ul class="key-points">
               <li><code>breadcrumb</code>：消歧 + 定位章节</li>
@@ -209,8 +224,8 @@ human_url: https://www.hiascend.com/document/detail/...
               机器层 Front Matter 输出完整字段；人类层可保留现有可视面包屑，并可选 JSON-LD breadcrumb。
             </div>
 
-            <h3>二、chunk 级字段（P1）</h3>
-            <p>切片时把组件类型写入 chunk 元数据，衔接语义维度页规则：</p>
+            <h4>2. 细化 chunk 级字段 <span class="badge badge-priority badge-should">P1</span></h4>
+            <p>针对<strong>同名章节</strong>：breadcrumb 数组写入 chunk 头。切片时把组件类型写入 chunk 元数据，衔接语义维度页规则：</p>
             <table class="data-table">
               <thead>
                 <tr><th>字段</th><th>关联维度</th></tr>
@@ -222,7 +237,9 @@ human_url: https://www.hiascend.com/document/detail/...
               </tbody>
             </table>
 
-            <h3>三、知识库集成与检索策略（P0）</h3>
+            <h4>3. 强化知识库集成与检索策略 <span class="badge badge-priority badge-must">P0</span></h4>
+            <p>针对<strong>引用溯源</strong>：doc_id + 双轨 URL。</p>
+
             <div class="arch-diagram">文档源（doc_center/source）
     │
     ▼
@@ -250,30 +267,22 @@ human_url: https://www.hiascend.com/document/detail/...
               </tbody>
             </table>
 
-            <h3>四、与转换管道衔接（P1）</h3>
-            <p>元数据在 <a href="problems-format.html#solution">转换管道</a> 第 6 步注入——从 <code>doc_center/source</code> 解析 title 路径、URL 版本段、设备列表，输出标准 Front Matter，而非依赖渲染页剥壳猜测。</p>
-          </div>
+            <h4>4. 衔接转换管道 <span class="badge badge-priority badge-should">P1</span></h4>
+            <p>针对<strong>组件语义</strong>：chunk 级 admonition-type / tab_label。元数据在 <a href="problems-format.html#solution">转换管道</a> 第 6 步注入——从 <code>doc_center/source</code> 解析 title 路径、URL 版本段、设备列表，输出标准 Front Matter，而非依赖渲染页剥壳猜测。</p>
 
-          <div class="content-unit">
-            <h2>改进路径</h2>
-            <table class="data-table">
-              <thead>
-                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>多版本混召</td><td>每篇强制 <code>version</code> 字段 + 检索默认过滤</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>同名章节</td><td><code>breadcrumb</code> 数组写入 chunk 头</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>引用溯源</td><td><code>doc_id</code> + 双轨 URL</td><td><span class="badge badge-should">P1</span></td></tr>
-                <tr><td>组件语义</td><td>chunk 级 <code>admonition-type</code> / <code>tab_label</code></td><td><span class="badge badge-should">P1</span></td></tr>
-              </tbody>
-            </table>
-            <p>探测脚本：<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a> · 历史 IA 实测：<a href="problems-structure-cross.html">跨文档结构感知</a>（附录）</p>
-          </div>
 
-        </section>
+            <p>探测脚本：<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a> · 跨页关系论证：<a href="problems-structure-cross.html">跨页关系未结构化</a></p>
 
-      </div>
-    </div>
+
+
+
+            </div>
+
+          
+
+            </section>
+
+
 
 
   </main></div>
@@ -283,6 +292,5 @@ human_url: https://www.hiascend.com/document/detail/...
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
 </body>
 </html>

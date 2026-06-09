@@ -29,195 +29,144 @@
         <h1>隐藏的语义（Tab）</h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
-      <p class="page-desc"><strong>Tab 隐藏语义</strong>指被交互 UI 折叠、未进入默认抓取管道的正文——非激活 Tab 面板常被 <code>display:none</code> 隐藏。用户切换 Tab 能看到的内容，知识库可能<strong>只入库默认 Tab</strong>，其余面板正文与代码语义丢失。</p>
-      <div class="component-problem">
+    </div>
+
+    <p class="page-desc">本页以 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 为分析基准。<strong>Tab 隐藏语义</strong>指被交互 UI 折叠、未进入默认抓取管道的正文——非激活 Tab 面板常被 <code>display:none</code> 隐藏。用户切换 Tab 能看到的选型说明与安装步骤，知识库可能<strong>只入库当前默认 Tab 组合</strong>。</p>
+
+    <div class="component-problem">
         <span class="cp-status"><span class="badge badge-bad">抓取差</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li>全站渲染页广泛存在 <code>tab-hover</code> / <code>more-tab-item</code> 等 Tab 组件，非激活面板可被 CSS 隐藏——默认抓取可能<strong>只抓到默认 Tab</strong></li>
-          <li>四页实测中 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 的 bisheng / CMake 两分支<strong>以嵌套列表并列默认展示</strong>，非 Tab 隐藏案例；该页风险在<a href="problems-content-code.html">代码语义</a>（行号污染）等维度</li>
-          <li>全站渲染页约 <strong>34 处</strong> <code>display:none</code>（含 Tab、折叠等），与用户可见内容存在系统性差异</li>
+          <li><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 页含<strong>多轴 Tab 选型</strong>（版本、架构、发行版、在线/离线安装等），非激活面板可被 CSS 隐藏——默认抓取可能<strong>只抓到当前 Tab 组合下的安装说明</strong></li>
         </ul>
       </div>
-    </div>
 
-    <div class="content-tabs" data-content-tabs>
-      <div class="content-tabs-nav" role="tablist" aria-label="Tab 问题与方案">
-        <button type="button" class="is-active" role="tab" aria-selected="true" data-tab="problem">问题实测</button>
-        <button type="button" role="tab" aria-selected="false" data-tab="solution">解决方案</button>
-      </div>
-
-      <div class="content-tabs-panels">
-        <section class="section is-active" id="content-tab-problem" role="tabpanel" data-tab-panel="problem">
-          <div class="content-unit">
-            <h2>测试问题</h2>
-            <p>读取含 Tab 切换的昇腾文档章节，<strong>非激活 Tab 面板内的正文与代码</strong>是否进入了知识库？再读 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a>：bisheng / CMake 两分支在渲染页上<strong>是否默认均可见</strong>？</p>
-          </div>
+    <section class="section" id="content-tab-problem">
+      <h2>问题实测</h2>
 
           <div class="content-unit">
-            <h2>结论：非激活 Tab 语义未入库或截断</h2>
-            <p><strong>全站 Tab 组件存在隐藏非激活面板的风险，但 HelloWorld 不是该场景的实测样本。</strong>该页「使用 bisheng 命令行进行编译」与「使用 CMake 进行编译」<strong>以嵌套列表并列默认展示</strong>，两分支在渲染页上均可见；CMake 步骤能否召回，取决于正文是否入库及<a href="problems-content-code.html">代码语义</a>是否劣化，而非 Tab 隐藏。</p>
 
-            <h3>1. HelloWorld 实测 → 列表并列，非 Tab 隐藏</h3>
-            <p><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld（CANN 9.0.0）</a> 在「完成代码实现后，可以通过两种方式，对上述代码进行编译」下，以两个嵌套列表项展示 bisheng 与 CMake 分支——<strong>无 Tab 切换、无折叠面板</strong>，两分支正文与命令在默认渲染页上均可直接阅读。</p>
+            <h3>测试问题</h3>
 
-            <h3>2. 全站 Tab 组件 → 隐藏非激活面板</h3>
-            <p>昇腾文档渲染层 CSS 含 <code>.tab-hover .more-tab-item{display:none}</code> 等规则。在<strong>实际采用 Tab UI 的章节</strong>中，非激活面板正文与代码可能<strong>不在默认可见 DOM 中</strong>，默认管道跳过 <code>display:none</code> 区域时等价于完全丢失。</p>
+            <div class="test-prompt-card">
+
+              <p>读取 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载（CANN 9.0.0）</a>，切换版本 / 架构 / 发行版 / 安装方式等 Tab 后，<strong>非激活 Tab 面板内的选型说明与安装命令</strong>是否进入了知识库？</p>
+
+            </div>
+
+            </div>
+
+          <div class="content-unit">
+            <h3>结论：非激活 Tab 语义未入库或截断</h3>
+            <p><strong>CANN 软件下载页是典型的多轴 Tab 场景。</strong>页面在版本、架构、发行版、安装方式等维度上组合切换；渲染页中非激活面板正文与部署命令可能<strong>不在默认可见 DOM 中</strong>，默认管道跳过 <code>display:none</code> 区域时，知识库可能仅有「在线安装 · x86_64 · 9.0.0」一类当前组合，缺少离线安装、其他架构等分支说明。</p>
+
+            <h4>CANN 软件下载 → 多轴 Tab 隐藏非激活面板</h4>
+            <p><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 通过多组 Tab 组织选型与安装步骤：用户需切换版本、架构、发行版、在线/离线安装等 Tab 才能看到完整命令与说明。默认抓取若只读当前激活面板，其余组合的 wget / 安装脚本等正文<strong>等价于未入库</strong>。</p>
             <div class="arch-diagram">&lt;div class="tab-hover"&gt;
-  &lt;!-- 默认可见：第一个 Tab 面板 --&gt;
-  &lt;div class="tab-panel-active"&gt;...默认分支正文...&lt;/div&gt;
-  &lt;!-- display:none：非激活 Tab 面板 --&gt;
+  &lt;!-- 当前可见：在线安装 · x86_64 · CANN 9.0.0 --&gt;
+  &lt;div class="tab-panel-active"&gt;...wget / ./Ascend-cann-toolkit... --install&lt;/div&gt;
+  &lt;!-- display:none：离线安装 / 其他架构 Tab 面板 --&gt;
   &lt;div class="more-tab-item" style="display:none"&gt;
-    &lt;pre&gt;...隐藏分支正文...&lt;/pre&gt;
+    &lt;pre&gt;...离线包安装命令...&lt;/pre&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
-
-            <h3>3. 场景对照</h3>
-            <table class="data-table">
-              <thead><tr><th>场景</th><th>UI 形态</th><th>Tab 维度风险</th></tr></thead>
-              <tbody>
-                <tr><td>HelloWorld 编译分支</td><td>嵌套列表，两分支默认可见</td><td><span class="badge badge-ok">非 Tab 隐藏</span></td></tr>
-                <tr><td>全站 Tab 组件章节</td><td>tab-hover / more-tab-item 切换</td><td><span class="badge badge-bad">非激活面板可能完全丢失</span></td></tr>
-                <tr><td>源 HTML <code>/doc_center/source/</code></td><td>多面板顺序展开</td><td><span class="badge badge-ok">较亲和</span></td></tr>
-              </tbody>
-            </table>
-
-            <h3>4. 端点与管道差异</h3>
-            <table class="data-table">
-              <thead><tr><th>抓取端点</th><th>Tab 语义状态</th><th>说明</th></tr></thead>
-              <tbody>
-                <tr><td><code>/doc_center/source/</code></td><td><span class="badge badge-ok">多面板顺序展开</span></td><td>源层无 Tab 隐藏依赖</td></tr>
-                <tr><td><code>/document/detail/</code> 渲染页（含 Tab UI）</td><td><span class="badge badge-bad">可能只入库默认 Tab</span></td><td>非激活面板 <code>display:none</code></td></tr>
-                <tr><td>转 Markdown / Reader 管道</td><td><span class="badge badge-bad">取决于是否跳过隐藏节点</span></td><td>多数管道忽略隐藏 DOM</td></tr>
-              </tbody>
-            </table>
-
-            <h3>入库状态对照</h3>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>Tab 语义状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>HelloWorld bisheng / CMake 列表</td><td><span class="badge badge-ok">默认可见</span></td><td>非 Tab 隐藏；代码可能劣化入库</td></tr>
-                <tr><td>全站非激活 Tab 面板</td><td><span class="badge badge-bad">完全丢失</span></td><td>渲染层隐藏，管道跳过</td></tr>
-                <tr><td>源 HTML 顺序展开</td><td><span class="badge badge-ok">已入库</span></td><td>需显式消费 source 端点</td></tr>
-                <tr><td>Tab 标签文本</td><td><span class="badge badge-should">可能丢失</span></td><td>未结构化进 chunk 元数据</td></tr>
-                <tr><td>机器层全展开（TAB-03）</td><td><span class="badge badge-bad">源站缺失</span></td><td>发布环节未扁平化输出</td></tr>
-              </tbody>
-            </table>
+            <p>实测可归纳为三点（均在说「默认抓取只看见当前 Tab，其余分支进不了知识库」）：</p>
+            <ul>
+              <li><strong>当前选中的 Tab 组合</strong>（如在线安装 · x86_64 · 9.0.0）——对应安装命令<strong>可能入库</strong>，但只是全部组合中的一条路径。</li>
+              <li><strong>未选中的 Tab 组合</strong>（离线安装、aarch64、其他发行版等）——面板在 <code>display:none</code> 中，默认管道<strong>完全跳过</strong>，chunk 中不存在。</li>
+              <li><strong>Tab 标签与选型维度</strong>——往往未结构化写入 chunk，检索时难以区分「用户问的是哪条安装路径」。</li>
+            </ul>
+            <p>改抓 <code>/doc_center/source/</code> 或在机器层预展开全部 Tab 组合，才能避免上述截断；详见解决方案。</p>
           </div>
-        </section>
+            </section>
 
-        <section class="section" id="content-tab-solution" role="tabpanel" data-tab-panel="solution" hidden>
+    <section class="section" id="content-tab-solution">
+      <h2>解决方案</h2>
+
           <div class="content-unit">
-            <h2>改进目标</h2>
-            <p>让每个 Tab 面板的正文与代码以<strong>独立文本 chunk</strong>进入知识库——检索「CMake 编译 HelloWorld」「bisheng 命令参数」时均能召回，<strong>不要求用户在线切换 Tab</strong>，要求机器层事先全量展开。</p>
+            <h3>改进目标</h3>
+            <p>让每个 Tab 组合下的选型说明与安装命令以<strong>独立文本 chunk</strong>进入知识库——检索「CANN 离线安装」「aarch64 下载命令」时均能召回，<strong>不要求用户在线切换 Tab</strong>，要求机器层事先全量展开。</p>
           </div>
 
           <div class="content-unit">
-            <h2>改进措施</h2>
 
-            <h3>一、内容侧：Tab 全量文本化（P0，治本）</h3>
-            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。详见 <a href="principles-tab.html">亲和原则 · Tab 语义</a>。</p>
-            <table class="data-table">
-              <thead>
-                <tr><th></th><th>做法</th><th>入库效果</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>1</strong></td>
-                  <td>源 HTML 中所有 Tab 面板完整存在，不依赖 JS 懒加载（TAB-01）</td>
-                  <td>抓取不遗漏任一 Tab 正文</td>
-                </tr>
-                <tr>
-                  <td><strong>2</strong></td>
-                  <td>每个 Tab 有明确文本标签（TAB-02）</td>
-                  <td>chunk 可区分「bisheng」与「CMake」</td>
-                </tr>
-                <tr>
-                  <td><strong>3</strong></td>
-                  <td>机器层全部展开，用 H3 标注各 Tab 标题（TAB-03）</td>
-                  <td>扁平 MD 中两分支均可检索</td>
-                </tr>
-                <tr>
-                  <td><strong>4</strong></td>
-                  <td>禁止在源 HTML 用 <code>display:none</code> 隐藏非默认 Tab（TAB-04）</td>
-                  <td>源层与机器层一致，无隐藏截断</td>
-                </tr>
-              </tbody>
-            </table>
 
-            <h4>多分支内容改造示例（以 HelloWorld 编译步骤为例）</h4>
-            <p><strong>❌ 风险形态：Tab UI 隐藏非默认面板</strong></p>
-            <div class="arch-diagram">&lt;!-- 仅默认 Tab 可见，其他分支在 display:none 内 --&gt;
-&lt;div class="tab-card"&gt;...默认分支...&lt;/div&gt;
-&lt;div class="more-tab-item" style="display:none"&gt;...隐藏分支...&lt;/div&gt;</div>
-            <p>知识库 chunk：可能仅有默认 Tab 正文，非激活面板完全丢失。</p>
 
-            <p><strong>✅ 改造后：源层 + 机器层全展开</strong>（HelloWorld 当前列表形态已接近此目标）</p>
-            <div class="arch-diagram">&lt;h3 id="compile-bisheng"&gt;使用 bisheng 命令行进行编译&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-bash"&gt;bisheng hello_world.asc --npu-arch=dav-2201 -o demo&lt;/code&gt;&lt;/pre&gt;
+            <h3>改进措施</h3>
 
-&lt;h3 id="compile-cmake"&gt;使用 CMake 进行编译&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-cmake"&gt;cmake_minimum_required(VERSION 3.16)...&lt;/code&gt;&lt;/pre&gt;</div>
-            <p>知识库 chunk：可分别检索「bisheng 编译」「CMake 编译 HelloWorld」。</p>
+            <h4>1. 推进内容侧：Tab 全量文本化 <span class="badge badge-priority badge-must">P0</span></h4>
+            <ul>
+              <li>源 HTML 中所有 Tab 面板完整存在，不依赖 JS 懒加载——抓取不遗漏任一 Tab 正文。</li>
+              <li>每个 Tab 有明确文本标签——chunk 可区分「在线安装」与「离线安装」、「x86_64」与「aarch64」等组合。</li>
+              <li>机器层全部展开，用 H3 标注各 Tab 标题——扁平 MD 中各选型组合均可检索。</li>
+              <li>禁止在源 HTML 用 <code>display:none</code> 隐藏非默认 Tab——源层与机器层一致，无隐藏截断。</li>
+            </ul>
+            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。RAG 应优先消费 <code>/doc_center/source/</code> 或预生成 MD，而非依赖渲染页隐藏区域。详见 <a href="principles-tab.html">亲和原则 · Tab 语义</a>。</p>
+
+            <h4>CANN 软件下载 · Tab 改造示例</h4>
+            <p><strong>❌ 当前：仅默认 Tab 组合入库</strong></p>
+            <div class="arch-diagram">&lt;!-- 仅「在线安装 · x86_64 · 9.0.0」可见 --&gt;
+&lt;div class="tab-panel-active"&gt;wget ... --install&lt;/div&gt;
+&lt;div class="more-tab-item" style="display:none"&gt;...离线安装命令...&lt;/div&gt;</div>
+            <p>知识库 chunk：可能仅有当前激活组合的安装命令，离线安装与其他架构说明完全丢失。</p>
+
+            <p><strong>✅ 改造后：源层 + 机器层全展开</strong></p>
+            <div class="arch-diagram">&lt;h3 id="install-online-x86-900"&gt;在线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;wget ... ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id="install-offline-x86-900"&gt;离线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id="install-online-aarch64-900"&gt;在线安装 · aarch64 · CANN 9.0.0&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;...&lt;/code&gt;&lt;/pre&gt;</div>
+            <p>知识库 chunk：可分别检索「CANN 离线安装」「aarch64 下载命令」「9.0.0 在线安装」。</p>
 
             <h4>机器层 Markdown 输出要点</h4>
-            <div class="arch-diagram">### 使用 bisheng 命令行进行编译
+            <div class="arch-diagram">### 在线安装 · x86_64 · CANN 9.0.0
 ```bash
-bisheng hello_world.asc --npu-arch=dav-2201 -o demo
+wget https://…/Ascend-cann-toolkit_9.0.0_linux-x86_64.run
+./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install
 ```
 
-### 使用 CMake 进行编译
-```cmake
-cmake_minimum_required(VERSION 3.16)
-...
+### 离线安装 · x86_64 · CANN 9.0.0
+```bash
+./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline
 ```</div>
 
-            <h3>二、架构侧：双轨交付 + 端点优先级</h3>
-            <p>双轨交付——人类层保留 Tab 交互，机器层消费源 HTML 或预展开 MD：</p>
+            <h4>2. 落实架构侧：双轨交付 + 端点优先级</h4>
+            <p>针对<strong>多 Tab 含安装命令</strong>：各组合扁平展开后再入库；针对<strong>Tab 标签进元数据</strong>：chunk 标注 <code>tab_label</code> 字段（如版本、架构、安装方式）。双轨交付——人类层保留 Tab 交互，机器层消费源 HTML 或预展开 MD：</p>
             <div class="arch-diagram">HTML 源（doc_center）
     │
-    ├──► 人类层：Tab UI + 交互切换（体验不变）
+    ├──► 人类层：多轴 Tab UI + 交互切换（体验不变）
     │
     └──► 机器层：MD / JSON + llms.txt
               └── 优先消费 /doc_center/source/（4–11 KB）
-              └── 各 Tab 扁平为 H3 + 正文 chunk
-              └── 禁止依赖渲染页 display:none 区域</div>
+              └── 各 Tab 组合扁平为 H3 + 正文 chunk
+              └── 禁止依赖 /cann/download 渲染页 display:none 区域</div>
             <p>RAG 管道应声明抓取端点；<strong>Tab 语义在发布环节全量展开</strong>，而非检索时模拟点击 Tab。</p>
-          </div>
 
-          <div class="content-unit">
-            <h2>改进路径</h2>
-            <table class="data-table">
-              <thead>
-                <tr><th>场景</th><th>建议</th><th>优先级</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>全站 Tab 组件章节</td><td><strong>规则 1–4</strong> + 机器层 H3 全展开</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>RAG 默认抓取渲染页</td><td>切换至 <code>/doc_center/source/</code> 或预生成 MD</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>多 Tab 含代码块</td><td>配合 <a href="problems-content-code.html">代码语义</a> 去行号与语言标注</td><td><span class="badge badge-bad">P0</span></td></tr>
-                <tr><td>Tab 标签进元数据</td><td>chunk 标注 <code>tab_label</code> 字段</td><td><span class="badge badge-should">P1</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    </div>
+
+
+            </div>
+
+          
+            </section>
+
+
 
 
   </main>
 
   <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
     <header class="preview-drawer-header">
-      <h2 class="preview-drawer-title">HelloWorld · Tab</h2>
-      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">新标签页打开</a>
+      <h2 class="preview-drawer-title">CANN 软件下载 · Tab</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">新标签页打开</a>
       <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
     </header>
     <iframe
       class="preview-drawer-frame"
-      data-preview-src="assets/mirror/helloworld-tab-snippet.html"
-      title="HelloWorld Tab 测试片段"
+      data-preview-src="assets/mirror/cann-download-tab-snippet.html"
+      title="CANN 软件下载 Tab 测试片段"
     ></iframe>
   </aside></div>
 
@@ -226,7 +175,6 @@ cmake_minimum_required(VERSION 3.16)
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
-<script src="assets/js/content-tabs.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
 </body>
 </html>
