@@ -126,6 +126,9 @@
 
       <h3>代码文案</h3>
       <p>段落与列表中的行内 <code>code</code> 统一高度 <strong>20px</strong>（13px 字号 + 16px 行高 + 上下 2px padding）。示例：<code>&lt;img&gt;</code>、<code>alt</code>、<code>data-llm-transcription</code>。</p>
+
+      <h3>文案解释</h3>
+      <p>术语或缩写加虚线下划线，悬停显示释义。示例：大模型 <span class="copy-explain" tabindex="0" data-tip="Retrieval-Augmented Generation (检索增强生成)：首先，根据用户问题从知识库中检索相关文档片段；然后，将该片段作为依据，连同原始问题一同提交给大模型，以生成最终回答。">RAG</span> / 知识库。</p>
       <h3 class="ui-spec-sample-h3">小节标题 <span class="badge badge-status badge-bad">语义完全丢失</span></h3>
       <ul class="list-badge-led">
         <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：图片标签上缺图片说明</li>
@@ -159,7 +162,6 @@
 
       <h3>核心问题卡片</h3>
       <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-status badge-bad">未入库</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
           <li>信息型图片图意无法成为可检索 chunk</li>

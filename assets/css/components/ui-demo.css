@@ -10,6 +10,10 @@
   line-height: 1.6;
 }
 
+.ui-demo[id] {
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
 .ui-demo {
   margin-bottom: 32px;
   padding-bottom: 28px;
@@ -17,6 +21,12 @@
 }
 
 .ui-demo:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.ui-demo--plain {
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;

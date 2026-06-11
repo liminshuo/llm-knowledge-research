@@ -2,92 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=principles-general.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tensor 表达 · 亲和原则 · 大模型知识获取研究</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>UI 亲和原则列表 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="canonical" href="principles-general.html">
+  <script>location.replace("principles-general.html");</script>
 </head>
-<body class="inner-page" data-module="principles" data-page="tensor">
-
-<header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
-  <nav class="site-nav">
-    <a href="index.html">首页</a>
-    <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-general.html" class="active">亲和原则</a>
-  </nav>
-</header>
-
-<div class="page-wrapper">
-
-  <aside id="module-sidebar"></aside>
-
-  <main class="main-content">
-
-    <div class="page-header">
-      <h1>Tensor 表达</h1>
-      <p class="page-desc">静态 Tensor 编程内容的解读与转写。</p>
-    </div>
-
-    <section class="section" id="tensor">
-      <h3>Tensor 规则</h3>
-      <p>
-        静态 Tensor 编程是 Ascend C 高阶内容，涉及模板元编程、编译期张量形状推导等复杂概念。
-        这类文档对大模型的挑战远超基础概念页——需要专门的内容结构化策略。
-      </p>
-
-      <h3>复杂技术内容的亲和挑战</h3>
-      <table class="data-table">
-        <thead>
-          <tr><th>挑战</th><th>表现</th><th>亲和策略</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>概念密度高</td>
-            <td>单页包含多个抽象层次</td>
-            <td>用 H2/H3 严格分层，每节只讲一个概念</td>
-          </tr>
-          <tr>
-            <td>代码与概念交织</td>
-            <td>解释文字夹在代码块之间</td>
-            <td>「概念 → 代码 → 说明」三段式结构</td>
-          </tr>
-          <tr>
-            <td>前置依赖多</td>
-            <td>需理解 Tensor、Tiling、编程模型</td>
-            <td>breadcrumb + prerequisites 元数据标注前置章节</td>
-          </tr>
-          <tr>
-            <td>模板代码难解析</td>
-            <td>C++ 模板语法复杂</td>
-            <td>代码块标注语言 + 逐行注释 + 关键行高亮</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>复杂内容的 MD 输出规范</h3>
-      <ul class="key-points">
-        <li>每个概念独立成块，块首标注 <code>concept: 静态Tensor</code></li>
-        <li>代码示例标注 <code>filename</code>、<code>language</code>、<code>prerequisite</code></li>
-        <li>抽象概念附「通俗解释」段落（<code>data-llm-simplified</code>）</li>
-        <li>跨页引用使用描述性链接，不用「详见」或「LINK」</li>
-      </ul>
-
-      <div class="explore-note">
-        <div class="explore-label">来自对话 · 静态 Tensor 编程内容解读</div>
-        该对话以静态 Tensor 编程为例，分析了复杂技术文档如何结构化表达，以便大模型准确理解。
-        <a href="https://claude.ai/share/6290a369-81d8-4064-b473-d9151e1ccd89" target="_blank" rel="noopener">查看完整对话 ↗</a>
-      </div>
-    </section>
-    </section>
-
-
-  </main></div>
-
-<footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
-</footer>
-
-<script src="assets/js/module-sidebar.js"></script>
+<body>
+  <p>已合并至 <a href="principles-general.html">UI 亲和原则列表</a>。</p>
 </body>
 </html>

@@ -72,7 +72,10 @@ def transform(html):
 
 
 def main():
-    paths = [Path(p) for p in sys.argv[1:]] if len(sys.argv) > 1 else sorted(ROOT.glob("problems-*.html"))
+    if len(sys.argv) > 1:
+        paths = [Path(p) for p in sys.argv[1:]]
+    else:
+        paths = sorted(ROOT.glob("problems-*.html")) + sorted(ROOT.glob("principles-*.html"))
     for path in paths:
         text = path.read_text(encoding="utf-8")
         new_text, ok = transform(text)

@@ -26,21 +26,22 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>单文档结构边界</h1>
+        <h1>单文档结构边界 <span class="badge badge-status badge-should">边界错乱</span></h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
-    <p class="page-desc">对应研究概览第 8 节「信息架构与跨页语义」的<strong>页内维度</strong>：标题层级、列表嵌套、Tab / 折叠与切片边界——页内结构在渲染层清晰，抓取后 chunk 边界错乱或从属关系丢失。</p>
+    <p class="page-desc page-desc--split">
+        <span class="page-desc-line">单文档结构边界指<strong>一篇页面内部</strong>的标题层级、列表嵌套、步骤与提示的从属——人读得清，chunk 切出来也要对。</span>
+        <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0004.html" target="_blank" rel="noopener">环境准备</a> 为例：标题大多清晰，但空段落、Tab/折叠默认态、步骤内 Note 扁平化会让<strong>入库块边界错乱或从属丢失</strong>。</span>
+      </p>
 
     <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-should">边界错乱</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li>标题层级（H1–H6）整体清晰，但部分页面存在<strong>空段落</strong>作间距，干扰 chunk 边界</li>
-          <li>Tab / 折叠导致页内结构在机器层<strong>扁平化失败</strong>——模型看到的顺序与人类阅读顺序不一致</li>
-          <li>代码块、表格、提示之间的<strong>从属关系</strong>（如「安装 CANN」步骤下的注意提示）在渲染层清晰，抓取后可能丢失嵌套语义</li>
-          <li>Topic 锚点 ID（ZH-CN_TOPIC_xxx）存在且稳定，但未在机器层作为切片边界显式标注</li>
+          <li>空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 当间距——管道切 chunk 时产生<strong>空白块</strong>或打断标题与正文</li>
+          <li>Tab / 折叠只入库默认态（详见 <a href="problems-content-tab.html">Tab</a>、<a href="problems-content-collapse.html">折叠</a>）——页内阅读顺序与机器读到的不一致</li>
+          <li>步骤内的注意提示 DOM 嵌套良好，抓取后可能<strong>与步骤断联</strong>；Topic 锚点 ID 存在但未用于切片</li>
         </ul>
       </div>
 
@@ -53,11 +54,11 @@
 
             <div class="test-prompt-card">
 
-              <p>以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0004.html" target="_blank" rel="noopener">环境准备（CANN 9.0.0）</a> 为例，入库后能否回答：</p>
+              <p>以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0004.html" target="_blank" rel="noopener">环境准备</a> 入库后，能否回答：</p>
               <ul class="key-points">
                 <li>某条<strong>注意提示</strong>属于安装流程的<strong>哪一步</strong>？</li>
-                <li>CANN 软件下载页 Tab 中「我不知道硬件信息」折叠面板的内容<strong>是否在 chunk 中</strong>？</li>
                 <li>按 H2/H3 切片时，代码块会不会被<strong>拦腰截断</strong>？</li>
+                <li>Tab / 折叠里的内容<strong>是否全在 chunk 里</strong>？（见专项页）</li>
               </ul>
 
             </div>
@@ -66,38 +67,33 @@
 
           <div class="content-unit">
             <h3>结论：页内结构边界未稳定保留</h3>
-            <p><strong>对人类是层级清晰的文档，对 RAG 是扁平或错序的文本块。</strong> 空段落制造伪边界、Tab 只入库默认态、步骤内 Note 被抽离——检索「安装注意事项」时可能召回孤立提示，却看不出它依附于哪一步。</p>
+            <p><strong>对人类是层级清晰的文档，对 RAG 可能是扁平或错序的文本块。</strong> 空段落制造伪边界、步骤内 Note 被抽离、Tab 只保留默认态——检索「安装注意事项」时可能召回孤立提示，却看不出依附于哪一步。</p>
 
-            <h4>1. 空段落与伪 chunk 边界</h4>
-            <p>部分页面用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 控制间距。管道按段落切分时产生<strong>空白 chunk</strong>或打断标题与正文邻接，向量召回出现噪声、上下文连贯性下降。</p>
-
-            <h4>2. Tab / 折叠：页内顺序与人类不一致</h4>
-            <p>CANN 软件下载页 Tab 与「我不知道硬件信息」折叠面板（见 <a href="problems-content-tab.html">Tab 语义</a>、<a href="problems-content-collapse.html">折叠语义</a>）在 UI 层组织信息，默认抓取往往<strong>只保留默认 Tab 态</strong>或跳过 <code>display:none</code> 区域——与用户实际阅读路径不一致。</p>
+            <h4>页内结构问题一览</h4>
             <table class="data-table">
               <thead>
-                <tr><th>结构要素</th><th>典型问题</th><th>入库后后果</th></tr>
+                <tr><th>结构要素</th><th>页面上</th><th>入库后</th></tr>
               </thead>
               <tbody>
-                <tr><td>Tab 面板</td><td>仅默认态入库</td><td>隐藏分支内容不可召回</td></tr>
-                <tr><td>折叠面板</td><td><code>display:none</code> 被跳过</td><td>硬件选型指引等语义丢失</td></tr>
-                <tr><td>步骤内 Note</td><td>DOM 层级被扁平化</td><td>提示与步骤从属关系丢失</td></tr>
-                <tr><td>Topic 锚点 ID</td><td>存在但未标注切片</td><td>无法精确定位章节</td></tr>
+                <tr><td>标题 H1–H6</td><td>多数层级清晰</td><td><span class="badge badge-status badge-ok">基本可用</span></td></tr>
+                <tr><td>空段落间距</td><td>部分页用空 <code>&lt;p&gt;</code></td><td><span class="badge badge-status badge-should">伪 chunk 边界</span></td></tr>
+                <tr><td>有序步骤列表</td><td>环境准备等页结构良好</td><td><span class="badge badge-status badge-ok">可追踪顺序</span>（若未扁平化）</td></tr>
+                <tr><td>步骤内 Note</td><td>嵌套在 <code>&lt;li&gt;</code> 内</td><td><span class="badge badge-status badge-should">从属可能丢失</span></td></tr>
+                <tr><td>Tab / 折叠</td><td>UI 组织信息</td><td><span class="badge badge-status badge-bad">隐藏分支常缺失</span>（<a href="problems-content-tab.html">Tab</a> / <a href="problems-content-collapse.html">折叠</a>）</td></tr>
+                <tr><td>Topic 锚点 ID</td><td><code>ZH-CN_TOPIC_xxx</code> 稳定</td><td><span class="badge badge-status badge-bad">未用于切片边界</span></td></tr>
               </tbody>
             </table>
-
-            <h4>3. 列表嵌套与从属关系</h4>
-            <p>环境准备页等用有序列表表达安装步骤时结构良好；但若用多个独立段落模拟步骤、或将 Note 与步骤拆成不相邻块，抓取后<strong>步骤序号与提示绑定</strong>断裂。代码块、表格若跨 chunk 插入无关元素，从属小节同样难以还原。</p>
 
             <h4>入库状态对照</h4>
             <table class="data-table">
               <thead>
-                <tr><th>入库环节</th><th>页内结构状态</th><th>说明</th></tr>
+                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
               </thead>
               <tbody>
-                <tr><td>标题层级 H1–H6</td><td><span class="badge badge-ok">基本可用</span></td><td>多数页层级清晰</td></tr>
-                <tr><td>Tab / 折叠全量展开</td><td><span class="badge badge-bad">未落实</span></td><td>隐藏语义见专项页论证</td></tr>
-                <tr><td>步骤—提示 DOM 嵌套</td><td><span class="badge badge-should">不稳定</span></td><td>依赖页面写法，管道未统一保留</td></tr>
-                <tr><td>Topic ID 切片标记</td><td><span class="badge badge-bad">缺失</span></td><td>锚点存在但未用于 chunk 边界</td></tr>
+                <tr><td>H2/H3 标题切片</td><td><span class="badge badge-status badge-should">不稳定</span></td><td>空段落、跨块元素干扰</td></tr>
+                <tr><td>代码块 / 表格完整性</td><td><span class="badge badge-status badge-should">易截断</span></td><td>须按元素边界切片</td></tr>
+                <tr><td>Tab / 折叠全量展开</td><td><span class="badge badge-status badge-bad">未落实</span></td><td>见隐藏语义专项页</td></tr>
+                <tr><td>Topic ID 切片标记</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>锚点存在但未写入 chunk</td></tr>
               </tbody>
             </table>
           </div>
@@ -105,39 +101,52 @@
             </section>
 
     <section class="section" id="structure-single-solution">
-      <h2>解决方案</h2>
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
-            <p>页内标题、列表、提示与代码块的<strong>层级与邻接关系</strong>在源码与管道层可感知——chunk 按 H2/H3 + Topic ID 稳定切分，Tab / 折叠全量展开，步骤内 Note 不脱离所属条目。</p>
+            <p>页内标题、列表、提示与代码块的<strong>层级与邻接</strong>在源码和管道层可感知——chunk 按 H2/H3 + Topic ID 稳定切分，Tab / 折叠全量展开，步骤内 Note 不脱离所属条目。</p>
           </div>
 
           <div class="content-unit">
 
-            <h3>改进措施</h3>
-
-            <h4>规范源码：间距与列表结构 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>禁止用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 堆叠代替段落间距——用 CSS margin 控制版式，避免伪 chunk 边界。</li>
-              <li>步骤与层级用 <code>&lt;ol&gt;</code> / <code>&lt;ul&gt;</code> 表达，不用多个独立段落模拟列表——管道可稳定识别条目边界。</li>
-              <li>代码块、表格、提示与所属步骤 / 小节保持 DOM 邻接——避免跨块插入无关元素。</li>
+            <h3 id="改进措施">改进措施</h3>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span>规范列表结构：步骤用 <code>&lt;ol&gt;</code> / <code>&lt;ul&gt;</code>，禁止空 <code>&lt;p&gt;</code> 堆间距；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>标注切片边界：保留 Topic 锚点 ID，按 H2/H3 切片；表格整张入库、代码块不拦腰截断；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>保留嵌套语义：步骤内 Note 保留 DOM 层级（见 <a href="problems-content-note.html">注意提示</a>）；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>展开隐藏语义：Tab / 折叠在机器层全量展开为 H3 小节（见 <a href="problems-content-tab.html">Tab</a>、<a href="problems-content-collapse.html">折叠</a>）；</li>
+              <li><span class="badge badge-priority badge-should">可选</span>代码块、表格、提示与所属步骤保持 DOM 邻接，避免跨块插入无关元素。</li>
             </ul>
-
-            <h4>标注切片边界：Topic ID 与标题层级 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>保留稳定锚点 ID（如 <code>ZH-CN_TOPIC_xxx</code>），管道将其作为 chunk 切片边界标记。</li>
-              <li>标题层级规则（H1–H6 不跳级）见 <a href="principles-structure-metadata.html#h-01">元数据字段规范 · 标题规则</a>——与切片策略一致。</li>
-              <li>RAG 按 H2/H3 边界切片，表格整张入库、代码块不拦腰截断（衔接 <a href="problems-structure-metadata.html#solution">知识库集成</a>）。</li>
-            </ul>
-
-            <h4>落实管道：保留嵌套、展开隐藏语义 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 保留 DOM 层级——抓取时不扁平化（见 <a href="problems-content-note.html">注意提示语义</a>）。</li>
-              <li>Tab 各面板、折叠各区块在机器层<strong>全量扁平展开</strong>为 H3 小节——顺序与人类阅读路径一致（见 <a href="problems-content-tab.html">Tab</a>、<a href="problems-content-collapse.html">折叠</a>）。</li>
-              <li>转换管道在 <a href="problems-format.html#solution">HTML→MD</a> 步骤中统一落地上述规则，而非依赖渲染页剥壳猜测。</li>
-            </ul>
-
             <p>核心原则：<strong>页内结构即切片契约</strong>——源码怎么嵌套，chunk 就怎么入库。详见 <a href="principles-structure-single.html">亲和原则 · 单文档结构感知</a>。</p>
+
+            <h3>改进示例</h3>
+
+            <h4>步骤列表与空段落</h4>
+            <p>步骤须用列表 + 稳定锚点——禁止空段落伪间距、禁止多个 <code>&lt;p&gt;</code> 模拟条目：</p>
+            <div class="ui-demo ui-demo--plain" id="structure-single-ui-demo-spacing">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h2">安装步骤</div><p>&nbsp;</p><p>步骤一：配置环境</p><p>步骤二：编译算子</p></div><p class="rf-muted">空段落 + 伪步骤 → chunk 边界错乱。</p></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h2">安装步骤</div><ol><li>配置环境</li><li>编译算子</li></ol></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;h2 id="ZH-CN_TOPIC_xxx_install"&gt;安装步骤&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;配置环境&lt;/li&gt;
+  &lt;li&gt;编译算子&lt;/li&gt;
+&lt;/ol&gt;</div><p class="rf-muted">按 H2 + 列表稳定切片，步骤顺序可追踪。</p></div>
+              </div>
+            </div>
+
+            <h4>管道切片</h4>
+            <p>机器层从 <code>doc_center/source</code> 导出时，统一按 H2/H3 + Topic ID 切分，Tab / 折叠全量展开，嵌套 Note 保留层级：</p>
+            <div class="arch-diagram">源 HTML
+    │
+    ├──► 人类层：Tab / 折叠交互 + 视觉间距
+    │
+    └──► 机器层：MD / JSON
+              └── H2/H3 + Topic ID 切片
+              └── Tab / 折叠 → H3 小节全量展开
+              └── 步骤内 Note 保留嵌套</div>
 
             </div>
 

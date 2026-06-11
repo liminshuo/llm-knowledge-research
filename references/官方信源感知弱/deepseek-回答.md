@@ -3,7 +3,7 @@ title: 官方信源感知弱 · DeepSeek 回答（Pages 导出）
 deepseek_share: https://chat.deepseek.com/share/ykxj9g8tu1kf468q8g
 export_source: Apple Pages 导出（deepseek-回答.pages）
 html_page: problems-answer-deepseek.html
-html_module: problems-answer.html
+html_module: problems-answer-search.html
 status: 已导出
 export_date: 2026-06-06
 ---

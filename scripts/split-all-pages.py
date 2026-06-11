@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Split all module pages: one sidebar menu item = one HTML page."""
+"""Split all module pages: one sidebar menu item = one HTML page.
+
+DEPRECATED — NAV / page IA in this script is out of sync with
+assets/js/module-sidebar.js. Do not run without a full review and merge.
+"""
 import re
 from pathlib import Path
 

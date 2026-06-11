@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""为亲和原则页注入：原则概要、原则描述、调整层面（UI / 源码 / 管道）。"""
+"""为亲和原则页注入：原则概要、原则描述、调整层面（UI / 源码 / 管道）。
+
+DEPRECATED — 示例内容（如编程模型表）可能落后于现行 pages；勿批量重跑。
+"""
 from __future__ import annotations
 
 import re

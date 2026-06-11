@@ -2,7 +2,7 @@
 title: 官方信源感知弱 · DeepSeek 检索网页
 deepseek_share: https://chat.deepseek.com/share/ykxj9g8tu1kf468q8g
 export_source: Apple Pages 导出（deepseek-检索网页.pages）
-html_module: problems-answer.html
+html_module: problems-answer-search.html
 phase: 检索阶段
 status: 已导出
 export_date: 2026-06-06

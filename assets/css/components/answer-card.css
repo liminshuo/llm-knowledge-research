@@ -226,3 +226,13 @@ ul.answer-card-summary.answer-card-summary--points {
 .answer-card-link:hover {
   text-decoration: underline;
 }
+
+.answer-card-link:disabled {
+  color: var(--color-text-secondary);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.answer-card-link:disabled:hover {
+  text-decoration: none;
+}

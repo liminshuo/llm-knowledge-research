@@ -3,7 +3,7 @@ title: 官方信源感知弱 · Claude 回答（Pages 导出）
 claude_share: https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885
 export_source: Apple Pages 导出（claudeai-回答.pages）
 html_page: problems-answer-claude.html
-html_module: problems-answer.html
+html_module: problems-answer-search.html
 status: 已导出
 export_date: 2026-06-06
 ---

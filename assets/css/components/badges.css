@@ -9,57 +9,72 @@
   box-sizing: border-box;
 }
 
-/* 状态标签：小节标题、核心问题、表格评级（如「语义完全丢失」「P0」） */
-.badge-status,
-.section h3 > .badge:not(.badge-priority),
-.section h4 > .badge:not(.badge-priority),
-.component-problem .cp-status .badge,
-.data-table td .badge {
+/* 状态标签：小节标题、页头实测、表格评级（统一样式 + 分色描边） */
+:is(
+  .badge-status,
+  .page-header-top h1 > .badge,
+  .component-problem .cp-status .badge,
+  .section h3 > .badge:not(.badge-priority),
+  .section h4 > .badge:not(.badge-priority),
+  .data-table td .badge:not(.badge-priority):not(.badge-scope-ui):not(.badge-scope-src):not(.badge-scope-pipe)
+) {
   padding: 4px 10px;
   border-radius: 4px;
   font-size: 12px;
-  border: 1px solid transparent;
 }
 
-.section h3:has(.badge),
-.section h4:has(.badge) {
+.section h3:has(> .badge:not(.badge-priority)),
+.section h4:has(> .badge:not(.badge-priority)) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   height: auto;
   min-height: 28px;
 }
 
-.section h3 > .badge,
-.section h4 > .badge {
+.section h3 > .badge:not(.badge-priority),
+.section h4 > .badge:not(.badge-priority) {
   flex-shrink: 0;
 }
 
-.badge-status.badge-bad,
-.section h3 > .badge-bad:not(.badge-priority),
-.section h4 > .badge-bad:not(.badge-priority),
-.component-problem .cp-status .badge-bad,
-.data-table td .badge-bad {
+:is(
+  .badge-status.badge-bad,
+  .page-header-top h1 > .badge-bad,
+  .component-problem .cp-status .badge-bad,
+  .section h3 > .badge-bad:not(.badge-priority),
+  .section h4 > .badge-bad:not(.badge-priority),
+  .data-table td .badge-bad
+) {
   background: var(--color-danger-bg);
   color: var(--color-danger);
-  border-color: var(--color-danger-border);
+  border: 1px solid var(--color-danger-border);
 }
 
-.badge-status.badge-should,
-.section h3 > .badge-should:not(.badge-priority),
-.section h4 > .badge-should:not(.badge-priority),
-.component-problem .cp-status .badge-should,
-.data-table td .badge-should {
+:is(
+  .badge-status.badge-should,
+  .page-header-top h1 > .badge-should,
+  .component-problem .cp-status .badge-should,
+  .section h3 > .badge-should:not(.badge-priority),
+  .section h4 > .badge-should:not(.badge-priority),
+  .data-table td .badge-should
+) {
   background: var(--color-warning-bg);
   color: var(--color-warning);
-  border-color: var(--color-warning-border);
+  border: 1px solid var(--color-warning-border);
 }
 
-.badge-status.badge-ok,
-.section h3 > .badge-ok,
-.section h4 > .badge-ok,
-.component-problem .cp-status .badge-ok,
-.data-table td .badge-ok {
+:is(
+  .badge-status.badge-ok,
+  .page-header-top h1 > .badge-ok,
+  .component-problem .cp-status .badge-ok,
+  .section h3 > .badge-ok:not(.badge-priority),
+  .section h4 > .badge-ok:not(.badge-priority),
+  .data-table td .badge-ok
+) {
   background: var(--color-success-bg);
   color: var(--color-success);
-  border-color: var(--color-success-border);
+  border: 1px solid var(--color-success-border);
 }
 
 /* 优先级标签：list-badge-led 内「必要 / 可选」；小节标题内 P0 / P1 */

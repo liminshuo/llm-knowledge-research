@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表格与列表结构语义 · 问题论证 · 大模型知识获取研究</title>
+  <title>表格的结构语义 · 问题论证 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="problems" data-page="content-table">
@@ -26,20 +26,20 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>表格与列表结构语义</h1>
+        <h1>表格的结构语义 <span class="badge badge-status badge-should">语义劣化入库</span></h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
-    <p class="page-desc"><strong>表格与列表结构语义</strong>指行列关系、表头含义、列表嵌套层级对模型是否可读。标准数据表（如「表1 编程模型分类」）是四页中<strong>亲和度标杆</strong>；问题出在 <code>highlighttable</code> 误用于代码行号、部分表格缺 caption，以及嵌套列表 + 注意提示抓取后<strong>扁平化丢失从属关系</strong>。</p>
+    <p class="page-desc page-desc--split">
+        <span class="page-desc-line">表格的结构语义指行列关系、表头含义对模型是否可读。</span>
+        <span class="page-desc-line"><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子 · 表1 设计规格</a>则代表复杂规格表——有表题但列布局混杂、空单元格与伪多行列表并存。</span>
+      </p>
 
     <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-should">两极分化</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li>「编程模型概述」页「表1 编程模型分类」结构完整（★★★★★），但 HelloWorld 将代码行号混为 <code>highlighttable</code>——<strong>表格语义被滥用</strong></li>
-          <li>部分表格缺乏 <code>&lt;caption&gt;</code> 或前置标题，模型难以理解表格主题与检索上下文</li>
-          <li>环境准备页列表嵌套注意提示结构良好，但抓取后嵌套从属关系可能扁平化，步骤与提示的<strong>层级语义弱化</strong></li>
+          <li><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 算子 · 表1 Ascend C Add算子设计规格</a>：表题可见但非 caption 语义；5 列网格大量空单元格；「使用的主要接口」拆成 4 行伪数据行——入库后 API 列表与算子规格从属关系易丢失</li>
         </ul>
       </div>
 
@@ -52,130 +52,138 @@
 
             <div class="test-prompt-card">
 
-              <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_10_10062.html" target="_blank" rel="noopener">编程模型概述（CANN 9.0.0）</a>，SIMD / SIMT / AI CPU 三种编程模型分别适用于什么计算空间？再对比 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 页代码区——表格结构是否被误用？</p>
+              <p>读取 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子 · 表1 Ascend C Add算子设计规格</a>：输入 x 的 shape 与 dtype 是什么？核函数名称是什么？「使用的主要接口」有哪些？</p>
 
             </div>
 
             </div>
 
           <div class="content-unit">
-            <h3>结论：标杆与滥用并存</h3>
-            <p><strong>标准数据表亲和度极高，表格滥用则严重劣化代码语义。</strong>用户问「三种编程模型计算空间」时，编程模型概述页可准确召回；问「贴出 hello_world 源码」时，highlighttable 使<strong>表格结构与代码文本混杂</strong>。</p>
+            <h3>结论：复杂规格表语义劣化入库</h3>
+            <p><strong>表1 含完整算子规格，但行列从属需靠位置推断。</strong>用户问「x 的 shape」「DataCopy 接口」时，正文可召回；问「表1 Add 算子设计规格包含哪些 API」时，<strong>接口列表与 OpType 从属在 chunk 中易断开</strong>——表题非 <code>&lt;caption&gt;</code>、5 列空网格与接口伪多行是主因。</p>
 
-            <h4>1. 标杆：表1 编程模型分类</h4>
-            <p>编程模型概述页表格具备完整语义要素：</p>
+            <h4>表1 结构诊断</h4>
+            <p>实测页：<a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发 · CANN 9.0.0</a>「算子分析」一节。</p>
             <table class="data-table">
-              <thead><tr><th>要素</th><th>现状</th><th>入库效果</th></tr></thead>
+              <thead><tr><th>问题</th><th>表1 现状</th><th>入库 / 检索影响</th></tr></thead>
               <tbody>
-                <tr><td><code>&lt;caption&gt;</code></td><td>「表1 编程模型分类」</td><td><span class="badge badge-ok">主题可检索</span></td></tr>
-                <tr><td><code>&lt;th&gt;</code> 表头</td><td>编程模型 / 计算空间 / 特点</td><td><span class="badge badge-ok">列语义清晰</span></td></tr>
-                <tr><td>行列数据</td><td>SIMD→AI Core、SIMT→AI Core 等</td><td><span class="badge badge-ok">结构完整</span></td></tr>
+                <tr><td>表题未语义化</td><td>「表1 Ascend C Add算子设计规格」为加粗段落，非 <code>&lt;caption&gt;</code></td><td><span class="badge badge-status badge-should">表题锚点弱</span></td></tr>
+                <tr><td>列布局虚胖</td><td>5 列网格；OpType、核函数、接口等行后列大量空单元格</td><td><span class="badge badge-status badge-should">切片时列对齐易错位</span></td></tr>
+                <tr><td>区段与数据混排</td><td>「算子输入」行内嵌 name / shape / data type / format；x、y 各占一行</td><td><span class="badge badge-status badge-ok">人工可读</span>，模型需推断首列为区段标签</td></tr>
+                <tr><td>列表拆成伪行</td><td>「使用的主要接口」占 4 行（DataCopy、Add、AllocTensor、EnQue…），后列全空</td><td><span class="badge badge-status badge-bad">API 与算子规格从属易丢失</span></td></tr>
+                <tr><td>字段可检索</td><td>x shape <code>(8, 2048)</code>、dtype <code>float</code>、核函数 <code>add_custom</code>、文件 <code>add_custom.asc</code></td><td><span class="badge badge-status badge-ok">单字段可召回</span>，组合语义不稳定</td></tr>
               </tbody>
             </table>
-            <p>该页为四页诊断中<strong>唯一 ★★★★★ 完整度</strong>，表格是核心贡献因素。</p>
-
-            <h4>2. 滥用：highlighttable 充当代码容器</h4>
-            <p>HelloWorld 页用 <code>highlighttable</code> 承载代码行号——表格语义与代码语义混淆，详见 <a href="problems-content-code.html">代码语义</a>：</p>
-            <div class="arch-diagram">&lt;table class="highlighttable"&gt;
-  &lt;tr&gt;&lt;td class="linenos"&gt;行号列&lt;/td&gt;
-      &lt;td class="code"&gt;代码列&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;</div>
-            <p>违反 TBL-03「不在单元格内嵌套代码块」——代码应独立于表外，行号由 CSS 渲染。</p>
-
-            <h4>3. caption 缺失的表格</h4>
-            <p>部分页面表格仅有视觉样式表头，无 <code>&lt;caption&gt;</code> 或前置「表 N」标题。入库后 chunk 缺少表格主题上下文，向量检索「表1」「编程模型分类」等锚点困难。</p>
-
-            <h4>4. 嵌套列表 + 注意提示扁平化</h4>
-            <p>环境准备页将注意提示嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 步骤内，源 HTML 结构良好。但部分转文本管道将列表与提示<strong>压平为连续段落</strong>，「安装 CANN」步骤与其下「注意：set_env.sh」的从属关系弱化——影响 <a href="problems-content-note.html">注意提示</a> 与步骤的联合检索。</p>
-
-            <h4>对比：两类表格入库效果</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>表格类型</th><th>典型页面</th><th>入库效果</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>标准数据表（tablenoborder）</td><td>编程模型概述 · 表1</td><td><span class="badge badge-ok">结构完整</span></td></tr>
-                <tr><td>highlighttable（代码行号）</td><td>HelloWorld</td><td><span class="badge badge-bad">语义滥用</span></td></tr>
-                <tr><td>无 caption 数据表</td><td>部分参考页</td><td><span class="badge badge-should">主题不明</span></td></tr>
-                <tr><td>嵌套列表 + note</td><td>环境准备</td><td><span class="badge badge-should">可能扁平化</span></td></tr>
-              </tbody>
-            </table>
+            <div class="arch-diagram">表1 Ascend C Add算子设计规格（5 列布局示意）
+算子类型（OpType） | AddCustom | （空） | （空） | （空）
+算子输入           | name      | shape      | data type | format
+                   | x         | (8, 2048)  | float     | ND
+                   | y         | (8, 2048)  | float     | ND
+算子输出           | z         | (8, 2048)  | float     | ND
+核函数名称         | add_custom | （空） | （空） | （空）
+使用的主要接口     | DataCopy：数据搬运接口 | （空） | （空） | （空）
+                   | Add：矢量基础算术接口   | （空） | （空） | （空）
+                   | AllocTensor、FreeTensor… | （空） | （空） | （空）
+                   | EnQue、DeQue…           | （空） | （空） | （空）
+算子实现文件名称   | add_custom.asc | （空） | （空） | （空）</div>
 
             <h4>入库状态对照</h4>
             <table class="data-table">
               <thead>
-                <tr><th>入库环节</th><th>表格/列表状态</th><th>说明</th></tr>
+                <tr><th>表1 内容</th><th>状态</th><th>说明</th></tr>
               </thead>
               <tbody>
-                <tr><td>标准数据表（有 caption + th）</td><td><span class="badge badge-ok">已入库</span></td><td>行列语义完整</td></tr>
-                <tr><td>highlighttable 代码区</td><td><span class="badge badge-bad">语义滥用</span></td><td>表格≠数据表</td></tr>
-                <tr><td>无 caption 表格</td><td><span class="badge badge-should">劣化入库</span></td><td>缺主题锚点</td></tr>
-                <tr><td>有序列表步骤</td><td><span class="badge badge-ok">已入库</span></td><td>步骤序列可检索</td></tr>
-                <tr><td>列表嵌套注意提示</td><td><span class="badge badge-should">从属弱化</span></td><td>扁平化后层级丢失</td></tr>
-                <tr><td>机器层 Markdown 表格</td><td><span class="badge badge-bad">源站缺失</span></td><td>未额外输出 MD 表</td></tr>
+                <tr><td>OpType / I/O shape / dtype</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>单字段可检索</td></tr>
+                <tr><td>表题「表1 Add算子设计规格」</td><td><span class="badge badge-status badge-should">劣化入库</span></td><td>非 caption，锚点弱</td></tr>
+                <tr><td>主要接口列表（4 行）</td><td><span class="badge badge-status badge-bad">从属弱化</span></td><td>伪多行，与 OpType 断联</td></tr>
+                <tr><td>机器层 Markdown 表</td><td><span class="badge badge-status badge-bad">源站缺失</span></td><td>未额外输出规范化 MD 表</td></tr>
               </tbody>
             </table>
           </div>
             </section>
 
     <section class="section" id="content-table-solution">
-      <h2>解决方案</h2>
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
-            <p>让每张数据表以<strong>带 caption、表头明确的结构化 chunk</strong>入库；列表保持嵌套层级；代码不再占用表格单元格。检索「编程模型分类」「SIMD 计算空间」时能准确召回表格语义。</p>
+            <p>让 <strong>表1 Ascend C Add算子设计规格</strong> 以带 caption、分区子表与独立接口列表的结构化 chunk 入库。检索「Add 算子 x shape」「DataCopy 接口」「表1 Add算子设计规格」时能准确召回表格语义与从属关系。</p>
           </div>
 
           <div class="content-unit">
 
 
 
-            <h3>改进措施</h3>
-
-            <h4>1. 推进内容侧：表格与列表规范化 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>表格必须有 caption 或前置标题——chunk 含「表1 编程模型分类」等主题锚点。</li>
-              <li>表头用 <code>&lt;th&gt;</code> 明确列名——列语义不依赖 CSS 样式。</li>
-              <li>不在单元格内嵌套代码块——代码归 <a href="problems-content-code.html">代码语义</a> 维度单独处理。</li>
-              <li>机器层额外输出 Markdown 表格——LLM 可直接解析 pipe 表。</li>
-              <li>列表嵌套提示时保持 <code>&lt;li&gt;</code> 完整展开——步骤与注意提示的从属关系清晰。</li>
+            <h3 id="改进措施">改进措施</h3>
+            <p>针对 Add 表1 的结构问题，在 <code>doc_center/source</code> 与渲染页中补充表格结构字段：</p>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span>表题 / <code>caption</code>：「表1 Ascend C Add算子设计规格」须写入 <code>&lt;caption&gt;</code>，入库后可作为检索锚点；</li>
+              <li><span class="badge badge-priority badge-must">必要</span><code>&lt;th&gt;</code> 表头：I/O 子表的 name / shape / data type / format 须使用 <code>&lt;th&gt;</code>，禁止样式伪装的 <code>&lt;td&gt;</code>；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>接口列表独立化：「使用的主要接口」改为 <code>&lt;ul&gt;</code> 或合并单元格，禁止拆成 4 行伪数据行；</li>
+              <li><span class="badge badge-priority badge-should">可选</span>机器层 Markdown 表格：为规格表额外输出 MD 副本，保留 I/O 行列与接口列表结构。</li>
             </ul>
-            <p>核心原则：<strong>表格表达数据、列表表达层级</strong>，代码独立于表外。详见 <a href="principles-table.html">亲和原则 · 表格结构</a>。</p>
+            <p>核心原则：<strong>规格表 = caption + I/O 子表 + 接口列表</strong>，避免 5 列空网格混排。详见 <a href="principles-table.html">亲和原则 · 表格的结构语义</a>。</p>
 
-            <h4>表1 编程模型分类（保持标杆）</h4>
-            <div class="arch-diagram">&lt;table&gt;
-  &lt;caption&gt;&lt;b&gt;表1 &lt;/b&gt;编程模型分类&lt;/caption&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;&lt;th&gt;编程模型&lt;/th&gt;&lt;th&gt;计算空间&lt;/th&gt;&lt;th&gt;特点&lt;/th&gt;&lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;...&lt;/tbody&gt;
-&lt;/table&gt;</div>
+            <h3>改进示例</h3>
 
-            <h4>highlighttable 改造方向</h4>
-            <p><strong>❌ 当前</strong>：代码在行号表格内 → 表格语义污染。</p>
-            <p><strong>✅ 改造</strong>：代码移出表外，改用 <code>pre &gt; code</code>；行号仅人类层 CSS 渲染。</p>
+            <h4>表1 Ascend C Add算子设计规格</h4>
+            <p>规格类表格宜 caption + 分区子表 / 列表——避免 5 列空网格与接口伪多行：</p>
+            <div class="ui-demo ui-demo--plain" id="content-table-ui-demo-add">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p class="rf-muted"><strong>表1</strong> Ascend C Add算子设计规格</p><table class="rf-table"><tr><td>算子类型</td><td>AddCustom</td><td></td><td></td><td></td></tr><tr><td>算子输入</td><td>name</td><td>shape</td><td>dtype</td><td>format</td></tr><tr><td></td><td>x</td><td>(8,2048)</td><td>float</td><td>ND</td></tr><tr><td>使用的主要接口</td><td>DataCopy…</td><td></td><td></td><td></td></tr><tr><td></td><td>Add…</td><td></td><td></td><td></td></tr></table><p class="rf-muted">（5 列空单元格；接口占多行）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;p&gt;&lt;b&gt;表1&lt;/b&gt; Ascend C Add算子设计规格&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt;&lt;td&gt;算子类型&lt;/td&gt;&lt;td&gt;AddCustom&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;使用的主要接口&lt;/td&gt;&lt;td&gt;DataCopy…&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;Add…&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
+&lt;/table&gt;</div><p class="rf-muted">知识库 chunk：「DataCopy」与「AddCustom 规格」从属关系易丢失。</p></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+                <div class="compare-col human"><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;table&gt;
+  &lt;caption&gt;表1 Ascend C Add算子设计规格&lt;/caption&gt;
+  &lt;tr&gt;&lt;th colspan="2"&gt;算子类型（OpType）&lt;/th&gt;&lt;td&gt;AddCustom&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table&gt;
+  &lt;caption&gt;输入 / 输出&lt;/caption&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;name&lt;/th&gt;&lt;th&gt;shape&lt;/th&gt;&lt;th&gt;data type&lt;/th&gt;&lt;th&gt;format&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;x&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;y&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;z（输出）&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+  &lt;li&gt;DataCopy：数据搬运接口&lt;/li&gt;
+  &lt;li&gt;Add：矢量计算接口&lt;/li&gt;
+  &lt;li&gt;AllocTensor / FreeTensor：内存管理&lt;/li&gt;
+  &lt;li&gt;EnQue / DeQue：队列操作&lt;/li&gt;
+&lt;/ul&gt;</div><p class="compare-sublabel">Markdown 输出</p><div class="arch-diagram">**表1 Ascend C Add算子设计规格**
 
-            <h4>机器层 Markdown 输出要点</h4>
-            <div class="arch-diagram">**表1 编程模型分类**
+| 算子类型（OpType） | AddCustom |
+|-------------------|-----------|
 
-| 编程模型 | 计算空间 | 特点 |
-|----------|----------|------|
-| SIMD编程 | AI Core | 适合矩阵计算、连续计算的矢量算子... |
-| SIMT编程 | AI Core | 适用于离散访问场景... |
-| AI CPU编程 | AI CPU | 作为 AI Core 计算的补充 |</div>
+**输入 / 输出**
 
-            <h4>2. 落实架构侧：双轨交付 + 切片策略</h4>
-            <p>针对<strong>无 caption 表格</strong>：补 caption 或前置标题；针对<strong>环境准备嵌套列表</strong>：切片时保留 li 边界。架构侧双轨交付与知识库切片策略——整张表作为一个切片单元，不拆分行列：</p>
-            <div class="arch-diagram">HTML 源（doc_center）
+| name | shape | data type | format |
+|------|-------|-----------|--------|
+| x | (8, 2048) | float | ND |
+| y | (8, 2048) | float | ND |
+| z（输出） | (8, 2048) | float | ND |
+
+**使用的主要接口**
+
+- DataCopy：数据搬运接口
+- Add：矢量计算接口
+- AllocTensor / FreeTensor：内存管理
+- EnQue / DeQue：队列操作</div><p class="rf-muted">知识库 chunk：可检索「表1 Add算子」「x shape (8,2048)」「DataCopy 接口」。</p></div>
+              </div>
+            </div>
+
+            <h4>管道切片</h4>
+            <p>规格表整张入库；接口列表保持与 OpType 从属——caption、I/O 子表与接口列表在源 HTML 写对即可。</p>
+            <div class="arch-diagram">源 HTML
     │
-    ├──► 人类层：表格样式 + 行号 UI（体验不变）
-    │
-    └──► 机器层：MD / JSON
-              └── 数据表 → caption + MD 表格 + JSON 数组
-              └── highlighttable → 剥离为独立代码块（非表格）
-              └── 列表嵌套结构保留缩进层级</div>
-
-
+    ├──► 人类层：caption + I/O 子表 + 接口列表
+    └──► 机器层：MD / JSON（表不拆分、接口 ul）</div>
 
             </div>
 
@@ -189,14 +197,14 @@
 
   <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
     <header class="preview-drawer-header">
-      <h2 class="preview-drawer-title">编程模型概述 · 表1</h2>
-      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_10_10062.html" target="_blank" rel="noopener">新标签页打开</a>
+      <h2 class="preview-drawer-title">Add 自定义算子 · 表1 设计规格</h2>
+      <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">新标签页打开</a>
       <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
     </header>
     <iframe
       class="preview-drawer-frame"
-      data-preview-src="assets/mirror/programming-model-table-snippet.html"
-      title="编程模型概述表格测试片段"
+      data-preview-src="assets/mirror/add-operator-table-snippet.html"
+      title="Add 自定义算子 · 表1 Ascend C Add算子设计规格"
     ></iframe>
   </aside></div>
 

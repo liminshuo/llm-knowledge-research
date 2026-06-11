@@ -26,55 +26,47 @@
 
     <div class="page-header">
       <h1>版本外显</h1>
-      <p class="page-desc">对应 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>。版本、弃用状态须在渲染页头部可见，并写入结构化字段供检索过滤。</p>
+      <p class="page-desc">对应 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>。以下仅列<strong>渲染页可见</strong>的版本与弃用状态 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="timeliness">
-
-      <div class="content-unit" id="timeliness-chain">
-        <h3>链路后果一览</h3>
-        <p class="section-heading-desc">RAG 消费侧实测现象；文档侧 <code>version</code> 字段供给见 <a href="principles-structure-metadata.html#ia-fields">元数据规范 · IA 字段一览</a>（研究概览第 8 节）。分阶段详测见 <a href="problems-timeliness.html">版本滞后</a>。</p>
-        <table class="data-table">
-          <thead><tr><th>现象</th><th>链路阶段</th><th>后果</th></tr></thead>
-          <tbody>
-            <tr><td>未稳定引用 CANN 9.0.0（900）社区版</td><td>检索 + 生成</td><td>回答依据旧版 / beta 路径，与主推产品面脱节</td></tr>
-            <tr><td>检索池第三方教程占比高（如 Claude <strong>79%</strong>）</td><td>检索</td><td>「官方资料」prompt 难约束选材</td></tr>
-            <tr><td>生成溯源社区占比分化（<strong>22%–67%</strong>）</td><td>生成</td><td>模型对「官方」边界判定不一致</td></tr>
-            <tr><td>检索 URL 分布 ≠ 段末溯源构成</td><td>跨阶段</td><td>同一 prompt 选材不可复现</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">链路实测与入库规则见 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>；页级元数据展示见 <a href="principles-structure-metadata.html">元数据字段规范</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="ver-01"><td>1</td><td>文章头部（H1 下方）展示版本徽章，如「CANN 8.0.RC1」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="ver-02"><td>2</td><td>已废弃章节在渲染页顶部显示弃用横幅，并链接替代文档</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="ver-03"><td>3</td><td>Front Matter 与 JSON-LD 写入 <code>version</code>、<code>deprecated_since</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="ver-04"><td>4</td><td>机器层导出须携带版本字段，供 RAG 按版本过滤</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr><td>1</td><td>版本徽章</td><td>文章头部（H1 上方或旁侧）展示「CANN 9.0.0」「Ascend C」等版本与产品徽章</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>弃用横幅</td><td>已废弃章节在页顶展示弃用提示，并链接替代文档</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-1">
-        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>文章头部展示版本徽章</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">算子开发入门</div><p class="rf-muted">（页头无版本信息，版本仅存在于 URL 参数）</p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><span class="rf-badge">CANN 8.0.RC1</span><span class="rf-badge">Ascend C</span><div class="rf-h1">算子开发入门</div></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · 文章头部展示版本徽章</h4>
+        <div class="ui-demo ui-demo--plain" id="ver-01">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h1">算子开发入门</div><p class="rf-muted">（页头无版本信息，版本仅存在于 URL 参数）</p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><span class="rf-badge">CANN 8.0.RC1</span><span class="rf-badge">Ascend C</span><div class="rf-h1">算子开发入门</div></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>弃用章节顶部横幅</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-h1">旧版 API 说明</div><p>本文介绍已下线的接口…</p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-banner">⚠ 本文档已废弃（CANN 8.0 起）· <a href="#">见 CANN 9.0 替代文档</a></div><div class="rf-h1">旧版 API 说明</div></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · 弃用章节顶部横幅</h4>
+        <div class="ui-demo ui-demo--plain" id="ver-02">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h1">旧版 API 说明</div><p>本文介绍已下线的接口…</p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-banner">⚠ 本文档已废弃（CANN 8.0 起）· <a href="#">见 CANN 9.0 替代文档</a></div><div class="rf-h1">旧版 API 说明</div></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

@@ -46,7 +46,7 @@
 
 ### 亲和原则某一维度
 
-- 页面：`principles-*.html`（如 `principles-structure-llms.html`）
+- 页面：`principles-*.html`（机器发现层：`principles-structure-llms.html`，已入侧栏）
 - 样式：`components/ui-demo.css`、`components/badges.css`、`components/content-widgets.css`
 
 ### 改颜色 / 间距 / 新组件
@@ -76,6 +76,9 @@
 ## 约定
 
 - 内页结构（**问题论证**与**亲和原则**共用）：`page-header` 仅含 H1（或 `page-header-top`）；`.page-desc`、`.component-problem` 放在 header **底部分割线下方**，再接 `.section` 正文  
-- 批量规范化：`python3 scripts/normalize-page-header.py problems-*.html principles-*.html`
-- 卡片容器：浅灰底 + `#F0F0F0` 描边用 `.surface-card`（见 ui-system · 卡片样式）  
+- 各页「解决方案」H2 统一 `id="solution"`，跨页链接用 `#solution`（如 `problems-format.html#solution`）  
+- 批量规范化：`python3 scripts/normalize-page-header.py`（默认 `problems-*.html` + `principles-*.html`）  
+- 卡片容器：浅灰底 + `#F0F0F0` 描边用 `.surface-card`（见 `docs/ui-system.md` §5.1.1）  
+- 已合并页用根目录 **redirect stub**（`<meta refresh>` + canonical），勿在侧栏保留入口；旧 `problems-detail-*`、`problems-format-md-*` 等已重定向  
+- **勿批量运行** `scripts/split-all-pages.py`、`enrich-principles-pages.py`、`add-ui-render-demos.py`（NAV / 示例落后于 `module-sidebar.js`）  
 - 仅当用户明确要求时再 `git commit` / 部署  

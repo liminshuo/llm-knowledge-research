@@ -26,76 +26,80 @@
 
     <div class="page-header">
       <h1>速查表</h1>
-      <p class="page-desc">各语义维度规则速查。调整层面见各维度页原则表。</p>
     </div>
 
     <section class="section" id="cheatsheet">
       <h3>速查说明</h3>
       <div class="rule-grid">
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4><a href="principles-structure-metadata.html#heading-rules">元数据字段规范</a></h4>
-          <p>一个 H1，层级连续，有锚点 ID <span class="badge badge-bad">UI</span></p>
+          <div class="rule-id">2 项</div>
+          <h4><a href="principles-timeliness.html">版本外显</a></h4>
+          <p>版本徽章、弃用横幅</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4>链接</h4>
-          <p>描述性文本，热区须文本冗余</p>
+          <div class="rule-id">5 项</div>
+          <h4><a href="principles-image.html">图片图意</a></h4>
+          <p>可读标签、转写 / 列表、图注、Mermaid、去装饰图标</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4>图片</h4>
-          <p>alt + 转写，热区变链接列表</p>
+          <div class="rule-id">2 项</div>
+          <h4><a href="principles-hotzone.html">图片热区</a></h4>
+          <p>热区文本链接列表、描述性锚文本</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
-          <h4><a href="principles-table.html">表格与列表结构语义</a></h4>
-          <p>有 caption，不嵌代码</p>
+          <div class="rule-id">3 项</div>
+          <h4><a href="principles-link.html">链接语义</a></h4>
+          <p>描述性锚文本、站外来源、上下文链接</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
-          <h4>代码语义</h4>
-          <p>标注语言，行号与代码分离</p>
-        </div>
-        <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
-          <h4><a href="principles-note.html">注意提示（Note）语义</a></h4>
-          <p>类型文本化，MD 引用块输出</p>
-        </div>
-        <div class="rule-card">
-          <div class="rule-id">1 ~ 4</div>
+          <div class="rule-id">2 项</div>
           <h4><a href="principles-tab.html">隐藏语义 · Tab</a></h4>
-          <p>源层全展开，标签作 H3</p>
+          <p>可读标签、面板全量可见</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
+          <div class="rule-id">2 项</div>
           <h4><a href="principles-collapse.html">隐藏语义 · 折叠</a></h4>
-          <p>机器层默认展开</p>
+          <p>可读标题、默认展开</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
-          <h4><a href="principles-structure-single.html">单文档结构感知</a></h4>
-          <p>列表即结构，不嵌空段落</p>
+          <div class="rule-id">3 项</div>
+          <h4><a href="principles-code.html">代码语义</a></h4>
+          <p>行号分离、pre 呈现、场景标注</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 6</div>
+          <div class="rule-id">3 项</div>
+          <h4><a href="principles-table.html">表格的结构语义</a></h4>
+          <p>可见表题（caption）、表头语义化（th）、接口列表独立化</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">2 项</div>
+          <h4><a href="principles-note.html">注意提示（Note）语义</a></h4>
+          <p>正文展开、类型文本前缀</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">7 项</div>
+          <h4><a href="principles-structure-metadata.html">元数据字段规范</a></h4>
+          <p>单一 H1、层级连续、自解释标题、摘要、版本徽章、面包屑、设备标签</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">2 项</div>
           <h4><a href="principles-structure-cross.html">跨文档结构感知</a></h4>
-          <p>breadcrumb + 上下篇入库</p>
+          <p>可见面包屑、上下篇导航</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 6</div>
-          <h4><a href="principles-format.html">格式交付与抓取入口</a></h4>
-          <p>双轨 + 机器只抓 source</p>
+          <div class="rule-id">2 项</div>
+          <h4><a href="principles-structure-single.html">单文档结构感知</a></h4>
+          <p>版式间距规范、列表表达步骤</p>
         </div>
         <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
+          <div class="rule-id">1 项</div>
+          <h4><a href="principles-format.html">双轨交付与载体</a></h4>
+          <p>机器可读入口</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-id">—</div>
           <h4><a href="principles-structure-llms.html">llms.txt 与机器入口</a></h4>
-          <p>发现层 + 主推版本</p>
-        </div>
-        <div class="rule-card">
-          <div class="rule-id">1 ~ 5</div>
-          <h4><a href="principles-timeliness-disambiguation.html">多版本消歧</a></h4>
-          <p>RAG 默认过滤 900</p>
+          <p>无渲染页 UI 项 → 见问题论证</p>
         </div>
       </div>
 

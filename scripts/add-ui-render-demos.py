@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""为亲和原则页中所有含 UI 层面的原则补充可视化渲染示例。"""
+"""为亲和原则页中所有含 UI 层面的原则补充可视化渲染示例。
+
+DEPRECATED — 示例内容（如编程模型表）可能落后于现行 pages；勿批量重跑。
+"""
 from __future__ import annotations
 
 import re

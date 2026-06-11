@@ -26,42 +26,13 @@
 
     <div class="page-header">
       <h1>llms.txt 与机器入口</h1>
-      <p class="page-desc">对应 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>。机器发现层靠站点配置；须声明主推版本与机器源基址。消歧策略见 <a href="principles-timeliness-disambiguation.html">多版本消歧</a>。</p>
+      <p class="page-desc">对应 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>。本篇无可落地的渲染页 UI 改造项；llms.txt、robots 与 sitemap 配置见问题论证，页脚机器可读入口见 <a href="principles-format.html">双轨交付与载体</a>。</p>
     </div>
 
 
     <section class="section" id="structure-llms">
-
-      <div class="content-unit" id="delivery-discovery">
-        <h3>站点发现层一览</h3>
-        <p class="section-heading-desc">决定爬虫从哪条 URL 起步、能否访问 source；与 <a href="principles-format.html#delivery-entry">双轨交付 · 交付与抓取入口一览</a> 配套。概览见 <a href="background-motivation.html#dimensions">研究概览 · 第 9 节站点发现</a>。问题实测见 <a href="problems-structure-llms.html">llms.txt 与机器入口</a>。</p>
-        <table class="data-table">
-          <thead><tr><th>配置</th><th>现状</th><th>后果</th></tr></thead>
-          <tbody>
-            <tr><td><code>llms.txt</code></td><td>根路径 404</td><td>Agent 不知文档索引与机器源基址</td></tr>
-            <tr><td><code>robots.txt</code></td><td><code>Disallow: /doc_center/</code></td><td>最优 source 路径被主动屏蔽</td></tr>
-            <tr><td>sitemap</td><td>抽样均为 <code>/document/detail/</code></td><td>发现层默认导向高噪声渲染页</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>亲和原则</h3>
-      <table class="data-table">
-        <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
-        </thead>
-        <tbody>
-          <tr id="llms-01"><td>1</td><td>站点根路径部署 <code>llms.txt</code>，列出文档索引与机器源基址</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="llms-02"><td>2</td><td><code>robots.txt</code> 不得禁止 <code>/doc_center/source/</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="llms-03"><td>3</td><td>sitemap 优先收录机器源 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="llms-04"><td>4</td><td>全局模板可选 <code>link rel="llms"</code> 指向站点索引</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="llms-canonical"><td>5</td><td><code>llms.txt</code> 声明 canonical 主推版本（如 CANN 社区版 9.0.0 / 900），旧版标注 <code>deprecated</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ui-render-examples">
-        <h3>UI 渲染示例</h3>
-        <p class="ui-render-none">本篇原则的调整层面均为 <span class="badge badge-scope-src">源码</span> 或 <span class="badge badge-scope-pipe">管道</span>，无单独 UI 渲染改造项。</p>
-      </div>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">本篇无可落地的渲染页 UI 改造项。llms.txt、robots 与 sitemap 配置见 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>；页脚机器可读入口见 <a href="principles-format.html">双轨交付与载体</a>。</p>
 </section>
 
 

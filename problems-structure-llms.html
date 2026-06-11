@@ -26,29 +26,27 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>机器发现层缺失</h1>
+        <h1>机器发现层缺失 <span class="badge badge-status badge-bad">未声明</span></h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
     <p class="page-desc page-desc--split">
-        <span class="page-desc-line">机器发现层决定爬虫与 Agent <strong>从哪条 URL 开始、抓哪类载体</strong>——不是单页正文质量，而是站点是否声明 canonical 源。</span>
-        <span class="page-desc-line">本页以站点配置实测 + 三模型检索 URL 分布，论证昇腾社区<strong>缺少 llms.txt、屏蔽源路径、sitemap 只索引渲染页</strong>的后果。</span>
+        <span class="page-desc-line">机器发现层告诉爬虫和 Agent：<strong>该从哪条 URL 抓、主推哪一版文档</strong>——例如 <code>llms.txt</code>、robots、sitemap。</span>
+        <span class="page-desc-line">昇腾社区实测：<code>llms.txt</code> 404、robots 屏蔽 <code>/doc_center/</code>、sitemap 只列渲染页——合规抓取<strong>落不到最优机器源</strong>，加剧 <a href="problems-format.html">格式噪声</a>与 <a href="problems-timeliness.html#timeliness-problem">多版本混淆</a>。</span>
       </p>
 
     <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-bad">未声明</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li><strong>无机器发现层</strong>：<code>/llms.txt</code> 返回 404；未声明机器友好出口、主推版本与章节索引，Agent 只能沿用人类浏览路径。</li>
-          <li><strong>最优源被主动屏蔽</strong>：<code>robots.txt</code> 含 <code>Disallow: /doc_center/</code>，与 <a href="problems-format.html">交付格式</a> 结论（source 4–11 KB 为最佳载体）直接冲突。</li>
-          <li><strong>发现层索引渲染页</strong>：sitemap 抽样 10,000 条 URL <strong>100%</strong> 为 <code>/document/detail/</code>，零条 <code>doc_center</code>；与 <a href="problems-answer-search.html">检索阶段</a> 观测一致，加剧 <a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a> 困难。</li>
+          <li>无 <code>/llms.txt</code>：站点未声明机器友好入口与主推版本，Agent 只能沿用人类浏览路径</li>
+          <li><code>robots.txt</code> 含 <code>Disallow: /doc_center/</code>：合规爬虫<strong>抓不到</strong>源 HTML（见 <a href="problems-format.html">格式交付</a>）</li>
+          <li>sitemap 抽样 10,000 条 URL <strong>100%</strong> 为 <code>/document/detail/</code> 渲染页，零条 <code>doc_center</code></li>
         </ul>
       </div>
 
     <section class="section" id="structure-llms-problem">
       <h2>问题实测</h2>
-
 
           <div class="content-unit">
 
@@ -56,171 +54,111 @@
 
             <div class="test-prompt-card">
 
-              <p>站点是否为机器层声明了可抓取的 canonical 入口？若未声明，爬虫与联网检索实际会落在哪类 URL？</p>
+              <p>站点是否为机器层声明了可抓取的入口？若未声明，联网检索实际会落在哪类 URL？</p>
 
             </div>
 
             </div>
 
           <div class="content-unit">
-            <h3>结论：机器发现层缺失</h3>
-            <p><strong>站点未声明机器友好入口，合规爬虫被引向错误载体。</strong> llms.txt 404、robots 屏蔽 source、sitemap 100% 索引渲染页——发现层在源头放大 <a href="problems-format.html#format-noise">格式噪声</a> 与 <a href="problems-timeliness.html#timeliness-disambiguation">多版本混淆</a>。</p>
-          </div>
+            <h3>结论：发现层缺失，爬虫被引向渲染页</h3>
+            <p><strong>站点没有在配置层声明「机器该抓哪」。</strong> llms.txt 不存在、source 路径被 robots 屏蔽、sitemap 只索引 ~224 KB 渲染页——合规抓取默认落在高噪声载体。</p>
 
-          <div class="content-unit">
-            <h3>站点配置实测</h3>
-            <p>2026-06-07 对 <code>hiascend.com</code> 根路径三类机器发现文件做 HTTP 探测。完整命令见 <a href="references/机器发现层探测/hiascend-discovery-probe.md">hiascend-discovery-probe.md</a>。</p>
+            <h4>站点配置实测</h4>
+            <p>2026-06-07 对 <code>hiascend.com</code> 根路径探测，完整命令见 <a href="references/机器发现层探测/hiascend-discovery-probe.md">hiascend-discovery-probe.md</a>。</p>
             <table class="data-table">
               <thead>
-                <tr><th>探测项</th><th>结果</th><th>对机器层的影响</th></tr>
+                <tr><th>探测项</th><th>结果</th><th>影响</th></tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>/llms.txt</code></td>
-                  <td><span class="badge badge-bad">404</span></td>
-                  <td>无站点级声明：机器友好 URL、主推版本、废弃索引均缺失</td>
+                  <td><span class="badge badge-status badge-bad">404</span></td>
+                  <td>无站点级索引与主推版本声明</td>
                 </tr>
                 <tr>
                   <td><code>/robots.txt</code></td>
-                  <td>含 <code>Disallow: /doc_center/</code></td>
-                  <td>合规爬虫<strong>不得抓取</strong>源 HTML / PDF</td>
+                  <td><code>Disallow: /doc_center/</code></td>
+                  <td>合规爬虫不得抓取源 HTML / PDF</td>
                 </tr>
                 <tr>
                   <td><code>/sitemap/sitemapdoc1.xml</code></td>
-                  <td>10,000 条，<strong>0</strong> 条 <code>doc_center</code>，<strong>100%</strong> <code>document/detail</code></td>
-                  <td>只引导 ~224 KB 渲染页，多版本无优先级</td>
+                  <td>10,000 条，<strong>100%</strong> <code>document/detail</code>，<strong>0</strong> 条 <code>doc_center</code></td>
+                  <td>只引导渲染页，多版本无优先级</td>
                 </tr>
               </tbody>
             </table>
-
-            <h4>robots.txt 摘录</h4>
-            <div class="arch-diagram">User-agent: *
-Allow: /
-Disallow: /profile/
-Disallow: /doc_center/
-
-Sitemap: https://www.hiascend.com/sitemap.xml
-…（共 10+ 个 sitemap 分片）</div>
-
-            <h4>sitemap 抽样</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>#</th><th>URL 路径特征</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>1</td><td><code>…/910beta1/…/*.html</code></td></tr>
-                <tr><td>2–5</td><td><code>…/900/…/*.html</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="content-unit">
-            <h3>检索行为印证</h3>
-            <table class="data-table">
-              <thead>
-                <tr><th>模型</th><th>昇腾官方 URL 形态</th><th>版本分散</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Claude</td>
-                  <td>4/19 条，均为 <code>/document/detail/</code> 或营销页</td>
-                  <td>850alpha、910beta、700 商用；<strong>未见 900</strong></td>
-                </tr>
-                <tr>
-                  <td>DeepSeek</td>
-                  <td>9/27 条官方，多条 <code>doc_center/…/*.pdf</code></td>
-                  <td>8.x 混用；robots 禁止 <code>doc_center</code>，来源不稳定</td>
-                </tr>
-                <tr>
-                  <td>千问</td>
-                  <td>7/13 条，以 <code>/document/detail/</code> 为主</td>
-                  <td>850、910beta；<strong>900 不稳定</strong></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="info-box warning">
-              <div class="box-title">论证链</div>
-              发现层缺失 → 只暴露渲染页 → 检索池版本分散 → 生成无法「最新版优先」。机器入口是把 <a href="problems-format.html#format-noise">交付格式 · 噪声</a> 与 <a href="problems-timeliness.html">时效</a> 问题<strong>在源头收敛</strong>的配置层。
-            </div>
-          </div>
-
-          <div class="content-unit">
-            <h3>缺失项汇总</h3>
-            <table class="data-table">
-              <thead>
-                <tr><th>缺失项</th><th>现状</th><th>后果</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>无 <code>llms.txt</code></td><td>404</td><td>Agent 猜测入口，易抓渲染页或旧版</td></tr>
-                <tr><td>源路径被 robots 屏蔽</td><td><code>Disallow: /doc_center/</code></td><td>最优载体无法成合规默认源</td></tr>
-                <tr><td>sitemap 无版本优先级</td><td>900 / 910beta / 8.x 并行</td><td>新旧 API 同时可召回</td></tr>
-                <tr><td>无 MD / JSON 出口声明</td><td>双轨未在发现层落地</td><td>RAG 只能剥壳抓 HTML</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="content-unit">
-            <h3>复现命令</h3>
-            <div class="arch-diagram">curl -sI "https://www.hiascend.com/llms.txt" | head -3
-curl -s "https://www.hiascend.com/robots.txt" | head -8</div>
-            <p>完整脚本：<a href="references/机器发现层探测/hiascend-discovery-probe.md">hiascend-discovery-probe.md</a></p>
           </div>
 
             </section>
 
     <section class="section" id="structure-llms-solution">
-      <h2>解决方案</h2>
-
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
-            <p>在站点根提供<strong>机器发现层</strong>：明确 canonical 源路径、当前主推版本、章节索引与废弃版本——使合规爬虫与联网 Agent 默认落在低噪声机器层，而非 224KB 渲染页。</p>
+            <p>在站点根提供机器发现层：明确 canonical 源路径、主推版本与章节索引——让合规爬虫和 Agent <strong>默认落在低噪声机器层</strong>，而非 224 KB 渲染页。</p>
           </div>
 
           <div class="content-unit">
 
+            <h3 id="改进措施">改进措施</h3>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span>部署 <code>llms.txt</code>：声明文档索引、机器源基址与主推版本（CANN 9.0.0 / 900）；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>调整 <code>robots.txt</code>：放行 <code>/doc_center/source/</code>；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>完善 sitemap：优先收录机器源 URL，旧版标注 <code>deprecated</code> 或降优先级；</li>
+              <li><span class="badge badge-priority badge-should">可选</span>全站 <code>&lt;link rel="llms" href="/llms.txt"&gt;</code>：在全局 <code>&lt;head&gt;</code> 声明机器索引入口。</li>
+            </ul>
+            <p>发现层（本页）与内容层（<a href="problems-format.html#solution">双轨交付与载体</a>）配套——单篇渲染页<strong>页脚机器可读入口</strong>见 <a href="problems-format.html#format-ui-demo-link">格式交付 · 页脚示例</a>；入库字段见 <a href="problems-structure-metadata.html#solution">页级元数据</a>。</p>
 
+            <h3>改进示例</h3>
 
-            <h3>改进措施</h3>
-
-            <h4>部署 llms.txt <span class="badge badge-priority badge-must">P0</span></h4>
-            <p>针对<strong>站点无机器入口</strong>：发布 /llms.txt + 声明 source 根路径。遵循 <a href="https://llmstxt.org/" target="_blank" rel="noopener">llms.txt 规范</a>，在根路径提供机器可读索引；配套可提供 <code>llms-full.txt</code> 展开全站章节。</p>
-            <div class="arch-diagram"># /llms.txt
+            <h4>llms.txt 声明机器源</h4>
+            <div class="ui-demo ui-demo--plain" id="structure-llms-ui-demo-llmstxt">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前站点</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">探测结果</p><div class="render-frame"><p><code>GET /llms.txt</code> → <strong>404 Not Found</strong></p><p class="rf-muted">Agent 沿用人类路径 → 抓取 /document/detail/ 渲染页</p></div></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和站点</h4>
+                <div class="compare-col human"><p class="compare-sublabel">/llms.txt</p><div class="arch-diagram"># /llms.txt
 &gt; Ascend C 算子开发 · CANN 社区版 9.0.0
 
-- [机器层 MD 出口](https://.../ascend-c-900.md)
-- [源 HTML 根路径](https://.../doc_center/source/.../900/...)
-- [当前主推版本说明](https://.../version-policy)
-- [废弃版本索引](https://.../deprecated)</div>
+- [机器层 MD 出口](https://…/ascend-c-900.md)
+- [源 HTML 根路径](https://…/doc_center/source/…/900/…)
+- [当前主推版本说明](https://…/version-policy)
+- [废弃版本索引](https://…/deprecated)</div><p class="rf-muted">Agent 读取索引 → 直达 doc_center/source/</p></div>
+              </div>
+            </div>
 
-            <h4>调整 robots.txt <span class="badge badge-priority badge-must">P0</span></h4>
-            <p>针对<strong>robots 屏蔽 source</strong>：放行 /doc_center/source/。</p>
-            <ul>
-              <li>放行 <code>/doc_center/source/</code>（或单独 Allow 规则），与「推荐抓 source」一致</li>
-              <li>保留对 <code>/profile/</code> 等无关路径的 Disallow</li>
-              <li>在 robots 注释或 llms.txt 中交叉引用机器层入口</li>
-            </ul>
+            <hr class="example-divider">
 
-            <h4>完善 sitemap 与 canonical 策略 <span class="badge badge-priority badge-should">P1</span></h4>
-            <p>针对<strong>多版本并行索引</strong>：llms.txt / sitemap 标注 canonical 与 deprecated。</p>
-            <ul>
-              <li>sitemap 增加机器层 URL，或单独 <code>sitemap-machine.xml</code></li>
-              <li>对 910beta / 8.x 标注 <code>deprecated</code> 或降低优先级</li>
-              <li>主推版本 900 在发现层显式声明为 canonical</li>
-            </ul>
+            <h4>robots.txt 放行 source</h4>
+            <div class="ui-demo ui-demo--plain" id="structure-llms-ui-demo-robots">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前站点</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">robots.txt</p><div class="arch-diagram">User-agent: *
+Disallow: /doc_center/
+Disallow: /profile/</div></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和站点</h4>
+                <div class="compare-col human"><p class="compare-sublabel">robots.txt</p><div class="arch-diagram">User-agent: *
+Allow: /doc_center/source/
+Disallow: /profile/
+# 机器入口见 /llms.txt</div><p class="compare-sublabel">sitemap</p><div class="arch-diagram">sitemap-machine.xml
+  → 优先收录 /doc_center/source/
+  → 910beta / 8.x 标注 deprecated</div></div>
+              </div>
+            </div>
 
-            <h4>与双轨交付衔接 <span class="badge badge-priority badge-must">P0</span></h4>
-            <p>针对<strong>Agent 批量抓取</strong>：提供 MD 批量出口 + llms-full.txt。llms.txt 是<strong>发现层</strong>，<a href="problems-format.html#solution">格式交付 · 双轨交付</a> 是<strong>内容层</strong>——二者配套。入库后字段消歧见 <a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a>。</p>
-            <p>核心原则：<strong>发现层先行声明</strong>——合规爬虫与 Agent 默认落在低噪声机器层，而非 224KB 渲染页。详见 <a href="principles-format.html#delivery-entry">亲和原则 · 交付与抓取入口</a>。</p>
-
-
+            <h4>双轨衔接</h4>
+            <p><code>llms.txt</code> 声明入口后，爬虫抓 <code>/doc_center/source/</code>，管道导出 MD / JSON；人类仍访问 <code>/document/detail/</code> 渲染页。</p>
+            <div class="arch-diagram">llms.txt + robots + sitemap
+    │
+    ├──► Agent / 爬虫 → doc_center/source/
+    │
+    └──► 管道导出 MD / JSON → RAG 向量库</div>
 
             </div>
 
-          
-
             </section>
-
 
 
 

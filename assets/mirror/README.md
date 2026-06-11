@@ -10,7 +10,8 @@
 | `helloworld-tab-snippet.html` | Tab 隐藏 · 全站 Tab 组件风险示意（非 HelloWorld 实页 UI） |
 | `env-collapse-snippet.html` | 折叠面板 · 默认收起示意 |
 | `helloworld-code-snippet.html` | 代码语义 · highlighttable 示意 |
-| `programming-model-table-snippet.html` | 表格语义 · 表1 标杆 |
+| `add-operator-table-snippet.html` | 表格的结构语义 · Add 表1 设计规格示意 |
+| `programming-model-table-snippet.html` | （旧）编程模型表1 · 保留作对照 |
 | `env-note-snippet.html` | 注意提示 / 单文档结构 · 环境准备步骤嵌套 Note 示意 |
 | `discovery-probe-snippet.html` | 机器发现层 · llms / robots / sitemap 探测示意 |
 

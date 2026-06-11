@@ -26,18 +26,22 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>链接语义</h1>
+        <h1>链接语义 <span class="badge badge-status badge-should">劣化入库</span></h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
-    <p class="page-desc">本页聚焦<strong>占位符链接</strong>：锚文本为「LINK」等无意义占位符时，<code>href</code> 虽可解析，目标语义却在入库后<strong>劣化</strong>——模型读到的不是「链到哪里」，而是占位符本身。</p>
+    <p class="page-desc page-desc--split">
+        <span class="page-desc-line">当锚文本为「LINK」等无意义占位符时，<code>href</code> 虽可解析，但<strong>目标语义在入库后发生劣化</strong>——模型读到的不是「链到哪里」，而是占位符本身。</span>
+        <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 为例：「完整样例请参考 LINK」使 chunk 中<strong>无法回答样例仓库是什么</strong>。</span>
+      </p>
 
     <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-should">劣化入库</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li>HelloWorld 等页出现「完整样例请参考 <code>LINK</code>」：<code>href</code> 指向 GitCode 仓库，但 chunk 中仅保留「LINK」，无法回答<strong>样例仓库是什么</strong></li>
+          <li>HelloWorld 等页出现「完整样例请参考 <code>LINK</code>」：<code>href</code> 指向 GitCode 仓库，但 chunk 中仅保留「LINK」</li>
+          <li>URL 能进知识库，<strong>锚文本不可用</strong>——用户问「样例仓库地址」时无法检索</li>
+          <li>占位符链接与描述性链接混排时，模型难以区分<strong>哪些链接携带目标语义</strong></li>
         </ul>
       </div>
 
@@ -58,25 +62,38 @@
 
           <div class="content-unit">
             <h3>结论：占位符链接语义劣化</h3>
-            <p><strong>URL 能进知识库，锚文本不可用。</strong>用户问「HelloWorld 样例仓库地址」时，chunk 中仅见「LINK」——链接目标对人类不可核对、对 RAG 不可检索。</p>
-            <p>HelloWorld 等页出现「完整样例请参考 <code>LINK</code>」类表述：<code>href</code> 指向 GitCode 仓库，但锚文本不提供目标描述。入库后 chunk 中仅出现「LINK」——模型无法推断这是 <strong>hello_world 样例仓库</strong>。</p>
-            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div>
+            <p><strong>URL 能进知识库，锚文本不可用。</strong>用户问「HelloWorld 样例仓库地址」时，chunk 中仅见「LINK」——链接目标对人类不可核对、对 RAG 不可检索。HelloWorld 等页 <code>href</code> 指向 GitCode 仓库，但锚文本不提供目标描述，模型无法推断这是 <strong>hello_world 样例仓库</strong>。</p>
 
-            <h4>链接类型对照</h4>
+            <h4>链接语义对照</h4>
             <table class="data-table">
               <thead>
-                <tr><th>链接类型</th><th>典型问题</th><th>入库后效果</th></tr>
+                <tr><th>链接类型</th><th>页面上</th><th>入库后</th></tr>
               </thead>
               <tbody>
-                <tr><td>正文描述性链接</td><td>相对路径需转绝对 URL</td><td><span class="badge badge-ok">基本可用</span></td></tr>
-                <tr><td>占位符链接（LINK）</td><td>锚文本无意义</td><td><span class="badge badge-should">劣化入库</span></td></tr>
+                <tr><td>正文描述性链接</td><td>锚文本描述目标</td><td><span class="badge badge-status badge-ok">基本可用</span></td></tr>
+                <tr><td>占位符链接（LINK）</td><td>可见「LINK」文字</td><td><span class="badge badge-status badge-should">劣化入库</span></td></tr>
+                <tr><td>相对路径链接</td><td>可点击跳转</td><td><span class="badge badge-status badge-should">须转绝对 URL</span></td></tr>
+                <tr><td>站外 GitCode 链接</td><td>href 完整可访问</td><td><span class="badge badge-status badge-should">URL 在、语义丢</span></td></tr>
+              </tbody>
+            </table>
+
+            <h4>入库状态对照</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>描述性锚文本</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>可检索目标语义</td></tr>
+                <tr><td>占位符锚文本（LINK）</td><td><span class="badge badge-status badge-should">劣化入库</span></td><td>仅见占位符</td></tr>
+                <tr><td>href 绝对 URL</td><td><span class="badge badge-status badge-should">不稳定</span></td><td>相对路径须转换</td></tr>
+                <tr><td>站外来源标注</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>GitCode 等未标注</td></tr>
               </tbody>
             </table>
           </div>
             </section>
 
     <section class="section" id="content-link-solution">
-      <h2>解决方案</h2>
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
@@ -85,41 +102,42 @@
 
           <div class="content-unit">
 
-
-
-            <h3>改进措施</h3>
-
-            <h4>推进内容侧：链接文本化 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>锚文本写清链到哪里，禁止「LINK」「点击这里」等占位符——chunk 可直接回答「样例在 hello_world 仓库」。</li>
-              <li>站外链接保留完整 URL，并标明为外部链接——外部仓库地址可核对、可引用。</li>
-              <li>链接附 <code>title</code> 或上下文说明——增强向量检索与引用准确性。</li>
+            <h3 id="改进措施">改进措施</h3>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span>描述性锚文本：<code>&lt;a&gt;</code> 内文字须描述目标（如「HelloWorld 完整样例（GitCode）」），禁止「LINK」「点击这里」；</li>
+              <li><span class="badge badge-priority badge-should">可选</span><code>title</code>：链接标签上可补充用途说明；</li>
+              <li><span class="badge badge-priority badge-should">可选</span>站外来源标注：GitCode 等外链旁附完整域名或 external 标记。</li>
             </ul>
             <p>核心原则：<strong>链接意图先行入库</strong>——模型读到的文字应能回答「链到哪里、为什么链」。详见 <a href="principles-link.html">亲和原则 · 链接语义</a>。</p>
 
-            <h4>HelloWorld「LINK」改造示例</h4>
-            <p><strong>❌ 当前：语义劣化</strong></p>
-            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div>
-            <p>知识库 chunk：仅见「LINK」，无法回答样例仓库是什么。</p>
+            <h3>改进示例</h3>
 
-            <p><strong>✅ 改造后：语义已入库</strong></p>
-            <div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"
+            <h4>HelloWorld 占位符链接</h4>
+            <p>锚文本须描述跳转目标——禁止「LINK」等占位符入库：</p>
+            <div class="ui-demo ui-demo--plain" id="content-link-ui-demo-helloworld">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-bad" href="#">LINK</a></p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div><p class="rf-muted">知识库 chunk：仅见「LINK」，无法回答样例仓库是什么。</p></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-good" href="#">hello_world 完整样例（GitCode 仓库）</a></p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"
    data-link-purpose="完整样例代码仓库"&gt;
   hello_world 完整样例（GitCode 仓库）
-&lt;/a&gt;</div>
-            <p>知识库 chunk：可检索「HelloWorld 样例」「ascendc-samples hello_world」。</p>
+&lt;/a&gt;</div><p class="rf-muted">知识库 chunk：可检索「HelloWorld 样例」「ascendc-samples hello_world」。</p></div>
+              </div>
+            </div>
 
-            <h4>机器层 Markdown 输出要点</h4>
-            <div class="arch-diagram">完整样例请参考 [hello_world 完整样例（GitCode 仓库）](https://gitcode.com/cann/ascendc-samples/tree/master/hello_world)</div>
-
-
+            <h4>管道切片</h4>
+            <p>机器层从 <code>doc_center/source</code> 导出时，每条链接携带锚文本 + 绝对 URL：</p>
+            <div class="arch-diagram">源 HTML
+    │
+    ├──► 人类层：描述性锚文本 + 站外来源标注
+    │
+    └──► 机器层：MD / JSON
+              └── 每条链接 → 锚文本 + 绝对 URL</div>
 
             </div>
 
-          
             </section>
-
-
 
 
   </main>

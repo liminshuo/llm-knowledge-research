@@ -106,6 +106,56 @@
   margin: 16px 0;
 }
 
+.compare-grid--stack {
+  grid-template-columns: 1fr;
+}
+
+.compare-grid--stack .compare-label--human {
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--color-border);
+}
+
+.example-divider {
+  border: none;
+  border-top: 1px dashed var(--color-border);
+  margin: 28px 0 20px;
+}
+
+.compare-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.compare-label--machine { color: var(--color-danger); }
+.compare-label--human { color: var(--color-success); }
+
+.compare-sublabel {
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
+  color: var(--color-text-secondary);
+  margin: 0 0 6px;
+}
+
+.compare-sublabel:not(:first-child) {
+  margin-top: 14px;
+}
+
+.compare-sublabel + .render-frame,
+.compare-sublabel + .arch-diagram {
+  margin-top: 0;
+}
+
+.compare-col .arch-diagram {
+  margin-top: 0;
+}
+
+.compare-col .rf-muted {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 .compare-col {
   border-radius: var(--radius);
   padding: 18px 20px;
@@ -130,3 +180,41 @@
 
 .compare-col.human h4 { color: var(--color-success); }
 .compare-col.machine h4 { color: var(--color-danger); }
+
+/* ── 文案解释（虚线下划线 + hover/focus 浮层）── */
+.copy-explain {
+  border-bottom: 1px dashed var(--color-text-secondary);
+  cursor: help;
+  position: relative;
+}
+
+.copy-explain::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 300px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--color-text);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  pointer-events: none;
+  z-index: 20;
+  box-shadow: var(--shadow);
+}
+
+.copy-explain:hover::after,
+.copy-explain:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}

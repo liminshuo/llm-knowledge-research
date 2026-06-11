@@ -25,26 +25,27 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>页级元数据未结构化</h1>
+      <div class="page-header-top">
+        <h1>页级元数据未结构化 <span class="badge badge-status badge-should">语义未结构化</span></h1>
+      </div>
     </div>
 
     <p class="page-desc page-desc--split">
-        <span class="page-desc-line">元数据回答的不是「正文写了什么」，而是<strong>这篇 chunk 是谁、属于哪一版、在知识体系哪一节</strong>——RAG 检索与过滤的前置条件。</span>
-        <span class="page-desc-line">本页论证：版本、breadcrumb、doc_id 等在页面上隐含存在，入库后未标准化为 chunk 字段，导致<strong>无法按版本过滤、消歧同名章节、稳定溯源</strong>。</span>
+        <span class="page-desc-line">页级元数据指每篇文档的<strong>身份信息</strong>：CANN 版本、章节路径、文档编号、适用芯片——人看 URL 和标题能知道，入库后却没有可检索字段。</span>
+        <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a> 为例：9.0 / 8.5 / 9.1-beta 正文几乎相同、只有 URL 和标题版本串不同——<strong>不写 <code>version</code> 就会混召</strong>。</span>
       </p>
 
     <div class="component-problem">
         <div class="cp-label">核心问题</div>
         <ul>
-          <li><strong>页面有据、入库无情</strong>：「什么是 Ascend C」在 900 / 850 / 910beta 下 <code>&lt;title&gt;</code> 均含版本与章节路径，但无 JSON-LD / Front Matter；<code>version</code>、<code>breadcrumb</code>、<code>doc_id</code> 不进 chunk 元数据。</li>
-          <li><strong>同题异版不可分</strong>：同一 <code>atlas_ascendc_map_10_0002</code> 对应三套 URL，正文高度相似；无 <code>version</code> 字段时向量检索<strong>无法排除旧版</strong>。</li>
-          <li><strong>关系语义未结构化</strong>：设备型号、上下篇、Tab/Note 类型等可见但未字段化——检索只能做全文相似度，不能做字段约束。</li>
+          <li>同一篇文档多版本并存（9.0 / 8.5 / 9.1-beta），入库不写 <code>version</code> 时检索<strong>新旧版混在一起</strong></li>
+          <li>章节路径挤在 <code>&lt;title&gt;</code> 一长串里，未拆成 <code>breadcrumb</code>——同名「环境准备」<strong>分不清教程线</strong></li>
+          <li>文档编号、适用芯片页面上有，未写入 chunk——引用只能贴 URL，<strong>难以唯一对应</strong>某一版某一页</li>
         </ul>
       </div>
 
     <section class="section" id="structure-metadata-problem">
       <h2>问题实测</h2>
-
 
           <div class="content-unit">
 
@@ -52,237 +53,120 @@
 
             <div class="test-prompt-card">
 
-              <p>正文已进入向量库之后，能否回答：</p>
-
+              <p>假设 Ascend C 文档正文<strong>已经入库</strong>，向知识库提三个问题：</p>
               <ul class="key-points">
-
-              <li>这条 chunk 适用于<strong>哪一版 CANN</strong>？</li>
-
-              <li>「环境准备」属于<strong>入门教程</strong>还是<strong>软件安装</strong>？</li>
-
-              <li>引用能否稳定回溯到<strong>唯一 doc_id</strong>？</li>
-
+                <li>这段内容适用于 <strong>CANN 哪一版</strong>（9.0.0 还是 8.5.0）？</li>
+                <li>「环境准备」属于 <strong>入门教程</strong> 还是 <strong>软件安装</strong> 那条线？</li>
+                <li>能否给出<strong>唯一文档编号</strong>，而不只是贴一个 URL？</li>
               </ul>
 
-              <p>若三者皆否，说明缺的是<strong>元数据字段</strong>，而非更多正文。</p>
-
             </div>
 
             </div>
 
           <div class="content-unit">
-            <h3>页面有据 · 入库未结构化</h3>
-            <p>以 <code>atlas_ascendc_map_10_0002</code> 为例（<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a>）。</p>
-            <table class="data-table">
-              <thead>
-                <tr><th>信息</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>version</code></td>
-                  <td>✅ URL <code>…/900/…</code> + title「CANN社区版9.0.0」</td>
-                  <td>❌ chunk 无 <code>version</code> 键</td>
-                </tr>
-                <tr>
-                  <td><code>breadcrumb</code></td>
-                  <td>✅ 压缩在 <code>&lt;title&gt;</code> 字符串</td>
-                  <td>❌ 未拆成数组，无法消歧</td>
-                </tr>
-                <tr>
-                  <td><code>doc_id</code></td>
-                  <td>✅ URL 文件名</td>
-                  <td>❌ 未写入 chunk</td>
-                </tr>
-                <tr>
-                  <td><code>applicable_devices</code></td>
-                  <td>✅ 正文列出 Atlas A2/A3</td>
-                  <td>❌ 无结构化列表</td>
-                </tr>
-                <tr>
-                  <td>JSON-LD</td>
-                  <td>❌ 实测 <strong>0</strong> 条</td>
-                  <td>— 无标准头信息可继承</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="info-box warning">
-              <div class="box-title">「未结构化」入库态</div>
-              见 <a href="principles-structure-metadata.html#ia-fields">亲和原则 · IA 元数据字段一览</a>：页面上有，但未变成可检索元数据。
-            </div>
-          </div>
+            <h3>结论：页面有身份、库里没标签</h3>
+            <p><strong>人看页面能知道「这是 9.0 版、入门教程第一章」；RAG 读 chunk 只能看到正文段落。</strong>版本、章节路径、文档编号散落在 URL 和 <code>&lt;title&gt;</code> 里，入库时未提取为独立字段——检索只能靠全文相似度，<strong>不能按版本筛、不能消歧同名章节、不能稳定引用</strong>。</p>
 
-          <div class="content-unit">
-            <h3>同题异版 · 无字段则不可分</h3>
+            <h4>页面上有 vs 知识库里有</h4>
+            <p>以 <code>atlas_ascendc_map_10_0002</code>（<a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a>）为例，探测见 <a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a>：</p>
             <table class="data-table">
               <thead>
-                <tr><th>路径版本</th><th><code>&lt;title&gt;</code> 版本串（实测）</th></tr>
+                <tr><th>身份信息</th><th>页面上</th><th>入库后</th></tr>
               </thead>
               <tbody>
-                <tr><td>900 社区版</td><td>…<strong>CANN社区版9.0.0</strong>…</td></tr>
-                <tr><td>850 商用版</td><td>…<strong>CANN商用版8.5.0</strong>…</td></tr>
-                <tr><td>910 beta</td><td>…<strong>CANN社区版9.1.0-beta.1</strong>…</td></tr>
+                <tr>
+                  <td>版本号</td>
+                  <td>URL 含 <code>…/900/…</code>，标题含「CANN社区版9.0.0」</td>
+                  <td><span class="badge badge-status badge-bad">无 <code>version</code></span></td>
+                </tr>
+                <tr>
+                  <td>章节路径</td>
+                  <td>挤在 <code>&lt;title&gt;</code> 一串里，无可见面包屑</td>
+                  <td><span class="badge badge-status badge-bad">无 <code>breadcrumb</code></span></td>
+                </tr>
+                <tr>
+                  <td>文档编号</td>
+                  <td>URL 文件名 <code>atlas_ascendc_map_10_0002</code></td>
+                  <td><span class="badge badge-status badge-bad">无 <code>doc_id</code></span></td>
+                </tr>
+                <tr>
+                  <td>适用芯片</td>
+                  <td>正文列出 Atlas A2 / A3 等型号</td>
+                  <td><span class="badge badge-status badge-bad">无 <code>applicable_devices</code></span></td>
+                </tr>
+                <tr>
+                  <td>标准头信息（JSON-LD）</td>
+                  <td>实测 0 条</td>
+                  <td><span class="badge badge-status badge-bad">无可继承 schema</span></td>
+                </tr>
               </tbody>
             </table>
-            <p>三版 chunk 语义相近，无 <code>version</code> 字段时 RAG 无法默认「只取 900」。</p>
-          </div>
 
-          <div class="content-unit">
-            <h3>下游失败印证</h3>
+            <h4>入库状态对照</h4>
             <table class="data-table">
               <thead>
-                <tr><th>现象</th><th>实测表现</th></tr>
+                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>脚注版本混杂</td>
-                  <td>千问 <code>[^10]</code> 将「什么是 Ascend C」指向 <strong>850 商用</strong>（<a href="references/官方信源感知弱/千问-检索网页.md">千问-检索网页.md</a>）</td>
-                </tr>
-                <tr>
-                  <td>三模型世代不一致</td>
-                  <td>900 均未稳定出现（<a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a>）</td>
-                </tr>
-                <tr>
-                  <td>同名章节歧义</td>
-                  <td>「环境准备」无法判断教程线（<a href="problems-structure-cross.html">跨页关系未结构化</a>）</td>
-                </tr>
-                <tr>
-                  <td>引用难稳定</td>
-                  <td>仅附 URL，同 doc 多版本时难以唯一对应</td>
-                </tr>
+                <tr><td>正文段落</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>语义搜索基本可用</td></tr>
+                <tr><td>版本 / 章节 / doc_id</td><td><span class="badge badge-status badge-should">未结构化</span></td><td>散落在 URL、title，未字段化</td></tr>
+                <tr><td>Front Matter 标准头</td><td><span class="badge badge-status badge-bad">源站缺失</span></td><td>管道无法直接继承</td></tr>
+                <tr><td>chunk 级组件标签</td><td><span class="badge badge-status badge-should">未结构化</span></td><td>Tab / 注意类型等见各语义维度页</td></tr>
               </tbody>
             </table>
-            <div class="info-box warning">
-              <div class="box-title">论证链</div>
-              <a href="problems-structure-llms.html">机器入口</a> 决定抓哪条 URL → 本文论证入库须带哪些字段 → <a href="problems-structure-metadata.html#solution">知识库集成</a> 用元数据做过滤与溯源。
-            </div>
           </div>
 
             </section>
 
     <section class="section" id="structure-metadata-solution">
-      <h2>解决方案</h2>
-
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
-            <p>每篇文档、每个 chunk 入库时附带<strong>可检索、可过滤</strong>的结构化字段——使 RAG 能按版本、章节路径、设备型号约束召回，引用可稳定映射到 <code>doc_id</code>。</p>
+            <p>每篇文档、每个正文切片入库时，<strong>带上能搜、能筛的身份标签</strong>——让 RAG 可以「只要 9.0 版」「只要入门教程线」「只要 Atlas A2 适用」，引用也能稳定对应到唯一 <code>doc_id</code>。</p>
           </div>
 
           <div class="content-unit">
 
-
-
-
-            <h3>改进措施</h3>
-
-            <h4>1. 补充页面级 Front Matter <span class="badge badge-priority badge-must">P0</span></h4>
-            <p>针对<strong>多版本混召</strong>：每篇强制 version 字段 + 检索默认过滤。转换管道从 source HTML 提取并注入 YAML 头信息。每篇文档的机器层标准头信息：</p>
-            <table class="data-table">
-              <thead>
-                <tr><th>字段</th><th>作用</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><code>version</code></td><td>版本过滤、<a href="problems-timeliness.html#timeliness-disambiguation">多版本消歧</a></td></tr>
-                <tr><td><code>doc_id</code></td><td>稳定引用、跨页去重</td></tr>
-                <tr><td><code>breadcrumb</code></td><td>章节路径、消歧同名页</td></tr>
-                <tr><td><code>prev</code> / <code>next</code></td><td>上下篇与学习顺序</td></tr>
-                <tr><td><code>applicable_devices</code></td><td>按设备型号过滤</td></tr>
-                <tr><td><code>source_url</code> / <code>human_url</code></td><td>机器层 vs 人类层双轨标注</td></tr>
-              </tbody>
-            </table>
-
-            <div class="arch-diagram">---
-doc_id: atlas_ascendc_map_10_0005
-title: HelloWorld
-product: Ascend C算子开发
-version: CANN社区版 9.0.0
-language: zh-CN
-breadcrumb:
-  - Ascend C算子开发
-  - 入门教程
-  - 基于SIMD编程
-  - 快速入门
-  - HelloWorld
-keywords: [HelloWorld, 核函数, bisheng, CMake]
-applicable_devices:
-  - Atlas A2 训练系列产品
-  - Atlas A3 训练系列产品
-source_url: https://www.hiascend.com/doc_center/source/...
-human_url: https://www.hiascend.com/document/detail/...
----</div>
-
-            <h4>轻量 IA（P1）</h4>
-            <p>提供<strong>页面级元数据</strong>，而非全站 282 项导航树：</p>
-            <ul class="key-points">
-              <li><code>breadcrumb</code>：消歧 + 定位章节</li>
-              <li><code>prev / next</code>：支持多跳推理与学习顺序</li>
-              <li><code>version</code>：锁定 CANN 9.0.0，避免版本混淆</li>
-              <li><code>keywords / applicable_devices</code>：精准检索过滤</li>
+            <h3 id="改进措施">改进措施</h3>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span><code>version</code>：标明 CANN 版本，检索默认过滤到目标版，避免 8.5 / 9.0 混召；</li>
+              <li><span class="badge badge-priority badge-must">必要</span><code>doc_id</code> + <code>source_url</code>：稳定文档编号与双轨 URL，引用可唯一回溯；</li>
+              <li><span class="badge badge-priority badge-must">必要</span><code>breadcrumb</code>：把 title 里的章节路径拆成数组，消歧同名「环境准备」等章节；</li>
+              <li><span class="badge badge-priority badge-should">可选</span><code>applicable_devices</code>、<code>keywords</code>：按芯片型号、关键词精准过滤；</li>
+              <li><span class="badge badge-priority badge-should">可选</span><code>prev</code> / <code>next</code>：上下篇关系，支持按阅读顺序推理（详见 <a href="problems-structure-cross.html">跨页关系</a>）。</li>
             </ul>
-            <div class="info-box success">
-              <div class="box-title">实施方式</div>
-              机器层 Front Matter 输出完整字段；人类层可保留现有可视面包屑，并可选 JSON-LD breadcrumb。
+            <p>字段一览见 <a href="principles-structure-metadata.html#ia-fields">亲和原则 · IA 元数据字段</a>。核心原则：<strong>页面上已有的身份信息，入库时必须变成字段</strong>。</p>
+
+            <h3>改进示例</h3>
+
+            <h4>版本标签与面包屑</h4>
+            <p>渲染页须让人类直接看见版本、路径——同时这些文本也是管道提取字段的来源：</p>
+            <div class="ui-demo ui-demo--plain" id="metadata-ui-demo-badge">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h1">什么是 Ascend C</div></div><p class="rf-muted">无版本标签、无面包屑，身份信息藏在 title 里。</p></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><span class="rf-badge">CANN 9.0.0</span><span class="rf-badge">Ascend C</span><nav class="rf-breadcrumb">Ascend C算子开发 › 入门教程 › 什么是 Ascend C</nav><div class="rf-h1">什么是 Ascend C</div></div><p class="compare-sublabel">Front Matter</p><div class="arch-diagram">version: CANN社区版 9.0.0
+doc_id: atlas_ascendc_map_10_0002
+breadcrumb: [Ascend C算子开发, 入门教程, 什么是 Ascend C]</div><p class="rf-muted">chunk 可筛版本、消歧章节、稳定引用 doc_id。</p></div>
+              </div>
             </div>
 
-            <h4>2. 细化 chunk 级字段 <span class="badge badge-priority badge-should">P1</span></h4>
-            <p>针对<strong>同名章节</strong>：breadcrumb 数组写入 chunk 头。切片时把组件类型写入 chunk 元数据，衔接语义维度页规则：</p>
-            <table class="data-table">
-              <thead>
-                <tr><th>字段</th><th>关联维度</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><code>admonition-type</code></td><td><a href="problems-content-note.html">注意提示类型</a></td></tr>
-                <tr><td><code>tab_label</code></td><td><a href="problems-content-tab.html">Tab 分支</a></td></tr>
-                <tr><td><code>code_language</code> / <code>filename</code></td><td><a href="problems-content-code.html">代码语义</a></td></tr>
-              </tbody>
-            </table>
-
-            <h4>3. 强化知识库集成与检索策略 <span class="badge badge-priority badge-must">P0</span></h4>
-            <p>针对<strong>引用溯源</strong>：doc_id + 双轨 URL。</p>
-
-            <div class="arch-diagram">文档源（doc_center/source）
+            <h4>管道入库</h4>
+            <p>转换管道从 <code>doc_center/source</code> 提取身份信息，写入 Front Matter 并挂到每个 chunk：</p>
+            <div class="arch-diagram">doc_center/source 源 HTML
     │
-    ▼
-转换管道（HTML → MD + Front Matter）
+    ├──► 人类层：版本徽章 + 面包屑 + 适用芯片标签
     │
-    ├──► 向量库（Embedding + 切片索引）
-    │       └── RAG 检索（语义搜索 + 元数据过滤）
-    │
-    └──► JSON API（Agent Tool Calling）</div>
-            <ul class="key-points">
-              <li><strong>按 H2/H3 边界切片</strong> — 避免截断代码块</li>
-              <li><strong>元数据前置</strong> — 每片附带 breadcrumb、version、keywords</li>
-              <li><strong>表格不拆分</strong> — 整张表作为一个切片单元</li>
-              <li><strong>注意提示与上下文绑定</strong> — 提示不脱离所属步骤</li>
-            </ul>
-            <table class="data-table">
-              <thead>
-                <tr><th>策略</th><th>依赖字段</th><th>示例</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>版本过滤</td><td><code>version</code></td><td><code>filter(version="CANN社区版 9.0.0")</code></td></tr>
-                <tr><td>设备过滤</td><td><code>applicable_devices</code></td><td>Atlas A2 专属算子</td></tr>
-                <tr><td>breadcrumb 消歧</td><td><code>breadcrumb</code></td><td>入门教程/环境准备 vs 软件安装/环境准备</td></tr>
-                <tr><td>关键词增强</td><td><code>keywords</code></td><td>核函数、bisheng、Tiling、SIMD</td></tr>
-              </tbody>
-            </table>
-
-            <h4>4. 衔接转换管道 <span class="badge badge-priority badge-should">P1</span></h4>
-            <p>针对<strong>组件语义</strong>：chunk 级 admonition-type / tab_label。元数据在 <a href="problems-format.html#solution">转换管道</a> 第 6 步注入——从 <code>doc_center/source</code> 解析 title 路径、URL 版本段、设备列表，输出标准 Front Matter，而非依赖渲染页剥壳猜测。</p>
-
-
-            <p>探测脚本：<a href="references/元数据论证/hiascend-metadata-probe.md">hiascend-metadata-probe.md</a> · 跨页关系论证：<a href="problems-structure-cross.html">跨页关系未结构化</a></p>
-
-
-
+    └──► 机器层：MD / JSON + Front Matter
+              └── version / doc_id / breadcrumb / applicable_devices
+              └── 检索 = 语义搜索 + 字段过滤</div>
 
             </div>
-
-          
 
             </section>
-
-
 
 
   </main></div>

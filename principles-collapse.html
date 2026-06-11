@@ -26,42 +26,47 @@
 
     <div class="page-header">
       <h1>隐藏语义 · 折叠</h1>
-      <p class="page-desc">对应 <a href="problems-content-collapse.html">问题论证 · 隐藏语义 · 折叠</a>。折叠面板正文须在渲染页默认可读，标题须有文本语义。</p>
+      <p class="page-desc">对应 <a href="problems-content-collapse.html">问题论证 · 隐藏语义 · 折叠</a>。以下仅列渲染页可见的折叠标题与默认展开 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="collapse">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">机器层默认展开规则见 <a href="problems-content-collapse.html">问题论证 · 隐藏语义 · 折叠</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="coll-01"><td>1</td><td>机器层导出时默认展开全部折叠块</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="coll-02"><td>2</td><td>折叠标题在渲染页可见且有语义（<code>&lt;summary&gt;</code> 或 H3 文本）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-ui-open"><td>3</td><td>折叠面板在渲染页<strong>默认展开</strong>，初始状态即可阅读区内全部步骤与说明</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
-          <tr id="coll-03"><td>4</td><td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-04"><td>5</td><td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="coll-05"><td>6</td><td>自定义折叠组件可加 <code>data-llm-expanded</code>，声明机器层默认展开</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr><td>1</td><td>折叠标题可读</td><td>折叠区展示有语义的标题文本（如「高级配置参数说明」），禁止空标题占位</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>折叠默认展开</td><td>折叠面板初始展开，步骤与说明在页面上直接可读</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>折叠标题有语义文本</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-collapse-empty">▸ <em>（空 div，无标题文本）</em></div><p class="rf-muted">正文被折叠…</p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><details open><summary>高级配置参数说明</summary><p>参数 A 用于控制 tiling 策略…</p></details></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · 折叠标题有语义（我不知道硬件信息）</h4>
+        <div class="ui-demo ui-demo--plain" id="coll-02">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-collapse-empty">▸ <em>（空 div，无标题文本）</em></div></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><details open><summary>我不知道硬件信息</summary><ol><li>登录设备执行 <code>npu-smi info</code>，查看 Chip Name / 产品型号</li><li>对照昇腾社区「产品型号与 CANN 版本配套关系」文档</li><li>按确认结果选择对应 CANN 社区版与驱动包</li></ol></details></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-3">
-        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>折叠面板默认展开</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><details><summary>参数说明</summary><p class="rf-muted">（折叠时正文 display:none，抓取为空）</p></details></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><details open><summary>参数说明</summary><p>参数 A：控制 tiling…<br>参数 B：控制内存复用…</p></details></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · 折叠面板默认展开</h4>
+        <div class="ui-demo ui-demo--plain" id="coll-ui-open">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-collapse-empty">▸ 我不知道硬件信息</div><p class="rf-muted">（面板收起，区内步骤不可见）</p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><details open><summary>我不知道硬件信息</summary><ol><li>登录设备执行 <code>npu-smi info</code>，查看 Chip Name / 产品型号</li><li>对照昇腾社区「产品型号与 CANN 版本配套关系」文档</li><li>按确认结果选择对应 CANN 社区版与驱动包</li></ol></details></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

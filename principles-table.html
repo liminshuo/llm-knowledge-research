@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表格与列表结构语义 · 亲和原则 · 大模型知识获取研究</title>
+  <title>表格的结构语义 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="table">
@@ -25,50 +25,36 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>表格与列表结构语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-table.html">问题论证 · 表格与列表结构语义</a>。表格语义靠 caption 与 th，不能仅靠加粗样式。</p>
+      <h1>表格的结构语义</h1>
+      <p class="page-desc">对应 <a href="problems-content-table.html">问题论证 · 表格的结构语义</a>（Add 算子 · 表1 设计规格）。以下仅列渲染页可见的表题、表头与接口列表 UI 改造项；Markdown 导出等管道规则见问题论证。</p>
     </div>
 
 
     <section class="section" id="table">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="tbl-01"><td>1</td><td>渲染页表格上方可见表题，如「表1 编程模型分类」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="tbl-02"><td>2</td><td>表头用 <code>th</code> 而非样式伪装的 <code>td</code></td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="tbl-03"><td>3</td><td>不在单元格内嵌套多行代码块，大段代码放表格外</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="tbl-04"><td>4</td><td>机器层额外输出 Markdown 表格副本</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr id="tbl-01"><td>1</td><td>可见表题</td><td>表题写入 <code>&lt;caption&gt;</code>（如「表1 Ascend C Add算子设计规格」），非仅加粗段落</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr id="tbl-02"><td>2</td><td>表头语义化</td><td>I/O 子表列名使用 <code>&lt;th&gt;</code>，禁止 <code>&lt;td&gt;</code> 伪装表头</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr id="tbl-03"><td>3</td><td>接口列表独立化</td><td>「使用的主要接口」以 <code>&lt;ul&gt;</code> 或表外列表呈现，禁止拆成多行伪数据行</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-1">
-        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>表格上方可见表题</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><table class="rf-table"><tr class="rf-fake-th"><td>类型</td><td>说明</td></tr><tr><td>Vector</td><td>逐元素</td></tr></table></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><table class="rf-table"><caption>表1 编程模型分类</caption><tr><th>类型</th><th>说明</th></tr><tr><td>Vector</td><td>逐元素</td></tr></table></div></div>
+        <p>以 Add 算子设计规格表为例——规格表 = caption + I/O 子表 + 接口列表。</p>
+
+        <h4>表1 Ascend C Add算子设计规格</h4>
+        <div class="ui-demo ui-demo--plain" id="tbl-add-spec">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p class="rf-muted"><strong>表1</strong> Ascend C Add算子设计规格</p><table class="rf-table"><tr><td>算子类型</td><td>AddCustom</td><td></td><td></td><td></td></tr><tr><td>算子输入</td><td>name</td><td>shape</td><td>dtype</td><td>format</td></tr><tr><td></td><td>x</td><td>(8,2048)</td><td>float</td><td>ND</td></tr><tr><td>使用的主要接口</td><td>DataCopy…</td><td></td><td></td><td></td></tr></table><p class="rf-muted">（5 列空单元格；接口占多行）</p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><table class="rf-table"><caption>表1 Ascend C Add算子设计规格</caption><tr><th colspan="2">算子类型（OpType）</th><td>AddCustom</td></tr></table><table class="rf-table"><caption>输入 / 输出</caption><tr><th>name</th><th>shape</th><th>data type</th><th>format</th></tr><tr><td>x</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>y</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>z（输出）</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr></table><p><strong>主要接口</strong>：DataCopy、Add、AllocTensor / FreeTensor、EnQue / DeQue</p></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>表头使用 th 而非样式伪装</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><table class="rf-table"><tr><td class="rf-fake-th">类型</td><td class="rf-fake-th">说明</td></tr><tr><td>Vector</td><td>逐元素</td></tr></table></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><table class="rf-table"><tr><th>类型</th><th>说明</th></tr><tr><td>Vector</td><td>逐元素</td></tr></table></div></div>
-        </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-3">
-        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>单元格内不嵌套大段代码</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><table class="rf-table"><tr><th>参数</th><th>示例</th></tr><tr><td>dtype</td><td><pre class="rf-code" style="font-size:9px">float16
-float32
-…</pre></td></tr></table></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p class="rf-muted">表1 参数说明</p><table class="rf-table"><tr><th>参数</th><th>说明</th></tr><tr><td>dtype</td><td>支持 float16 / float32</td></tr></table><pre class="rf-code">// 完整示例见下方代码块</pre></div></div>
-        </div>
-      </div>
       </div>
 </section>
 

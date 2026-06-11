@@ -26,40 +26,47 @@
 
     <div class="page-header">
       <h1>图片热区</h1>
-      <p class="page-desc">对应 <a href="problems-content-hotzone.html">问题论证 · 图片热区</a>。热区坐标对模型不可读，须在渲染页提供等价的文本链接列表。</p>
+      <p class="page-desc">对应 <a href="problems-content-hotzone.html">问题论证 · 图片热区</a>。以下仅列渲染页可见的热区文本链接 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="hotzone">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc"><code>area</code> 属性与绝对 URL 等源码规则见 <a href="problems-content-hotzone.html">问题论证 · 图片热区</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="img-03"><td>1</td><td>带热区的图片下方渲染完整链接列表（<code>&lt;nav aria-label&gt;</code>），覆盖全部热区目标</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="l-04"><td>2</td><td>每个热区目标须有描述性锚文本链接，禁止「区域1」「点击这里」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="hz-area-alt"><td>3</td><td>源码 <code>&lt;area&gt;</code> 须写 <code>alt</code> / <code>title</code>，描述热区目标（非坐标）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="hz-abs-url"><td>4</td><td>热区 <code>href</code> 使用绝对 URL；相对路径须由管道或源码转为完整地址</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr><td>1</td><td>热区文本链接列表</td><td>带热区的图片下方展示完整链接列表，覆盖全部热区跳转目标</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>描述性热区锚文本</td><td>每个热区链接使用描述性锚文本，禁止「区域1」「点击这里」</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-1">
-        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>热区图片下方完整链接列表</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-img-placeholder">成长地图（仅图片热区可点）</div></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-img-placeholder">成长地图</div><nav><ul class="rf-nav-links"><li><a href="#">环境准备</a></li><li><a href="#">算子开发</a></li><li><a href="#">算子调试</a></li><li><a href="#">性能优化</a></li></ul></nav></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · 热区图片下方完整链接列表</h4>
+        <div class="ui-demo ui-demo--plain" id="img-03">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">成长地图（仅图片热区可点）</div></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">成长地图</div><nav><ul class="rf-nav-links"><li><a href="#">环境准备</a></li><li><a href="#">算子开发</a></li><li><a href="#">算子调试</a></li><li><a href="#">性能优化</a></li></ul></nav></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>热区链接使用描述性锚文本</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">区域1</a></li><li><a href="#">点击这里</a></li></ul></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">环境准备与 CANN 安装</a></li><li><a href="#">首个 Ascend C 算子样例</a></li></ul></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · 热区链接使用描述性锚文本</h4>
+        <div class="ui-demo ui-demo--plain" id="l-04">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">区域1</a></li><li><a href="#">点击这里</a></li></ul></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><ul class="rf-nav-links"><li><a href="#">环境准备与 CANN 安装</a></li><li><a href="#">首个 Ascend C 算子样例</a></li></ul></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

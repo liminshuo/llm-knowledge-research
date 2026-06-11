@@ -1,6 +1,6 @@
 # 官方信源感知弱 · 参考对话导出
 
-> 关联页面：[problems-answer.html](../../problems-answer.html)
+> 关联页面：[problems-answer-search.html](../../problems-answer-search.html)（检索阶段）；三模型原始回答 HTML 仍保留 `problems-answer-*.html`。
 
 本目录存放「官方信源感知弱」主题下，三模型同 prompt 问答的导出与溯源分析。
 

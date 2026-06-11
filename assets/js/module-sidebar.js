@@ -4,6 +4,12 @@
   "background": [],
   "problems": [
     {
+      "group": "信源时效",
+      "id": "timeliness",
+      "href": "problems-timeliness.html",
+      "label": "版本滞后"
+    },
+    {
       "group": "内容语义",
       "id": "content-image",
       "href": "problems-content-image.html",
@@ -43,7 +49,7 @@
       "group": null,
       "id": "content-table",
       "href": "problems-content-table.html",
-      "label": "表格与列表结构语义"
+      "label": "表格的结构语义"
     },
     {
       "group": null,
@@ -53,6 +59,12 @@
     },
     {
       "group": "信息架构与跨页语义",
+      "id": "structure-metadata",
+      "href": "problems-structure-metadata.html",
+      "label": "页级元数据未结构化"
+    },
+    {
+      "group": null,
       "id": "structure-cross",
       "href": "problems-structure-cross.html",
       "label": "跨页关系未结构化"
@@ -67,19 +79,13 @@
       "group": "格式交付与抓取入口",
       "id": "format",
       "href": "problems-format.html",
-      "label": "格式交付与抓取入口"
+      "label": "双轨交付与载体"
     },
     {
       "group": null,
       "id": "structure-llms",
       "href": "problems-structure-llms.html",
       "label": "机器发现层缺失"
-    },
-    {
-      "group": "信源时效",
-      "id": "timeliness",
-      "href": "problems-timeliness.html",
-      "label": "版本滞后"
     }
   ],
   "principles": [
@@ -87,7 +93,13 @@
       "group": null,
       "id": "general",
       "href": "principles-general.html",
-      "label": "原则列表"
+      "label": "UI 亲和原则列表"
+    },
+    {
+      "group": "信源时效",
+      "id": "timeliness",
+      "href": "principles-timeliness.html",
+      "label": "版本外显"
     },
     {
       "group": "内容语义",
@@ -129,7 +141,7 @@
       "group": null,
       "id": "table",
       "href": "principles-table.html",
-      "label": "表格与列表结构语义"
+      "label": "表格的结构语义"
     },
     {
       "group": null,
@@ -159,43 +171,19 @@
       "group": "格式交付与抓取入口",
       "id": "format",
       "href": "principles-format.html",
-      "label": "格式交付与抓取入口"
+      "label": "双轨交付与载体"
     },
     {
       "group": null,
       "id": "structure-llms",
       "href": "principles-structure-llms.html",
-      "label": "llms.txt 与机器入口"
-    },
-    {
-      "group": "信源时效",
-      "id": "timeliness",
-      "href": "principles-timeliness.html",
-      "label": "版本外显"
-    },
-    {
-      "group": null,
-      "id": "timeliness-disambiguation",
-      "href": "principles-timeliness-disambiguation.html",
-      "label": "多版本消歧"
+      "label": "机器发现层"
     },
     {
       "group": "附录",
-      "id": "tensor",
-      "href": "principles-tensor.html",
-      "label": "Tensor 表达"
-    },
-    {
-      "group": null,
       "id": "cheatsheet",
       "href": "principles-cheatsheet.html",
       "label": "速查表"
-    },
-    {
-      "group": null,
-      "id": "ref-dialogs",
-      "href": "principles-ref-dialogs.html",
-      "label": "参考对话"
     }
   ]
 };

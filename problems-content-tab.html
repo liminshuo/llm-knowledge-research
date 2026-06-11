@@ -26,18 +26,22 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>隐藏的语义（Tab）</h1>
+        <h1>隐藏的语义（Tab） <span class="badge badge-status badge-bad">抓取差</span></h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
-    <p class="page-desc">本页以 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 为分析基准。<strong>Tab 隐藏语义</strong>指被交互 UI 折叠、未进入默认抓取管道的正文——非激活 Tab 面板常被 <code>display:none</code> 隐藏。用户切换 Tab 能看到的选型说明与安装步骤，知识库可能<strong>只入库当前默认 Tab 组合</strong>。</p>
+    <p class="page-desc page-desc--split">
+        <span class="page-desc-line"><strong>Tab 隐藏语义</strong>指被交互 UI 折叠、未进入默认抓取管道的正文——非激活 Tab 面板常被 <code>display:none</code> 隐藏。</span>
+        <span class="page-desc-line">以 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 为例：用户切换 Tab 能看到的选型说明与安装步骤，知识库可能<strong>只入库当前默认 Tab 组合</strong>。</span>
+      </p>
 
     <div class="component-problem">
-        <span class="cp-status"><span class="badge badge-bad">抓取差</span></span>
         <div class="cp-label">核心问题</div>
         <ul>
-          <li><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 页含<strong>多轴 Tab 选型</strong>（版本、架构、发行版、在线/离线安装等），非激活面板可被 CSS 隐藏——默认抓取可能<strong>只抓到当前 Tab 组合下的安装说明</strong></li>
+          <li>下载页含<strong>多轴 Tab 选型</strong>（版本、架构、发行版、在线/离线安装等），非激活面板可被 CSS 隐藏</li>
+          <li>默认抓取可能<strong>只抓到当前 Tab 组合</strong>下的安装说明，离线安装、其他架构等分支正文缺失</li>
+          <li>Tab 标签与选型维度往往未结构化写入 chunk，检索时难以区分「用户问的是哪条安装路径」</li>
         </ul>
       </div>
 
@@ -58,30 +62,38 @@
 
           <div class="content-unit">
             <h3>结论：非激活 Tab 语义未入库或截断</h3>
-            <p><strong>CANN 软件下载页是典型的多轴 Tab 场景。</strong>页面在版本、架构、发行版、安装方式等维度上组合切换；渲染页中非激活面板正文与部署命令可能<strong>不在默认可见 DOM 中</strong>，默认管道跳过 <code>display:none</code> 区域时，知识库可能仅有「在线安装 · x86_64 · 9.0.0」一类当前组合，缺少离线安装、其他架构等分支说明。</p>
+            <p><strong>CANN 软件下载页是典型的多轴 Tab 场景。</strong>页面在版本、架构、发行版、安装方式等维度上组合切换；非激活面板正文与部署命令可能<strong>不在默认可见 DOM 中</strong>，默认管道跳过 <code>display:none</code> 区域时，知识库可能仅有「在线安装 · x86_64 · 9.0.0」一类当前组合，缺少离线安装、其他架构等分支说明。</p>
 
-            <h4>CANN 软件下载 → 多轴 Tab 隐藏非激活面板</h4>
-            <p><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 通过多组 Tab 组织选型与安装步骤：用户需切换版本、架构、发行版、在线/离线安装等 Tab 才能看到完整命令与说明。默认抓取若只读当前激活面板，其余组合的 wget / 安装脚本等正文<strong>等价于未入库</strong>。</p>
-            <div class="arch-diagram">&lt;div class="tab-hover"&gt;
-  &lt;!-- 当前可见：在线安装 · x86_64 · CANN 9.0.0 --&gt;
-  &lt;div class="tab-panel-active"&gt;...wget / ./Ascend-cann-toolkit... --install&lt;/div&gt;
-  &lt;!-- display:none：离线安装 / 其他架构 Tab 面板 --&gt;
-  &lt;div class="more-tab-item" style="display:none"&gt;
-    &lt;pre&gt;...离线包安装命令...&lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</div>
-            <p>实测可归纳为三点（均在说「默认抓取只看见当前 Tab，其余分支进不了知识库」）：</p>
-            <ul>
-              <li><strong>当前选中的 Tab 组合</strong>（如在线安装 · x86_64 · 9.0.0）——对应安装命令<strong>可能入库</strong>，但只是全部组合中的一条路径。</li>
-              <li><strong>未选中的 Tab 组合</strong>（离线安装、aarch64、其他发行版等）——面板在 <code>display:none</code> 中，默认管道<strong>完全跳过</strong>，chunk 中不存在。</li>
-              <li><strong>Tab 标签与选型维度</strong>——往往未结构化写入 chunk，检索时难以区分「用户问的是哪条安装路径」。</li>
-            </ul>
-            <p>改抓 <code>/doc_center/source/</code> 或在机器层预展开全部 Tab 组合，才能避免上述截断；详见解决方案。</p>
+            <h4>Tab 语义对照</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>Tab 要素</th><th>页面上</th><th>入库后</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>当前激活 Tab 组合</td><td>可见安装命令与说明</td><td><span class="badge badge-status badge-ok">可能入库</span>（仅一条路径）</td></tr>
+                <tr><td>非激活 Tab 面板</td><td><code>display:none</code> 隐藏</td><td><span class="badge badge-status badge-bad">完全缺失</span></td></tr>
+                <tr><td>Tab 标签与选型维度</td><td>交互切换可见</td><td><span class="badge badge-status badge-should">未结构化</span></td></tr>
+                <tr><td>wget / 安装脚本等命令</td><td>随 Tab 组合切换</td><td><span class="badge badge-status badge-bad">非默认组合常丢失</span></td></tr>
+              </tbody>
+            </table>
+
+            <h4>入库状态对照</h4>
+            <table class="data-table">
+              <thead>
+                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>默认激活 Tab 正文</td><td><span class="badge badge-status badge-ok">部分入库</span></td><td>仅当前组合可见</td></tr>
+                <tr><td>非激活 Tab 面板</td><td><span class="badge badge-status badge-bad">未落实</span></td><td>管道跳过隐藏节点</td></tr>
+                <tr><td>Tab 全量展开</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>须机器层预展开</td></tr>
+                <tr><td>选型维度结构化</td><td><span class="badge badge-status badge-should">不稳定</span></td><td>标签未写入 chunk</td></tr>
+              </tbody>
+            </table>
           </div>
             </section>
 
     <section class="section" id="content-tab-solution">
-      <h2>解决方案</h2>
+      <h2 id="solution">解决方案</h2>
 
           <div class="content-unit">
             <h3>改进目标</h3>
@@ -90,69 +102,45 @@
 
           <div class="content-unit">
 
-
-
-            <h3>改进措施</h3>
-
-            <h4>1. 推进内容侧：Tab 全量文本化 <span class="badge badge-priority badge-must">P0</span></h4>
-            <ul>
-              <li>源 HTML 中所有 Tab 面板完整存在，不依赖 JS 懒加载——抓取不遗漏任一 Tab 正文。</li>
-              <li>每个 Tab 有明确文本标签——chunk 可区分「在线安装」与「离线安装」、「x86_64」与「aarch64」等组合。</li>
-              <li>机器层全部展开，用 H3 标注各 Tab 标题——扁平 MD 中各选型组合均可检索。</li>
-              <li>禁止在源 HTML 用 <code>display:none</code> 隐藏非默认 Tab——源层与机器层一致，无隐藏截断。</li>
+            <h3 id="改进措施">改进措施</h3>
+            <ul class="list-badge-led">
+              <li><span class="badge badge-priority badge-must">必要</span>Tab 全量可见：各面板源码完整，标签配有明确文本，渲染页正文全量可见；禁止使用 <code>display: none</code> 隐藏非激活项；</li>
+              <li><span class="badge badge-priority badge-must">必要</span>管道层扁平输出：在机器处理层将 Tab 面板全量展开，以 H3 标签标注各面板标题后入库；</li>
+              <li><span class="badge badge-priority badge-should">可选</span>双轨交付：RAG 优先抓取 <code>doc_center/source</code> 预展开 MD，人类仍保留 Tab 交互 UI。</li>
             </ul>
-            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。RAG 应优先消费 <code>/doc_center/source/</code> 或预生成 MD，而非依赖渲染页隐藏区域。详见 <a href="principles-tab.html">亲和原则 · Tab 语义</a>。</p>
+            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。详见 <a href="principles-tab.html">亲和原则 · Tab 语义</a>。</p>
 
-            <h4>CANN 软件下载 · Tab 改造示例</h4>
-            <p><strong>❌ 当前：仅默认 Tab 组合入库</strong></p>
-            <div class="arch-diagram">&lt;!-- 仅「在线安装 · x86_64 · 9.0.0」可见 --&gt;
-&lt;div class="tab-panel-active"&gt;wget ... --install&lt;/div&gt;
-&lt;div class="more-tab-item" style="display:none"&gt;...离线安装命令...&lt;/div&gt;</div>
-            <p>知识库 chunk：可能仅有当前激活组合的安装命令，离线安装与其他架构说明完全丢失。</p>
+            <h3>改进示例</h3>
 
-            <p><strong>✅ 改造后：源层 + 机器层全展开</strong></p>
-            <div class="arch-diagram">&lt;h3 id="install-online-x86-900"&gt;在线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
+            <h4>CANN 软件下载 Tab</h4>
+            <p>各 Tab 组合须在源 HTML 与渲染页全量可见——默认抓取不得只入库当前激活项：</p>
+            <div class="ui-demo ui-demo--plain" id="content-tab-ui-demo-cann">
+              <div class="compare-grid compare-grid--stack">
+                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装</span><span class="rf-tab">离线安装</span></div><div class="rf-tab-panel">wget … --install</div><p class="rf-muted">（离线安装等面板 display:none，不可见）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;div class="tab-panel-active"&gt;wget ... --install&lt;/div&gt;
+&lt;div class="more-tab-item" style="display:none"&gt;...离线安装命令...&lt;/div&gt;</div><p class="rf-muted">知识库 chunk：可能仅有当前激活组合，离线安装与其他架构说明丢失。</p></div>
+                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">在线安装 · x86_64 · CANN 9.0.0</div>wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">离线安装 · x86_64 · CANN 9.0.0</div>./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</div></div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;h3 id="install-online-x86-900"&gt;在线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
 &lt;pre&gt;&lt;code class="language-bash"&gt;wget ... ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id="install-offline-x86-900"&gt;离线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-bash"&gt;./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline&lt;/code&gt;&lt;/pre&gt;</div><p class="rf-muted">知识库 chunk：可检索「CANN 离线安装」「aarch64 下载命令」「9.0.0 在线安装」。</p></div>
+              </div>
+            </div>
 
-&lt;h3 id="install-online-aarch64-900"&gt;在线安装 · aarch64 · CANN 9.0.0&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-bash"&gt;...&lt;/code&gt;&lt;/pre&gt;</div>
-            <p>知识库 chunk：可分别检索「CANN 离线安装」「aarch64 下载命令」「9.0.0 在线安装」。</p>
-
-            <h4>机器层 Markdown 输出要点</h4>
-            <div class="arch-diagram">### 在线安装 · x86_64 · CANN 9.0.0
-```bash
-wget https://…/Ascend-cann-toolkit_9.0.0_linux-x86_64.run
-./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install
-```
-
-### 离线安装 · x86_64 · CANN 9.0.0
-```bash
-./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline
-```</div>
-
-            <h4>2. 落实架构侧：双轨交付 + 端点优先级</h4>
-            <p>针对<strong>多 Tab 含安装命令</strong>：各组合扁平展开后再入库；针对<strong>Tab 标签进元数据</strong>：chunk 标注 <code>tab_label</code> 字段（如版本、架构、安装方式）。双轨交付——人类层保留 Tab 交互，机器层消费源 HTML 或预展开 MD：</p>
-            <div class="arch-diagram">HTML 源（doc_center）
+            <h4>管道切片</h4>
+            <p>机器层从 <code>doc_center/source</code> 导出时，将各 Tab 组合扁平为 H3 + 正文 chunk：</p>
+            <div class="arch-diagram">源 HTML
     │
-    ├──► 人类层：多轴 Tab UI + 交互切换（体验不变）
+    ├──► 人类层：多轴 Tab UI + 交互切换
     │
-    └──► 机器层：MD / JSON + llms.txt
-              └── 优先消费 /doc_center/source/（4–11 KB）
-              └── 各 Tab 组合扁平为 H3 + 正文 chunk
-              └── 禁止依赖 /cann/download 渲染页 display:none 区域</div>
-            <p>RAG 管道应声明抓取端点；<strong>Tab 语义在发布环节全量展开</strong>，而非检索时模拟点击 Tab。</p>
-
-
+    └──► 机器层：MD / JSON
+              └── 各 Tab 组合 → H3 + 正文 chunk
+              └── 禁止依赖 display:none 隐藏面板</div>
 
             </div>
 
-          
             </section>
-
-
 
 
   </main>

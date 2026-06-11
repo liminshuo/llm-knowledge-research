@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>原则列表 · 亲和原则 · 大模型知识获取研究</title>
+  <title>UI 亲和原则列表 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="general">
@@ -25,471 +25,165 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>原则列表</h1>
+      <h1>UI 亲和原则列表</h1>
+      <p class="page-desc">仅收录<strong>渲染页可见</strong>的 UI 设计改造项；源码标记、管道导出与入库规则见各维度 <a href="problems-answer-search.html">问题论证</a>页。</p>
     </div>
 
-
-
-
     <section class="section" id="principles-catalog-ui">
-      <h3>UI 层亲和原则（站点侧改造）</h3>
+      <h3>UI 层亲和原则（渲染页改造）</h3>
       <table class="data-table">
         <thead>
-          <tr><th>分组</th><th>亲和原则概述</th><th>原则细化说明</th></tr>
+          <tr><th>维度</th><th>UI 改造项</th><th>渲染页呈现要求</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td rowspan="5"><a href="principles-image.html">图片图意</a></td>
-            <td>补充图片说明</td>
-            <td>补充「图片说明」，对应 <code>alt</code> 参数，描述图意而非无意义的文件名</td>
+            <td rowspan="2">版本外显</td>
+            <td><a href="principles-timeliness.html#ver-01">版本徽章</a></td>
+            <td>文章头部（H1 上方或旁侧）展示「CANN 9.0.0」「Ascend C」等版本与产品徽章</td>
           </tr>
           <tr>
-            <td>补充图片内容转写</td>
-            <td>补充「图片内容转写」，对应 <code>data-llm-transcription</code> 参数，将图中节点、层级与箭头关系写成可见正文</td>
+            <td><a href="principles-timeliness.html#ver-02">弃用横幅</a></td>
+            <td>已废弃章节在页顶展示弃用提示，并链接替代文档</td>
           </tr>
           <tr>
-            <td>补充可见图注</td>
-            <td>补充「可见图注」，对应 <code>figcaption</code> 或等效段落，标明图号与图意说明</td>
+            <td rowspan="5">图片图意</td>
+            <td><a href="principles-image.html#img-ui-label">可读图片标签</a></td>
+            <td>信息型图片以描述性标签呈现（如「API 层级架构图」），禁止仅显示无意义文件名</td>
           </tr>
           <tr>
-            <td>补充图片标题</td>
-            <td>补充「图片标题」，对应 <code>title</code> 参数，在图片标签上补充可用的标题说明</td>
+            <td><a href="principles-image.html#img-02">图片内容转写</a></td>
+            <td>复杂图表下方附可见「图片内容转写」段落；成长地图等路径图可用正文有序列表等价呈现节点与关系</td>
           </tr>
           <tr>
-            <td>以 Mermaid 呈现图源</td>
-            <td>补充「流程 / 架构图源」，对应 Mermaid 代码块，替代不可读的 PNG 图源</td>
+            <td><a href="principles-image.html#img-ui-label">可见图注</a></td>
+            <td>图片下方展示「图1 · …」等图号与图意说明</td>
           </tr>
           <tr>
-            <td rowspan="2"><a href="principles-hotzone.html">图片热区</a></td>
-            <td>补充文本链接列表</td>
-            <td>补充「文本链接列表」，对应 <code>nav</code> 元素，覆盖全部热区目标</td>
+            <td><a href="principles-image.html#img-ui-mermaid">Mermaid 呈现</a></td>
+            <td>流程 / 架构类图以 Mermaid 可编辑图替代不可读 PNG</td>
           </tr>
           <tr>
-            <td>补充描述性锚文本</td>
-            <td>补充「描述性锚文本」，对应热区链接列表中 <code>a</code> 标签内可见文字，描述热区目标而非文件名或无意义占位</td>
+            <td><a href="principles-image.html#img-04">装饰图标移除</a></td>
+            <td>纯装饰图标从正文移除，信息改由相邻文本承载</td>
           </tr>
           <tr>
-            <td rowspan="2"><a href="principles-link.html">链接语义</a></td>
-            <td>补充描述性锚文本</td>
-            <td>补充「描述性锚文本」，对应 <code>a</code> 标签内可见文字，描述链接目标而非 LINK 或无意义占位</td>
+            <td rowspan="2">图片热区</td>
+            <td><a href="principles-hotzone.html#img-03">热区文本链接列表</a></td>
+            <td>带热区的图片下方展示完整链接列表，覆盖全部热区跳转目标</td>
           </tr>
           <tr>
-            <td>补充站外来源标注</td>
-            <td>补充「站外来源标注」，对应外链旁可见文字或 <code>external</code> 标记，标明完整域名</td>
+            <td><a href="principles-hotzone.html#l-04">描述性热区锚文本</a></td>
+            <td>每个热区链接使用描述性锚文本，禁止「区域1」「点击这里」</td>
           </tr>
           <tr>
-            <td rowspan="1"><a href="principles-collapse.html">隐藏语义 · 折叠</a></td>
-            <td>折叠面板默认展开</td>
-            <td>补充「折叠面板正文」，对应折叠区域，默认展开使区内步骤与说明初始可见</td>
+            <td rowspan="3">链接语义</td>
+            <td><a href="principles-link.html#l-01">描述性锚文本</a></td>
+            <td>链接可见文字描述跳转目标，禁止 LINK 等占位符</td>
           </tr>
           <tr>
-            <td rowspan="3"><a href="principles-code.html">代码语义</a></td>
-            <td>分离行号与代码</td>
-            <td>分离「行号与代码」，对应 <code>code</code> 文本节点，行号由 CSS 渲染、弃用 <code>highlighttable</code> 承载</td>
+            <td><a href="principles-link.html#l-02">站外来源标注</a></td>
+            <td>站外链接旁附完整域名或来源标识（如 ↗ gitcode.com）</td>
           </tr>
           <tr>
-            <td>补充语言标注</td>
-            <td>补充「语言标注」，对应 <code>pre &gt; code</code> 的 class，标明 <code>language-xxx</code></td>
+            <td><a href="principles-link.html#l-05">上下文链接</a></td>
+            <td>链接置于有上下文的句子中，或附用途说明，避免孤立「详情」</td>
           </tr>
           <tr>
-            <td>补充代码场景标注</td>
-            <td>补充「代码场景标注」，对应代码块上方可见文字，标明文件名与适用场景</td>
+            <td rowspan="2">隐藏语义 · Tab</td>
+            <td><a href="principles-tab.html#tab-02">Tab 标签可读</a></td>
+            <td>Tab 标签展示场景化文本（如「在线安装 · x86_64 · CANN 9.0.0」），禁止 Tab1/Tab2</td>
           </tr>
           <tr>
-            <td rowspan="2"><a href="principles-table.html">表格与列表结构语义</a></td>
-            <td>补充可见表题</td>
-            <td>补充「可见表题」，对应 <code>caption</code> 或等效段落，标明表格主题</td>
+            <td><a href="principles-tab.html#tab-ui-expand">Tab 面板全量可见</a></td>
+            <td>各 Tab 面板正文在页面上全量可见，纵向排列或切换时不隐藏非激活项正文</td>
           </tr>
           <tr>
-            <td>代码独立于表格外</td>
-            <td>补充「表格外代码」，对应代码块位置，大段代码不嵌套于表格单元格</td>
+            <td rowspan="2">隐藏语义 · 折叠</td>
+            <td><a href="principles-collapse.html#coll-02">折叠标题可读</a></td>
+            <td>折叠区展示有语义的标题文本（如「高级配置参数说明」），禁止空标题占位</td>
           </tr>
           <tr>
-            <td rowspan="2"><a href="principles-note.html">注意提示（Note）语义</a></td>
-            <td>补充类型文本前缀</td>
-            <td>补充「类型文本前缀」，对应 Note 正文前可见文字，以「注意：」「警告：」等替代装饰图标</td>
+            <td><a href="principles-collapse.html#coll-ui-open">折叠默认展开</a></td>
+            <td>折叠面板初始展开，步骤与说明在页面上直接可读</td>
           </tr>
           <tr>
-            <td>展开 Note 正文</td>
-            <td>补充「Note 正文」，对应 Note 区域，渲染页完整展开而非折叠或 Tooltip 隐藏</td>
+            <td rowspan="3">代码语义</td>
+            <td><a href="principles-code.html#code-02">行号与代码分离</a></td>
+            <td>行号由样式渲染，代码区不出现表格行号列</td>
           </tr>
           <tr>
-            <td rowspan="4"><a href="principles-structure-metadata.html">元数据字段规范</a></td>
-            <td>补充版本徽章</td>
-            <td>补充「版本徽章」，对应页头 <code>version</code> 或 product 标识，标明文档版本</td>
+            <td><a href="principles-code.html#code-03">代码块 pre 呈现</a></td>
+            <td>代码块以 <code>pre</code> 区域呈现，不用 highlighttable 表格承载</td>
           </tr>
           <tr>
-            <td>补充可见面包屑</td>
-            <td>补充「可见面包屑」，对应 <code>nav</code> breadcrumb 元素，展示完整章节路径</td>
+            <td><a href="principles-code.html#code-04">代码场景标注</a></td>
+            <td>代码块上方可见文件名、语言与适用场景（如 kernel_add.cpp · Ascend C）</td>
           </tr>
           <tr>
-            <td>补充适用设备标签</td>
-            <td>补充「适用设备标签」，对应页头设备或算子类别标识，标明适用硬件范围</td>
+            <td>表格的结构语义</td>
+            <td><a href="principles-table.html#tbl-01">可见表题</a></td>
+            <td>表题写入 <code>&lt;caption&gt;</code>（如「表1 Ascend C Add算子设计规格」）；th、接口列表等见 <a href="principles-table.html">专页</a></td>
           </tr>
           <tr>
-            <td>补充文章摘要</td>
-            <td>补充「文章摘要」，对应页头摘要块，概括主题与适用读者</td>
+            <td rowspan="2">注意提示（Note）语义</td>
+            <td><a href="principles-note.html#note-02">Note 正文展开</a></td>
+            <td>提示正文在页面上完整展示，不折叠、不用 Tooltip 藏字</td>
           </tr>
           <tr>
-            <td rowspan="1"><a href="principles-format.html">格式交付与抓取入口</a></td>
-            <td>补充机器可读入口</td>
-            <td>补充「机器可读入口」，对应页脚或工具栏可见链接，链到 markdown 或 source</td>
+            <td><a href="principles-note.html#note-03">类型文本前缀</a></td>
+            <td>移除装饰图标；以「注意：」「警告：」等文字前缀标识类型</td>
           </tr>
           <tr>
-            <td rowspan="1"><a href="principles-timeliness.html">版本外显</a></td>
-            <td>补充弃用标签</td>
-            <td>补充「弃用标签」，对应页顶可见提示区，标明废弃状态并链到替代文档</td>
+            <td rowspan="7">元数据字段规范</td>
+            <td><a href="principles-structure-metadata.html#h-01">单一 H1</a></td>
+            <td>渲染页有且仅有一个 H1，与页面主题一致</td>
           </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="section" id="principles-catalog">
-      <h3>全量亲和原则</h3>
-      <p class="section-heading-desc">共 <strong>81</strong> 条；分组与侧栏二级菜单一致（如图片图意、图片热区），点击分组可进入对应维度页。</p>
-      <table class="data-table">
-        <thead>
-          <tr><th>分组</th><th>亲和原则概述</th><th>原则细化说明</th></tr>
-        </thead>
-        <tbody>
           <tr>
-            <td rowspan="6"><a href="principles-image.html">图片图意</a></td>
-            <td>alt 须描述图意</td>
-            <td>信息型图片在源码中写有意义 <code>alt</code>（描述图意，非文件名）</td>
+            <td><a href="principles-structure-metadata.html#h-02">标题层级连续</a></td>
+            <td>标题层级连续（H1→H2→H3），大纲结构在页面上清晰可读</td>
           </tr>
           <tr>
-            <td>图片下方附内容转写</td>
-            <td>复杂图表在渲染页图片下方附「图片内容转写」段落（逐步描述节点与关系）</td>
+            <td><a href="principles-structure-metadata.html#h-03">标题文本自解释</a></td>
+            <td>H2/H3 标题文本自解释，避免孤立「概述」「说明」</td>
           </tr>
           <tr>
-            <td>移除装饰图标</td>
-            <td>纯装饰图标从渲染页移除或 <code>aria-hidden</code>，信息改由相邻文本承载</td>
+            <td><a href="principles-structure-metadata.html#mdm-summary">文章摘要块</a></td>
+            <td>页头展示 60–120 字摘要，概括主题与适用读者</td>
           </tr>
           <tr>
-            <td>流程 / 架构图 Mermaid 呈现</td>
-            <td>流程图 / 架构类图在渲染页以 <strong>Mermaid</strong> 呈现，替代不可读的 PNG 图源</td>
+            <td><a href="principles-structure-metadata.html#mdm-version">版本 / 产品徽章</a></td>
+            <td>页头展示 version、product 等版本与产品标识徽章</td>
           </tr>
           <tr>
-            <td>提供 Mermaid / SVG 源</td>
-            <td>架构类图片另提供 Mermaid / SVG 可编辑源，便于机器层直接读取</td>
+            <td><a href="principles-structure-metadata.html#mdm-breadcrumb">可见面包屑</a></td>
+            <td>页头展示完整 breadcrumb 文本路径</td>
           </tr>
           <tr>
-            <td>补充可见图注</td>
-            <td>信息型图片在渲染页附可见图注，如「图1：xxx」（<code>&lt;figcaption&gt;</code> 或等效段落）</td>
+            <td><a href="principles-structure-metadata.html#mdm-tags">适用设备标签</a></td>
+            <td>适用芯片 / 算子类别在页头以标签展示</td>
           </tr>
           <tr>
-            <td rowspan="4"><a href="principles-hotzone.html">图片热区</a></td>
-            <td>热区配文本链接列表</td>
-            <td>带热区的图片下方渲染完整链接列表（<code>&lt;nav aria-label&gt;</code>），覆盖全部热区目标</td>
+            <td rowspan="2">跨文档结构感知</td>
+            <td><a href="principles-structure-cross.html#cross-01">可见面包屑</a></td>
+            <td>展示完整 breadcrumb 路径，消歧同名章节（如两处「环境准备」）</td>
           </tr>
           <tr>
-            <td>热区锚文本须自解释</td>
-            <td>每个热区目标须有描述性锚文本链接，禁止「区域1」「点击这里」</td>
+            <td><a href="principles-structure-cross.html#cross-02">上下篇导航</a></td>
+            <td>页脚或文首展示「上一篇 / 下一篇」，锚文本描述目标章节</td>
           </tr>
           <tr>
-            <td>area 写 alt / title</td>
-            <td>源码 <code>&lt;area&gt;</code> 须写 <code>alt</code> / <code>title</code>，描述热区目标（非坐标）</td>
+            <td rowspan="2">单文档结构感知</td>
+            <td><a href="principles-structure-single.html#single-01">版式间距规范</a></td>
+            <td>用 CSS 间距控制版式，禁止用空段落 / 空行堆叠作间距</td>
           </tr>
           <tr>
-            <td>热区 href 用绝对 URL</td>
-            <td>热区 <code>href</code> 使用绝对 URL；相对路径须由管道或源码转为完整地址</td>
+            <td><a href="principles-structure-single.html#single-03">列表表达步骤</a></td>
+            <td>步骤与层级以有序 / 无序列表呈现，不用多个独立段落模拟列表</td>
           </tr>
           <tr>
-            <td rowspan="4"><a href="principles-link.html">链接语义</a></td>
-            <td>链接锚文本描述目标</td>
-            <td>渲染页链接文字描述目标，如「HelloWorld 完整样例（GitCode）」</td>
-          </tr>
-          <tr>
-            <td>站外链接标注来源</td>
-            <td>站外链接在渲染页标注 external 或图标旁附完整域名</td>
-          </tr>
-          <tr>
-            <td>相对链转绝对 URL</td>
-            <td>机器层将站内相对链转为绝对 URL</td>
-          </tr>
-          <tr>
-            <td>title 或上下文补充用途</td>
-            <td>必要时用 <code>title</code> 或前后句补充链接用途</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-tab.html">隐藏语义 · Tab</a></td>
-            <td>Tab 面板源码完整输出</td>
-            <td>所有 Tab 面板内容在源 HTML 中完整输出，不依赖 JS 懒加载正文</td>
-          </tr>
-          <tr>
-            <td>Tab 标签有明确文本</td>
-            <td>每个 Tab 标签在渲染页有明确文本（如「bisheng 编译」「CMake 编译」）</td>
-          </tr>
-          <tr>
-            <td>机器层全量展开 Tab</td>
-            <td>机器层将全部 Tab 展开，以 H3 标注各面板标题</td>
-          </tr>
-          <tr>
-            <td>Tab 各面板全量可见</td>
-            <td>各 Tab 面板正文在渲染页<strong>全量可见</strong>（纵向排列展示，或切换 Tab 时不隐藏非激活项正文）</td>
-          </tr>
-          <tr>
-            <td>禁止 CSS 隐藏 Tab 正文</td>
-            <td>渲染组件禁止用 <code>display:none</code> / <code>visibility:hidden</code> 隐藏非激活面板正文</td>
-          </tr>
-          <tr>
-            <td rowspan="6"><a href="principles-collapse.html">隐藏语义 · 折叠</a></td>
-            <td>机器层默认展开折叠</td>
-            <td>机器层导出时默认展开全部折叠块</td>
-          </tr>
-          <tr>
-            <td>折叠标题可见有语义</td>
-            <td>折叠标题在渲染页可见且有语义（<code>&lt;summary&gt;</code> 或 H3 文本）</td>
-          </tr>
-          <tr>
-            <td>折叠面板默认展开</td>
-            <td>折叠面板在渲染页<strong>默认展开</strong>，初始状态即可阅读区内全部步骤与说明</td>
-          </tr>
-          <tr>
-            <td>禁止 display:none 藏正文</td>
-            <td>禁止用 CSS 将折叠正文从 DOM 流中隐藏（display:none）</td>
-          </tr>
-          <tr>
-            <td>details 建议 open</td>
-            <td>源码中 <code>&lt;details&gt;</code> 建议加 <code>open</code> 属性</td>
-          </tr>
-          <tr>
-            <td>data-llm-expanded 声明</td>
-            <td>自定义折叠组件可加 <code>data-llm-expanded</code>，声明机器层默认展开</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-code.html">代码语义</a></td>
-            <td>标注 language-xxx</td>
-            <td>源码使用 <code>pre &gt; code</code> 并标注 <code>language-xxx</code></td>
-          </tr>
-          <tr>
-            <td>行号与代码分离</td>
-            <td>渲染页行号与代码分离，行号不写入 <code>code</code> 文本节点</td>
-          </tr>
-          <tr>
-            <td>弃用 highlighttable</td>
-            <td>弃用 highlighttable 表格布局渲染代码块</td>
-          </tr>
-          <tr>
-            <td>代码块上方标文件名</td>
-            <td>代码块上方在渲染页标注文件名、语言、适用场景</td>
-          </tr>
-          <tr>
-            <td>管道解码 HTML 实体</td>
-            <td>管道入模前解码 <code>&amp;lt;</code> 等 HTML 实体</td>
-          </tr>
-          <tr>
-            <td rowspan="4"><a href="principles-table.html">表格与列表结构语义</a></td>
-            <td>表格上方可见表题</td>
-            <td>渲染页表格上方可见表题，如「表1 编程模型分类」</td>
-          </tr>
-          <tr>
-            <td>表头用 th</td>
-            <td>表头用 <code>th</code> 而非样式伪装的 <code>td</code></td>
-          </tr>
-          <tr>
-            <td>单元格不嵌大段代码</td>
-            <td>不在单元格内嵌套多行代码块，大段代码放表格外</td>
-          </tr>
-          <tr>
-            <td>机器层输出 MD 表格</td>
-            <td>机器层额外输出 Markdown 表格副本</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-note.html">注意提示（Note）语义</a></td>
-            <td>标注 admonition 类型</td>
-            <td>源码用 <code>data-admonition-type</code> 标注 note / warning / tip / danger</td>
-          </tr>
-          <tr>
-            <td>Note 正文完整展开</td>
-            <td>渲染页 Note 正文完整展开，不折叠、不 Tooltip 藏字</td>
-          </tr>
-          <tr>
-            <td>类型用文本前缀</td>
-            <td>移除 Note 装饰图标；类型改用文本前缀「注意：」「警告：」显示在渲染页</td>
-          </tr>
-          <tr>
-            <td>机器层转 MD 引用块</td>
-            <td>机器层转为 Markdown 引用块（<code>&gt; **注意**</code>）</td>
-          </tr>
-          <tr>
-            <td>步骤内 Note 保留层级</td>
-            <td>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 保留层级，管道抓取时不扁平化</td>
-          </tr>
-          <tr>
-            <td rowspan="11"><a href="principles-structure-metadata.html">元数据字段规范</a></td>
-            <td>有且仅有一个 H1</td>
-            <td>渲染页有且仅有一个 H1，与浏览器 title 语义一致</td>
-          </tr>
-          <tr>
-            <td>标题层级连续</td>
-            <td>标题层级连续（H1→H2→H3），渲染页大纲结构清晰</td>
-          </tr>
-          <tr>
-            <td>H2/H3 文本自解释</td>
-            <td>H2/H3 文本自解释，避免孤立「概述」「说明」</td>
-          </tr>
-          <tr>
-            <td>保留稳定锚点 ID</td>
-            <td>保留稳定锚点 ID（<code>ZH-CN_TOPIC_xxx</code>）</td>
-          </tr>
-          <tr>
-            <td>头部 60–120 字摘要</td>
-            <td>文章头部渲染摘要块，<strong>60–120 字</strong>，概括本文解决的问题与适用读者</td>
-          </tr>
-          <tr>
-            <td>头部展示版本徽章</td>
-            <td>头部展示 version / product / doc_type 徽章，源码 Front Matter 同步</td>
-          </tr>
-          <tr>
-            <td>面包屑文本可见</td>
-            <td>渲染页面包屑 <code>&lt;nav aria-label="breadcrumb"&gt;</code> 文本路径可见</td>
-          </tr>
-          <tr>
-            <td>管道输出 JSON-LD</td>
-            <td>管道输出 JSON-LD TechArticle，字段与可见头部一致</td>
-          </tr>
-          <tr>
-            <td>canonical 指向稳定 ID</td>
-            <td><code>canonical</code> 指向稳定文档 ID，避免同题异版</td>
-          </tr>
-          <tr>
-            <td>适用设备标签可见</td>
-            <td>适用芯片 / 算子类别在渲染页以标签展示，非仅后台字段</td>
-          </tr>
-          <tr>
-            <td>可见元数据与入库一致</td>
-            <td>渲染页可见元数据与入库字段一致，避免「页面有据、入库无情」</td>
-          </tr>
-          <tr>
-            <td rowspan="6"><a href="principles-structure-cross.html">跨文档结构感知</a></td>
-            <td>面包屑展示完整路径</td>
-            <td>渲染页面包屑 <code>&lt;nav aria-label="breadcrumb"&gt;</code> 展示完整文本路径（消歧同名章节）</td>
-          </tr>
-          <tr>
-            <td>上下篇导航可见</td>
-            <td>渲染页页脚或文首展示「上一篇 / 下一篇」导航，锚文本须描述目标章节</td>
-          </tr>
-          <tr>
-            <td>Front Matter 写关系字段</td>
-            <td>Front Matter 写入 <code>breadcrumb</code>、<code>prev</code>、<code>next</code>、<code>parent_topic</code></td>
-          </tr>
-          <tr>
-            <td>关系边写入 chunk 元数据</td>
-            <td>管道将关系边写入 JSON-LD / chunk 元数据，与渲染页可见导航一致</td>
-          </tr>
-          <tr>
-            <td>机器源剥离 Level 3 导航</td>
-            <td>机器源剥离全站侧栏文档树（Level 3 IA），只保留本篇 + Level 1 关系</td>
-          </tr>
-          <tr>
-            <td>热区配文本链接列表</td>
-            <td>成长地图等热区入口须另有文本链接列表（见 <a href="principles-hotzone.html">图片热区</a>）</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-structure-single.html">单文档结构感知</a></td>
-            <td>禁止空段落作间距</td>
-            <td>禁止用空 <code>&lt;p&gt;</code> / <code>&lt;br&gt;</code> 堆叠代替段落间距；用 CSS margin 控制版式</td>
-          </tr>
-          <tr>
-            <td>锚点 ID 作切片边界</td>
-            <td>保留稳定锚点 ID（如 <code>ZH-CN_TOPIC_xxx</code>），管道将其作为 chunk 切片边界标记</td>
-          </tr>
-          <tr>
-            <td>用列表表达步骤层级</td>
-            <td>有序 / 无序列表表达步骤与层级，不用多个独立段落模拟列表</td>
-          </tr>
-          <tr>
-            <td>步骤内 Note 保留层级</td>
-            <td>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 须保留 DOM 层级，管道抓取时不扁平化</td>
-          </tr>
-          <tr>
-            <td>内容与所属小节 DOM 邻接</td>
-            <td>代码块、表格、提示与所属步骤 / 小节保持 DOM 邻接，避免跨块插入无关元素</td>
-          </tr>
-          <tr>
-            <td rowspan="6"><a href="principles-format.html">格式交付与抓取入口</a></td>
-            <td>渲染页 + 机器源双轨</td>
-            <td>每篇文档提供渲染页 + 机器源（<code>/doc_center/source/</code> 或纯 MD）双轨</td>
-          </tr>
-          <tr>
-            <td>定义机器消费规则</td>
-            <td>定义机器消费规则：爬虫 / RAG 默认抓 <code>doc_center/source/</code> 或 markdown，禁止抓 <code>/document/detail/</code> 渲染页</td>
-          </tr>
-          <tr>
-            <td>.md URL 返回真 Markdown</td>
-            <td><code>.md</code> URL 返回真实 Markdown，非 SPA 壳层</td>
-          </tr>
-          <tr>
-            <td>机器源剥离壳层噪声</td>
-            <td>机器源剥离全站导航、页头页脚、脚本与样式</td>
-          </tr>
-          <tr>
-            <td>提供机器可读版本链接</td>
-            <td>渲染页页脚或工具栏提供「机器可读版本」链接</td>
-          </tr>
-          <tr>
-            <td>sitemap 优先机器源</td>
-            <td>sitemap / robots 优先声明机器源 URL</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-structure-llms.html">llms.txt 与机器入口</a></td>
-            <td>部署 llms.txt</td>
-            <td>站点根路径部署 <code>llms.txt</code>，列出文档索引与机器源基址</td>
-          </tr>
-          <tr>
-            <td>robots 放行 source</td>
-            <td><code>robots.txt</code> 不得禁止 <code>/doc_center/source/</code></td>
-          </tr>
-          <tr>
-            <td>sitemap 优先机器源</td>
-            <td>sitemap 优先收录机器源 URL</td>
-          </tr>
-          <tr>
-            <td>head 增加 rel=llms</td>
-            <td>全局模板可选 <code>link rel="llms"</code> 指向站点索引</td>
-          </tr>
-          <tr>
-            <td>llms 声明主推版本</td>
-            <td><code>llms.txt</code> 声明 canonical 主推版本（如 CANN 社区版 9.0.0 / 900），旧版标注 <code>deprecated</code></td>
-          </tr>
-          <tr>
-            <td rowspan="4"><a href="principles-timeliness.html">版本外显</a></td>
-            <td>头部展示版本徽章</td>
-            <td>文章头部（H1 下方）展示版本徽章，如「CANN 8.0.RC1」</td>
-          </tr>
-          <tr>
-            <td>弃用章节顶部横幅</td>
-            <td>已废弃章节在渲染页顶部显示弃用横幅，并链接替代文档</td>
-          </tr>
-          <tr>
-            <td>Front Matter 写 version</td>
-            <td>Front Matter 与 JSON-LD 写入 <code>version</code>、<code>deprecated_since</code></td>
-          </tr>
-          <tr>
-            <td>机器层携带 version 字段</td>
-            <td>机器层导出须携带版本字段，供 RAG 按版本过滤</td>
-          </tr>
-          <tr>
-            <td rowspan="5"><a href="principles-timeliness-disambiguation.html">多版本消歧</a></td>
-            <td>llms 声明 canonical 900</td>
-            <td><code>llms.txt</code> 声明 canonical 主推版本（如 CANN 社区版 9.0.0 / 900）及机器源基址</td>
-          </tr>
-          <tr>
-            <td>旧版标注 deprecated</td>
-            <td>旧版 / beta 文档在 <code>llms.txt</code> 或 sitemap 标注 <code>deprecated</code>，并链到替代文档</td>
-          </tr>
-          <tr>
-            <td>RAG 默认 version 过滤</td>
-            <td>RAG 入库与检索默认 <code>version=CANN社区版 9.0.0</code> 过滤，用户可显式指定其他版本</td>
-          </tr>
-          <tr>
-            <td>多版本设 canonical</td>
-            <td>同题多版文档须设 <code>canonical</code> 指向主推版本 URL（见 <a href="principles-structure-metadata.html#mdm-canonical">元数据规范 · canonical</a>）</td>
-          </tr>
-          <tr>
-            <td>溯源脚注带 version / doc_id</td>
-            <td>生成回答脚注须附带 <code>version</code>、<code>doc_id</code> 与来源 URL，不只裸链接</td>
+            <td rowspan="1">双轨交付与载体</td>
+            <td><a href="principles-format.html#fmt-link">机器可读入口</a></td>
+            <td>页脚或工具栏提供「机器可读版本」可见链接，指向 source 或 Markdown 入口</td>
           </tr>
         </tbody>
       </table>

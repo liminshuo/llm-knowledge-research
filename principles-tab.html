@@ -26,41 +26,47 @@
 
     <div class="page-header">
       <h1>隐藏语义 · Tab</h1>
-      <p class="page-desc">对应 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。Tab 隐藏的面板须在源码完整存在，渲染层不得用 CSS 藏掉非激活项。</p>
+      <p class="page-desc">对应 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。以下仅列渲染页可见的 Tab 标签与面板展示 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="tab">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">机器层扁平展开规则见 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="tab-01"><td>1</td><td>所有 Tab 面板内容在源 HTML 中完整输出，不依赖 JS 懒加载正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="tab-02"><td>2</td><td>每个 Tab 标签在渲染页有明确文本（如「bisheng 编译」「CMake 编译」）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="tab-03"><td>3</td><td>机器层将全部 Tab 展开，以 H3 标注各面板标题</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="tab-ui-expand"><td>4</td><td>各 Tab 面板正文在渲染页<strong>全量可见</strong>（纵向排列展示，或切换 Tab 时不隐藏非激活项正文）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span></td></tr>
-          <tr id="tab-04"><td>5</td><td>渲染组件禁止用 <code>display:none</code> / <code>visibility:hidden</code> 隐藏非激活面板正文</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr><td>1</td><td>Tab 标签可读</td><td>Tab 标签展示场景化文本（如「在线安装 · x86_64 · CANN 9.0.0」），禁止 Tab1/Tab2</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>Tab 面板全量可见</td><td>各 Tab 面板正文在页面上全量可见，纵向排列或切换时不隐藏非激活项正文</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>Tab 标签有明确文本</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">Tab1</span><span class="rf-tab">Tab2</span></div><div class="rf-tab-panel">编译步骤…</div></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng 编译</span><span class="rf-tab">CMake 编译</span></div><div class="rf-tab-panel">bisheng 编译步骤…</div></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · Tab 标签场景化（CANN 软件下载）</h4>
+        <div class="ui-demo ui-demo--plain" id="tab-02">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">Tab1</span><span class="rf-tab">Tab2</span><span class="rf-tab">Tab3</span></div><div class="rf-tab-panel">wget … ./Ascend-cann-toolkit.run --install</div></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · aarch64 · CANN 9.0.0</span></div><div class="rf-tab-panel">wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-4">
-        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>Tab 各面板全量可见</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">bisheng</span><span class="rf-tab">CMake</span></div><div class="rf-tab-panel">bisheng 内容</div><div class="rf-tab-panel rf-tab-panel--hidden">CMake 内容（display:none）</div></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">bisheng 编译</div>bisheng 编译步骤…</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">CMake 编译</div>CMake 编译步骤…</div></div></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · Tab 面板全量可见</h4>
+        <div class="ui-demo ui-demo--plain" id="tab-ui-expand">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装</span><span class="rf-tab">离线安装</span></div><div class="rf-tab-panel">wget … --install</div><p class="rf-muted">（离线安装等面板 display:none，页面上不可见）</p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">在线安装 · x86_64 · CANN 9.0.0</div>wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">离线安装 · x86_64 · CANN 9.0.0</div>./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</div></div></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

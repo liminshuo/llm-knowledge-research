@@ -26,47 +26,60 @@
 
     <div class="page-header">
       <h1>链接语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-link.html">问题论证 · 链接语义</a>。链接目标须由锚文本自解释，禁止无意义占位符。</p>
+      <p class="page-desc">对应 <a href="problems-content-link.html">问题论证 · 链接语义</a>。以下仅列渲染页可见的链接锚文本与来源标注 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="link">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">绝对 URL 转换等管道规则见 <a href="problems-content-link.html">问题论证 · 链接语义</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="l-01"><td>1</td><td>渲染页链接文字描述目标，如「HelloWorld 完整样例（GitCode）」</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="l-02"><td>2</td><td>站外链接在渲染页标注 external 或图标旁附完整域名</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="l-03"><td>3</td><td>机器层将站内相对链转为绝对 URL</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="l-05"><td>4</td><td>必要时用 <code>title</code> 或前后句补充链接用途</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
+          <tr><td>1</td><td>描述性锚文本</td><td>链接可见文字描述跳转目标，禁止 LINK 等占位符</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>站外来源标注</td><td>站外链接旁附完整域名或来源标识（如 ↗ gitcode.com）</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>3</td><td>上下文链接</td><td>链接置于有上下文的句子中，或附用途说明，避免孤立「详情」</td><td><span class="badge badge-should">建议</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-1">
-        <div class="ui-demo-head"><span class="ui-demo-num">1</span><span>链接锚文本描述目标</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p>完整样例请参考 <a class="rf-link-bad" href="#">LINK</a></p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p>完整样例请参考 <a class="rf-link-good" href="#">HelloWorld 完整样例（GitCode）</a></p></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · 链接锚文本描述目标</h4>
+        <div class="ui-demo ui-demo--plain" id="l-01">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-bad" href="#">LINK</a></p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-good" href="#">HelloWorld 完整样例（GitCode）</a></p></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>站外链接标注来源</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p><a class="rf-link-bad" href="#">示例仓库</a></p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p><a class="rf-link-good" href="#">示例仓库</a><span class="rf-ext">↗ gitcode.com</span></p></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · 站外链接标注来源</h4>
+        <div class="ui-demo ui-demo--plain" id="l-02">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p><a class="rf-link-bad" href="#">示例仓库</a></p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p><a class="rf-link-good" href="#">示例仓库</a><span class="rf-ext">↗ gitcode.com</span></p></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-4">
-        <div class="ui-demo-head"><span class="ui-demo-num">4</span><span>链接附上下文说明</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><p><a class="rf-link-bad" href="#">详情</a></p></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><p>环境变量配置步骤见 <a class="rf-link-good" href="#">安装后环境变量设置</a>（需 root 权限）。</p></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 3 · 链接附上下文说明</h4>
+        <div class="ui-demo ui-demo--plain" id="l-05">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p><a class="rf-link-bad" href="#">详情</a></p></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>环境变量配置步骤见 <a class="rf-link-good" href="#">安装后环境变量设置</a>（需 root 权限）。</p></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

@@ -2,95 +2,13 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=problems-format.html#format-compare">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>.md 后缀 ≠ Markdown · 问题论证 · 大模型知识获取研究</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>双轨交付 · .md 后缀 · 问题论证 · 大模型知识获取研究</title>
+  <link rel="canonical" href="problems-format.html#format-compare">
+  <script>location.replace("problems-format.html#format-compare");</script>
 </head>
-<body class="inner-page" data-module="problems" data-page="format-md-suffix">
-
-<header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
-  <nav class="site-nav">
-    <a href="index.html">首页</a>
-    <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html" class="active">问题论证</a>
-    <a href="principles-general.html">亲和原则</a>
-  </nav>
-</header>
-
-<div class="page-wrapper">
-
-  <aside id="module-sidebar"></aside>
-
-  <main class="main-content">
-
-    <div class="page-header">
-      <h1>.md 后缀 ≠ Markdown</h1>
-      <p class="page-desc">社区 .md URL 与纯 Markdown 源文件的本质区别。</p>
-    </div>
-
-    <section class="section" id="format-md-suffix">
-      <h2>要点二：社区 .md 后缀与 Markdown 是一回事吗？</h2>
-<div class="info-box danger">
-        <div class="box-title">结论</div>
-        <strong>不是同一种东西。</strong> 昇腾社区 9.1.0-beta.1 的 <code>.md</code> URL 是「URL 命名约定 + 前端 MD 渲染管线」，<strong>不等于</strong>交付给爬虫的纯 Markdown 源文件。
-      </div>
-
-      <table class="data-table">
-        <thead>
-          <tr><th>概念</th><th>是什么</th><th>交付物</th><th>模型读到什么</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>纯 Markdown 文件</strong></td>
-            <td><code>.md</code> 后缀的静态文本文件，内容为 Markdown 语法</td>
-            <td>纯文本，如 <code># 标题\n\n正文</code></td>
-            <td>完整、低噪声、可预测 ✅</td>
-          </tr>
-          <tr>
-            <td><strong>llms.txt 推荐的 .md Companion</strong></td>
-            <td>与 HTML 页同 URL 追加 <code>.md</code>，返回<strong>真实 MD 副本</strong></td>
-            <td>静态 Markdown 文件（规范意图）</td>
-            <td>应与 HTML 正文等价 ✅</td>
-          </tr>
-          <tr>
-            <td><strong>昇腾社区 .md URL</strong></td>
-            <td>URL 以 <code>.md</code> 结尾，但由 Nuxt SPA + MD 组件渲染器输出</td>
-            <td>~211 KB 的 HTML 页面（含全站壳层）</td>
-            <td>出现 <code>[object Object]</code>、链接丢失 ❌</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="arch-diagram">三种「.md」的本质区别
-
-① 纯 Markdown 源文件          ② llms.txt 规范的 .md Companion       ③ 昇腾社区 .md URL
-   ┌─────────────────┐            ┌─────────────────┐                  ┌─────────────────┐
-   │ # 什么是Ascend C │            │ # 什么是Ascend C │                  │  Nuxt SPA 壳层   │
-   │ 正文 Markdown…   │            │ 正文 Markdown…   │                  │  + MD 渲染组件   │
-   │ （静态 .md 文件）│            │ （静态 .md 文件）│                  │  + [object Object]│
-   └─────────────────┘            └─────────────────┘                  └─────────────────┘
-   模型友好 ✅                       模型友好 ✅                            模型不友好 ❌
-   真正的 Markdown                   规范意图中的形态                       只是 URL 后缀叫 .md</div>
-
-      <h4 style="font-size:14px;font-weight:600;margin:20px 0 10px;">为什么社区 .md URL 不是 Markdown？</h4>
-      <ul class="key-points">
-        <li><strong>响应体仍是 HTML</strong> — curl 抓取返回的是完整 HTML 文档（~211KB），不是 <code>text/markdown</code> 纯文本</li>
-        <li><strong>走 SPA 渲染管线</strong> — Markdown 源先被前端 MD 组件解析，再嵌入 Vue 组件树，最终输出 DOM；爬虫拿到的是渲染结果而非源文件</li>
-        <li><strong>组件序列化失败</strong> — 嵌入的 React/Vue 对象无法被文本爬虫读取，输出为 <code>[object Object]</code></li>
-        <li><strong>命名误导</strong> — URL 后缀暗示「这是 Markdown」，使开发者和 RAG 系统误判为低噪声源，实际可能比 .html 更差</li>
-      </ul>
-
-      <!-- 要点三 -->
-    </section>
-
-
-  </main></div>
-
-<footer class="site-footer">
-  模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
-</footer>
-
-<script src="assets/js/module-sidebar.js"></script>
+<body>
+  <p>已合并至 <a href="problems-format.html#format-compare">双轨交付 · .md 后缀</a>。</p>
 </body>
 </html>

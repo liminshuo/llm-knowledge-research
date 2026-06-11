@@ -14,7 +14,7 @@
 
 | 文件 | 对话主题 | 关联 HTML 模块 | Claude 链接 |
 |------|----------|----------------|-------------|
-| [07-官方信源感知弱/](./官方信源感知弱/) | 官方信源感知弱 · 三模型对话 | problems-answer.html | [Claude 打开](https://claude.ai/share/6bb1473b-7493-40d5-97b2-37523a95fa8b) |
+| [07-官方信源感知弱/](./官方信源感知弱/) | 官方信源感知弱 · 三模型对话 | problems-answer-search.html | [Claude 打开](https://claude.ai/share/6bb1473b-7493-40d5-97b2-37523a95fa8b) |
 | [01-文档内容对比分析.md](./claude-conversations/01-文档内容对比分析.md) | Ascend-C 文档内容对比分析 | problems.html | [打开](https://claude.ai/share/3f2d4c30-6210-4259-9a9b-de7943cf6fff) |
 | [02-读取AscendC文档内容.md](./claude-conversations/02-读取AscendC文档内容.md) | 读取 Ascend C 文档内容 | background.html | [打开](https://claude.ai/share/d11287e8-ffd5-41f0-9b1d-b2d76b20a84c) |
 | [03-知识库与大模型集成方案.md](./claude-conversations/03-知识库与大模型集成方案.md) | 知识库与大模型的集成方案 | solutions.html | [打开](https://claude.ai/share/272104cc-2681-453e-9cbd-5ac25f16e999) |

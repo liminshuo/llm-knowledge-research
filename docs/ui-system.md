@@ -1,6 +1,6 @@
 # UI 系统规范
 
-> 本研究站静态页的统一文字、间距与结构约定。实现文件：`assets/css/style.css`；示例页：`ui-system.html`。
+> 本研究站静态页的统一文字、间距与结构约定。CSS 入口为 `assets/css/style.css`（`@import` 子模块，见 `AGENTS.md`）；示例页：`ui-system.html`。
 
 ---
 
@@ -25,6 +25,7 @@
 | `--color-bg` | `#F5F5F5` | 页面背景 |
 | `--color-surface` | `#ffffff` | 卡片、侧栏、表格面 |
 | `--color-border` | `#e2e8f0` | 分割线、边框 |
+| `--color-card-border` | `#F0F0F0` | `.surface-card` 描边 |
 | `--color-code-bg` | `#f1f5f9` | 行内 `code` 背景 |
 | `--color-code-text` | `#1e293b` | 行内 `code` 文字 |
 | `--color-desc` | `rgba(0, 0, 0, 0.6)` | `.page-desc`、`.section-heading-desc` |
@@ -265,11 +266,32 @@
 | `pre` | 多行代码块容器（独立 padding） |
 | `pre code` | 块内 `code` 重置为透明底、无 padding，避免双重包裹 |
 
+### 文案解释（`.copy-explain`）
+
+正文中的缩写或术语，用**虚线下划线**标示；悬停或键盘聚焦时浮层展示完整释义（`data-tip` 承载说明文字）。
+
+| 属性 | 值 |
+|------|-----|
+| 下划线 | `1px dashed`，色 `--color-text-secondary` |
+| 浮层字号 / 行高 | 12px / 1.5 |
+| 浮层最大宽 | 300px |
+| 浮层背景 | `--color-text`，白字 |
+
+| 选择器 | 说明 |
+|------|------|
+| `.copy-explain` | 文案解释触发词 |
+| `data-tip` | 浮层正文（纯 CSS `::after` 渲染） |
+| `tabindex="0"` | 建议加上，支持键盘聚焦显示 |
+
+```html
+<span class="copy-explain" tabindex="0" data-tip="Retrieval-Augmented Generation (检索增强生成)：…">RAG</span>
+```
+
 ### 标签（两套样式）
 
 | 类型 | 类名 | 用途 | 视觉 |
 |------|------|------|------|
-| **状态标签** | `badge badge-status badge-bad` 等 | 小节标题旁入库状态（「语义完全丢失」）、`cp-status`、表格评级 | 12px、左右 padding 10px、**描边** |
+| **状态标签** | `badge badge-status badge-bad` 等 | 页头 H1 后、小节标题旁入库状态、表格评级 | 12px、左右 padding 10px、**描边** |
 | **优先级标签** | `badge badge-priority badge-must` 等 | `list-badge-led` 内「必要 / 可选」 | 11px、**固定宽 40px** 居中、无描边 |
 
 `list-badge-led > li` 用 **左缩进 + badge 绝对定位**（`padding-left: 48px`），正文与行内 `code` 保持**同一文本流**自然换行；勿用 flex 横排（会把文字与 `code` 拆成多个 flex 项，窄屏下出现「拼接式」断行）。
@@ -307,6 +329,10 @@
 
 ### 5.1 标准内页
 
+`page-header` **仅含 H1**（或 `page-header-top` + 预览按钮）；`.page-desc`、`.component-problem` 放在 header **底部分割线下方**，再接 `.section` 正文（与 `AGENTS.md`、各 `problems-*.html` 一致）。
+
+各页「解决方案」章节 H2 统一 `id="solution"`，供跨页链接 `#solution` 跳转。
+
 ```html
 <body class="inner-page" data-module="problems" data-page="example">
   <header class="site-header">…</header>
@@ -315,25 +341,29 @@
     <main class="main-content">
       <!-- #page-toc 由 module-sidebar.js 注入 -->
       <div class="page-header">
-        <h1>页面标题</h1>
-        <p class="page-desc">一句话说明本页测什么。</p>
-        <!-- 可选 -->
-        <div class="component-problem">
-          <div class="cp-label">核心结论</div>
-          <ul>
-            <li><strong>概括主题</strong>：现象与数据描述；对检索 / 生成 / 开发者的影响。</li>
-          </ul>
+        <div class="page-header-top">
+          <h1>页面标题 <span class="badge badge-status badge-should">入库状态</span></h1>
+          <button type="button" class="preview-drawer-trigger">查看测试页面</button>
         </div>
       </div>
-      <section class="section" id="example">
-        <h3>论证</h3>
-        <p>…</p>
+      <p class="page-desc">一句话说明本页测什么。</p>
+      <div class="component-problem">
+        <div class="cp-label">核心问题</div>
+        <ul><li>…</li></ul>
+      </div>
+      <section class="section" id="example-problem">…</section>
+      <section class="section" id="example-solution">
+        <h2 id="solution">解决方案</h2>
+        …
       </section>
-      <nav class="page-nav">…</nav>
     </main>
   </div>
 </body>
 ```
+
+### 5.1.1 卡片容器（`.surface-card`）
+
+浅灰底 + `#F0F0F0`（`--color-card-border`）描边的内容块；用于论证单元、对比区等。样式见 `assets/css/components/surface-card.css`。
 
 ### 5.2 语义组件页（含预览抽屉）
 
@@ -382,6 +412,6 @@
 
 | 文件 | 职责 |
 |------|------|
-| `assets/css/style.css` | 全部样式实现 |
+| `assets/css/style.css` | CSS 入口（`@import` 子模块，见 `AGENTS.md`） |
 | `ui-system.html` | 规范可视化示例 |
 | `assets/js/module-sidebar.js` | 模块侧栏 + 右侧本篇目录 |

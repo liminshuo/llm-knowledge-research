@@ -26,41 +26,47 @@
 
     <div class="page-header">
       <h1>注意提示（Note）语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。注意/警告/提示用文本表达类型；装饰图标对模型无意义，应从渲染页与源码同时移除。</p>
+      <p class="page-desc">对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。以下仅列渲染页可见的 Note 类型前缀与正文展示 UI 改造项。</p>
     </div>
 
 
     <section class="section" id="note">
-      <h3>亲和原则</h3>
+      <h3>UI 亲和原则</h3>
+      <p class="section-heading-desc">类型标注与 Markdown 引用块转换见 <a href="problems-content-note.html">问题论证 · 注意提示语义</a>。</p>
       <table class="data-table">
         <thead>
-          <tr><th>编号</th><th>原则描述</th><th>级别</th><th>调整层面</th></tr>
+          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
         </thead>
         <tbody>
-          <tr id="note-01"><td>1</td><td>源码用 <code>data-admonition-type</code> 标注 note / warning / tip / danger</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="note-02"><td>2</td><td>渲染页 Note 正文完整展开，不折叠、不 Tooltip 藏字</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="note-03"><td>3</td><td>移除 Note 装饰图标；类型改用文本前缀「注意：」「警告：」显示在渲染页</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-ui">UI</span> <span class="badge badge-scope-src">源码</span></td></tr>
-          <tr id="note-04"><td>4</td><td>机器层转为 Markdown 引用块（<code>&gt; **注意**</code>）</td><td><span class="badge badge-must">必须</span></td><td class="scope-cell"><span class="badge badge-scope-pipe">管道</span></td></tr>
-          <tr id="note-05"><td>5</td><td>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的 Note 保留层级，管道抓取时不扁平化</td><td><span class="badge badge-should">建议</span></td><td class="scope-cell"><span class="badge badge-scope-src">源码</span> <span class="badge badge-scope-pipe">管道</span></td></tr>
+          <tr><td>1</td><td>Note 正文展开</td><td>提示正文在页面上完整展示，不折叠、不用 Tooltip 藏字</td><td><span class="badge badge-must">必须</span></td></tr>
+          <tr><td>2</td><td>类型文本前缀</td><td>移除装饰图标；以「注意：」「警告：」等文字前缀标识类型</td><td><span class="badge badge-must">必须</span></td></tr>
         </tbody>
       </table>
       <div class="ui-render-examples">
         <h3>UI 渲染示例</h3>
-        <p>以下对照仅展示含 <span class="badge badge-scope-ui">UI</span> 调整层面的原则在用户可见页面上的差异。</p>
-      <div class="ui-demo" id="ui-demo-2">
-        <div class="ui-demo-head"><span class="ui-demo-num">2</span><span>Note 正文完整展开</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装后需设置环境变量 <em>（悬停才显示全文…）</em></span></div></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
+        <p>以下对照展示渲染页上的 UI 设计差异。</p>
+
+        <h4>示例 1 · Note 正文完整展开（环境准备 set_env.sh）</h4>
+        <div class="ui-demo ui-demo--plain" id="note-02">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装 CANN 后需执行 set_env.sh… <em>（悬停 / 折叠才显示全文）</em></span></div></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
+          </div>
         </div>
-      </div>
-      <div class="ui-demo" id="ui-demo-3">
-        <div class="ui-demo-head"><span class="ui-demo-num">3</span><span>移除图标，类型用文本前缀</span></div>
-        <div class="compare-grid">
-          <div class="compare-col machine"><h4>❌ 当前渲染</h4><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">⚠️</span><span>请勿在生产环境直接调试</span></div></div></div>
-          <div class="compare-col human"><h4>✅ 亲和渲染</h4><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">警告：</span>请勿在生产环境直接调试，可能导致服务中断。</div></div></div></div>
+
+        <hr class="example-divider">
+
+        <h4>示例 2 · 类型文本前缀（移除装饰图标）</h4>
+        <div class="ui-demo ui-demo--plain" id="note-03">
+          <div class="compare-grid compare-grid--stack">
+            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
+            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装 CANN 后需执行 set_env.sh 设置环境变量…</span></div></div></div>
+            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
+            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，使用 CANN 运行用户进行编译、运行时，需要执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量。</div></div></div></div>
+          </div>
         </div>
-      </div>
       </div>
 </section>
 

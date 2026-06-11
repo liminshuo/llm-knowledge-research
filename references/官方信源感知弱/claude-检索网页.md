@@ -2,7 +2,7 @@
 title: 官方信源感知弱 · Claude 检索网页
 claude_share: https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885
 export_source: Apple Pages 导出（claude ai searched the web .pages）
-html_module: problems-answer.html
+html_module: problems-answer-search.html
 phase: 检索阶段
 status: 已导出
 export_date: 2026-06-06

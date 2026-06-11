@@ -29,16 +29,15 @@
     </div>
 
     <p class="page-desc page-desc--split">
-        <span class="page-desc-line">生成阶段即大模型输出回答并标注溯源（段末 URL、脚注）的阶段。</span>
-        <span class="page-desc-line">本页只聚焦这一阶段：统计三模型生成回答的段末溯源与脚注中，来源于「昇腾社区」官方（<code>hiascend.com</code>）的引用占比。</span>
+        <span class="page-desc-line">生成阶段指大模型输出回答并标注溯源（段末 URL、脚注）的阶段。</span>
+        <span class="page-desc-line">本页统计段末溯源中昇腾社区（<code>hiascend.com</code>）官方引用占比；900 版本分布见 <a href="problems-timeliness.html">版本滞后</a>。</span>
       </p>
 
     <div class="component-problem">
         <div class="cp-label">核心结论</div>
         <ul>
-          <li><strong>社区主信源识别失败</strong>：在「基于官方资料」约束下，三模型均未将 <code>hiascend.com</code> 昇腾社区稳定识别为 Ascend C 算子开发的首要权威来源；社区引用仅 <strong>22%–67%</strong>（Claude <strong>35%</strong> 最低），说明模型<strong>感知不到「何处才是本题所指的官方」</strong>，prompt 未能拉高社区文档的选材优先级。</li>
-          <li><strong>「官方」归类失准</strong>：Claude 以知乎 / CSDN 等教程站支撑正文（<strong>65%</strong>），DeepSeek 以华为开发者站与云博客充当「官方」主体（华为系 <strong>69%</strong>、社区 <strong>22%</strong>），千问虽社区占比最高（<strong>67%</strong>）仍混用第三方与旧版路径——三模型对官方边界的判定不一致，体现<strong>信源分类与权重分配能力弱</strong>，开发者无法据回答判断应以哪套文档为准。</li>
-          <li><strong>约束难以纠偏选材</strong>：同一 prompt、同一「官方资料」表述，三模型给出截然不同的溯源构成，且均未见 CANN 9.0.0（900）社区版；说明仅靠自然语言约束<strong>不足以让模型跟昇腾社区文档体系对齐</strong>，官方信源感知弱将直接导致回答权威性与产品文档脱节。</li>
+          <li><strong>社区主信源识别失败</strong>：三模型社区引用占比 <strong>22%–67%</strong>（Claude 仅 <strong>35%</strong>），「基于官方资料」未能拉高 <code>hiascend.com</code> 选材优先级。</li>
+          <li><strong>「官方」归类失准</strong>：Claude 以第三方教程为主体（<strong>65%</strong>）；DeepSeek 以华为系非社区渠道为主体（<strong>69%</strong>）；三模型溯源构成差异大，开发者难以判断应以哪套文档为准。</li>
         </ul>
       </div>
 
@@ -99,9 +98,8 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>段末 URL 标注 17 个信息单元；</li>
-            <li>昇腾社区 <strong>6</strong> 条（35%），第三方 <strong>11</strong> 条（65%）— 知乎 / 博客园 / CSDN 等；</li>
-            <li>官方多指向 9.1 beta 导读与 Ascend C 入口，未见 CANN 9.0.0（900）；正文 <strong>100%</strong> 含可核对链接，仅 <strong>35%</strong> 为 <code>hiascend.com</code>。</li>
+            <li>17 单元：昇腾社区 35%、第三方 65%（知乎 / CSDN 等）。</li>
+            <li>官方链接多指向 9.1 beta，未见 CANN 9.0.0（900）。</li>
           </ul>
 
           <button type="button" class="answer-card-link" data-drawer-open="claude">查看 Claude ai 对话</button>
@@ -136,9 +134,8 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>段末 URL 标注 23 个信息单元；</li>
-            <li>昇腾社区 <strong>5</strong> 条（22%），华为开发者 <strong>9</strong> 条（39%），华为云博客 <strong>7</strong> 条（30%），模型内化 <strong>2</strong> 条（9%）；</li>
-            <li>官方路径多为 8.0 / 8.1 / 8.2 RC 版，未见 CANN 9.0.0（900）；<strong>91%</strong> 含可核对链接，仅 <strong>35%</strong> 标注含 <code>hiascend.com</code>。</li>
+            <li>23 单元：昇腾社区 22%、华为系 69%、模型内化 9%。</li>
+            <li>官方路径多为 8.0 / 8.1 / 8.2 RC，未见 CANN 9.0.0（900）。</li>
           </ul>
 
           <button type="button" class="answer-card-link" data-drawer-open="deepseek">查看 DeepSeek 对话</button>
@@ -173,9 +170,8 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>脚注 <code>[^1]–[^13]</code> 标注 18 个信息单元；</li>
-            <li>昇腾社区 <strong>12</strong> 条（67%），第三方 <strong>5</strong> 条（28%），模型内化 <strong>1</strong> 条（5%）— 文末链接昇腾 <strong>7</strong> 条、华为论坛 <strong>1</strong> 条、第三方 <strong>5</strong> 条；</li>
-            <li>官方脚注多指向 83RC1 / 900beta1 / 80RC1 / 850 / 82RC1，未见 CANN 9.0.0（900）；第三方集中于 TBE 替代、Host 指挥者、内存层次、SPMD、工程目录。</li>
+            <li>18 单元：昇腾社区 67%、第三方 28%、模型内化 5%。</li>
+            <li>官方脚注多指向 83RC1 / 900beta1 / 8.x 等旧版，未见 CANN 9.0.0（900）。</li>
           </ul>
 
           <button type="button" class="answer-card-link" data-drawer-open="qwen">查看 Qwen 对话</button>
@@ -183,7 +179,7 @@
 
       </div>
 
-      <div class="source-type-defs surface-card">
+      <div class="source-type-defs surface-card" id="answer-generate-source-defs">
         <p class="source-type-defs-title">来源类型说明</p>
         <ul class="source-type-defs-list">
           <li>
@@ -220,22 +216,43 @@
         </section>
 
     <section class="section" id="answer-generate-solution">
-      <h2>解决方案</h2>
+      <h2 id="solution">解决方案</h2>
 
       <div class="content-unit">
         <h3>改进目标</h3>
-        <p>生成阶段回答应<strong>优先引用 CANN 9.0.0 官方社区文档</strong>，脚注/溯源可稳定映射到 <code>doc_id</code>，且社区主信源识别准确、非社区教程不冒充官方。</p>
+        <p>生成溯源优先引用 CANN 9.0.0 社区文档；脚注可映射 <code>doc_id</code>；非社区教程不得冒充官方。</p>
       </div>
       <div class="content-unit">
-        <h3>改进措施</h3>
-        <h4>1. 承接检索池治理</h4>
-        <p>针对<strong>900 未进入生成溯源</strong>：生成质量上限由检索池决定——先落实 <a href="problems-answer-search.html#solution">检索阶段 · 解决方案</a>（llms.txt、双轨交付、版本 过滤）；检索默认 900 + 生成阶段 version 过滤。</p>
-        <h4>2. 补充元数据与溯源 <span class="badge badge-priority badge-must">P0</span></h4>
-        <p>针对<strong>脚注仅裸 URL</strong>：chunk 附带 <code>version</code>、<code>doc_id</code>、<code>source_url</code>，生成时默认过滤 900 社区版，脚注回链稳定；输出 <code>doc_id</code> + 人类层/机器层双 URL。详见 <a href="principles-structure-metadata.html">亲和原则 · 元数据字段规范</a>。</p>
-        <h4>3. 规范信源标注 <span class="badge badge-priority badge-should">P1</span></h4>
-        <p>针对<strong>社区主信源识别失败</strong>：区分昇腾社区官方 / 华为系渠道 / 第三方教程，优先召回 <code>hiascend.com</code> 机器层 chunk，避免 CSDN 教程在「基于官方资料」prompt 下被标为官方。</p>
+        <h3 id="改进措施">改进措施</h3>
+        <ul class="list-badge-led">
+          <li><span class="badge badge-priority badge-must">必要</span><strong>承接检索池治理</strong>：须先落实 <a href="problems-answer-search.html#answer-search-solution">检索阶段 · 解决方案</a>（llms.txt、双轨交付、版本过滤）；</li>
+          <li><span class="badge badge-priority badge-must">必要</span><strong>补充元数据与溯源</strong>：chunk 附带 <code>version</code>、<code>doc_id</code>、<code>source_url</code>；脚注输出双 URL（详见 <a href="problems-structure-metadata.html#solution">页级元数据</a>、<a href="problems-timeliness.html#timeliness-solution">版本滞后</a>）；</li>
+          <li><span class="badge badge-priority badge-should">可选</span><strong>规范信源标注</strong>：入库写入 <code>source_channel</code>，生成脚注显式输出来源类型（详见 <a href="#answer-generate-ui-demo-source">改进示例</a>）。</li>
+        </ul>
 
+        <h3 id="answer-generate-ui-demo-source">改进示例</h3>
 
+        <h4>规范信源标注</h4>
+        <p>转换 <code>doc_center/source</code> 导出 MD 时，按域名规则写入 Front Matter 的 <code>source_channel</code>；生成阶段读取该字段输出脚注，而非要模型从 URL 反推。</p>
+        <div class="arch-diagram">hiascend.com → source_channel = hiascend-official
+第三方 URL → source_channel = third-party
+华为系非社区 → source_channel = huawei-ecosystem
+
+RAG filter(source_channel="hiascend-official") + filter(version="CANN社区版 9.0.0")
+    └──► 脚注：[昇腾社区官方] + doc_id + 双 URL</div>
+        <p>Front Matter 示例：</p>
+        <div class="surface-card snippet-card">---
+doc_id: atlas_ascendc_map_10_0005
+title: HelloWorld
+version: CANN社区版 9.0.0
+source_channel: hiascend-official
+source_url: https://www.hiascend.com/doc_center/source/…/900/…/atlas_ascendc_map_10_0005.html
+human_url: https://www.hiascend.com/document/detail/…/900/…/atlas_ascendc_map_10_0005.html
+---
+
+# HelloWorld
+
+正文…</div>
 
         </div>
       
