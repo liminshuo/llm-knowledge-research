@@ -82,3 +82,17 @@
 - 已合并页用根目录 **redirect stub**（`<meta refresh>` + canonical），勿在侧栏保留入口；旧 `problems-detail-*`、`problems-format-md-*` 等已重定向  
 - **勿批量运行** `scripts/split-all-pages.py`、`enrich-principles-pages.py`、`add-ui-render-demos.py`（NAV / 示例落后于 `module-sidebar.js`）  
 - 仅当用户明确要求时再 `git commit` / 部署  
+
+## 发布（GitHub Pages）
+
+线上：<https://liminshuo.github.io/llm-knowledge-research/>
+
+**推荐：从 `main` 分支根目录发布**（仓库 Settings → Pages → Build and deployment → Branch 选 `main` / `/ (root)` → Save）。改完后：
+
+```bash
+git push origin main
+```
+
+无需再 `git push origin main:gh-pages`。确认站点正常后，可删除远程 `gh-pages` 分支（可选）。
+
+本地预览：`python3 -m http.server 8080`，打开 `http://localhost:8080/`。
