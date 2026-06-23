@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码侧 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="code-side">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>代码侧</h1>
+      <p class="page-desc">收录 <code>doc_center/source</code> 等<strong>源码 / 模板层</strong>的 HTML 标记改造项——不依赖渲染样式，入库前须在源文件中写对。渲染页 UI 见 <a href="principles-general.html">设计侧</a>；正文撰写与管道导出见 <a href="principles-content-side.html">内容侧</a>。</p>
+    </div>
+
+    <section class="section" id="principles-catalog-code">
+      <h3>代码侧亲和原则（源码标记）</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>维度</th><th>源码改造项</th><th>源 HTML 要求</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2">代码语义</td>
+            <td><a href="problems-content-code.html#solution">pre / code 结构</a></td>
+            <td><code>pre &gt; code class="language-xxx"</code>；弃用 <code>highlighttable</code></td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-code.html#solution">行号分离</a></td>
+            <td>行号不写入 <code>code</code> 文本节点</td>
+          </tr>
+          <tr>
+            <td rowspan="2">图片图意</td>
+            <td><a href="problems-content-image.html#solution">alt / 转写字段</a></td>
+            <td><code>img alt</code>、<code>data-llm-transcription</code> 写入源码</td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-image.html#solution">figure 结构</a></td>
+            <td><code>figure</code> + <code>figcaption</code>，非裸 <code>img</code></td>
+          </tr>
+          <tr>
+            <td rowspan="2">图片热区</td>
+            <td><a href="problems-content-hotzone.html#solution">area 标签</a></td>
+            <td><code>area alt</code> / <code>title</code>；配套 <code>nav</code> 链接列表</td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-hotzone.html#solution">绝对 URL</a></td>
+            <td><code>href</code> 为完整 URL，非相对路径</td>
+          </tr>
+          <tr>
+            <td>表格的结构语义</td>
+            <td><a href="problems-content-table.html#solution">表结构标记</a></td>
+            <td><code>caption</code>、I/O 子表 <code>th</code>、接口 <code>ul</code></td>
+          </tr>
+          <tr>
+            <td>注意提示</td>
+            <td><a href="problems-content-note.html#solution">提示类型字段</a></td>
+            <td><code>data-admonition-type</code>（note / warning / tip）</td>
+          </tr>
+          <tr>
+            <td rowspan="2">隐藏语义</td>
+            <td><a href="problems-content-tab.html#solution">Tab 源码全量</a></td>
+            <td>各面板正文完整，禁止 <code>display: none</code> 藏正文</td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-collapse.html#solution">折叠默认展开</a></td>
+            <td><code>details open</code> 或等效，折叠区内正文在源码中可读</td>
+          </tr>
+          <tr>
+            <td>页级元数据</td>
+            <td><a href="problems-structure-metadata.html#solution">Front Matter</a></td>
+            <td><code>version</code>、<code>doc_id</code>、<code>breadcrumb</code> 等字段</td>
+          </tr>
+          <tr>
+            <td>双轨交付</td>
+            <td><a href="problems-format.html#solution">source 路径</a></td>
+            <td><code>/doc_center/source/</code> 低噪声源 HTML 可访问</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

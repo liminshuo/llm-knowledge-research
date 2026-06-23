@@ -93,7 +93,19 @@
       "group": null,
       "id": "general",
       "href": "principles-general.html",
-      "label": "UI 亲和原则列表"
+      "label": "设计侧"
+    },
+    {
+      "group": null,
+      "id": "code-side",
+      "href": "principles-code-side.html",
+      "label": "代码侧"
+    },
+    {
+      "group": null,
+      "id": "content-side",
+      "href": "principles-content-side.html",
+      "label": "内容侧"
     },
     {
       "group": "信源时效",
@@ -204,6 +216,11 @@
     html += "<li class=\"nav-group-label\">链路观测</li>";
     html += "<li><a href=\"problems-answer-search.html\"" + (page === "answer-search" ? " class=\"active\"" : "") + ">检索阶段</a></li>";
     html += "<li><a href=\"problems-answer-generate.html\"" + (page === "answer-generate" ? " class=\"active\"" : "") + ">生成阶段</a></li>";
+    html += "</ul>";
+  }
+  if (module === "principles") {
+    html += "<ul class=\"sidebar-nav sidebar-phase-nav sidebar-module-title\">";
+    html += "<li class=\"nav-group-label\">亲和原则</li>";
     html += "</ul>";
   }
   html += "<ul class=\"sidebar-nav\">";

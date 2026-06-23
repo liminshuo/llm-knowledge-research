@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容侧 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="content-side">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-general.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>内容侧</h1>
+      <p class="page-desc">收录<strong>正文内容撰写</strong>与<strong>机器层导出</strong>规则——图意转写、链接锚文本、Tab 扁平化、MD 副本等。源码标记见 <a href="principles-code-side.html">代码侧</a>；渲染页 UI 见 <a href="principles-general.html">设计侧</a>。</p>
+    </div>
+
+    <section class="section" id="principles-catalog-content">
+      <h3>内容侧亲和原则（正文与管道）</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>维度</th><th>内容 / 管道项</th><th>要求</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2">图片图意</td>
+            <td><a href="problems-content-image.html#solution">图片内容转写</a></td>
+            <td>复杂图须附可见正文转写（节点、层级、箭头关系）</td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-image.html#solution">Mermaid / SVG 源</a></td>
+            <td>架构类图优先可编辑图源，非仅 PNG</td>
+          </tr>
+          <tr>
+            <td>图片热区</td>
+            <td><a href="problems-content-hotzone.html#solution">热区链接列表</a></td>
+            <td>成长地图等须冗余为正文 <code>nav</code> 文本链接</td>
+          </tr>
+          <tr>
+            <td>链接语义</td>
+            <td><a href="problems-content-link.html#solution">描述性锚文本</a></td>
+            <td>禁止「LINK」「点击这里」；锚文本说明跳转目标</td>
+          </tr>
+          <tr>
+            <td>表格的结构语义</td>
+            <td><a href="problems-content-table.html#solution">Markdown 表副本</a></td>
+            <td>规格表额外输出 MD，保留 I/O 行列与接口列表</td>
+          </tr>
+          <tr>
+            <td>注意提示</td>
+            <td><a href="problems-content-note.html#solution">引用块导出</a></td>
+            <td>管道层转为 <code>&gt; **注意**</code> 等 Markdown 引用块</td>
+          </tr>
+          <tr>
+            <td rowspan="2">隐藏语义</td>
+            <td><a href="problems-content-tab.html#solution">Tab 扁平化</a></td>
+            <td>机器层预展开各 Tab 组合为 H3 + 正文 chunk</td>
+          </tr>
+          <tr>
+            <td><a href="problems-content-collapse.html#solution">折叠扁平化</a></td>
+            <td>折叠区导出为 H3 + 步骤列表，保留从属关系</td>
+          </tr>
+          <tr>
+            <td>双轨交付</td>
+            <td><a href="problems-format.html#solution">MD / JSON 导出</a></td>
+            <td>剥离壳层、注入 Front Matter，同源双发</td>
+          </tr>
+          <tr>
+            <td>机器发现层</td>
+            <td><a href="problems-structure-llms.html#solution">llms.txt</a></td>
+            <td>声明 canonical 源、主推版本与 sitemap</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

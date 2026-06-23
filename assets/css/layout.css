@@ -223,6 +223,14 @@ body.inner-page:has(#module-sidebar) .main-content {
   padding-top: 10px;
 }
 
+.sidebar-module-title {
+  padding-bottom: 4px;
+}
+
+.sidebar-module-title .nav-group-label {
+  padding-bottom: 8px;
+}
+
 .sidebar-nav a {
   display: block;
   padding: 8px 20px;

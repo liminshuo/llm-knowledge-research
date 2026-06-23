@@ -43,46 +43,222 @@
     <section class="section" id="scope">
       <h2>研究范围</h2>
       <p>
-        整体范围是昇腾官方文档 Ascend C 算子开发。
-        本研究主要聚焦下列五个典型页面——它们承载不同的组件类型与语义载体，覆盖了后续语义维度中的主要研究对象。
+        本研究聚焦昇腾社区 <strong>Ascend C 算子开发</strong> 官方文档。
+        旅程图按开发先后分六步——从了解入门、配环境，到写算子、编译跑通与排障——汇总每步的用户意图、实测问句、采样页面与语义结论。
       </p>
 
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>页面</th>
-            <th>语义维度</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a></td>
-            <td>图片语义、图片热区</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a></td>
-            <td>提示语义、代码语义、表格的结构语义</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a></td>
-            <td>代码语义、链接语义、信息架构与跨页语义</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a></td>
-            <td>图片语义、链接语义、代码语义、表格的结构语义、信息架构与跨页语义</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td><a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a></td>
-            <td>隐藏语义</td>
-          </tr>
-        </tbody>
-      </table>
+      <figure class="journey-map surface-card" id="scope-journey-map" aria-label="Ascend C 开发者用户旅程图">
+        <div class="journey-map__scroll">
+          <table class="journey-map__grid">
+            <colgroup>
+              <col class="journey-map__col-corner">
+              <col class="journey-map__col-stage">
+              <col class="journey-map__col-stage">
+              <col class="journey-map__col-stage">
+              <col class="journey-map__col-stage">
+              <col class="journey-map__col-stage">
+              <col class="journey-map__col-narrow">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col" class="journey-map__corner"></th>
+                <th scope="col" class="journey-map__stage journey-map__stage--outline">
+                  <span class="journey-map__stage-index">①</span>
+                  <span class="journey-map__stage-name">落地.找入口.选型</span>
+                  <span class="journey-map__stage-phase">感知了解</span>
+                </th>
+                <th scope="col" class="journey-map__stage journey-map__stage--sampled">
+                  <span class="journey-map__stage-index">②</span>
+                  <span class="journey-map__stage-name">上手引导</span>
+                  <span class="journey-map__stage-phase">学习知识</span>
+                </th>
+                <th scope="col" class="journey-map__stage journey-map__stage--sampled">
+                  <span class="journey-map__stage-index">③</span>
+                  <span class="journey-map__stage-name">配环境.拿SDK</span>
+                  <span class="journey-map__stage-phase">环境准备</span>
+                </th>
+                <th scope="col" class="journey-map__stage journey-map__stage--sampled">
+                  <span class="journey-map__stage-index">④</span>
+                  <span class="journey-map__stage-name">手动写算子</span>
+                  <span class="journey-map__stage-phase">核心开发</span>
+                </th>
+                <th scope="col" class="journey-map__stage journey-map__stage--sampled">
+                  <span class="journey-map__stage-index">⑤</span>
+                  <span class="journey-map__stage-name">编译跑通</span>
+                  <span class="journey-map__stage-phase">验证结果</span>
+                </th>
+                <th scope="col" class="journey-map__stage journey-map__stage--outline journey-map__stage--narrow">
+                  <span class="journey-map__stage-index">⑥</span>
+                  <span class="journey-map__stage-name">调试求助</span>
+                  <span class="journey-map__stage-phase">深度排障</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="journey-map__row-label">用户意图</th>
+                <td>了解 Ascend C 算子开发是什么、能做什么</td>
+                <td>学习 Ascend C 入门与文档阅读</td>
+                <td>安装 CANN、配置 SDK 环境</td>
+                <td>手动编写 Ascend C 算子</td>
+                <td>编译跑通并验证结果</td>
+                <td>性能优化与运行时排障</td>
+              </tr>
+              <tr>
+                <th scope="row" class="journey-map__row-label">测试问题</th>
+                <td class="journey-map__cell-list">
+                  <div class="journey-map__prompts">
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-answer-search.html">官方信源</a>
+                        <a href="problems-timeliness.html">多版本</a>
+                      </div>
+                      <p class="journey-map__prompt">我想基于官方资料了解一下 Ascend C 算子开发，能介绍一下吗？</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="journey-map__cell-list">
+                  <div class="journey-map__prompts">
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-image.html">图片图意</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a>，能帮我解释一下里面的 Ascend C 层级架构图吗？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-hotzone.html">图片热区</a>
+                      </div>
+                      <p class="journey-map__prompt">成长地图里的学习顺序是怎么安排的？环境准备和 HelloWorld 分别在什么阶段？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-structure-cross.html">跨页关系</a>
+                      </div>
+                      <p class="journey-map__prompt">「环境准备」算入门教程还是安装文档？看完什么是 Ascend C 之后，官方建议下一篇读什么？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-link.html">链接语义</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，文档里说的完整样例代码要去哪里找？</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="journey-map__cell-list">
+                  <div class="journey-map__prompts">
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-collapse.html">折叠隐藏</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a>，不太确定自己的昇腾硬件型号，应该怎么确认并选对的 CANN 安装包？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-tab.html">Tab 隐藏</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a>，想给 Atlas 800 训练款做离线安装，对应的下载命令和安装说明在哪里？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-structure-metadata.html">页级元数据</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，怎么知道对应 CANN 9.0 还是 8.5？算入门教程还是安装文档？引用时有没有固定的文档编号？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-note.html">Note 语义</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，安装完 CANN 之后环境变量要怎么配？文档是用「注意」还是普通正文来提示的？</p>
+                    </div>
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-structure-single.html">单文档结构</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，「注意」提示具体对应安装流程哪一步？按章节切分后，步骤里的代码和说明会不会被拆开读乱？</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="journey-map__cell-list">
+                  <div class="journey-map__prompts">
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-table.html">表格结构</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a>，表 1 里输入 x 的 shape 和 dtype 是什么？核函数叫什么？主要用到哪些接口？</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="journey-map__cell-list">
+                  <div class="journey-map__prompts">
+                    <div class="journey-map__prompt-item">
+                      <div class="journey-map__prompt-tags">
+                        <a href="problems-content-code.html">代码语义</a>
+                      </div>
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，<code>hello_world.asc</code> 核函数开头几行是什么样的？复制出来能直接编译吗？</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="journey-map__cell-empty"><span class="journey-map__muted">—</span></td>
+              </tr>
+              <tr>
+                <th scope="row" class="journey-map__row-label">官方文档</th>
+                <td><span class="journey-map__muted">未单独采样</span></td>
+                <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a></td>
+                <td>
+                  <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a><br>
+                  <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>
+                </td>
+                <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a></td>
+                <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a></td>
+                <td><span class="journey-map__muted">未单独采样</span></td>
+              </tr>
+              <tr>
+                <th scope="row" class="journey-map__row-label">语义维度</th>
+                <td>
+                  <div class="journey-map__findings">
+                    <p><span class="journey-map__finding-label">官方信源语义</span><span class="journey-map__finding-desc">占比低</span></p>
+                    <p><span class="journey-map__finding-label">多版本语义</span><span class="journey-map__finding-desc">混淆</span></p>
+                  </div>
+                </td>
+                <td>
+                  <div class="journey-map__findings">
+                    <p><span class="journey-map__finding-label">图片图意语义</span><span class="journey-map__finding-desc">PNG 未转写</span></p>
+                    <p><span class="journey-map__finding-label">图片热区语义</span><span class="journey-map__finding-desc">无法识别</span></p>
+                    <p><span class="journey-map__finding-label">跨页关系语义</span><span class="journey-map__finding-desc">上下篇未结构化</span></p>
+                    <p><span class="journey-map__finding-label">链接语义</span><span class="journey-map__finding-desc">LINK 占位</span></p>
+                  </div>
+                </td>
+                <td>
+                  <div class="journey-map__findings">
+                    <p><span class="journey-map__finding-label">折叠隐藏语义</span><span class="journey-map__finding-desc">收起区步骤丢失</span></p>
+                    <p><span class="journey-map__finding-label">Tab 隐藏语义</span><span class="journey-map__finding-desc">非激活面板未入库</span></p>
+                    <p><span class="journey-map__finding-label">页级元数据语义</span><span class="journey-map__finding-desc">版本/编号未字段化</span></p>
+                    <p><span class="journey-map__finding-label">Note 语义</span><span class="journey-map__finding-desc">类型缺失</span></p>
+                    <p><span class="journey-map__finding-label">单文档结构语义</span><span class="journey-map__finding-desc">步骤与提示易断</span></p>
+                  </div>
+                </td>
+                <td>
+                  <div class="journey-map__findings">
+                    <p><span class="journey-map__finding-label">表格结构语义</span><span class="journey-map__finding-desc">规格表结构劣化</span></p>
+                  </div>
+                </td>
+                <td>
+                  <div class="journey-map__findings">
+                    <p><span class="journey-map__finding-label">代码语义</span><span class="journey-map__finding-desc">行号污染、缺语言标注</span></p>
+                  </div>
+                </td>
+                <td class="journey-map__cell-empty"><span class="journey-map__muted">—</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption class="journey-map__legend text-auxiliary">
+          <span class="journey-map__swatch journey-map__swatch--sampled">实色阶段头</span> 下列五页覆盖
+          <span class="journey-map__swatch journey-map__swatch--outline">浅色阶段头</span> 未单独采样
+          · 测试问题 / 语义结论详见 <a href="problems-answer-search.html">问题论证</a> 各实测页
+        </figcaption>
+      </figure>
     </section>
 
     <section class="section" id="dimensions">
