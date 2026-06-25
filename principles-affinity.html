@@ -49,20 +49,21 @@
             <th>设计侧改造建议</th>
             <th>内容侧改造建议</th>
             <th>代码侧改造建议</th>
-            <th>原创来源</th>
+            <th class="col-source-head">
+              <span class="affinity-source-head-inner">
+                <span class="affinity-th-label">来源</span>
+                <select class="affinity-source-filter" aria-label="按来源筛选">
+                  <option value="all">全部</option>
+                  <option value="problems">问题论证</option>
+                  <option value="content">内容侧输入</option>
+                </select>
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr id="principle-a5">
-            <td class="col-dim" rowspan="5">A. 可发现性</td>
-            <td class="col-id">A5</td>
-            <td>llms.txt / sitemap 部署</td>
-            <td>1. 站点页脚增加&quot;机器可读版本&quot;入口视觉提示</td>
-            <td>1. 确认各产品线文档主推版本（如CANN 9.0.0），统一告知研发</td>
-            <td>1. 部署 /llms.txt，按&quot;产品线-版本&quot;分组列出核心文档URL+一句话描述<br>2. /sitemap.xml 优先收录 /doc_center/source/ 机器源<br>3. robots.txt 放行 source/ 路径，禁止爬取 /assets/、/api/</td>
-            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
-          </tr>
           <tr id="principle-a1">
+            <td class="col-dim" rowspan="5">A. 可发现性</td>
             <td class="col-id">A1</td>
             <td>版本号外显</td>
             <td>1. 页头/标题旁展示版本徽章（稳定版=绿色、RC版=橙色、已弃用=红色）<br>2. 版本号样式醒目，与产品名并列</td>
@@ -92,6 +93,14 @@
             <td>1. 页头展示完整面包屑（产品 &gt; 版本 &gt; 领域 &gt; 主题）<br>2. 适用芯片/设备用标签可视化展示</td>
             <td>1. Front Matter 写入：doc_id、breadcrumb、applicable_devices、keywords（5-10个标签）、target_audience</td>
             <td>1. &lt;head&gt; 中输出完整 JSON-LD（BreadcrumbList + TechArticle）<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-a5">
+            <td class="col-id">A5</td>
+            <td>llms.txt / sitemap 部署</td>
+            <td>1. 站点页脚增加&quot;机器可读版本&quot;入口视觉提示</td>
+            <td>1. 确认各产品线文档主推版本（如CANN 9.0.0），统一告知研发</td>
+            <td>1. 部署 /llms.txt，按&quot;产品线-版本&quot;分组列出核心文档URL+一句话描述<br>2. /sitemap.xml 优先收录 /doc_center/source/ 机器源<br>3. robots.txt 放行 source/ 路径，禁止爬取 /assets/、/api/</td>
             <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
           </tr>
           <tr id="principle-b1">
@@ -327,5 +336,6 @@
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
+<script src="assets/js/affinity-table.js"></script>
 </body>
 </html>

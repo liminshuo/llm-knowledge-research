@@ -89,11 +89,11 @@
     }
   ],
   "principles": [
-    { "group": "A. 可发现性", "id": "a5", "href": "principles-structure-llms.html", "label": "llms.txt / sitemap 部署", "pageIds": ["structure-llms"] },
-    { "group": null, "id": "a1", "href": "principles-timeliness.html", "label": "版本号外显", "pageIds": ["timeliness"] },
+    { "group": "A. 可发现性", "id": "a1", "href": "principles-timeliness.html", "label": "版本号外显", "pageIds": ["timeliness"] },
     { "group": null, "id": "a2", "href": "principles-a2.html", "label": "失效/弃用状态显化" },
     { "group": null, "id": "a3", "href": "principles-a3.html", "label": "更新日期标准化" },
     { "group": null, "id": "a4", "href": "principles-structure-metadata.html", "label": "元数据丰富化", "pageIds": ["structure-metadata"] },
+    { "group": null, "id": "a5", "href": "principles-structure-llms.html", "label": "llms.txt / sitemap 部署", "pageIds": ["structure-llms"] },
     { "group": "B. 可解析性", "id": "b1", "href": "principles-b1.html", "label": "降噪纯净" },
     { "group": null, "id": "b2", "href": "principles-b2.html", "label": "SSR直出（服务端渲染）" },
     { "group": null, "id": "b3", "href": "principles-tab.html", "label": "Tab/折叠/手风琴全量展开", "pageIds": ["tab", "collapse"] },
