@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>步骤列表化 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="e6">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>步骤列表化</h1>
+      <p class="page-desc">E6 · E. 非文本元素语义转译 · 完整条目见 <a href="principles-affinity.html#principle-e6">亲和性原则汇总表</a>。</p>
+    </div>
+
+    <section class="section" id="solution">
+      <h2 id="design">设计侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 操作步骤使用有序列表（1. 2. 3.）视觉渲染，序号清晰</div>
+
+      <h2 id="content-side">内容侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 操作步骤用 &lt;ol&gt;/&lt;ul&gt; 编写，禁止用&quot;步骤一：&quot;独立段落模拟列表<br>2. 每个步骤明确：操作对象 + 操作动作 + 预期结果<br>3. 代码/表格与所属步骤DOM邻接，不跨块插入无关元素</div>
+
+      <h2 id="code-side">代码侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 管道检测是否为模拟列表（如连续 &lt;p&gt; 以&quot;步骤&quot;开头），检出则告警<br>2. 切片时确保列表项完整性，不在列表中间断开</div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

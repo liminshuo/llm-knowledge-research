@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chunk级来源携带 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="f1">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>chunk级来源携带</h1>
+      <p class="page-desc">F1 · F. 可溯源性与可信度 · 完整条目见 <a href="principles-affinity.html#principle-f1">亲和性原则汇总表</a>。</p>
+    </div>
+
+    <section class="section" id="solution">
+      <h2 id="design">设计侧改造建议</h2>
+      <div class="surface-card principle-deliverable"><p>—</p></div>
+
+      <h2 id="content-side">内容侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 每个文档在Front Matter中写明 doc_id、source_url、version</div>
+
+      <h2 id="code-side">代码侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. RAG索引时每个Chunk携带 doc_id、version、source_url、source_channel（官方/第三方/华为系）<br>2. 检索结果返回时附带精确的 source_url#anchor</div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

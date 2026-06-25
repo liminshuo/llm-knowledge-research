@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>来源类型标注 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="f2">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>来源类型标注</h1>
+      <p class="page-desc">F2 · F. 可溯源性与可信度 · 完整条目见 <a href="principles-affinity.html#principle-f2">亲和性原则汇总表</a>。</p>
+    </div>
+
+    <section class="section" id="solution">
+      <h2 id="design">设计侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 脚注区域区分&quot;官方文档&quot;&quot;第三方贡献&quot;&quot;华为系生态&quot;等来源类型的视觉标签</div>
+
+      <h2 id="content-side">内容侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 正文中凡引用外部来源，在脚注中写明来源类型和出处</div>
+
+      <h2 id="code-side">代码侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 管道在导出时自动根据 doc_id 前缀或路径判断来源类型，写入 source_channel 字段<br>2. 检索时支持按 source_channel 过滤</div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

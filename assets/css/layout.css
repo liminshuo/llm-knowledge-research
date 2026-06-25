@@ -397,7 +397,7 @@ body.inner-page:not(:has(#module-sidebar)) .main-content > .content-tabs {
 .module-card h2 {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   color: var(--color-text);
 }
 

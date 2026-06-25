@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>标题层级固定 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="c1">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>标题层级固定</h1>
+      <p class="page-desc">C1 · C. 可切分性 · 完整条目见 <a href="principles-affinity.html#principle-c1">亲和性原则汇总表</a>。</p>
+    </div>
+
+    <section class="section" id="solution">
+      <h2 id="design">设计侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 标题字号/样式严格对应层级（H1最大→H6最小），视觉上不得跳级</div>
+
+      <h2 id="content-side">内容侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. H1→H2→H3→H4 逐级使用，不得跳级（如H1直接到H3）<br>2. 每个标题必须是明确的语义单元，写明&quot;对象+动作/结论&quot;<br>3. 禁止使用&quot;概述&quot;&quot;说明&quot;&quot;其他&quot;等空泛标题</div>
+
+      <h2 id="code-side">代码侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 管道切分时以H2/H3为边界生成Chunk<br>2. CI检查标题层级是否跳级，发现则阻断构建</div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容自包含 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="d2">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>内容自包含</h1>
+      <p class="page-desc">D2 · D. 可理解性 · 完整条目见 <a href="principles-affinity.html#principle-d2">亲和性原则汇总表</a>。</p>
+    </div>
+
+    <section class="section" id="solution">
+      <h2 id="design">设计侧改造建议</h2>
+      <div class="surface-card principle-deliverable"><p>—</p></div>
+
+      <h2 id="content-side">内容侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 文档的每个独立内容块（段落、列表项、表格单元格、代码注释内的说明句），只承载一个知识点，不混杂多场景多逻辑<br>2. 每个内容块必须能够脱离上下文被独立理解<br>3. 术语首次出现时给出简短定义，不依赖&quot;参见XX&quot;等外部引用</div>
+
+      <h2 id="code-side">代码侧改造建议</h2>
+      <div class="surface-card principle-deliverable">1. 切片以H2/H3、列表项为边界，保证每块语义完整<br>2. 检测切出的Chunk是否包含完整句子（不截断在句中）</div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

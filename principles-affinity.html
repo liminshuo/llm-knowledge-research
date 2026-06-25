@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>亲和性原则 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="affinity">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>亲和性原则</h1>
+      <p class="page-desc">按<strong>问题域</strong>汇总原子任务与优先级，分列<strong>设计侧 / 内容侧 / 代码侧</strong>交付要求。各维度细则与 UI 示例见侧栏对应原则页。</p>
+    </div>
+
+    <section class="section" id="affinity-catalog">
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity">
+        <colgroup>
+          <col class="col-dim">
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-design">
+          <col class="col-content">
+          <col class="col-code">
+          <col class="col-source">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>问题域</th>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>设计侧改造建议</th>
+            <th>内容侧改造建议</th>
+            <th>代码侧改造建议</th>
+            <th>原创来源</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-a5">
+            <td class="col-dim" rowspan="5">A. 可发现性</td>
+            <td class="col-id">A5</td>
+            <td>llms.txt / sitemap 部署</td>
+            <td>1. 站点页脚增加&quot;机器可读版本&quot;入口视觉提示</td>
+            <td>1. 确认各产品线文档主推版本（如CANN 9.0.0），统一告知研发</td>
+            <td>1. 部署 /llms.txt，按&quot;产品线-版本&quot;分组列出核心文档URL+一句话描述<br>2. /sitemap.xml 优先收录 /doc_center/source/ 机器源<br>3. robots.txt 放行 source/ 路径，禁止爬取 /assets/、/api/</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-a1">
+            <td class="col-id">A1</td>
+            <td>版本号外显</td>
+            <td>1. 页头/标题旁展示版本徽章（稳定版=绿色、RC版=橙色、已弃用=红色）<br>2. 版本号样式醒目，与产品名并列</td>
+            <td>1. 首页/Front Matter 写入 version（如 CANN社区版 9.0.0）<br>2. 版本差异用表格条目化列出，禁止用散文描述</td>
+            <td>1. &lt;head&gt; 中写入 &lt;meta name=&quot;version&quot; content=&quot;9.0.0&quot;&gt;<br>2. llms.txt / sitemap 声明 canonical 指向主推版本<br>3. RAG索引默认 filter(version=&quot;CANN社区版 9.0.0&quot;)</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-a2">
+            <td class="col-id">A2</td>
+            <td>失效/弃用状态显化</td>
+            <td>1. 旧版页面顶部设计红色&quot;已弃用&quot;横幅<br>2. 横幅内显式链到新版替代文档</td>
+            <td>1. 每个弃用文档写明弃用原因、替代路径、迁移指引<br>2. 同主题多版本时，明确标注&quot;推荐阅读&quot;与&quot;已归档&quot;</td>
+            <td>1. Front Matter 写入 lifecycle_status: deprecated<br>2. 旧版URL路径标注 /deprecated/ 或 ?status=deprecated<br>3. 同题多版用 &lt;link rel=&quot;canonical&quot;&gt; 指向主推URL</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-a3">
+            <td class="col-id">A3</td>
+            <td>更新日期标准化</td>
+            <td>1. 标题下或页脚展示更新日期，格式为 YYYY-MM-DD<br>2. 同时展示人类友好格式（如&quot;2026年6月23日&quot;）</td>
+            <td>1. 每次实质性修改后在文档头部更新 dateModified<br>2. 重大变更需单独注明变更摘要</td>
+            <td>1. &lt;meta property=&quot;article:modified_time&quot; content=&quot;2026-06-23&quot;&gt;<br>2. JSON-LD 写入 dateModified<br>3. 管道导出时自动从git commit时间同步写入Front Matter</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-a4">
+            <td class="col-id">A4</td>
+            <td>元数据丰富化</td>
+            <td>1. 页头展示完整面包屑（产品 &gt; 版本 &gt; 领域 &gt; 主题）<br>2. 适用芯片/设备用标签可视化展示</td>
+            <td>1. Front Matter 写入：doc_id、breadcrumb、applicable_devices、keywords（5-10个标签）、target_audience</td>
+            <td>1. &lt;head&gt; 中输出完整 JSON-LD（BreadcrumbList + TechArticle）<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-b1">
+            <td class="col-dim" rowspan="5">B. 可解析性</td>
+            <td class="col-id">B1</td>
+            <td>降噪纯净</td>
+            <td>—</td>
+            <td>文档正文遵循&quot;最小信息原则&quot;，仅包含与当前主题直接相关的信息，不混入产品促销、活动公告、团队介绍等非技术内容</td>
+            <td>1. &lt;header&gt;/&lt;nav&gt;/&lt;footer&gt;/&lt;aside&gt;/&lt;main&gt; 语义标签完整分离<br>2. 机器源端点（/doc_center/source/）只输出 &lt;main&gt; 纯净正文，剥离全站侧栏噪声<br>3. 提供 ?format=clean 参数，返回无装饰HTML</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-b2">
+            <td class="col-id">B2</td>
+            <td>SSR直出（服务端渲染）</td>
+            <td>—</td>
+            <td>文档正文内容不依赖客户端JavaScript动态插入，须确保服务端返回的HTML中已包含完整正文</td>
+            <td>1. 服务端直出完整HTML，禁止客户端水合（hydration）后才有内容<br>2. 检测页面是否依赖JS渲染：使用 curl 抓取后检查 &lt;main&gt; 是否为空，非空则通过</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-b3">
+            <td class="col-id">B3</td>
+            <td>Tab/折叠/手风琴全量展开</td>
+            <td>1. 交互组件在渲染页中应视觉上保持内容可见，不强制折叠</td>
+            <td>1. 不在Tab或折叠面板中放置关键信息（如需使用，同时在下方提供完整展开版本）</td>
+            <td>1. 管道生成两套版本：交互版（供人浏览）+ 预展开版（供机器读取，所有 .hidden 类强制移除）<br>2. 机器源端点自动将 &lt;details&gt; 的 open 属性置为 true</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-b4">
+            <td class="col-id">B4</td>
+            <td>Tooltip/悬浮卡片文字前置</td>
+            <td>1. 关键术语首次出现时使用 &lt;dfn&gt; 或脚注样式，而非仅靠鼠标悬浮显示</td>
+            <td>1. 悬浮内容同时以脚注或括号形式写入正文<br>2. 禁止仅用 title 属性承载关键定义</td>
+            <td>1. 管道检测 &lt;span title=&quot;...&quot;&gt;：若title长度&gt;20字符且正文无对应解释，则构建告警<br>2. 将 title 内容自动提取为尾注</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-b5">
+            <td class="col-id">B5</td>
+            <td>Markdown双轨交付</td>
+            <td>1. 在文档页面侧栏或页脚设计「查看Markdown源文件」入口按钮<br>2. 按钮图标使用文件代码图标（如 &lt;/&gt; 或 {.md}），与「编辑」「反馈」同级</td>
+            <td>1. 所有文档源文件须以 Markdown 格式编写和归档（.md）<br>2. 文档的 Front Matter 中写入 source_md_url，指向该文档的 Markdown 源文件地址<br>3. 确保 Markdown 源文件中图片使用相对路径 + alt 文本、代码块带语言标注、表格使用标准 MD 语法。</td>
+            <td>1. 部署 Markdown 直达路由：每个 HTML 页面均有对应的 .md 版本可访问（如 /docs/rag-deploy → /docs/rag-deploy.md）<br>2. 建立「源码即真相」的构建管道：Markdown 为唯一源，HTML 由构建系统（如 Hugo/Docusaurus/Sphinx）自动渲染生成<br>3. 提供 /llms-full.txt：将全站文档的纯净 Markdown 正文合并为单文件，供 RAG 批量索引<br>4. robots.txt 放行所有 .md 路径，确保爬虫可抓取 Markdown 源文件</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-c1">
+            <td class="col-dim" rowspan="3">C. 可切分性</td>
+            <td class="col-id">C1</td>
+            <td>标题层级固定</td>
+            <td>1. 标题字号/样式严格对应层级（H1最大→H6最小），视觉上不得跳级</td>
+            <td>1. H1→H2→H3→H4 逐级使用，不得跳级（如H1直接到H3）<br>2. 每个标题必须是明确的语义单元，写明&quot;对象+动作/结论&quot;<br>3. 禁止使用&quot;概述&quot;&quot;说明&quot;&quot;其他&quot;等空泛标题</td>
+            <td>1. 管道切分时以H2/H3为边界生成Chunk<br>2. CI检查标题层级是否跳级，发现则阻断构建</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-c2">
+            <td class="col-id">C2</td>
+            <td>段落锚点稳定可引用</td>
+            <td>1. 每个H2/H3章节在视觉上配有&quot;复制链接&quot;按钮</td>
+            <td>1. 每个章节标题自带人类可读的锚点ID（如 #install-tei，非随机串）<br>2. FAQ条目级ID（如 #faq-memory-error）</td>
+            <td>1. 为所有H2/H3自动生成 id（基于标题内容slug化）<br>2. 管道切片时尊重锚点边界，不在锚点处切断<br>3. 提供 /docs/{doc_id}#{anchor} 的精确锚点跳转</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-c3">
+            <td class="col-id">C3</td>
+            <td>单文档结构感知</td>
+            <td>—</td>
+            <td>1. 文档结构仅由标题、区块、列表、段落等语义嵌套表达<br>2. 禁止用连续 &lt;br&gt;、空 &lt;p&gt;、&amp;nbsp; 堆叠制造视觉分段；</td>
+            <td>1. 版式间距由CSS统一控制，不靠内容中的空行撑开<br>2. 管道切分按H2/H3边界进行，不按固定字符数截断<br>3. 检测到 layout table（用表格做排版）则告警<br>4. 禁止 &lt;colspan&gt;/&lt;rowspan&gt; 跨行跨列排版</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-d1">
+            <td class="col-dim" rowspan="6">D. 可理解性</td>
+            <td class="col-id">D1</td>
+            <td>结论前置</td>
+            <td>—</td>
+            <td>1. 每个章节、段落或复合结构的起始位置（前150个字符或第一句话），必须直接给出该内容块的核心结论、最终结果或主要操作目的<br>2. 禁止铺垫式开头（如&quot;众所周知，昇腾是……&quot;）</td>
+            <td>1. 导出Markdown时保留首句/首段结论，便于向量检索摘要和Rerank排序</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-d2">
+            <td class="col-id">D2</td>
+            <td>内容自包含</td>
+            <td>—</td>
+            <td>1. 文档的每个独立内容块（段落、列表项、表格单元格、代码注释内的说明句），只承载一个知识点，不混杂多场景多逻辑<br>2. 每个内容块必须能够脱离上下文被独立理解<br>3. 术语首次出现时给出简短定义，不依赖&quot;参见XX&quot;等外部引用</td>
+            <td>1. 切片以H2/H3、列表项为边界，保证每块语义完整<br>2. 检测切出的Chunk是否包含完整句子（不截断在句中）</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-d3">
+            <td class="col-id">D3</td>
+            <td>术语一致性</td>
+            <td>—</td>
+            <td>1. 全站统一术语与缩写，与术语表/索引页对齐<br>2. 首次出现的缩写必须给出全称（如&quot;NPU（Neural Processing Unit）&quot;）<br>3. 禁止同一概念多种表述（不同时混用&quot;NPU&quot;&quot;昇腾AI处理器&quot;&quot;加速卡&quot;）</td>
+            <td>1. 管道引入术语拼写检查CI工具（如vale），自动扫描PR中的术语混用<br>2. 维护一个 glossary.json，供管道做归一化校验</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-d4">
+            <td class="col-id">D4</td>
+            <td>消除模糊指代</td>
+            <td>—</td>
+            <td>文档中禁止使用无法从当前句子或前一句中唯一确定对象的模糊代词或短语。</td>
+            <td>1. （可选）管道可配置轻量级正则检测，检出疑似模糊指代词汇时输出非阻断性警告（仅提示，不阻止构建），供人工复核参考</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-d5">
+            <td class="col-id">D5</td>
+            <td>明确边界</td>
+            <td>1. 支持/不支持、能做/不能做的对比用双列表格视觉展示</td>
+            <td>1. 显式写出适用场景与限制条件<br>2. 支持/不支持列表分条列出，不混在叙述中</td>
+            <td>1. Front Matter 可选写入 applicable_devices、limitations<br>2. 管道将支持/不支持列表提取为结构化字段</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-d6">
+            <td class="col-id">D6</td>
+            <td>短句优先</td>
+            <td>—</td>
+            <td>1. 单句优先控制在20–25词以内<br>2. 多用短句，少用长从句套从句<br>3. 长句必须用逗号/分号明确分隔逻辑层次</td>
+            <td>1. （可选）管道配置句子长度检测（按句号/分号/问号/感叹号分隔后统计片段词数），对超过35词的句子输出非阻断性告警（仅提醒，不阻止构建），供内容侧复核参考</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-e1">
+            <td class="col-dim" rowspan="9">E. 非文本元素语义转译</td>
+            <td class="col-id">E1</td>
+            <td>图片内容转译</td>
+            <td>1. 信息图/架构图/流程图设计时，同步输出&quot;图的文字脚本&quot;（节点名称+连接关系+流量方向+图例说明）<br>2. 图片下方预留figcaption/注释的设计位</td>
+            <td>1. 所有 &lt;img&gt; 填写有意义的 alt（禁止&quot;图片1&quot;&quot;截图&quot;等无意义文字）<br>2. 每张图片下方用完整句 figcaption 描述图片核心信息<br>3. 架构/流程类图片，下方用文字段落写出图中全部节点、箭头关系、关键标注<br>4. 流程图优先使用Mermaid编写</td>
+            <td>1. CI检查：&lt;img&gt; 缺 alt 或下方无 figcaption 则构建告警<br>2. 管道将 alt + figcaption + 周围正文拼接为连续文本，供切片使用<br>3. 装饰类图片 &lt;img role=&quot;presentation&quot;&gt; 或 aria-hidden=&quot;true&quot;，不参与内容提取</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e2">
+            <td class="col-id">E2</td>
+            <td>图片热区转译</td>
+            <td>1. 热区图设计时同步输出&quot;热区编号→目标URL→锚文本&quot;映射表<br>2. 热区视觉边界清晰，不得重叠，热区数量不超过8个</td>
+            <td>1. 热区图下方提供完整的无序列表式链接清单，列出全部跳转目标（阶段名+文档名）<br>2. 每个 &lt;area&gt; 的 alt/title 写明目标页面名称，不写&quot;点击此处&quot;</td>
+            <td>1. 管道检测 &lt;map&gt;：若有热区但下方无文本链接清单，则告警<br>2. 将热区映射表同步写入 &lt;nav&gt; 文本链接列表<br>3. 所有 href 强制使用绝对URL，不写相对路径</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e3">
+            <td class="col-id">E3</td>
+            <td>表格语义化</td>
+            <td>1. 表格设计时限制合并单元格（禁止 colspan/rowspan 跨行跨列）<br>2. 表头行视觉突出（底色/加粗）<br>3. 接口/参数类表格，每行一个独立接口</td>
+            <td>1. 每个表格必须有 &lt;caption&gt; 表题（概括表格主题）<br>2. 列名用 &lt;th&gt; 且尽量带 scope=&quot;col&quot; 或 scope=&quot;row&quot;<br>3. 复杂表格下方用 &lt;ul&gt; 提供逐行解读<br>4. 表格内的符号（✔/✘）替换为文本（&quot;支持&quot;/&quot;不支持&quot;）</td>
+            <td>1. 强制 &lt;thead&gt; + &lt;th scope=&quot;col/row&quot;&gt;<br>2. 检测到 colspan/rowspan 时，管道自动生成一份MD纯文本副本备用<br>3. 表格切片时保证整表不跨块断开</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e4">
+            <td class="col-id">E4</td>
+            <td>代码块语义化</td>
+            <td>1. 代码块配色方案支持行号由CSS渲染（不写入HTML污染源码）<br>2. 代码块上方预留&quot;文件名+场景&quot;的视觉位</td>
+            <td>1. 所有代码块用三反引号 + 语言标注（如 ```python）<br>2. 代码块上方注明文件名（如 run_rag.py）和场景（&quot;用于执行向量检索&quot;）<br>3. 提供完整可运行示例 + 预期输出<br>4. 不依赖 highlighttable 或行号HTML标签</td>
+            <td>1. 管道剥离行号（由CSS处理）<br>2. 解码HTML实体（&amp;lt; → &lt;）<br>3. 检测到代码块无语言标注则告警<br>4. 弃用 highlighttable，统一用 &lt;pre&gt;&lt;code class=&quot;language-xxx&quot;&gt;</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e5">
+            <td class="col-id">E5</td>
+            <td>链接语义化</td>
+            <td>1. 站外链接旁设计小图标（如外部箭头）视觉标识<br>2. 链接文字与正文文字颜色对比足够（非仅靠颜色区分）</td>
+            <td>1. 锚文本描述跳转目标与用途（禁止&quot;点击这里&quot;&quot;更多&quot;等无意义锚文）<br>2. 站外链接锚文本旁注明 [外部] 或域名<br>3. 下载类链接注明文件类型+大小（如 [PDF, 2.3MB]）</td>
+            <td>1. 管道保留锚文本 + 绝对URL<br>2. 站外链接自动添加 rel=&quot;nofollow noopener&quot;<br>3. 检测到锚文本为空或为&quot;点击这里&quot;等无意义词则告警</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e6">
+            <td class="col-id">E6</td>
+            <td>步骤列表化</td>
+            <td>1. 操作步骤使用有序列表（1. 2. 3.）视觉渲染，序号清晰</td>
+            <td>1. 操作步骤用 &lt;ol&gt;/&lt;ul&gt; 编写，禁止用&quot;步骤一：&quot;独立段落模拟列表<br>2. 每个步骤明确：操作对象 + 操作动作 + 预期结果<br>3. 代码/表格与所属步骤DOM邻接，不跨块插入无关元素</td>
+            <td>1. 管道检测是否为模拟列表（如连续 &lt;p&gt; 以&quot;步骤&quot;开头），检出则告警<br>2. 切片时确保列表项完整性，不在列表中间断开</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e7">
+            <td class="col-id">E7</td>
+            <td>验证区块</td>
+            <td>1. &quot;验证&quot;或&quot;预期结果&quot;作为固定H2/H3章节，视觉样式与普通正文区分</td>
+            <td>1. 验证章节提供具体、可执行的验证方法 + 成功/失败判断标准<br>2. 验证方法使用命令或代码块，拒绝模糊描述（如&quot;观察结果是否正确&quot;）</td>
+            <td>1. 验证步骤可结构化导出为 checklist 字段<br>2. 与步骤列表化联动，确保每个操作有对应验证</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-e8">
+            <td class="col-id">E8</td>
+            <td>安全警示语义化</td>
+            <td>1. 注意/警告/危险使用标准视觉组件（不同色块+图标），但正文完整展示，不折叠<br>2. 禁止仅用PNG图标承载警示等级信息</td>
+            <td>1. 使用&quot;注意：&quot; / &quot;警告：&quot; / &quot;危险：&quot;等文字前缀，替代纯装饰图标<br>2. 警示正文完整写出，不依赖鼠标悬浮才显示<br>3. 步骤内的Note保留嵌套层级（如&quot;1. 执行操作。 &gt; 注意： 操作前请备份数据。&quot;）</td>
+            <td>1. 使用 data-admonition-type=&quot;note|warning|danger&quot; 标识<br>2. 导出为 &gt; **注意**： 引用块格式，确保纯文本可读<br>3. 检测到仅用颜色/图标区分警示等级而缺少文字前缀则告警</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+          <tr id="principle-e9">
+            <td class="col-id">E9</td>
+            <td>FAQ结构化</td>
+            <td>1. FAQ区域使用&quot;问/答&quot;双色视觉区分，整体容器边框标识</td>
+            <td>1. &quot;问：&quot;和&quot;答：&quot;作为固定文字前缀，与普通叙述文本严格区分，不混排<br>2. 答案不超过150字，简洁直接</td>
+            <td>1. 使用 &lt;div itemscope itemtype=&quot;https://schema.org/FAQPage&quot;&gt; + Question/Answer JSON-LD<br>2. 管道将FAQ条目提取为独立的 faq_entry 结构，便于语义检索</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-f1">
+            <td class="col-dim" rowspan="4">F. 可溯源性与可信度</td>
+            <td class="col-id">F1</td>
+            <td>chunk级来源携带</td>
+            <td>—</td>
+            <td>1. 每个文档在Front Matter中写明 doc_id、source_url、version</td>
+            <td>1. RAG索引时每个Chunk携带 doc_id、version、source_url、source_channel（官方/第三方/华为系）<br>2. 检索结果返回时附带精确的 source_url#anchor</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-f2">
+            <td class="col-id">F2</td>
+            <td>来源类型标注</td>
+            <td>1. 脚注区域区分&quot;官方文档&quot;&quot;第三方贡献&quot;&quot;华为系生态&quot;等来源类型的视觉标签</td>
+            <td>1. 正文中凡引用外部来源，在脚注中写明来源类型和出处</td>
+            <td>1. 管道在导出时自动根据 doc_id 前缀或路径判断来源类型，写入 source_channel 字段<br>2. 检索时支持按 source_channel 过滤</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-f3">
+            <td class="col-id">F3</td>
+            <td>重大变更记录</td>
+            <td>1. 文档末尾设计&quot;变更记录&quot;表格位（版本/日期/变更说明/影响范围/替代路径）</td>
+            <td>1. 每次重大变更在changelog中写明：变更内容、影响范围、迁移指引</td>
+            <td>1. 导出层保留 dateModified、变更记录字段<br>2. 管道可将变更记录提取为独立的时序知识条目</td>
+            <td class="col-source"><span class="affinity-source affinity-source--content">内容侧输入</span></td>
+          </tr>
+          <tr id="principle-f4">
+            <td class="col-id">F4</td>
+            <td>跨文档命名统一</td>
+            <td>1. 全站breadcrumb样式和位置统一</td>
+            <td>1. 核心概念、章节命名、列表/表格/警示格式全站一致<br>2. doc_id 命名规范统一（如 {product}-{version}-{topic}）</td>
+            <td>1. breadcrumb的JSON-LD统一格式<br>2. 多语言版本通过 &lt;link rel=&quot;alternate&quot; hreflang=&quot;...&quot;&gt; + canonical 关联<br>3. 多语言 doc_id 映射表维护</td>
+            <td class="col-source"><span class="affinity-source affinity-source--problems">问题论证</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

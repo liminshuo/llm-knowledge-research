@@ -321,3 +321,102 @@
 }
 
 .page-nav .next { text-align: right; margin-left: auto; }
+
+/* ── Affinity catalog table (principles-affinity.html) ── */
+body[data-page="affinity"] {
+  --content-max-width: 1240px;
+}
+
+body[data-page="affinity"]:has(#module-sidebar) .main-content {
+  overflow-x: auto;
+}
+
+body[data-page="affinity"] .main-content > .page-header,
+body[data-page="affinity"] .main-content > .section {
+  max-width: 1240px;
+  width: 1240px;
+  box-sizing: border-box;
+}
+
+.affinity-table-wrap {
+  overflow-x: auto;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.data-table--affinity {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.data-table--affinity col.col-dim { width: 7%; }
+.data-table--affinity col.col-id { width: 5%; }
+.data-table--affinity col.col-item { width: 9%; }
+.data-table--affinity col.col-design,
+.data-table--affinity col.col-content,
+.data-table--affinity col.col-code { width: 23%; }
+.data-table--affinity col.col-source { width: 8%; }
+
+.data-table--affinity td.col-source {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.data-table--affinity .affinity-source {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.data-table--affinity .affinity-source--problems {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+.data-table--affinity .affinity-source--content {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--color-accent);
+}
+
+.data-table.data-table--affinity td.col-dim {
+  vertical-align: middle;
+}
+
+.data-table--affinity td.col-id,
+.data-table--affinity th:nth-child(2) {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.data-table.data-table--affinity th,
+.data-table.data-table--affinity td {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+  hyphens: auto;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.data-table.data-table--affinity th {
+  vertical-align: bottom;
+}
+
+.data-table.data-table--affinity tbody tr[id] {
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+.data-table.data-table--affinity tbody tr:target td {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
