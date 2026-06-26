@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>llms.txt 与机器入口 · 亲和原则 · 大模型知识获取研究</title>
+  <title>llms.txt / sitemap 部署 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="structure-llms">
@@ -25,16 +25,95 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>llms.txt 与机器入口</h1>
-      <p class="page-desc">对应 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>。本篇无可落地的渲染页 UI 改造项；llms.txt、robots 与 sitemap 配置见问题论证，页脚机器可读入口见 <a href="principles-format.html">双轨交付与载体</a>。</p>
+      <h1>llms.txt / sitemap 部署</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">在站点层部署机器发现层（<code>llms.txt</code>、<code>llms-full.txt</code>、<code>sitemap.xml</code>、<code>robots.txt</code>），声明<strong>机器应从哪条 URL 抓取、主推哪一版文档</strong>。同时在人类浏览页提供可见的「机器可读版本」入口，避免 Agent 与合规爬虫只能沿渲染页路径抓取。</span>
+        <span class="page-desc-line">能找到 · 序号 1 · 对应 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>。</span>
+      </p>
     </div>
 
+    <section class="section" id="solution">
+      <h2 id="design">设计侧</h2>
+      <div class="principle-deliverable">
+        <h3>机器发现入口位置和样式设计</h3>
+        <ul>
+          <li>每个文档页脚增加「机器可读版本」入口，样式与「上一篇 / 下一篇 / 反馈」同级、可识别</li>
+          <li>入口文案明确指向 source / Markdown 等机器源，而非泛化「分享」或图标按钮</li>
+        </ul>
+      </div>
+      <h3 id="design-example">示例</h3>
+      <div class="ui-demo ui-demo--plain">
+        <div class="compare-col human">
+          <div class="render-frame">
+            <div class="rf-footer-bar"><a href="#">⎘ 机器可读版本（source HTML）</a> · © 昇腾社区 · 上一篇 · 下一篇</div>
+          </div>
+        </div>
+      </div>
 
-    <section class="section" id="structure-llms">
-      <h3>UI 亲和原则</h3>
-      <p class="section-heading-desc">本篇无可落地的渲染页 UI 改造项。llms.txt、robots 与 sitemap 配置见 <a href="problems-structure-llms.html">问题论证 · 机器发现层缺失</a>；页脚机器可读入口见 <a href="principles-format.html">双轨交付与载体</a>。</p>
-</section>
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>补充机器发现层</h3>
+        <ol>
+          <li>部署 <code>/llms.txt</code>，按「产品线-版本」分组列出核心文档 URL + 一句话描述</li>
+          <li>提供 <code>/llms-full.txt</code>：将索引内文档的 source Markdown 全文聚合为单文件，供 Agent 单次加载上下文（由构建管道从 <code>/doc_center/source/</code> 自动生成）</li>
+          <li><code>/sitemap.xml</code> 优先收录 <code>/doc_center/source/</code> 等机器源路径</li>
+          <li><code>robots.txt</code> 放行 <code>source/</code> 路径，禁止爬取 <code>/assets/</code>、<code>/api/</code></li>
+        </ol>
+      </div>
+      <h3>示例</h3>
 
+      <h4><code>llms.txt</code></h4>
+      <p class="text-auxiliary"><strong>机器怎么用</strong>：Agent 接到文档相关任务时，先访问 <code>/llms.txt</code> 拿到「该读哪些页」的清单，再按链接去抓具体文档——不用在人类渲染页里自己猜入口。参考样例：<a href="https://docs.anthropic.com/llms.txt" target="_blank" rel="noopener">Anthropic llms.txt</a></p>
+      <pre><code># CANN 社区版 9.0.0
+&gt; 主推版本 · 机器优先读取 source HTML
+
+- [Ascend C 算子开发](https://www.hiascend.com/doc_center/source/.../operator_dev.md): 算子开发入门与 API 说明
+- [环境安装](https://www.hiascend.com/doc_center/source/.../install.md): CANN 安装与环境变量配置
+
+## Optional
+
+- [llms-full.txt](https://www.hiascend.com/llms-full.txt): 索引内文档的完整 Markdown 正文（单次加载全库上下文）
+
+## 已归档
+- [CANN 8.0 文档索引](https://www.hiascend.com/.../deprecated/): 仅供历史版本对照</code></pre>
+
+      <h4><code>llms-full.txt</code></h4>
+      <p class="text-auxiliary"><strong>机器怎么用</strong>：Agent 把 <code>/llms-full.txt</code> 整个读进上下文，一次拿到索引里所有文档的正文——不用逐个 URL 去抓，适合需要跨多篇查资料的场景。参考样例：<a href="https://docs.anthropic.com/llms-full.txt" target="_blank" rel="noopener">Anthropic llms-full.txt</a></p>
+      <pre><code># CANN 社区版 9.0.0 · 机器可读全文
+
+&gt; 由 llms.txt 索引自动聚合 · 来源 /doc_center/source/
+
+---
+
+# Ascend C 算子开发
+
+（operator_dev.md 全文…）
+
+---
+
+# 环境安装
+
+（install.md 全文…）</code></pre>
+
+      <h4><code>sitemap.xml</code>（片段）</h4>
+      <p class="text-auxiliary"><strong>机器怎么用</strong>：搜索引擎爬虫定期读取 <code>/sitemap.xml</code>，按清单里的 URL 依次抓取并建索引——我们把机器源路径优先放进清单，让索引落到干净正文而非渲染页。参考样例：<a href="https://docs.anthropic.com/sitemap.xml" target="_blank" rel="noopener">Anthropic sitemap.xml</a></p>
+      <pre><code>&lt;url&gt;
+  &lt;loc&gt;https://www.hiascend.com/doc_center/source/zh/CANN/900/operator_dev.html&lt;/loc&gt;
+  &lt;lastmod&gt;2026-06-01&lt;/lastmod&gt;
+  &lt;priority&gt;0.9&lt;/priority&gt;
+&lt;/url&gt;
+&lt;!-- 优先 machine source，而非 /document/detail/ 渲染页 --&gt;</code></pre>
+
+      <h4><code>robots.txt</code>（片段）</h4>
+      <p class="text-auxiliary"><strong>机器怎么用</strong>：爬虫进站先读 <code>/robots.txt</code>，按规则决定哪些路径能抓、哪些要跳过——放行 <code>source/</code>、禁止 <code>/assets/</code> 等，避免浪费配额抓无关资源；文件末尾的 <code>Sitemap:</code> 行再指向页面清单。参考样例：<a href="https://docs.anthropic.com/robots.txt" target="_blank" rel="noopener">Anthropic robots.txt</a></p>
+      <pre><code>User-agent: *
+Allow: /doc_center/source/
+Disallow: /assets/
+Disallow: /api/
+Disallow: /document/detail/   # 可选：引导爬虫走 source 路径
+
+Sitemap: https://www.hiascend.com/sitemap.xml</code></pre>
+    </section>
 
   </main></div>
 

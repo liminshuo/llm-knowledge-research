@@ -158,6 +158,11 @@
   margin-top: 48px;
 }
 
+body[data-page="structure-llms"] #design,
+body[data-page="structure-llms"] #dev-side {
+  margin-top: 48px;
+}
+
 .section-heading {
   margin-bottom: 16px;
   padding-bottom: 0;
@@ -356,79 +361,13 @@ body[data-page="affinity"] .main-content > .section {
 .data-table--affinity col.col-item { width: 9%; }
 .data-table--affinity col.col-design,
 .data-table--affinity col.col-content,
-.data-table--affinity col.col-code { width: 22%; }
-.data-table--affinity col.col-source { width: 10%; }
+.data-table--affinity col.col-code { width: 26%; }
 
-.data-table--affinity th.col-source-head {
-  vertical-align: middle;
-  text-align: center;
-}
-
-.affinity-source-head-inner {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.affinity-th-label {
-  line-height: 1.3;
-  white-space: nowrap;
-}
-
-.affinity-source-filter {
-  width: auto;
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  color: inherit;
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.3;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.affinity-source-filter:focus {
-  outline: none;
-}
-
-.affinity-source-filter:focus-visible {
-  outline: 2px solid var(--color-primary-tint);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-
-.data-table--affinity td.col-source {
-  text-align: center;
-  vertical-align: middle;
-}
-
-.data-table--affinity .affinity-source {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+.data-table.data-table--affinity td:nth-child(4) strong,
+.data-table.data-table--affinity td:nth-child(5) strong,
+.data-table.data-table--affinity td:nth-child(6) strong {
+  color: #000;
   font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.data-table--affinity .affinity-source--problems {
-  background: var(--color-primary-tint);
-  color: var(--color-primary);
-}
-
-.data-table--affinity .affinity-source--content {
-  background: rgba(124, 58, 237, 0.1);
-  color: var(--color-accent);
 }
 
 .data-table.data-table--affinity td.col-dim {
