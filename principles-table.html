@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>表格的结构语义 · 亲和原则 · 大模型知识获取研究</title>
+  <title>表格语义化 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="table">
@@ -25,39 +25,75 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>表格的结构语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-table.html">问题论证 · 表格的结构语义</a>（Add 算子 · 表1 设计规格）。以下仅列渲染页可见的表题、表头与接口列表 UI 改造项；Markdown 导出等管道规则见问题论证。</p>
+      <h1>表格语义化</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">用 <code>caption</code>、<code>th</code>、<code>scope</code> 表达表格的<strong>标题与行列关系</strong>，并把嵌在单元格里的接口列表独立出来，避免规格表结构在入库后劣化。</span>
+        <span class="page-desc-line">能读取 · 序号 7 · 对应 <a href="problems-content-table.html">问题论证 · 表格的结构语义</a>。</span>
+      </p>
     </div>
 
+    <section class="section" id="solution">
+      <h2 id="content-side">内容侧</h2>
+      <div class="principle-deliverable">
+        <h3>内容转写</h3>
+        <ol>
+          <li>表格中的符号需要替换为文本（符号替换）</li>
+        </ol>
+        <h3>结构化标题 &amp; 表头</h3>
+        <ol>
+          <li>结构化标题：表格必须使用 <code>&lt;caption&gt;</code> 标签提供表格标题 / 摘要；列名称必须使用 <code>&lt;th&gt;</code> 标签</li>
+          <li>作用域：<code>&lt;th&gt;</code> 标签应尽可能指定 <code>scope="col"</code> 或 <code>scope="row"</code></li>
+        </ol>
+      </div>
+      <h3 id="content-example">示例</h3>
 
-    <section class="section" id="table">
-      <h3>UI 亲和原则</h3>
-      <table class="data-table">
-        <thead>
-          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
-        </thead>
-        <tbody>
-          <tr id="tbl-01"><td>1</td><td>可见表题</td><td>表题写入 <code>&lt;caption&gt;</code>（如「表1 Ascend C Add算子设计规格」），非仅加粗段落</td><td><span class="badge badge-must">必须</span></td></tr>
-          <tr id="tbl-02"><td>2</td><td>表头语义化</td><td>I/O 子表列名使用 <code>&lt;th&gt;</code>，禁止 <code>&lt;td&gt;</code> 伪装表头</td><td><span class="badge badge-must">必须</span></td></tr>
-          <tr id="tbl-03"><td>3</td><td>接口列表独立化</td><td>「使用的主要接口」以 <code>&lt;ul&gt;</code> 或表外列表呈现，禁止拆成多行伪数据行</td><td><span class="badge badge-must">必须</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ui-render-examples">
-        <h3>UI 渲染示例</h3>
-        <p>以 Add 算子设计规格表为例——规格表 = caption + I/O 子表 + 接口列表。</p>
-
-        <h4>表1 Ascend C Add算子设计规格</h4>
-        <div class="ui-demo ui-demo--plain" id="tbl-add-spec">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p class="rf-muted"><strong>表1</strong> Ascend C Add算子设计规格</p><table class="rf-table"><tr><td>算子类型</td><td>AddCustom</td><td></td><td></td><td></td></tr><tr><td>算子输入</td><td>name</td><td>shape</td><td>dtype</td><td>format</td></tr><tr><td></td><td>x</td><td>(8,2048)</td><td>float</td><td>ND</td></tr><tr><td>使用的主要接口</td><td>DataCopy…</td><td></td><td></td><td></td></tr></table><p class="rf-muted">（5 列空单元格；接口占多行）</p></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><table class="rf-table"><caption>表1 Ascend C Add算子设计规格</caption><tr><th colspan="2">算子类型（OpType）</th><td>AddCustom</td></tr></table><table class="rf-table"><caption>输入 / 输出</caption><tr><th>name</th><th>shape</th><th>data type</th><th>format</th></tr><tr><td>x</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>y</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>z（输出）</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr></table><p><strong>主要接口</strong>：DataCopy、Add、AllocTensor / FreeTensor、EnQue / DeQue</p></div></div>
-          </div>
+      <h4>表1 Ascend C Add 算子设计规格</h4>
+      <div class="ui-demo ui-demo--plain" id="tbl-add-spec">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><table class="rf-table"><caption>表1 Ascend C Add算子设计规格</caption><tr><th colspan="2">算子类型（OpType）</th><td>AddCustom</td></tr></table><table class="rf-table"><caption>输入 / 输出</caption><tr><th>name</th><th>shape</th><th>data type</th><th>format</th></tr><tr><td>x</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>y</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr><tr><td>z（输出）</td><td>(8, 2048)</td><td>float</td><td>ND</td></tr></table><p><strong>主要接口</strong>：DataCopy、Add、AllocTensor / FreeTensor、EnQue / DeQue</p></div></div>
         </div>
       </div>
-</section>
 
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>结构化标题 &amp; 表头</h3>
+        <ol>
+          <li>添加必要的 <code>&lt;caption&gt;</code>：为所有缺失表题的表格，根据上下文或 Front Matter 信息，自动生成并插入 <code>&lt;caption&gt;</code></li>
+          <li>转换表头为 <code>&lt;th&gt;</code>：将 <code>&lt;thead&gt;</code> 内的 <code>&lt;td&gt;</code> 统一转换为 <code>&lt;th&gt;</code>，并为表头添加 <code>scope="col"</code> 或 <code>scope="row"</code> 属性，明确其关联的数据范围</li>
+        </ol>
+        <h3>表格不嵌套其他内容</h3>
+        <ol>
+          <li>「接口列表」拆分与重组：检测到表格内包含类似「使用的主要接口」的列表数据时，将其从表格单元格中提取出来，转换为一个独立的、语义清晰的 <code>&lt;ul&gt;</code> 无序列表，放在表格附近</li>
+        </ol>
+      </div>
+      <h3>示例</h3>
+
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;table&gt;
+  &lt;caption&gt;表1 Ascend C Add 算子设计规格&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th scope="col"&gt;name&lt;/th&gt;&lt;th scope="col"&gt;shape&lt;/th&gt;&lt;th scope="col"&gt;data type&lt;/th&gt;&lt;th scope="col"&gt;format&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;x&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;!-- 接口列表独立成 ul --&gt;
+&lt;ul&gt;&lt;li&gt;DataCopy&lt;/li&gt;&lt;li&gt;Add&lt;/li&gt;&lt;li&gt;EnQue / DeQue&lt;/li&gt;&lt;/ul&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <pre><code>**表1 Ascend C Add 算子设计规格**
+
+| name | shape | data type | format |
+|------|-------|-----------|--------|
+| x | (8, 2048) | float | ND |
+
+**使用的主要接口**
+
+- DataCopy
+- Add
+- EnQue / DeQue</code></pre>
+    </section>
 
   </main></div>
 

@@ -94,6 +94,7 @@
     { "group": null, "id": "c5", "href": "principles-link.html", "label": "链接语义化", "pageIds": ["link"] },
     { "group": null, "id": "c6", "href": "principles-note.html", "label": "安全警示语义化", "pageIds": ["note"] },
     { "group": null, "id": "c7", "href": "principles-tab.html", "label": "隐藏语义：Tab/折叠全量展开", "pageIds": ["tab", "collapse"] },
+    { "group": null, "id": "e9", "href": "principles-e9.html", "label": "FAQ 转译" },
     { "group": "易读取", "id": "d1", "href": "principles-format.html", "label": "双轨交付", "pageIds": ["format"] }
   ]
 };

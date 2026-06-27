@@ -26,27 +26,19 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>版本滞后 <span class="badge badge-status badge-should">版本滞后</span></h1>
+        <h1>版本滞后</h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
     <p class="page-desc">以 CANN 社区版 <strong>9.0.0（900）</strong> 为基准，对照三模型检索池与生成溯源中的版本分布。</p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li><strong>版本滞后</strong>：三模型检索与生成均未引用 <code>…/900/…</code> 社区版路径，多见 8.x / 850 商用 / beta 等旧版。</li>
-          <li><strong>多版本并存</strong>：不同世代命令与 API 混在同一回答，按旧路径操作将与 9.0.0 产品面脱节。</li>
-        </ul>
-      </div>
-
     <section class="section" id="timeliness-problem">
       <h2>问题实测</h2>
 
       <div class="content-unit">
 
-        <h3>测试问题</h3>
+        <h3>1. 向模型提问</h3>
 
         <div class="test-prompt-card">
 
@@ -57,7 +49,8 @@
         </div>
 
       <div class="content-unit">
-        <h3>检索阶段 · 版本分布</h3>
+        <h3>2. 统计结果</h3>
+        <h4>检索阶段 · 版本分布</h4>
 
         <div class="answer-card-grid">
 
@@ -66,13 +59,11 @@
               <h4>Claude AI 检索 web 19 条</h4>
             </div>
 
-            <p class="answer-card-prompt">版本分布（检索 URL 口径）</p>
-
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 21%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -116,13 +107,11 @@
               <h4>DeepSeek 检索 web 27 条</h4>
             </div>
 
-            <p class="answer-card-prompt">版本分布（检索 URL 口径）</p>
-
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 33%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -185,13 +174,11 @@
               <h4>千问 检索 web 13 条</h4>
             </div>
 
-            <p class="answer-card-prompt">版本分布（脚注参考链接口径）</p>
-
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 54%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -253,24 +240,20 @@
       </div>
 
       <div class="content-unit">
-        <h3>生成阶段 · 版本分布</h3>
-        <p>统计各模型最终回答的段末溯源 / 脚注中，<strong>CANN 9.0.0（900）</strong> 引用情况。口径见 <a href="problems-answer-generate.html">生成阶段</a>。</p>
+        <h4>生成阶段 · 版本分布</h4>
 
         <div class="answer-card-grid">
 
           <div class="answer-card answer-card--claude">
             <div class="answer-card-header">
               <h4>Claude AI 回答</h4>
-              <span class="answer-card-tag">已溯源</span>
             </div>
-
-            <p class="answer-card-prompt">版本分布（段末 URL 标注，17 单元）</p>
 
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 35%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -297,16 +280,13 @@
           <div class="answer-card answer-card--deepseek">
             <div class="answer-card-header">
               <h4>DeepSeek 回答</h4>
-              <span class="answer-card-tag">已溯源</span>
             </div>
-
-            <p class="answer-card-prompt">版本分布（段末 URL 标注，23 单元）</p>
 
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 22%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -362,16 +342,13 @@
           <div class="answer-card answer-card--qwen">
             <div class="answer-card-header">
               <h4>千问回答</h4>
-              <span class="answer-card-tag">已溯源</span>
             </div>
-
-            <p class="answer-card-prompt">版本分布（脚注标注，18 单元）</p>
 
             <div class="source-breakdown source-breakdown--version">
               <div class="source-breakdown-group">
                 <div class="source-breakdown-group-label"><span class="version-group-tag version-group-tag--official">官方文档 · 昇腾社区 67%</span></div>
                 <div class="source-row">
-                  <span class="source-row-label">CANN 9.0.0（900）</span>
+                  <span class="source-row-label">CANN9.0.0</span>
                   <span class="source-bar"><span class="source-bar-fill unknown" style="width:0%"></span></span>
                   <span class="source-row-val low">0%</span>
                 </div>
@@ -423,80 +400,51 @@
         </div>
       </div>
 
-        </section>
-
-    <section class="section" id="timeliness-solution">
-      <h2 id="solution">解决方案</h2>
-
       <div class="content-unit">
-        <h3>改进目标</h3>
-        <p>保证检索与生成<strong>默认引用 CANN 9.0.0（900）社区版</strong>，多版本并存时可按策略降权旧版与 beta，用户能从回答判断命令适用于哪一版 CANN。</p>
-      </div>
-      <div class="content-unit">
-
-
-        <h3 id="改进措施">改进措施</h3>
-        <p>对应研究概览第 10 节「信源时效」；下列策略在本页展开，细则与示例见后文。</p>
-        <ul class="list-badge-led">
-          <li><span class="badge badge-priority badge-must">必要</span>站点版本外显：页头展示 <code>version</code> 徽章；旧版章节须标注「已弃用」并链接到 900 替代文档（详见 <a href="#timeliness-ui-demo-badge">示例 1</a>、<a href="#timeliness-ui-demo-deprecated">示例 2</a>、<a href="principles-timeliness.html">亲和原则 · 版本外显</a>）；</li>
-          <li><span class="badge badge-priority badge-must">必要</span>站点主推声明：在 <code>llms.txt</code> 或 sitemap 中声明 canonical 源与主推版本（900）；同题多版文档设 <code>canonical</code> 指向主推 URL，对 910beta、8.x 降权或标注 <code>deprecated</code>（详见 <a href="problems-structure-llms.html#structure-llms-ui-demo-llmstxt">机器发现层 · 改进示例</a>）；</li>
-          <li><span class="badge badge-priority badge-must">必要</span>定义版本过滤规则：机器层 Front Matter 强制 <code>version</code> 字段；RAG 默认 <code>filter(version="CANN社区版 9.0.0")</code>，用户可显式指定其他版本（字段模板见 <a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a>）；</li>
-          <li><span class="badge badge-priority badge-should">可选</span>定义溯源输出规则：检索与生成默认过滤 900；回答脚注附带 <code>version</code>、<code>doc_id</code> 及来源 URL，而非仅输出裸链接（详见 <a href="problems-answer-search.html#solution">检索阶段 · 解决方案</a>）。</li>
+        <h3>3. 问题洞察</h3>
+        <ul>
+          <li><strong>版本滞后</strong>：三模型检索与生成均未引用 <code>…/900/…</code> 社区版路径，多见 8.x / 850 商用 / beta 等旧版。</li>
+          <li><strong>多版本并存</strong>：不同世代命令与 API 混在同一回答，按旧路径操作将与 9.0.0 产品面脱节。</li>
         </ul>
-        <p>核心原则：<strong>最新版优先、旧版可溯源</strong>——站点声明主推版本，入库带 <code>version</code> 字段，RAG 默认过滤 900，生成输出可核对适用版本。</p>
+      </div>
 
-        <h3>改进示例</h3>
-
-        <h4>示例 1 · 文章头部展示版本徽章</h4>
-        <p>版本须写入源码与 Front Matter，而非仅存在于 URL 路径参数——RAG 依赖 <code>version</code> 字段过滤 900 社区版。</p>
-        <div class="ui-demo ui-demo--plain" id="timeliness-ui-demo-badge">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h1">算子开发入门</div><p class="rf-muted">（页头无版本信息，版本仅存在于 URL 参数）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;h1 class="topictitle"&gt;算子开发入门&lt;/h1&gt;
-&lt;!-- version 仅存在于 URL：.../CANNCommunityEdition/900/... --&gt;</div><p class="rf-muted">知识库 chunk：无 <code>version</code> 字段，RAG 无法默认过滤 900。</p></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><span class="rf-badge">CANN 9.0.0</span><span class="rf-badge">Ascend C</span><div class="rf-h1">算子开发入门</div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;header class="doc-meta"
-        data-version="CANN社区版 9.0.0"
-        data-product="Ascend C算子开发"&gt;
-  &lt;span class="version-badge"&gt;CANN 9.0.0&lt;/span&gt;
-  &lt;span class="product-badge"&gt;Ascend C&lt;/span&gt;
-&lt;/header&gt;
-&lt;h1&gt;算子开发入门&lt;/h1&gt;</div><p class="rf-muted">知识库 chunk：可检索「CANN 9.0.0」，`filter(version="CANN社区版 9.0.0")` 生效。</p></div>
-          </div>
-        </div>
-
-        <hr class="example-divider">
-
-        <h4>示例 2 · 弃用章节顶部横幅</h4>
-        <p>弃用状态须在渲染页可见，并在源码写入 <code>deprecated_since</code> / 替代链接——机器层同步导出，避免旧版 chunk 与 900 混召。</p>
-        <div class="ui-demo ui-demo--plain" id="timeliness-ui-demo-deprecated">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-h1">旧版 API 说明</div><p>本文介绍已下线的接口…</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;h1&gt;旧版 API 说明&lt;/h1&gt;
-&lt;p&gt;本文介绍已下线的接口…&lt;/p&gt;
-&lt;!-- 无 deprecated 标记，与 900 版 chunk 同等权重 --&gt;</div><p class="rf-muted">知识库 chunk：旧版与 900 版同名接口 chunk 混召，用户无法判断适用版本。</p></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-banner">⚠ 本文档已废弃（CANN 8.0 起）· <a href="#">见 CANN 9.0 替代文档</a></div><div class="rf-h1">旧版 API 说明</div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;aside class="admonition deprecated"
-        data-deprecated-since="CANN 8.0"
-        data-replacement-url="/document/detail/.../900/..."
-        role="note"&gt;
-  &lt;p&gt;本文档已废弃 · &lt;a href="..."&gt;见 CANN 9.0 替代文档&lt;/a&gt;&lt;/p&gt;
-&lt;/aside&gt;
-&lt;h1&gt;旧版 API 说明&lt;/h1&gt;</div><p class="rf-muted">知识库 chunk：带 <code>deprecated: true</code>，检索可降权或过滤，并链到 900 替代文档。</p></div>
-          </div>
-        </div>
-
-        <p><strong>llms.txt 主推声明</strong>见 <a href="problems-structure-llms.html#structure-llms-ui-demo-llmstxt">机器发现层 · 改进示例</a>。</p>
-
-        <hr class="example-divider">
-
-        <h4>双轨交付与入库</h4>
-        <p>发布管道从 <code>doc_center/source</code> 导出机器层 MD / JSON，将页头徽章与弃用横幅转为 Front Matter 的 <code>version</code> / <code>deprecated</code> 字段；人类层保留可见 UI。</p>
-        <p>RAG 默认 <code>filter(version="CANN社区版 9.0.0")</code>。字段模板见 <a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a>。</p>
-
-        </div>
-      
         </section>
+
+    <section class="section" id="timeliness-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>版本滞后的核心原因是：<strong>页级版本未外显、主推版本未声明、入库缺 version 字段、溯源不带版本信号</strong>。</p>
+
+        <h3>1. 页级版本未外显</h3>
+        <p>渲染页头无 <code>version</code> 徽章，版本仅藏在 URL 路径——入库 chunk 缺字段，RAG 无法默认过滤 900；旧版文档也未标「已弃用」。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>页头展示 <code>version</code> 徽章；旧版章节标注「已弃用」并链到 900 替代文档（详见 <a href="principles-timeliness.html">亲和原则 · 版本外显</a>）。</p>
+        </div>
+
+        <h3>2. 主推版本未声明</h3>
+        <p><code>llms.txt</code> / sitemap 未声明 CANN9.0.0 为主推版本；910beta、8.x 与 900 同权收录，检索排序无优先级。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>在 <code>llms.txt</code> 或 sitemap 中声明 canonical 源与主推版本（900）；旧版降权或标注 <code>deprecated</code>（详见 <a href="problems-structure-llms.html#structure-llms-root-cause">机器发现层 · 根因分析</a>）。</p>
+        </div>
+
+        <h3>3. 入库缺 version 字段</h3>
+        <p>机器层 Front Matter 未强制 <code>version</code>——三模型检索与生成均未引用 <code>…/900/…</code> 路径，多见 8.x / 850 / beta 等旧版 chunk 混召。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>双轨交付时在 Front Matter 写入 <code>version</code>；RAG 默认 <code>filter(version="CANN社区版 9.0.0")</code>（字段模板见 <a href="problems-structure-metadata.html#solution">页级元数据</a>）。</p>
+        </div>
+
+        <h3>4. 溯源不带版本信号</h3>
+        <p>段末 URL / 脚注仅输出裸链接，不含 <code>version</code>、<code>doc_id</code>——开发者无法从回答判断命令适用于哪一版 CANN。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>脚注附带 <code>version</code>、<code>doc_id</code> 及来源 URL；检索与生成默认过滤 900（详见 <a href="problems-answer-search.html#answer-search-root-cause">检索阶段 · 根因分析</a>）。</p>
+        </div>
+      </div>
+    </section>
 
 
 
@@ -505,7 +453,7 @@
 
   <aside class="preview-drawer" id="preview-drawer" aria-hidden="true" aria-label="测试页面预览">
     <header class="preview-drawer-header">
-      <h2 class="preview-drawer-title">什么是 Ascend C · CANN 9.0.0（900）</h2>
+      <h2 class="preview-drawer-title">什么是 Ascend C · CANN9.0.0</h2>
       <a class="preview-drawer-external" href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">新标签页打开</a>
       <button type="button" class="preview-drawer-close" data-preview-drawer-close aria-label="关闭">×</button>
     </header>

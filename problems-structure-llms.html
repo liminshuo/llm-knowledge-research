@@ -26,31 +26,22 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>机器发现层缺失 <span class="badge badge-status badge-bad">未声明</span></h1>
+        <h1>机器发现层缺失</h1>
         <button type="button" class="preview-drawer-trigger" data-preview-drawer-open>查看测试页面</button>
       </div>
     </div>
 
     <p class="page-desc page-desc--split">
-        <span class="page-desc-line">机器发现层告诉爬虫和 Agent：<strong>该从哪条 URL 抓、主推哪一版文档</strong>——例如 <code>llms.txt</code>、robots、sitemap。</span>
-        <span class="page-desc-line">昇腾社区实测：<code>llms.txt</code> 404、robots 屏蔽 <code>/doc_center/</code>、sitemap 只列渲染页——合规抓取<strong>落不到最优机器源</strong>，加剧 <a href="problems-format.html">格式噪声</a>与 <a href="problems-timeliness.html#timeliness-problem">多版本混淆</a>。</span>
+        <span class="page-desc-line">机器发现层即 <code>llms.txt</code>、<code>robots.txt</code>、<code>sitemap</code> 等站点配置，告诉爬虫和 Agent：<strong>该从哪条 URL 抓、主推哪一版文档</strong>。</span>
+        <span class="page-desc-line">它缺失时，机器只能沿人类浏览路径抓到高噪声渲染页，<strong>落不到最优机器源</strong>。</span>
       </p>
-
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>无 <code>/llms.txt</code>：站点未声明机器友好入口与主推版本，Agent 只能沿用人类浏览路径</li>
-          <li><code>robots.txt</code> 含 <code>Disallow: /doc_center/</code>：合规爬虫<strong>抓不到</strong>源 HTML（见 <a href="problems-format.html">格式交付</a>）</li>
-          <li>sitemap 抽样 10,000 条 URL <strong>100%</strong> 为 <code>/document/detail/</code> 渲染页，零条 <code>doc_center</code></li>
-        </ul>
-      </div>
 
     <section class="section" id="structure-llms-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,104 +52,59 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：发现层缺失，爬虫被引向渲染页</h3>
-            <p><strong>站点没有在配置层声明「机器该抓哪」。</strong> llms.txt 不存在、source 路径被 robots 屏蔽、sitemap 只索引 ~224 KB 渲染页——合规抓取默认落在高噪声载体。</p>
-
-            <h4>站点配置实测</h4>
-            <p>2026-06-07 对 <code>hiascend.com</code> 根路径探测，完整命令见 <a href="references/机器发现层探测/hiascend-discovery-probe.md">hiascend-discovery-probe.md</a>。</p>
-            <table class="data-table">
-              <thead>
-                <tr><th>探测项</th><th>结果</th><th>影响</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>/llms.txt</code></td>
-                  <td><span class="badge badge-status badge-bad">404</span></td>
-                  <td>无站点级索引与主推版本声明</td>
-                </tr>
-                <tr>
-                  <td><code>/robots.txt</code></td>
-                  <td><code>Disallow: /doc_center/</code></td>
-                  <td>合规爬虫不得抓取源 HTML / PDF</td>
-                </tr>
-                <tr>
-                  <td><code>/sitemap/sitemapdoc1.xml</code></td>
-                  <td>10,000 条，<strong>100%</strong> <code>document/detail</code>，<strong>0</strong> 条 <code>doc_center</code></td>
-                  <td>只引导渲染页，多版本无优先级</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-            </section>
-
-    <section class="section" id="structure-llms-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>在站点根提供机器发现层：明确 canonical 源路径、主推版本与章节索引——让合规爬虫和 Agent <strong>默认落在低噪声机器层</strong>，而非 224 KB 渲染页。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="discovery-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span>部署 <code>llms.txt</code>：声明文档索引、机器源基址与主推版本（CANN 9.0.0 / 900）；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>调整 <code>robots.txt</code>：放行 <code>/doc_center/source/</code>；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>完善 sitemap：优先收录机器源 URL，旧版标注 <code>deprecated</code> 或降优先级；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>全站 <code>&lt;link rel="llms" href="/llms.txt"&gt;</code>：在全局 <code>&lt;head&gt;</code> 声明机器索引入口。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>站点没告诉爬虫从哪抓</strong>：<code>llms.txt</code> 返回 404、<code>robots.txt</code> 屏蔽 <code>/doc_center/</code>、sitemap 100% 只列渲染页——机器友好入口与主推版本均未声明。</li>
+              <li><strong>抓取默认落在高噪声载体</strong>：Agent 只能沿人类浏览路径，落到 ~224 KB 的 <code>/document/detail/</code> 渲染页，而非纯净的 <code>/doc_center/source/</code> 机器源。</li>
             </ul>
-            <p>发现层（本页）与内容层（<a href="problems-format.html#solution">双轨交付与载体</a>）配套——单篇渲染页<strong>页脚机器可读入口</strong>见 <a href="problems-format.html#format-ui-demo-link">格式交付 · 页脚示例</a>；入库字段见 <a href="problems-structure-metadata.html#solution">页级元数据</a>。</p>
-
-            <h3>改进示例</h3>
-
-            <h4>llms.txt 声明机器源</h4>
-            <div class="ui-demo ui-demo--plain" id="structure-llms-ui-demo-llmstxt">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前站点</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">探测结果</p><div class="render-frame"><p><code>GET /llms.txt</code> → <strong>404 Not Found</strong></p><p class="rf-muted">Agent 沿用人类路径 → 抓取 /document/detail/ 渲染页</p></div></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和站点</h4>
-                <div class="compare-col human"><p class="compare-sublabel">/llms.txt</p><div class="arch-diagram"># /llms.txt
-&gt; Ascend C 算子开发 · CANN 社区版 9.0.0
-
-- [机器层 MD 出口](https://…/ascend-c-900.md)
-- [源 HTML 根路径](https://…/doc_center/source/…/900/…)
-- [当前主推版本说明](https://…/version-policy)
-- [废弃版本索引](https://…/deprecated)</div><p class="rf-muted">Agent 读取索引 → 直达 doc_center/source/</p></div>
-              </div>
-            </div>
-
-            <hr class="example-divider">
-
-            <h4>robots.txt 放行 source</h4>
-            <div class="ui-demo ui-demo--plain" id="structure-llms-ui-demo-robots">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前站点</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">robots.txt</p><div class="arch-diagram">User-agent: *
-Disallow: /doc_center/
-Disallow: /profile/</div></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和站点</h4>
-                <div class="compare-col human"><p class="compare-sublabel">robots.txt</p><div class="arch-diagram">User-agent: *
-Allow: /doc_center/source/
-Disallow: /profile/
-# 机器入口见 /llms.txt</div><p class="compare-sublabel">sitemap</p><div class="arch-diagram">sitemap-machine.xml
-  → 优先收录 /doc_center/source/
-  → 910beta / 8.x 标注 deprecated</div></div>
-              </div>
-            </div>
-
-            <h4>双轨衔接</h4>
-            <p><code>llms.txt</code> 声明入口后，爬虫抓 <code>/doc_center/source/</code>，管道导出 MD / JSON；人类仍访问 <code>/document/detail/</code> 渲染页。</p>
-            <div class="arch-diagram">llms.txt + robots + sitemap
-    │
-    ├──► Agent / 爬虫 → doc_center/source/
-    │
-    └──► 管道导出 MD / JSON → RAG 向量库</div>
-
-            </div>
+            <p>结果是合规抓取拿不到最优机器源，进而加剧 <a href="problems-format.html">格式噪声</a> 与 <a href="problems-timeliness.html#timeliness-problem">多版本混淆</a>。</p>
+          </div>
 
             </section>
+
+    <section class="section" id="structure-llms-root-cause">
+      <h2>根因分析</h2>
+
+      <div class="content-unit">
+        <p>发现层缺失的核心原因是：<strong>无 llms.txt / llms-full.txt 机器索引、robots 屏蔽机器源、sitemap 只引导渲染页、页级机器入口缺失</strong>。</p>
+
+        <h3>1. 无机器索引声明</h3>
+        <p><code>/llms.txt</code> 与 <code>/llms-full.txt</code> 均返回 <strong>404</strong>——前者缺站点级索引与主推版本，后者缺全库 Markdown 聚合入口，Agent 只能沿用人类浏览路径。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>部署 <code>llms.txt</code>（声明索引、机器源基址与主推版本 900）与 <code>llms-full.txt</code>（聚合 source Markdown 全文，供 Agent 单次加载）。</p>
+        </div>
+
+        <h3>2. robots 屏蔽机器源</h3>
+        <p><code>robots.txt</code> 含 <code>Disallow: /doc_center/</code>，合规爬虫<strong>抓不到</strong>源 HTML / PDF（详见 <a href="problems-format.html">格式交付</a>）。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>调整 <code>robots.txt</code>，放行 <code>/doc_center/source/</code>。</p>
+        </div>
+
+        <h3>3. sitemap 只引导渲染页</h3>
+        <p>sitemap 抽样 <strong>10,000</strong> 条 URL 均为 <code>/document/detail/</code> 渲染页，<strong>零条</strong> <code>doc_center</code>，多版本无优先级。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>完善 sitemap：优先收录机器源 URL，旧版标注 <code>deprecated</code> 或降优先级。</p>
+        </div>
+
+        <h3>4. 页级机器入口缺失</h3>
+        <p>全站 <code>&lt;head&gt;</code> 未声明 <code>link rel="llms"</code>，单篇渲染页也无可见的机器可读入口（页脚示例见 <a href="problems-format.html#format-ui-demo-link">格式交付</a>）。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>全站 <code>&lt;link rel="llms" href="/llms.txt"&gt;</code>，与 <a href="problems-format.html#solution">双轨交付</a>、<a href="problems-structure-metadata.html#solution">页级元数据</a> 配套落地。</p>
+        </div>
+      </div>
+    </section>
 
 
 
@@ -177,11 +123,48 @@ Disallow: /profile/
     ></iframe>
   </aside></div>
 
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="discovery-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我想让 AI 自动读昇腾社区文档，站点有没有告诉爬虫该从哪抓？实际联网检索一般会落到哪类页面？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>我查了昇腾社区（<code>hiascend.com</code>）的站点配置，结论如下：</p>
+
+      <h4>站点有没有告诉爬虫该从哪抓？</h4>
+      <p><strong>基本没有。</strong>根路径 <code>/llms.txt</code> 返回 <strong>404</strong>，全站也未在 HTML 中声明机器可读索引。<code>robots.txt</code> 含 <code>Disallow: /doc_center/</code>，合规爬虫不应抓取源 HTML 目录。sitemap 抽样 <strong>10,000</strong> 条 URL 均为 <code>/document/detail/</code> 渲染页，<strong>零条</strong> <code>doc_center</code>。</p>
+
+      <h4>实际联网检索一般会落到哪类页面？</h4>
+      <p>Agent 或合规爬虫<strong>默认会落在人类浏览用的渲染页</strong>——单页约 224 KB，含全站导航壳层。更纯净的机器源（<code>/doc_center/source/</code>）虽可能存在，但既未被 robots 放行，也未在 sitemap / llms.txt 中声明，因此不是默认路径。</p>
+
+      <p>若要让 AI 稳定读取低噪声文档，站点需补充机器发现层：部署 <code>llms.txt</code>、放行 source 路径、sitemap 优先收录机器源并声明主推版本。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

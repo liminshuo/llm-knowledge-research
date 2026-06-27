@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ结构化 · 亲和原则 · 大模型知识获取研究</title>
+  <title>FAQ语义 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="e9">
@@ -25,19 +25,99 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>FAQ结构化</h1>
-      <p class="page-desc">E9 · E. 非文本元素语义转译 · 完整条目见 <a href="principles-affinity.html#principle-e9">亲和性原则汇总表</a>。</p>
+      <h1>FAQ语义</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">任何以问题/答案对（Q&amp;A）呈现的内容，须用<strong>「问：/答：」视觉前缀</strong>与 Schema.org <code>FAQPage</code> 语义标记，与普通叙述文本严格区分；FAQ 区块用独立容器包裹，管道侧按条切片并自动生成 JSON-LD。</span>
+        <span class="page-desc-line">能读取 · 序号 12 · 完整条目见 <a href="principles-affinity.html#principle-e9">亲和性原则汇总表</a>。</span>
+      </p>
     </div>
 
     <section class="section" id="solution">
-      <h2 id="design">设计侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. FAQ区域使用&quot;问/答&quot;双色视觉区分，整体容器边框标识</div>
+      <h2 id="design">设计侧</h2>
+      <div class="principle-deliverable">
+        <h3>FAQ 区块容器样式设计</h3>
+        <ol>
+          <li>背景 / 边框 / 内边距，与正文区隔</li>
+          <li>「问」「答」与正文呈现样式区分（双色或双底纹）</li>
+          <li>多条 FAQ 时设计编号样式（如 Q1 / Q2）</li>
+        </ol>
+      </div>
+      <h3 id="design-example">示例</h3>
 
-      <h2 id="content-side">内容侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. &quot;问：&quot;和&quot;答：&quot;作为固定文字前缀，与普通叙述文本严格区分，不混排<br>2. 答案不超过150字，简洁直接</div>
+      <h4>示例 1 · FAQ 容器与问/答双色区分</h4>
+      <div class="ui-demo ui-demo--plain" id="faq-01">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-faq"><div class="rf-faq-item"><p class="rf-faq-q"><span class="rf-faq-label">问：</span>安装 CANN 后为什么要执行 set_env.sh？</p><p class="rf-faq-a"><span class="rf-faq-label">答：</span>用于设置 ASCEND_HOME 等环境变量，否则无法调用算子 API。</p></div></div></div></div>
+        </div>
+      </div>
 
-      <h2 id="code-side">代码侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. 使用 &lt;div itemscope itemtype=&quot;https://schema.org/FAQPage&quot;&gt; + Question/Answer JSON-LD<br>2. 管道将FAQ条目提取为独立的 faq_entry 结构，便于语义检索</div>
+      <hr class="example-divider">
+
+      <h4>示例 2 · 多条 FAQ 编号（Q1 / Q2）</h4>
+      <div class="ui-demo ui-demo--plain" id="faq-02">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-faq"><div class="rf-faq-item"><span class="rf-faq-index">Q1</span><p class="rf-faq-q"><span class="rf-faq-label">问：</span>安装 CANN 后为什么要执行 set_env.sh？</p><p class="rf-faq-a"><span class="rf-faq-label">答：</span>用于设置 ASCEND_HOME 等环境变量，否则无法调用算子 API。</p></div><div class="rf-faq-item"><span class="rf-faq-index">Q2</span><p class="rf-faq-q"><span class="rf-faq-label">问：</span>Ascend C 算子开发需要什么硬件？</p><p class="rf-faq-a"><span class="rf-faq-label">答：</span>需要搭载昇腾 AI 处理器的开发板或服务器。</p></div></div></div></div>
+        </div>
+      </div>
+
+      <h2 id="content-side">内容侧</h2>
+      <div class="principle-deliverable">
+        <h3>FAQ 语义标记</h3>
+        <p>任何以问题/答案对（Q&amp;A）形式呈现的内容，必须使用明确的视觉标记（如问：/答：前缀）和语义标记（如 Schema.org 的 Question / Answer 类型，通常通过 JSON-LD 实现），将 FAQ 内容与普通叙述文本区分开。</p>
+        <ol>
+          <li>「问：」和「答：」作为固定文字前缀，与普通叙述文本严格区分，不混排</li>
+          <li>答案简洁直接，单条建议不超过 150 字</li>
+          <li>FAQ 区块应有一个包裹容器（如 <code>&lt;div itemtype="https://schema.org/FAQPage"&gt;</code>）</li>
+        </ol>
+      </div>
+
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>管道自动生成</h3>
+        <ol>
+          <li>管道自动从「问/答」配对生成 JSON-LD 注入 <code>&lt;head&gt;</code></li>
+        </ol>
+        <h3>Chunk 切片</h3>
+        <ol>
+          <li>每个 FAQ 条目独立切片，不跨条混切</li>
+          <li>切片后保留「问：」「答：」前缀</li>
+        </ol>
+      </div>
+      <h3>示例</h3>
+
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;div class="faq-block" itemscope itemtype="https://schema.org/FAQPage"&gt;
+  &lt;div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"&gt;
+    &lt;p class="faq-q" itemprop="name"&gt;问：安装 CANN 后为什么要执行 set_env.sh？&lt;/p&gt;
+    &lt;div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"&gt;
+      &lt;p class="faq-a" itemprop="text"&gt;答：用于设置 ASCEND_HOME 等环境变量，否则无法调用算子 API。&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 管道注入 &lt;head&gt; --&gt;
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "安装 CANN 后为什么要执行 set_env.sh？",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "用于设置 ASCEND_HOME 等环境变量，否则无法调用算子 API。"
+    }
+  }]
+}
+&lt;/script&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <p class="text-auxiliary"><strong>机器怎么用</strong>：检索管道按 FAQ 条目独立切片，每条保留「问：」「答：」前缀，便于语义检索与引用对齐。</p>
+      <pre><code>问：安装 CANN 后为什么要执行 set_env.sh？
+答：用于设置 ASCEND_HOME 等环境变量，否则无法调用算子 API。
+
+问：Ascend C 算子开发需要什么硬件？
+答：需要搭载昇腾 AI 处理器的开发板或服务器。</code></pre>
     </section>
 
   </main></div>

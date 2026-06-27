@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>注意提示（Note）语义 · 亲和原则 · 大模型知识获取研究</title>
+  <title>安全警示语义化 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="note">
@@ -25,51 +25,72 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>注意提示（Note）语义</h1>
-      <p class="page-desc">对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。以下仅列渲染页可见的 Note 类型前缀与正文展示 UI 改造项。</p>
+      <h1>安全警示语义化</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">Note / 警告 / 危险等提示<strong>正文完整展开、用文字前缀标明类型</strong>，不靠折叠或图标承载语义。</span>
+        <span class="page-desc-line">能读取 · 序号 10 · 对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。</span>
+      </p>
     </div>
 
+    <section class="section" id="solution">
+      <h2 id="design">设计侧</h2>
+      <div class="principle-deliverable">
+        <h3>警示类型视觉样式设计</h3>
+        <ol>
+          <li>注意 / 警告 / 危险使用标准视觉组件（不同色块 + 图标 + 文字语义），但正文完整展示，不折叠</li>
+          <li>调整图标定位：图标作为「视觉增强」而非「唯一标识」</li>
+        </ol>
+      </div>
+      <h3 id="design-example">示例</h3>
 
-    <section class="section" id="note">
-      <h3>UI 亲和原则</h3>
-      <p class="section-heading-desc">类型标注与 Markdown 引用块转换见 <a href="problems-content-note.html">问题论证 · 注意提示语义</a>。</p>
-      <table class="data-table">
-        <thead>
-          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>Note 正文展开</td><td>提示正文在页面上完整展示，不折叠、不用 Tooltip 藏字</td><td><span class="badge badge-must">必须</span></td></tr>
-          <tr><td>2</td><td>类型文本前缀</td><td>移除装饰图标；以「注意：」「警告：」等文字前缀标识类型</td><td><span class="badge badge-must">必须</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ui-render-examples">
-        <h3>UI 渲染示例</h3>
-        <p>以下对照展示渲染页上的 UI 设计差异。</p>
-
-        <h4>示例 1 · Note 正文完整展开（环境准备 set_env.sh）</h4>
-        <div class="ui-demo ui-demo--plain" id="note-02">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装 CANN 后需执行 set_env.sh… <em>（悬停 / 折叠才显示全文）</em></span></div></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
-          </div>
-        </div>
-
-        <hr class="example-divider">
-
-        <h4>示例 2 · 类型文本前缀（移除装饰图标）</h4>
-        <div class="ui-demo ui-demo--plain" id="note-03">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装 CANN 后需执行 set_env.sh 设置环境变量…</span></div></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，使用 CANN 运行用户进行编译、运行时，需要执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量。</div></div></div></div>
-          </div>
+      <h4>示例 1 · Note 正文完整展开（环境准备 set_env.sh）</h4>
+      <div class="ui-demo ui-demo--plain" id="note-02">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
         </div>
       </div>
-</section>
 
+      <hr class="example-divider">
+
+      <h4>示例 2 · 类型文本前缀（移除装饰图标）</h4>
+      <div class="ui-demo ui-demo--plain" id="note-03">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，使用 CANN 运行用户进行编译、运行时，需要执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量。</div></div></div></div>
+        </div>
+      </div>
+
+      <h2 id="content-side">内容侧</h2>
+      <div class="principle-deliverable">
+        <h3>警示语义转化</h3>
+        <p>Note、注意、警告等警示提示正文在页面上完整展示，不折叠、不用 tooltip 藏字。</p>
+        <ol>
+          <li>完整可见</li>
+          <li>文字前缀：警示信息必须使用文字前缀明确表示其类型，如「注意」「警告」「危险」</li>
+          <li>结构化：建议为不同类型的安全警示定义固定的 CSS 类</li>
+        </ol>
+      </div>
+
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>结构化标记</h3>
+        <ol>
+          <li>使用 <code>data-admonition-type="note|warning|danger"</code> 标识警示类型</li>
+        </ol>
+        <h3>定义 Markdown 导出格式</h3>
+        <ol>
+          <li>导出为 <code>&gt; **注意**：</code> 引用块格式，确保纯文本可读</li>
+        </ol>
+      </div>
+      <h3>示例</h3>
+
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;div class="admonition" data-admonition-type="warning"&gt;
+  &lt;span class="admonition-label"&gt;警告：&lt;/span&gt;升级前请备份 /usr/local/Ascend。
+&lt;/div&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <pre><code>&gt; **警告**：升级前请备份 /usr/local/Ascend。</code></pre>
+    </section>
 
   </main></div>
 

@@ -30,10 +30,11 @@
     </div>
 
     <section class="section" id="affinity-catalog">
+
+      <h3 class="affinity-group-title">能找到</h3>
       <div class="affinity-table-wrap">
       <table class="data-table data-table--affinity">
         <colgroup>
-          <col class="col-dim">
           <col class="col-id">
           <col class="col-item">
           <col class="col-design">
@@ -42,7 +43,6 @@
         </colgroup>
         <thead>
           <tr>
-            <th>问题域</th>
             <th>序号</th>
             <th>原则名称</th>
             <th>设计侧建议</th>
@@ -52,15 +52,37 @@
         </thead>
         <tbody>
           <tr id="principle-a1">
-            <td class="col-dim" rowspan="1">能找到</td>
             <td class="col-id">1</td>
-            <td>llms.txt / sitemap 部署</td>
+            <td>llms.txt / sitemap 部署<br><span class="badge badge-primary">研发已识别</span></td>
             <td><strong>机器发现入口位置和样式设计</strong>：<br>每个文档页脚增加&quot;机器可读版本&quot;入口视觉提示</td>
             <td>—</td>
             <td><strong>补充机器发现层</strong>：<br>1. 部署 /llms.txt，按&quot;产品线-版本&quot;分组列出核心文档URL+一句话描述<br>2. 提供 /llms-full.txt，将索引内文档 source Markdown 全文聚合为单文件，供 Agent 单次加载上下文<br>3. /sitemap.xml 优先收录 /doc_center/source/ 机器源<br>4. robots.txt 放行 source/ 路径，禁止爬取 /assets/、/api/</td>
           </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">能找准</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-design">
+          <col class="col-content">
+          <col class="col-code">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>设计侧建议</th>
+            <th>内容侧建议</th>
+            <th>研发侧建议</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr id="principle-b1">
-            <td class="col-dim" rowspan="3">能找准</td>
             <td class="col-id">2</td>
             <td>版本号外显</td>
             <td><strong>元数据位置和样式设计，每个文档页面，展示</strong>：<br>a.文档版本号;<br>b.该版本的发布日期（格式为 YYYY-MM-DD）;<br>c.标签形式展示该版本的生命周期状态（正式主推版=绿色、RC版=蓝色、beta版=橙色）</td>
@@ -76,13 +98,36 @@
           </tr>
           <tr id="principle-b3">
             <td class="col-id">4</td>
-            <td>元数据丰富化</td>
-            <td><strong>元数据位置和样式设计</strong>：<br>1.文档身份：文档id<br>2. 版本信息：版本号、版本的发布日期、版本的生命周期状态<br>3. 适用产品：适用芯片、设备信息<br>4.更新信息：最后更新日期<br>5.关联与关系：父子文档关系、上一篇/下一篇<br><strong>文档摘要位置和样式设计</strong>：<br>1.文档摘要：每篇文档前补充摘要 150个字符以内</td>
+            <td>元数据丰富化<br><span class="badge badge-primary">研发已识别</span></td>
+            <td><strong>元数据位置和样式设计</strong>：<br>1.版本信息：版本号、版本的更新日期、版本的生命周期状态<br>2. 适用产品：适用芯片、设备信息<br><strong>摘要前置设计</strong>：<br>1.文档摘要：每篇文档前补充摘要 150个字符以内</td>
             <td><strong>元数据内容补充</strong>：<br>每个文档页面建议在&lt;head&gt;中包含丰富的结构化元数据，优先使用JSON-LD格式。</td>
-            <td><strong>元数据位置和样式设计</strong>：<br>1. &lt;head&gt; 中输出完整 JSON-LD（BreadcrumbList + TechArticle）<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta</td>
+            <td><strong>元数据补充</strong>：<br>1. &lt;head&gt; 输出完整 JSON-LD（@id/doc_id、BreadcrumbList、TechArticle），同步 &lt;meta name=&quot;doc_id&quot;&gt;；doc_id 复用于 /docs/{doc_id}/ 路径<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta<br><strong>渲染方式改HTML</strong>：<br>左侧导航、面包屑、关联关系（上一篇、下一篇）改为 HTML 可抓取形式。</td>
           </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">能读取</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-design">
+          <col class="col-content">
+          <col class="col-code">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>设计侧建议</th>
+            <th>内容侧建议</th>
+            <th>研发侧建议</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr id="principle-c1">
-            <td class="col-dim" rowspan="7">能读取</td>
             <td class="col-id">5</td>
             <td>图片内容转译</td>
             <td><strong>更换可解析的图片形式</strong>：<br>1. 流程图优先使用Mermaid编写；若不能使用Mermaid，则使用SVG形式<br><strong>内容转写位置&amp;样式</strong>：<br>1.图片底部预留“figcaption注释（包括图片内容转写）”设计位。<br><strong>Chunk切片交互</strong>：<br>3.&quot;figcaption注释&quot;段落（或周围正文）后，在视觉上配有&quot;复制链接&quot;按钮,点击后给出“已复制链接”的轻提示（toast）</td>
@@ -131,13 +176,43 @@
             <td><strong>内容平铺</strong>：<br>1. 不在Tab或折叠面板中放置关键信息（如需使用，同时在下方提供完整展开版本）</td>
             <td><strong>补充双轨机制</strong>：<br>1. 管道生成两套版本：交互版（供人浏览）+ 预展开版（供机器读取，所有 .hidden 类强制移除）<br><strong>组件默认展开</strong>：<br>2. 机器源端点自动将 &lt;details&gt; 的 open 属性置为 true</td>
           </tr>
-          <tr id="principle-d1">
-            <td class="col-dim" rowspan="1">易读取</td>
+          <tr id="principle-e9">
             <td class="col-id">12</td>
-            <td>双轨交付</td>
+            <td>FAQ语义<br><span class="badge badge-accent">内容侧补充</span></td>
+            <td><strong>FAQ区块容器样式设计</strong>：<br>1. 背景/边框/内边距，与正文区隔；<br>2. 「问」「答」与正文呈现样式；<br>3. 多条 FAQ 时设计编号样式（如 Q1 / Q2）。</td>
+            <td>任何以问题/答案对（Q&amp;A）形式呈现的内容，必须使用明确的视觉标记（如问：/答：前缀）和语义标记（如 Schema.org 的 Question / Answer 类型，通常通过 JSON-LD 实现），将 FAQ 内容与普通叙述文本区分开。FAQ 区块应有一个包裹容器（如 &lt;div itemtype=&quot;https://schema.org/FAQPage&quot;&gt;）。</td>
+            <td><strong>管道自动生成</strong>：<br>1. 管道自动从「问/答」配对生成 JSON-LD 注入 &lt;head&gt;<br><strong>Chunk 切片</strong>：<br>2. 每个 FAQ 条目独立切片，不跨条混切<br>3. 切片后保留「问：」「答：」前缀</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">易读取</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-design">
+          <col class="col-content">
+          <col class="col-code">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>设计侧建议</th>
+            <th>内容侧建议</th>
+            <th>研发侧建议</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-d1">
+            <td class="col-id">13</td>
+            <td>双轨交付<br><span class="badge badge-primary">研发已识别</span></td>
             <td>—</td>
             <td>—</td>
-            <td>HTML版本&amp;Markdown版本双轨交付。源码为HTML，可反向生成MD。</td>
+            <td><strong>双轨交付</strong>：<br>HTML 版本 &amp; Markdown 版本双轨交付。源码为 HTML，可反向生成 MD。<br><strong>HTML源码优化</strong>：<br>不使用 .md 的渲染页面，采用 .html 渲染页面，需尽量在前端输出，不通过服务端动态渲染。</td>
           </tr>
         </tbody>
       </table>

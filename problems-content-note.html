@@ -36,21 +36,12 @@
         <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a> 为例：模型<strong>不知道这是「注意」还是「警告」</strong>，也无法按类型过滤检索。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>环境准备页 <code>notebody</code> 正文可入库（如 <code>set_env.sh</code> 说明），但<strong>提示类型语义丢失</strong>——图标 PNG 不产生可检索文本</li>
-          <li>无 <code>data-admonition-type</code> 等结构化字段，RAG 无法按「注意 / 警告」过滤；LLM 引用时缺少 <code>&gt; **注意**</code> 级别前缀</li>
-          <li>嵌套在列表步骤内时，从属关系见 <a href="problems-content-table.html">表格的结构语义</a>；与 <a href="problems-content-image.html">装饰图标</a> 问题同类</li>
-        </ul>
-      </div>
-
     <section class="section" id="content-note-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,89 +52,58 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：正文可抓，类型语义缺失</h3>
-            <p><strong>提示正文能进入知识库，但类型不可识别。</strong>用户问「set_env.sh 怎么执行」时可召回正文；问「环境准备有哪些注意事项（注意级别）」时，chunk 中<strong>缺少类型标签</strong>，与正文段落难以区分。</p>
-
-            <h4>注意提示语义对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>提示要素</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>notebody 正文</td><td><code>set_env.sh</code> 等可阅读</td><td><span class="badge badge-status badge-ok">已入库</span></td></tr>
-                <tr><td>提示类型（注意/警告）</td><td>黄色框 + 图标传达</td><td><span class="badge badge-status badge-bad">完全丢失</span></td></tr>
-                <tr><td>data-admonition-type</td><td>无结构化字段</td><td><span class="badge badge-status badge-bad">缺失</span></td></tr>
-                <tr><td>与步骤从属关系</td><td>嵌套在 <code>&lt;li&gt;</code> 内</td><td><span class="badge badge-status badge-should">视管道而定</span></td></tr>
-              </tbody>
-            </table>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>notebody 正文</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>set_env.sh 等可检索</td></tr>
-                <tr><td>提示类型标注</td><td><span class="badge badge-status badge-bad">完全丢失</span></td><td>图标无文本语义</td></tr>
-                <tr><td>MD 引用块转换</td><td><span class="badge badge-status badge-bad">未执行</span></td><td>无 <code>&gt; **注意**</code> 前缀</td></tr>
-                <tr><td>装饰图标</td><td><span class="badge badge-status badge-should">噪声或空白</span></td><td>应 aria-hidden</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-note-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让每条注意提示以<strong>带类型标签的结构化 chunk</strong>入库——正文可检索，类型可过滤（note / warning / caution / tip），LLM 引用时带 <code>&gt; **注意**</code> 级别前缀，与所属步骤的从属关系保留。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-note-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span><code>data-admonition-type</code> 标注：源码中标注 <code>note</code> / <code>warning</code> / <code>tip</code> / <code>danger</code> 等提示类型；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>补充文本类型前缀：渲染页中用「注意：」「警告：」等文字替代 <code>note_3.0-zh-cn.png</code> 装饰图标；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>机器层引用块（blockquote）：将提示转换为 Markdown 格式，如 <code>&gt; **注意**</code> 正文内容，保留类型标识与正文；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>嵌套在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的提示，抓取时保留原始层级关系，禁止扁平化处理。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>正文可抓、类型语义缺失</strong>：<code>notebody</code> 正文能入库，但提示类型（注意 / 警告）<strong>仅靠图标 PNG</strong>，不产生可检索文本。</li>
+              <li><strong>与正文难区分</strong>：问「有哪些注意事项（注意级别）」时，chunk 缺少类型标签，RAG 无法按「注意 / 警告」过滤。</li>
             </ul>
-            <p>核心原则：<strong>类型语义先行入库</strong>——图标仅作装饰，类型与正文由文本承载。详见 <a href="principles-note.html">亲和原则 · Note 类型</a>。</p>
-
-            <h3>改进示例</h3>
-
-            <h4>环境准备 set_env.sh</h4>
-            <p>提示类型须以文本前缀入库——禁止仅依赖装饰图标传达「注意」级别：</p>
-            <div class="ui-demo ui-demo--plain" id="content-note-ui-demo-env">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--bad"><span class="rf-note-icon">ℹ️</span><span>安装 CANN 后需执行 set_env.sh 设置环境变量…</span></div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;div class="note"&gt;
-  &lt;img src="note_3.0-zh-cn.png"&gt;
-  &lt;div class="notebody"&gt;安装CANN软件后...set_env.sh...&lt;/div&gt;
-&lt;/div&gt;</div><p class="rf-muted">知识库 chunk：仅有正文段落，无「注意」标签。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;aside class="admonition note" data-admonition-type="note" role="note"&gt;
-  &lt;p class="admonition-title"&gt;注意&lt;/p&gt;
-  &lt;p&gt;安装CANN软件后，使用CANN运行用户进行编译、运行时，
-     需要执行 &lt;code&gt;source ${INSTALL_DIR}/set_env.sh&lt;/code&gt; 设置环境变量。&lt;/p&gt;
-&lt;/aside&gt;</div><p class="rf-muted">知识库 chunk：可检索「注意」「set_env.sh」「环境变量」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>机器层从 <code>doc_center/source</code> 导出时，提示转为引用块并写入类型元数据：</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：黄色框 + 图标 UI
-    │
-    └──► 机器层：MD / JSON
-              └── note → &gt; **注意** 引用块
-              └── 写入 admonition-type 元数据字段</div>
-
-            </div>
-
+          </div>
             </section>
+
+    <section class="section" id="content-note-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>Note 语义缺失的核心原因是：<strong>无 admonition 类型字段、图标代替文字前缀、提示未转写为引用块</strong>。</p>
+
+        <h3>1. 无类型字段</h3>
+        <p>源码无 <code>data-admonition-type</code>，入库后 Note / Warning 不可区分。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>标注 <code>data-admonition-type="note|warning|danger"</code>。</p>
+        </div>
+
+        <h3>2. 图标代替文字</h3>
+        <p>「注意：」语义靠 <code>note_3.0-zh-cn.png</code> 承载，转文本管道丢失。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>渲染页用「注意：」「警告：」文字前缀替代装饰图标。</p>
+        </div>
+
+        <h3>3. 未转写引用块</h3>
+        <p>提示未转为 Markdown blockquote，LLM 引用时缺级别前缀。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>机器层转为 <code>&gt; **注意**</code> 格式保留类型与正文。</p>
+        </div>
+
+        <h3>4. 嵌套层级丢失</h3>
+        <p>嵌在 <code>&lt;ol&gt;&lt;li&gt;</code> 内的提示被扁平化。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>抓取时保留原始列表层级（见 <a href="principles-note.html">安全警示语义化</a>）。</p>
+        </div>
+
+      </div>
+    </section>
 
 
   </main>
@@ -161,11 +121,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-note-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看环境准备（CANN 9.0.0），安装完 CANN 之后环境变量要怎么配？文档是用「注意」还是普通正文来提示的？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>环境准备文档会说明安装后需要配置的 <code>ASCEND_HOME</code> 等环境变量，通常写在注意提示或正文步骤里。</p>
+      <p>若 Note 类型只靠图标或样式区分、没有「注意：」文字前缀，入库后<strong>难以判断这是警示还是普通说明</strong>，引用时也缺少类型语义。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

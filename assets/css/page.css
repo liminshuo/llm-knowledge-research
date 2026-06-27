@@ -99,6 +99,22 @@
   margin-top: 40px;
 }
 
+.section .fix-suggestion {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 12px 0 0;
+}
+
+.section .fix-suggestion > :first-child {
+  margin-top: 0;
+}
+
+.section .fix-suggestion > :last-child {
+  margin-bottom: 0;
+}
+
 .section .test-prompt-card {
   background: rgba(222, 236, 255, 0.5);
   border-radius: 8px;
@@ -148,7 +164,7 @@
   font-weight: 700;
   line-height: var(--text-h2-lh);
   color: var(--color-text);
-  margin-top: 32px;
+  margin-top: 48px;
   margin-bottom: 16px;
   padding-bottom: 24px;
   border-bottom: 2px solid var(--color-heading-rule);
@@ -353,32 +369,40 @@ body[data-page="affinity"] .main-content > .section {
   table-layout: fixed;
   width: 100%;
   min-width: 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 
-.data-table--affinity col.col-dim { width: 7%; }
 .data-table--affinity col.col-id { width: 5%; }
-.data-table--affinity col.col-item { width: 9%; }
+.data-table--affinity col.col-item { width: 11%; }
 .data-table--affinity col.col-design,
 .data-table--affinity col.col-content,
-.data-table--affinity col.col-code { width: 26%; }
+.data-table--affinity col.col-code { width: 28%; }
 
+.data-table.data-table--affinity td:nth-child(3) strong,
 .data-table.data-table--affinity td:nth-child(4) strong,
-.data-table.data-table--affinity td:nth-child(5) strong,
-.data-table.data-table--affinity td:nth-child(6) strong {
+.data-table.data-table--affinity td:nth-child(5) strong {
   color: #000;
   font-weight: 600;
 }
 
-.data-table.data-table--affinity td.col-dim {
-  vertical-align: middle;
+.data-table.data-table--affinity td strong:not(:first-child) {
+  display: inline-block;
+  padding-top: 8px;
 }
 
 .data-table--affinity td.col-id,
-.data-table--affinity th:nth-child(2) {
+.data-table--affinity th:nth-child(1) {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
+}
+
+.affinity-group-title {
+  margin: 32px 0 12px;
+}
+
+.affinity-group-title:first-of-type {
+  margin-top: 8px;
 }
 
 .data-table.data-table--affinity th,
@@ -386,10 +410,12 @@ body[data-page="affinity"] .main-content > .section {
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
-  line-height: 1.6;
+  line-height: 22px;
   hyphens: auto;
-  font-size: 12px;
+  font-size: 14px;
   vertical-align: middle;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .data-table.data-table--affinity th {

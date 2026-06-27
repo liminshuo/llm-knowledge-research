@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>双轨交付与载体 · 亲和原则 · 大模型知识获取研究</title>
+  <title>双轨交付 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="format">
@@ -25,38 +25,44 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>双轨交付与载体</h1>
-      <p class="page-desc">对应 <a href="problems-format.html">问题论证 · 双轨交付与载体</a>。以下仅列渲染页上机器可读入口的 UI 改造项；双轨交付与管道规则见问题论证。</p>
+      <h1>双轨交付</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">同源双发——人类访问 HTML 渲染页，机器读取由同一来源导出的 <strong>Markdown / 纯净正文</strong>，并在页面提供可见的「机器可读版本」入口。</span>
+        <span class="page-desc-line">易读取 · 序号 12 · 对应 <a href="problems-format.html">问题论证 · 交付载体不适配</a>。</span>
+      </p>
     </div>
 
-
-    <section class="section" id="format">
-      <h3>UI 亲和原则</h3>
-      <p class="section-heading-desc">双轨交付、机器消费规则与 llms.txt 见 <a href="problems-format.html">问题论证 · 双轨交付与载体</a>；站点发现层见 <a href="problems-structure-llms.html">机器发现层缺失</a>。</p>
-      <table class="data-table">
-        <thead>
-          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>机器可读入口</td><td>页脚或工具栏提供「机器可读版本」可见链接，指向 source 或 Markdown 入口</td><td><span class="badge badge-should">建议</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ui-render-examples">
-        <h3>UI 渲染示例</h3>
-        <p>以下对照展示渲染页上的 UI 设计差异。</p>
-
-        <h4>示例 1 · 页脚提供机器可读版本入口</h4>
-        <div class="ui-demo ui-demo--plain" id="fmt-link">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-footer-bar">© 昇腾社区 · 上一篇 · 下一篇</div></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-footer-bar"><a href="#">⎘ 机器可读版本（source HTML）</a> · © 昇腾社区 · 上一篇 · 下一篇</div></div></div>
-          </div>
-        </div>
+    <section class="section" id="solution">
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>双轨交付</h3>
+        <p>HTML 版本 &amp; Markdown 版本双轨交付。源码为 HTML，可反向生成 MD。</p>
       </div>
-</section>
+      <h3>示例</h3>
 
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;footer class="doc-footer"&gt;
+  &lt;a href="/doc_center/source/.../operator_dev.html"&gt;机器可读版本（source HTML）&lt;/a&gt;
+&lt;/footer&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <pre><code>---
+source_url: /doc_center/source/.../operator_dev.html
+render_url: /document/detail/.../operator_dev.html
+---
+
+# 什么是 Ascend C
+
+Ascend C 是面向昇腾平台的算子开发语言…</code></pre>
+
+      <hr class="example-divider">
+
+      <h4>同源双发链路</h4>
+      <pre><code>/doc_center/source/.../operator_dev.html   ← 单一来源（纯净 HTML）
+        │
+        ├──► 人类：/document/detail/...           渲染页（带导航 / 样式）
+        └──► 机器：/.../operator_dev.md           管道导出 Markdown</code></pre>
+    </section>
 
   </main></div>
 

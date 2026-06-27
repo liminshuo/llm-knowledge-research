@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>隐藏语义 · Tab · 亲和原则 · 大模型知识获取研究</title>
+  <title>隐藏语义：Tab/折叠全量展开 · 亲和原则 · 大模型知识获取研究</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="tab">
@@ -25,51 +25,75 @@
   <main class="main-content">
 
     <div class="page-header">
-      <h1>隐藏语义 · Tab</h1>
-      <p class="page-desc">对应 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。以下仅列渲染页可见的 Tab 标签与面板展示 UI 改造项。</p>
+      <h1>隐藏语义：Tab/折叠全量展开</h1>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">避免把关键信息只放进 Tab 或折叠面板；若使用则<strong>同时提供全量展开版本</strong>，确保非激活面板的正文也能被抓取。</span>
+        <span class="page-desc-line">能读取 · 序号 11 · 对应 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。</span>
+      </p>
     </div>
 
+    <section class="section" id="solution">
+      <h2 id="design">设计侧</h2>
+      <div class="principle-deliverable">
+        <p>避免使用。</p>
+      </div>
+      <h3 id="design-example">示例</h3>
 
-    <section class="section" id="tab">
-      <h3>UI 亲和原则</h3>
-      <p class="section-heading-desc">机器层扁平展开规则见 <a href="problems-content-tab.html">问题论证 · 隐藏语义 · Tab</a>。</p>
-      <table class="data-table">
-        <thead>
-          <tr><th>编号</th><th>UI 改造项</th><th>渲染页呈现要求</th><th>级别</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>Tab 标签可读</td><td>Tab 标签展示场景化文本（如「在线安装 · x86_64 · CANN 9.0.0」），禁止 Tab1/Tab2</td><td><span class="badge badge-must">必须</span></td></tr>
-          <tr><td>2</td><td>Tab 面板全量可见</td><td>各 Tab 面板正文在页面上全量可见，纵向排列或切换时不隐藏非激活项正文</td><td><span class="badge badge-must">必须</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ui-render-examples">
-        <h3>UI 渲染示例</h3>
-        <p>以下对照展示渲染页上的 UI 设计差异。</p>
-
-        <h4>示例 1 · Tab 标签场景化（CANN 软件下载）</h4>
-        <div class="ui-demo ui-demo--plain" id="tab-02">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">Tab1</span><span class="rf-tab">Tab2</span><span class="rf-tab">Tab3</span></div><div class="rf-tab-panel">wget … ./Ascend-cann-toolkit.run --install</div></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · aarch64 · CANN 9.0.0</span></div><div class="rf-tab-panel">wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div></div></div>
-          </div>
-        </div>
-
-        <hr class="example-divider">
-
-        <h4>示例 2 · Tab 面板全量可见</h4>
-        <div class="ui-demo ui-demo--plain" id="tab-ui-expand">
-          <div class="compare-grid compare-grid--stack">
-            <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-            <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装</span><span class="rf-tab">离线安装</span></div><div class="rf-tab-panel">wget … --install</div><p class="rf-muted">（离线安装等面板 display:none，页面上不可见）</p></div></div>
-            <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-            <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">在线安装 · x86_64 · CANN 9.0.0</div>wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">离线安装 · x86_64 · CANN 9.0.0</div>./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</div></div></div></div>
-          </div>
+      <h4>示例 1 · Tab 标签场景化（CANN 软件下载）</h4>
+      <div class="ui-demo ui-demo--plain" id="tab-02">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · x86_64 · CANN 9.0.0</span><span class="rf-tab">离线安装 · aarch64 · CANN 9.0.0</span></div><div class="rf-tab-panel">wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div></div></div>
         </div>
       </div>
-</section>
 
+      <hr class="example-divider">
+
+      <h4>示例 2 · Tab 面板全量可见</h4>
+      <div class="ui-demo ui-demo--plain" id="tab-ui-expand">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">在线安装 · x86_64 · CANN 9.0.0</div>wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">离线安装 · x86_64 · CANN 9.0.0</div>./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</div></div></div></div>
+        </div>
+      </div>
+
+      <h2 id="content-side">内容侧</h2>
+      <div class="principle-deliverable">
+        <h3>内容平铺</h3>
+        <ol>
+          <li>不在 Tab 或折叠面板中放置关键信息（如需使用，同时在下方提供完整展开版本）</li>
+        </ol>
+      </div>
+
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>补充双轨机制</h3>
+        <ol>
+          <li>管道生成两套版本：交互版（供人浏览）+ 预展开版（供机器读取，所有 <code>.hidden</code> 类强制移除）</li>
+        </ol>
+        <h3>组件默认展开</h3>
+        <ol>
+          <li>机器源端点自动将 <code>&lt;details&gt;</code> 的 <code>open</code> 属性置为 <code>true</code></li>
+        </ol>
+      </div>
+      <h3>示例</h3>
+
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;!-- 人类交互版 --&gt;
+&lt;details&gt;
+  &lt;summary&gt;离线安装步骤&lt;/summary&gt;
+  ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline
+&lt;/details&gt;
+
+&lt;!-- /doc_center/source/ 机器层：open 置 true，正文全量可读 --&gt;
+&lt;details open&gt;
+  &lt;summary&gt;离线安装步骤&lt;/summary&gt;
+  ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline
+&lt;/details&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <pre><code>### 离线安装步骤
+
+./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</code></pre>
+    </section>
 
   </main></div>
 

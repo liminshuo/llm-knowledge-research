@@ -36,21 +36,12 @@
         <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a> 为例：「完整样例请参考 LINK」使 chunk 中<strong>无法回答样例仓库是什么</strong>。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>HelloWorld 等页出现「完整样例请参考 <code>LINK</code>」：<code>href</code> 指向 GitCode 仓库，但 chunk 中仅保留「LINK」</li>
-          <li>URL 能进知识库，<strong>锚文本不可用</strong>——用户问「样例仓库地址」时无法检索</li>
-          <li>占位符链接与描述性链接混排时，模型难以区分<strong>哪些链接携带目标语义</strong></li>
-        </ul>
-      </div>
-
     <section class="section" id="content-link-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,83 +52,58 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：占位符链接语义劣化</h3>
-            <p><strong>URL 能进知识库，锚文本不可用。</strong>用户问「HelloWorld 样例仓库地址」时，chunk 中仅见「LINK」——链接目标对人类不可核对、对 RAG 不可检索。HelloWorld 等页 <code>href</code> 指向 GitCode 仓库，但锚文本不提供目标描述，模型无法推断这是 <strong>hello_world 样例仓库</strong>。</p>
-
-            <h4>链接语义对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>链接类型</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>正文描述性链接</td><td>锚文本描述目标</td><td><span class="badge badge-status badge-ok">基本可用</span></td></tr>
-                <tr><td>占位符链接（LINK）</td><td>可见「LINK」文字</td><td><span class="badge badge-status badge-should">劣化入库</span></td></tr>
-                <tr><td>相对路径链接</td><td>可点击跳转</td><td><span class="badge badge-status badge-should">须转绝对 URL</span></td></tr>
-                <tr><td>站外 GitCode 链接</td><td>href 完整可访问</td><td><span class="badge badge-status badge-should">URL 在、语义丢</span></td></tr>
-              </tbody>
-            </table>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>描述性锚文本</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>可检索目标语义</td></tr>
-                <tr><td>占位符锚文本（LINK）</td><td><span class="badge badge-status badge-should">劣化入库</span></td><td>仅见占位符</td></tr>
-                <tr><td>href 绝对 URL</td><td><span class="badge badge-status badge-should">不稳定</span></td><td>相对路径须转换</td></tr>
-                <tr><td>站外来源标注</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>GitCode 等未标注</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-link-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让每条进入知识库的链接都携带<strong>可读的锚文本</strong>——用户检索「HelloWorld 样例」「ascendc-samples hello_world」时能召回正确 URL 与意图。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-link-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span>描述性锚文本：<code>&lt;a&gt;</code> 内文字须描述目标（如「HelloWorld 完整样例（GitCode）」），禁止「LINK」「点击这里」；</li>
-              <li><span class="badge badge-priority badge-should">可选</span><code>title</code>：链接标签上可补充用途说明；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>站外来源标注：GitCode 等外链旁附完整域名或 external 标记。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>占位符链接语义劣化</strong>：HelloWorld 页出现「完整样例请参考 <code>LINK</code>」——<code>href</code> 指向 GitCode，chunk 中仅保留「LINK」。</li>
+              <li><strong>URL 能入库、锚文本不可用</strong>：问「样例仓库地址」时无法检索目标语义，模型只能猜测。</li>
             </ul>
-            <p>核心原则：<strong>链接意图先行入库</strong>——模型读到的文字应能回答「链到哪里、为什么链」。详见 <a href="principles-link.html">亲和原则 · 链接语义</a>。</p>
-
-            <h3>改进示例</h3>
-
-            <h4>HelloWorld 占位符链接</h4>
-            <p>锚文本须描述跳转目标——禁止「LINK」等占位符入库：</p>
-            <div class="ui-demo ui-demo--plain" id="content-link-ui-demo-helloworld">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-bad" href="#">LINK</a></p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"&gt;LINK&lt;/a&gt;</div><p class="rf-muted">知识库 chunk：仅见「LINK」，无法回答样例仓库是什么。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p>完整样例请参考 <a class="rf-link-good" href="#">hello_world 完整样例（GitCode 仓库）</a></p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;a href="https://gitcode.com/cann/ascendc-samples/tree/master/hello_world"
-   data-link-purpose="完整样例代码仓库"&gt;
-  hello_world 完整样例（GitCode 仓库）
-&lt;/a&gt;</div><p class="rf-muted">知识库 chunk：可检索「HelloWorld 样例」「ascendc-samples hello_world」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>机器层从 <code>doc_center/source</code> 导出时，每条链接携带锚文本 + 绝对 URL：</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：描述性锚文本 + 站外来源标注
-    │
-    └──► 机器层：MD / JSON
-              └── 每条链接 → 锚文本 + 绝对 URL</div>
-
-            </div>
-
+          </div>
             </section>
+
+    <section class="section" id="content-link-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>链接语义劣化的核心原因是：<strong>占位符锚文本、缺 title 说明、站外来源未标注</strong>。</p>
+
+        <h3>1. 占位符锚文本</h3>
+        <p>「LINK」「点击这里」不提供跳转目标描述，chunk 丢失链接语义。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>锚文本须描述目标，如「HelloWorld 完整样例（GitCode）」。</p>
+        </div>
+
+        <h3>2. 缺 title / 用途说明</h3>
+        <p>链接用途无法从锚文本推断时，无补充说明字段。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>在 <code>&lt;a&gt;</code> 上补充 <code>title</code> 描述用途。</p>
+        </div>
+
+        <h3>3. 站外来源未标注</h3>
+        <p>GitCode 等外链与站内链接同等呈现，来源类型不明。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>站外链接旁附完整域名或 external 标记。</p>
+        </div>
+
+        <h3>4. 与正文从属断裂</h3>
+        <p>链接嵌在步骤列表里时，扁平化后丢失上下文。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>保留链接所在步骤层级，详见 <a href="principles-link.html">链接语义化</a>。</p>
+        </div>
+
+      </div>
+    </section>
 
 
   </main>
@@ -155,11 +121,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-link-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看 HelloWorld（CANN 9.0.0），文档里说的完整样例代码要去哪里找？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>完整样例代码通常通过文档内链接跳转到代码仓库或下载页。</p>
+      <p>如果链接锚文本是「点击这里」「LINK」这类占位符，入库后 chunk 里<strong>看不出跳转目标与用途</strong>，我只能根据上下文猜测，无法稳定告诉你是哪一个样例包或哪条官方路径。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

@@ -112,6 +112,9 @@
 .badge-scope-src { background: var(--color-accent-block-bg); color: var(--color-accent); }
 .badge-scope-pipe { background: var(--color-primary-tint); color: var(--color-primary); }
 
+.data-table td .badge-accent { background: var(--color-accent-tint); color: var(--color-accent); }
+.data-table td .badge-primary { background: var(--color-primary-tint); color: var(--color-primary); }
+
 .scope-legend {
   display: flex;
   flex-wrap: wrap;

@@ -384,6 +384,59 @@
   color: var(--color-primary);
 }
 
+.render-frame .rf-faq {
+  margin: 10px 0;
+  padding: 12px 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.render-frame .rf-faq-item + .rf-faq-item {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+}
+
+.render-frame .rf-faq-index {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.render-frame .rf-faq-q {
+  margin: 0 0 4px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: var(--color-primary-subtle);
+}
+
+.render-frame .rf-faq-q .rf-faq-label {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.render-frame .rf-faq-a {
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.render-frame .rf-faq-a .rf-faq-label {
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
 .ui-render-none {
   padding: 16px;
   background: var(--color-bg);

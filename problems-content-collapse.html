@@ -36,21 +36,12 @@
         <span class="page-desc-line">以 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 中的<strong>「我不知道硬件信息」</strong>折叠面板为分析聚焦。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>「我不知道硬件信息」面板区内收纳硬件确认与选型指引，默认收起时正文不在可见 DOM 中</li>
-          <li>默认管道跳过 <code>display:none</code> 区域，chunk 中可能仅有标题七个字，没有可执行步骤</li>
-          <li>与 <a href="problems-content-tab.html">Tab 选型</a> 叠加时，「不知硬件 → 不知如何选型」链路在知识库中断裂</li>
-        </ul>
-      </div>
-
     <section class="section" id="content-collapse-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,93 +52,58 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：折叠区语义未入库或截断</h3>
-            <p><strong>「我不知道硬件信息」面板是典型的默认折叠场景。</strong>标题在页面上可见，但区内「如何查型号、如何对照配套关系、应选哪类 CANN 包」等指引收纳在折叠体内。默认抓取跳过 <code>display:none</code> 区域时，区内正文对 RAG <strong>不可见</strong>——与用户点击展开后看到的内容存在系统性差异。</p>
-
-            <h4>折叠语义对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>折叠要素</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>折叠标题</td><td>「我不知道硬件信息」可见</td><td><span class="badge badge-status badge-ok">可能入库</span>（alone 无法回答）</td></tr>
-                <tr><td>折叠正文（默认收起）</td><td><code>display:none</code> 隐藏</td><td><span class="badge badge-status badge-bad">完全缺失</span></td></tr>
-                <tr><td>硬件确认步骤</td><td>展开后可见 <code>npu-smi info</code> 等指引</td><td><span class="badge badge-status badge-bad">未入库</span></td></tr>
-                <tr><td>与 Tab 选型关系</td><td>同页多轴 Tab 交互</td><td><span class="badge badge-status badge-should">链路断裂</span>（见 <a href="problems-content-tab.html">Tab</a>）</td></tr>
-              </tbody>
-            </table>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>折叠标题文本</td><td><span class="badge badge-status badge-ok">部分入库</span></td><td>无区内步骤</td></tr>
-                <tr><td>折叠区正文</td><td><span class="badge badge-status badge-bad">未落实</span></td><td>管道跳过隐藏节点</td></tr>
-                <tr><td>折叠全量展开</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>须机器层预展开</td></tr>
-                <tr><td>硬件选型指引</td><td><span class="badge badge-status badge-bad">丢失</span></td><td>须源 HTML 默认可见</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-collapse-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让「我不知道硬件信息」面板内的<strong>硬件确认与选型指引</strong>以可检索文本 chunk 进入知识库——用户问「不知道硬件型号怎么选 CANN 包」时能召回区内步骤，<strong>不要求在线点击展开</strong>。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-collapse-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span>折叠默认展开：标题具备语义，初始状态下面板区内正文完全展开；禁止通过 CSS 隐藏折叠内容；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>管道层扁平输出：在机器处理层将折叠内容全量展开，以 H3 标签标注各面板标题后入库；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>双轨交付：RAG 优先抓取预展开 MD，人类仍保留折叠交互 UI。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>折叠区未入库</strong>：「我不知道硬件信息」面板默认收起，区内硬件确认与选型步骤在 <code>display:none</code> 中——chunk 可能<strong>仅有标题七个字</strong>。</li>
+              <li><strong>选型链路断裂</strong>：与 Tab 选型叠加时，「不知硬件 → 不知如何选 CANN 包」的指引对 RAG 不可见。</li>
             </ul>
-            <p>核心原则：<strong>折叠内容先行入库</strong>——机器可读层无「收起」状态。详见 <a href="principles-collapse.html">亲和原则 · 折叠语义</a>。</p>
-
-            <h3>改进示例</h3>
-
-            <h4>我不知道硬件信息</h4>
-            <p>折叠面板须在渲染页默认展开——默认抓取不得只入库标题：</p>
-            <div class="ui-demo ui-demo--plain" id="content-collapse-ui-demo-hw">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-collapse-empty">▸ 我不知道硬件信息</div><p class="rf-muted">（面板收起，区内步骤不可见）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;div class="collapse"&gt;
-  &lt;div class="collapse-header"&gt;我不知道硬件信息&lt;/div&gt;
-  &lt;div class="collapse-body" style="display:none"&gt;
-    执行 npu-smi info 查看 Chip Name…
-  &lt;/div&gt;
-&lt;/div&gt;</div><p class="rf-muted">知识库 chunk：仅见标题，无法回答「如何确认硬件型号」。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><details open><summary>我不知道硬件信息</summary><ol><li>登录设备执行 <code>npu-smi info</code>，查看 Chip Name / 产品型号</li><li>对照昇腾社区「产品型号与 CANN 版本配套关系」文档</li><li>按确认结果选择对应 CANN 社区版与驱动包</li></ol></details></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;details open data-llm-expanded="true"&gt;
-  &lt;summary&gt;&lt;h3&gt;我不知道硬件信息&lt;/h3&gt;&lt;/summary&gt;
-  &lt;ol&gt;
-    &lt;li&gt;登录设备执行 &lt;code&gt;npu-smi info&lt;/code&gt;，查看 Chip Name / 产品型号&lt;/li&gt;
-    &lt;li&gt;对照昇腾社区「产品型号与 CANN 版本配套关系」文档&lt;/li&gt;
-    &lt;li&gt;按确认结果选择对应 CANN 社区版与驱动包&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/details&gt;</div><p class="rf-muted">知识库 chunk：可检索「不知道硬件信息」「npu-smi 查型号」「CANN 版本配套」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>机器层从 <code>doc_center/source</code> 导出时，将折叠区扁平为 H3 + 步骤列表 chunk：</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：折叠 / 手风琴 UI
-    │
-    └──► 机器层：MD / JSON
-              └── 折叠区 → H3 + 步骤列表 chunk
-              └── 剥离 display:none 依赖</div>
-
-            </div>
-
+          </div>
             </section>
+
+    <section class="section" id="content-collapse-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>折叠隐藏语义丢失的核心原因是：<strong>默认收起、管道跳过隐藏 DOM、折叠标题无区内正文</strong>。</p>
+
+        <h3>1. 默认收起</h3>
+        <p>关键步骤收纳在折叠体内，默认 DOM 不可见。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>折叠区默认展开，或同时提供全量展开版本。</p>
+        </div>
+
+        <h3>2. 管道跳过隐藏区</h3>
+        <p>默认抓取跳过 <code>display:none</code>，区内步骤不入库。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>机器层将折叠内容全量展开，以 H3 标注各面板标题。</p>
+        </div>
+
+        <h3>3. 标题代替正文</h3>
+        <p>chunk 仅含折叠标题，无可执行步骤。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>折叠标题 + 区内步骤须同时进入机器层 MD。</p>
+        </div>
+
+        <h3>4. 人机层未双轨</h3>
+        <p>人类保留折叠 UI，RAG 无预展开副本。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>RAG 优先抓取预展开 MD（见 <a href="principles-tab.html">隐藏语义：Tab/折叠全量展开</a>）。</p>
+        </div>
+
+      </div>
+    </section>
 
 
   </main>
@@ -165,11 +121,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-collapse-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看 CANN 软件下载（CANN 9.0.0），不太确定自己的昇腾硬件型号，应该怎么确认并选对的 CANN 安装包？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>下载页通常有「我不知道硬件信息」等折叠区，展开后会给出确认硬件型号的步骤。</p>
+      <p>若折叠区默认收起且未全量展开入库，我<strong>可能只读到标题、看不到区内步骤</strong>，从而无法完整回答如何确认型号并选对安装包。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

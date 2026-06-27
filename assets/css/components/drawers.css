@@ -306,9 +306,22 @@ p.search-phase-conclusions-list {
 
 .source-type-defs {
   margin: 20px 0 28px;
-  padding: 16px 18px;
+  padding: 0;
   font-size: 13px;
   line-height: 1.65;
+}
+
+.source-type-defs.surface-card {
+  padding: 16px 18px;
+}
+
+.source-type-defs .data-table {
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.source-type-defs .data-table code {
+  font-size: 12px;
 }
 
 .source-type-defs-title {

@@ -36,19 +36,12 @@
         <span class="page-desc-line"><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子 · 表1 设计规格</a>则代表复杂规格表——有表题但列布局混杂、空单元格与伪多行列表并存。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 算子 · 表1 Ascend C Add算子设计规格</a>：表题可见但非 caption 语义；5 列网格大量空单元格；「使用的主要接口」拆成 4 行伪数据行——入库后 API 列表与算子规格从属关系易丢失</li>
-        </ul>
-      </div>
-
     <section class="section" id="content-table-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -59,136 +52,59 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：复杂规格表语义劣化入库</h3>
-            <p><strong>表1 含完整算子规格，但行列从属需靠位置推断。</strong>用户问「x 的 shape」「DataCopy 接口」时，正文可召回；问「表1 Add 算子设计规格包含哪些 API」时，<strong>接口列表与 OpType 从属在 chunk 中易断开</strong>——表题非 <code>&lt;caption&gt;</code>、5 列空网格与接口伪多行是主因。</p>
-
-            <h4>表1 结构诊断</h4>
-            <p>实测页：<a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发 · CANN 9.0.0</a>「算子分析」一节。</p>
-            <table class="data-table">
-              <thead><tr><th>问题</th><th>表1 现状</th><th>入库 / 检索影响</th></tr></thead>
-              <tbody>
-                <tr><td>表题未语义化</td><td>「表1 Ascend C Add算子设计规格」为加粗段落，非 <code>&lt;caption&gt;</code></td><td><span class="badge badge-status badge-should">表题锚点弱</span></td></tr>
-                <tr><td>列布局虚胖</td><td>5 列网格；OpType、核函数、接口等行后列大量空单元格</td><td><span class="badge badge-status badge-should">切片时列对齐易错位</span></td></tr>
-                <tr><td>区段与数据混排</td><td>「算子输入」行内嵌 name / shape / data type / format；x、y 各占一行</td><td><span class="badge badge-status badge-ok">人工可读</span>，模型需推断首列为区段标签</td></tr>
-                <tr><td>列表拆成伪行</td><td>「使用的主要接口」占 4 行（DataCopy、Add、AllocTensor、EnQue…），后列全空</td><td><span class="badge badge-status badge-bad">API 与算子规格从属易丢失</span></td></tr>
-                <tr><td>字段可检索</td><td>x shape <code>(8, 2048)</code>、dtype <code>float</code>、核函数 <code>add_custom</code>、文件 <code>add_custom.asc</code></td><td><span class="badge badge-status badge-ok">单字段可召回</span>，组合语义不稳定</td></tr>
-              </tbody>
-            </table>
-            <div class="arch-diagram">表1 Ascend C Add算子设计规格（5 列布局示意）
-算子类型（OpType） | AddCustom | （空） | （空） | （空）
-算子输入           | name      | shape      | data type | format
-                   | x         | (8, 2048)  | float     | ND
-                   | y         | (8, 2048)  | float     | ND
-算子输出           | z         | (8, 2048)  | float     | ND
-核函数名称         | add_custom | （空） | （空） | （空）
-使用的主要接口     | DataCopy：数据搬运接口 | （空） | （空） | （空）
-                   | Add：矢量基础算术接口   | （空） | （空） | （空）
-                   | AllocTensor、FreeTensor… | （空） | （空） | （空）
-                   | EnQue、DeQue…           | （空） | （空） | （空）
-算子实现文件名称   | add_custom.asc | （空） | （空） | （空）</div>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>表1 内容</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>OpType / I/O shape / dtype</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>单字段可检索</td></tr>
-                <tr><td>表题「表1 Add算子设计规格」</td><td><span class="badge badge-status badge-should">劣化入库</span></td><td>非 caption，锚点弱</td></tr>
-                <tr><td>主要接口列表（4 行）</td><td><span class="badge badge-status badge-bad">从属弱化</span></td><td>伪多行，与 OpType 断联</td></tr>
-                <tr><td>机器层 Markdown 表</td><td><span class="badge badge-status badge-bad">源站缺失</span></td><td>未额外输出规范化 MD 表</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-table-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让 <strong>表1 Ascend C Add算子设计规格</strong> 以带 caption、分区子表与独立接口列表的结构化 chunk 入库。检索「Add 算子 x shape」「DataCopy 接口」「表1 Add算子设计规格」时能准确召回表格语义与从属关系。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-table-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-
-
-            <h3 id="改进措施">改进措施</h3>
-            <p>针对 Add 表1 的结构问题，在 <code>doc_center/source</code> 与渲染页中补充表格结构字段：</p>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span>表题 / <code>caption</code>：「表1 Ascend C Add算子设计规格」须写入 <code>&lt;caption&gt;</code>，入库后可作为检索锚点；</li>
-              <li><span class="badge badge-priority badge-must">必要</span><code>&lt;th&gt;</code> 表头：I/O 子表的 name / shape / data type / format 须使用 <code>&lt;th&gt;</code>，禁止样式伪装的 <code>&lt;td&gt;</code>；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>接口列表独立化：「使用的主要接口」改为 <code>&lt;ul&gt;</code> 或合并单元格，禁止拆成 4 行伪数据行；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>机器层 Markdown 表格：为规格表额外输出 MD 副本，保留 I/O 行列与接口列表结构。</li>
+            <h3>3. 问题洞察</h3>
+            <p>对照表 1 规格与用户提问，指向两点结论：</p>
+            <ul>
+              <li><strong>规格表语义劣化</strong>：表 1 含完整算子规格，但行列从属需靠位置推断——接口列表与 OpType 从属在 chunk 中易断开。</li>
+              <li><strong>表题未结构化</strong>：「表 1 Add 算子设计规格」未写入 <code>&lt;caption&gt;</code>，问「表 1 包含哪些 API」时难以锚定。</li>
             </ul>
-            <p>核心原则：<strong>规格表 = caption + I/O 子表 + 接口列表</strong>，避免 5 列空网格混排。详见 <a href="principles-table.html">亲和原则 · 表格的结构语义</a>。</p>
+          </div>
 
-            <h3>改进示例</h3>
-
-            <h4>表1 Ascend C Add算子设计规格</h4>
-            <p>规格类表格宜 caption + 分区子表 / 列表——避免 5 列空网格与接口伪多行：</p>
-            <div class="ui-demo ui-demo--plain" id="content-table-ui-demo-add">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><p class="rf-muted"><strong>表1</strong> Ascend C Add算子设计规格</p><table class="rf-table"><tr><td>算子类型</td><td>AddCustom</td><td></td><td></td><td></td></tr><tr><td>算子输入</td><td>name</td><td>shape</td><td>dtype</td><td>format</td></tr><tr><td></td><td>x</td><td>(8,2048)</td><td>float</td><td>ND</td></tr><tr><td>使用的主要接口</td><td>DataCopy…</td><td></td><td></td><td></td></tr><tr><td></td><td>Add…</td><td></td><td></td><td></td></tr></table><p class="rf-muted">（5 列空单元格；接口占多行）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;p&gt;&lt;b&gt;表1&lt;/b&gt; Ascend C Add算子设计规格&lt;/p&gt;
-&lt;table&gt;
-  &lt;tr&gt;&lt;td&gt;算子类型&lt;/td&gt;&lt;td&gt;AddCustom&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;使用的主要接口&lt;/td&gt;&lt;td&gt;DataCopy…&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;Add…&lt;/td&gt;&lt;td&gt;&lt;/td&gt;...&lt;/tr&gt;
-&lt;/table&gt;</div><p class="rf-muted">知识库 chunk：「DataCopy」与「AddCustom 规格」从属关系易丢失。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;table&gt;
-  &lt;caption&gt;表1 Ascend C Add算子设计规格&lt;/caption&gt;
-  &lt;tr&gt;&lt;th colspan="2"&gt;算子类型（OpType）&lt;/th&gt;&lt;td&gt;AddCustom&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-&lt;table&gt;
-  &lt;caption&gt;输入 / 输出&lt;/caption&gt;
-  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;name&lt;/th&gt;&lt;th&gt;shape&lt;/th&gt;&lt;th&gt;data type&lt;/th&gt;&lt;th&gt;format&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;&lt;td&gt;x&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;y&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;z（输出）&lt;/td&gt;&lt;td&gt;(8, 2048)&lt;/td&gt;&lt;td&gt;float&lt;/td&gt;&lt;td&gt;ND&lt;/td&gt;&lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;ul&gt;
-  &lt;li&gt;DataCopy：数据搬运接口&lt;/li&gt;
-  &lt;li&gt;Add：矢量计算接口&lt;/li&gt;
-  &lt;li&gt;AllocTensor / FreeTensor：内存管理&lt;/li&gt;
-  &lt;li&gt;EnQue / DeQue：队列操作&lt;/li&gt;
-&lt;/ul&gt;</div><p class="compare-sublabel">Markdown 输出</p><div class="arch-diagram">**表1 Ascend C Add算子设计规格**
-
-| 算子类型（OpType） | AddCustom |
-|-------------------|-----------|
-
-**输入 / 输出**
-
-| name | shape | data type | format |
-|------|-------|-----------|--------|
-| x | (8, 2048) | float | ND |
-| y | (8, 2048) | float | ND |
-| z（输出） | (8, 2048) | float | ND |
-
-**使用的主要接口**
-
-- DataCopy：数据搬运接口
-- Add：矢量计算接口
-- AllocTensor / FreeTensor：内存管理
-- EnQue / DeQue：队列操作</div><p class="rf-muted">知识库 chunk：可检索「表1 Add算子」「x shape (8,2048)」「DataCopy 接口」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>规格表整张入库；接口列表保持与 OpType 从属——caption、I/O 子表与接口列表在源 HTML 写对即可。</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：caption + I/O 子表 + 接口列表
-    └──► 机器层：MD / JSON（表不拆分、接口 ul）</div>
-
-            </div>
-
-          
             </section>
+
+    <section class="section" id="content-table-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>表格语义劣化的核心原因是：<strong>无 caption、th/scope 缺失、嵌套列表拆成伪数据行</strong>。</p>
+
+        <h3>1. 表题未声明</h3>
+        <p>表题不在 <code>&lt;caption&gt;</code> 里，入库后失去检索锚点。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>表题写入 <code>&lt;caption&gt;</code>，如「表 1 Ascend C Add 算子设计规格」。</p>
+        </div>
+
+        <h3>2. 表头语义缺失</h3>
+        <p>I/O 子表用样式伪装的 <code>&lt;td&gt;</code> 承载表头——行列关系入库后劣化。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>使用 <code>&lt;th&gt;</code> + <code>scope</code> 表达行列关系。</p>
+        </div>
+
+        <h3>3. 接口列表嵌在单元格</h3>
+        <p>「使用的主要接口」拆成多行伪数据行，与 OpType 从属断开。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>接口列表改为 <code>&lt;ul&gt;</code> 或合并单元格独立呈现。</p>
+        </div>
+
+        <h3>4. 机器层无 MD 副本</h3>
+        <p>复杂规格表在 HTML 入库后结构进一步Flatten。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>为规格表额外输出 Markdown 表格副本（详见 <a href="principles-table.html">表格语义化</a>）。</p>
+        </div>
+
+      </div>
+    </section>
 
 
 
@@ -208,11 +124,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-table-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看 Add 自定义算子开发（CANN 9.0.0），表 1 里输入 x 的 shape 和 dtype 是什么？核函数叫什么？主要用到哪些接口？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>表 1 是算子设计规格，通常会列出输入张量 shape / dtype、核函数名和关键接口。</p>
+      <p>若表格在入库时被压平成普通段落，行列关系可能丢失——我也许能答出部分接口名，但<strong>shape、dtype、核函数名等规格字段容易错位或遗漏</strong>，不如结构化表格可靠。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

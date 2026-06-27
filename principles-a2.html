@@ -26,18 +26,63 @@
 
     <div class="page-header">
       <h1>失效/弃用状态显化</h1>
-      <p class="page-desc">A2 · A. 可发现性 · 完整条目见 <a href="principles-affinity.html#principle-a2">亲和性原则汇总表</a>。</p>
+      <p class="page-desc page-desc--split">
+        <span class="page-desc-line">旧版、下线或已归档文档须在页面与元数据中<strong>显式标注弃用状态</strong>，并链到替代文档——避免 Agent 与用户把历史版本当作当前主推内容引用。</span>
+        <span class="page-desc-line">能找准 · 序号 3 · 对应 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>。</span>
+      </p>
     </div>
 
     <section class="section" id="solution">
-      <h2 id="design">设计侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. 旧版页面顶部设计红色&quot;已弃用&quot;横幅<br>2. 横幅内显式链到新版替代文档</div>
+      <h2 id="design">设计侧</h2>
+      <div class="principle-deliverable">
+        <h3>失效/弃用状态设计</h3>
+        <ol>
+          <li>旧版页面展示红色「已弃用」横幅</li>
+          <li>横幅内显式链到新版替代文档</li>
+        </ol>
+      </div>
+      <h3 id="design-example">示例</h3>
+      <div class="ui-demo ui-demo--plain">
+        <div class="compare-grid compare-grid--stack">
+          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-banner">⚠ 本文档已废弃（CANN 8.0 起）· <a href="#">见 CANN 9.0 替代文档</a></div><div class="rf-h1">旧版 API 说明</div></div></div>
+        </div>
+      </div>
 
-      <h2 id="content-side">内容侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. 每个弃用文档写明弃用原因、替代路径、迁移指引<br>2. 同主题多版本时，明确标注&quot;推荐阅读&quot;与&quot;已归档&quot;</div>
+      <h2 id="content-side">内容侧</h2>
+      <div class="principle-deliverable">
+        <h3>失效状态和原因说明</h3>
+        <p>每个弃用文档写明弃用原因、替代路径、迁移指引</p>
+      </div>
 
-      <h2 id="code-side">代码侧改造建议</h2>
-      <div class="surface-card principle-deliverable">1. Front Matter 写入 lifecycle_status: deprecated<br>2. 旧版URL路径标注 /deprecated/ 或 ?status=deprecated<br>3. 同题多版用 &lt;link rel=&quot;canonical&quot;&gt; 指向主推URL</div>
+      <h2 id="dev-side">研发侧</h2>
+      <div class="principle-deliverable">
+        <h3>生命周期状态定义</h3>
+        <ol>
+          <li>Front Matter 写入 <code>lifecycle_status: deprecated</code></li>
+        </ol>
+        <h3>URL 路径标注</h3>
+        <ol>
+          <li>旧版 URL 路径标注 <code>/deprecated/</code> 或 <code>?status=deprecated</code></li>
+        </ol>
+        <h3>导向主推版本</h3>
+        <ol>
+          <li>同题多版用 <code>&lt;link rel="canonical"&gt;</code> 指向主推 URL</li>
+        </ol>
+      </div>
+      <h3>示例</h3>
+
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;link rel="canonical" href="https://www.hiascend.com/doc_center/source/.../900/operator_dev.html"&gt;
+&lt;meta name="lifecycle_status" content="deprecated"&gt;</code></pre>
+
+      <h4>Markdown 导出</h4>
+      <pre><code>---
+doc_id: cann-800-operator-dev
+version: "8.0.0"
+lifecycle_status: deprecated
+replaced_by: cann-900-operator-dev
+deprecated_reason: CANN 9.0 重构算子 API，8.x 接口不再维护
+---</code></pre>
     </section>
 
   </main></div>

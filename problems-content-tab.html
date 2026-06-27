@@ -36,21 +36,12 @@
         <span class="page-desc-line">以 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806,h0501,h0601,h0703" target="_blank" rel="noopener">CANN 软件下载</a> 为例：用户切换 Tab 能看到的选型说明与安装步骤，知识库可能<strong>只入库当前默认 Tab 组合</strong>。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>下载页含<strong>多轴 Tab 选型</strong>（版本、架构、发行版、在线/离线安装等），非激活面板可被 CSS 隐藏</li>
-          <li>默认抓取可能<strong>只抓到当前 Tab 组合</strong>下的安装说明，离线安装、其他架构等分支正文缺失</li>
-          <li>Tab 标签与选型维度往往未结构化写入 chunk，检索时难以区分「用户问的是哪条安装路径」</li>
-        </ul>
-      </div>
-
     <section class="section" id="content-tab-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,86 +52,58 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：非激活 Tab 语义未入库或截断</h3>
-            <p><strong>CANN 软件下载页是典型的多轴 Tab 场景。</strong>页面在版本、架构、发行版、安装方式等维度上组合切换；非激活面板正文与部署命令可能<strong>不在默认可见 DOM 中</strong>，默认管道跳过 <code>display:none</code> 区域时，知识库可能仅有「在线安装 · x86_64 · 9.0.0」一类当前组合，缺少离线安装、其他架构等分支说明。</p>
-
-            <h4>Tab 语义对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>Tab 要素</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>当前激活 Tab 组合</td><td>可见安装命令与说明</td><td><span class="badge badge-status badge-ok">可能入库</span>（仅一条路径）</td></tr>
-                <tr><td>非激活 Tab 面板</td><td><code>display:none</code> 隐藏</td><td><span class="badge badge-status badge-bad">完全缺失</span></td></tr>
-                <tr><td>Tab 标签与选型维度</td><td>交互切换可见</td><td><span class="badge badge-status badge-should">未结构化</span></td></tr>
-                <tr><td>wget / 安装脚本等命令</td><td>随 Tab 组合切换</td><td><span class="badge badge-status badge-bad">非默认组合常丢失</span></td></tr>
-              </tbody>
-            </table>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>默认激活 Tab 正文</td><td><span class="badge badge-status badge-ok">部分入库</span></td><td>仅当前组合可见</td></tr>
-                <tr><td>非激活 Tab 面板</td><td><span class="badge badge-status badge-bad">未落实</span></td><td>管道跳过隐藏节点</td></tr>
-                <tr><td>Tab 全量展开</td><td><span class="badge badge-status badge-bad">缺失</span></td><td>须机器层预展开</td></tr>
-                <tr><td>选型维度结构化</td><td><span class="badge badge-status badge-should">不稳定</span></td><td>标签未写入 chunk</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-tab-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让每个 Tab 组合下的选型说明与安装命令以<strong>独立文本 chunk</strong>进入知识库——检索「CANN 离线安装」「aarch64 下载命令」时均能召回，<strong>不要求用户在线切换 Tab</strong>，要求机器层事先全量展开。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-tab-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span>Tab 全量可见：各面板源码完整，标签配有明确文本，渲染页正文全量可见；禁止使用 <code>display: none</code> 隐藏非激活项；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>管道层扁平输出：在机器处理层将 Tab 面板全量展开，以 H3 标签标注各面板标题后入库；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>双轨交付：RAG 优先抓取 <code>doc_center/source</code> 预展开 MD，人类仍保留 Tab 交互 UI。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>非激活 Tab 未入库</strong>：CANN 下载页多轴 Tab 选型，非激活面板可被 <code>display:none</code> 隐藏——默认抓取<strong>只入库当前 Tab 组合</strong>。</li>
+              <li><strong>安装路径不完整</strong>：问「Atlas 800 离线安装命令」时，知识库可能仅有在线安装说明，离线 / 其他架构分支缺失。</li>
             </ul>
-            <p>核心原则：<strong>Tab 内容先行入库</strong>——每个 Tab 须有可读标签，正文在源 HTML 中顺序展开。详见 <a href="principles-tab.html">亲和原则 · Tab 语义</a>。</p>
-
-            <h3>改进示例</h3>
-
-            <h4>CANN 软件下载 Tab</h4>
-            <p>各 Tab 组合须在源 HTML 与渲染页全量可见——默认抓取不得只入库当前激活项：</p>
-            <div class="ui-demo ui-demo--plain" id="content-tab-ui-demo-cann">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tabs"><span class="rf-tab rf-tab--active">在线安装</span><span class="rf-tab">离线安装</span></div><div class="rf-tab-panel">wget … --install</div><p class="rf-muted">（离线安装等面板 display:none，不可见）</p></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;div class="tab-panel-active"&gt;wget ... --install&lt;/div&gt;
-&lt;div class="more-tab-item" style="display:none"&gt;...离线安装命令...&lt;/div&gt;</div><p class="rf-muted">知识库 chunk：可能仅有当前激活组合，离线安装与其他架构说明丢失。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-tab-panels--good"><div class="rf-tab-panel"><div class="rf-tab-panel-label">在线安装 · x86_64 · CANN 9.0.0</div>wget … ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install</div><div class="rf-tab-panel"><div class="rf-tab-panel-label">离线安装 · x86_64 · CANN 9.0.0</div>./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline</div></div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;h3 id="install-online-x86-900"&gt;在线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-bash"&gt;wget ... ./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id="install-offline-x86-900"&gt;离线安装 · x86_64 · CANN 9.0.0&lt;/h3&gt;
-&lt;pre&gt;&lt;code class="language-bash"&gt;./Ascend-cann-toolkit_9.0.0_linux-x86_64.run --install --offline&lt;/code&gt;&lt;/pre&gt;</div><p class="rf-muted">知识库 chunk：可检索「CANN 离线安装」「aarch64 下载命令」「9.0.0 在线安装」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>机器层从 <code>doc_center/source</code> 导出时，将各 Tab 组合扁平为 H3 + 正文 chunk：</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：多轴 Tab UI + 交互切换
-    │
-    └──► 机器层：MD / JSON
-              └── 各 Tab 组合 → H3 + 正文 chunk
-              └── 禁止依赖 display:none 隐藏面板</div>
-
-            </div>
-
+          </div>
             </section>
+
+    <section class="section" id="content-tab-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>Tab 隐藏语义丢失的核心原因是：<strong>非激活面板 CSS 隐藏、Tab 维度未结构化、机器层未全量展开</strong>。</p>
+
+        <h3>1. 非激活面板被隐藏</h3>
+        <p><code>display:none</code> 导致默认管道跳过 Tab 内正文。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>各面板源码完整，渲染页正文全量可见，禁止 CSS 隐藏关键内容。</p>
+        </div>
+
+        <h3>2. Tab 维度未字段化</h3>
+        <p>版本 / 架构 / 安装方式等选型维度未写入 chunk，检索难区分路径。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>机器层以 H3 标注各面板标题后全量展开入库。</p>
+        </div>
+
+        <h3>3. 人机层未双轨</h3>
+        <p>人类保留 Tab 交互，机器层缺少预展开 MD。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>RAG 优先抓取 <code>doc_center/source</code> 预展开 MD（见 <a href="problems-format.html#solution">双轨交付</a>）。</p>
+        </div>
+
+        <h3>4. 与折叠叠加断裂</h3>
+        <p>Tab 选型 + 折叠指引叠加时，「不知硬件 → 不知如何选型」链路在知识库中断。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>同步落地 <a href="problems-content-collapse.html">折叠全量展开</a> 策略。</p>
+        </div>
+
+      </div>
+    </section>
 
 
   </main>
@@ -158,11 +121,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-tab-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看 CANN 软件下载（CANN 9.0.0），想给 Atlas 800 训练款做离线安装，对应的下载命令和安装说明在哪里？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>CANN 下载页会按芯片型号和安装方式分 Tab 展示不同命令与说明。</p>
+      <p>若默认只入库当前激活 Tab，非激活面板里的 Atlas 800 离线安装步骤<strong>可能未被抓取</strong>——我也许只能回答默认 Tab 的内容，或给出不完整/错误的安装指引。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

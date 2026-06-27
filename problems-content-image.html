@@ -36,21 +36,12 @@
         <span class="page-desc-line">以 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a> 为例：若仅入库 PNG 文件名或图片二进制，<strong>API 分层、成长地图阶段等图意视为未入库</strong>。</span>
       </p>
 
-    <div class="component-problem">
-        <div class="cp-label">核心问题</div>
-        <ul>
-          <li>6 张信息型 PNG 在转文本管道中<strong>完全不出现在 chunk 中</strong>——图意对人类可见，对 RAG 不可见</li>
-          <li>解析 HTML 仅见 <code>zh-cn_image_xxx.png</code> 文件名，<strong>无 <code>alt</code> 与内容转写</strong></li>
-          <li>下载 PNG 直链 ≠ 图意入库——除非额外接入视觉模型，否则不会产生可召回 chunk</li>
-        </ul>
-      </div>
-
     <section class="section" id="content-image-problem">
       <h2>问题实测</h2>
 
           <div class="content-unit">
 
-            <h3>测试问题</h3>
+            <h3>1. 向模型提问</h3>
 
             <div class="test-prompt-card">
 
@@ -61,91 +52,58 @@
             </div>
 
           <div class="content-unit">
-            <h3>结论：图意未入库</h3>
-            <p>即便能获取到图片文件地址，图意仍无法进入知识库。在默认 RAG 及网页 Reader 管道下，当用户提问「Ascend C API 有几层」「学习路径分几阶段」时，知识库中没有对应 chunk 可被召回——图片中的信息对人类可见，但对检索系统不可见。</p>
-
-            <h4>图意语义对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>图片类型</th><th>页面上</th><th>入库后</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>API 层级架构图</td><td>五层 API 分层关系可见</td><td><span class="badge badge-status badge-bad">完全丢失</span>（无 alt / 转写）</td></tr>
-                <tr><td>成长地图</td><td>五阶段学习路径 + usemap 热区</td><td><span class="badge badge-status badge-bad">完全丢失</span>（阶段标题未转写）</td></tr>
-                <tr><td>核心原理 / API 参考 / 算子实践卡片图</td><td>卡片主题与入口意图可见</td><td><span class="badge badge-status badge-bad">完全丢失</span>（无 alt）</td></tr>
-                <tr><td>正文段落</td><td>定义、列表等文字</td><td><span class="badge badge-status badge-ok">已入库</span></td></tr>
-              </tbody>
-            </table>
-
-            <h4>入库状态对照</h4>
-            <table class="data-table">
-              <thead>
-                <tr><th>入库环节</th><th>状态</th><th>说明</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>正文段落</td><td><span class="badge badge-status badge-ok">已入库</span></td><td>定义、列表等可检索</td></tr>
-                <tr><td>信息型 PNG（转文本）</td><td><span class="badge badge-status badge-bad">完全丢失</span></td><td>图片不出现在 chunk 中</td></tr>
-                <tr><td>图意转写（alt + 描述）</td><td><span class="badge badge-status badge-bad">源站缺失</span></td><td>文档未提供</td></tr>
-                <tr><td>PNG 直链下载</td><td><span class="badge badge-status badge-should">不等价入库</span></td><td>须文本化转写</td></tr>
-              </tbody>
-            </table>
-          </div>
-            </section>
-
-    <section class="section" id="content-image-solution">
-      <h2 id="solution">解决方案</h2>
-
-          <div class="content-unit">
-            <h3>改进目标</h3>
-            <p>让图片图意以文本 chunk 的形式进入知识库——使用户检索「API 分层」「成长地图阶段」时能召回对应语义，LLM 引用时有据可依；此方案不要求在线看图，但要求图意事先完成转写。</p>
+            <h3>2. 大模型回答</h3>
+            <p>
+              <a href="#" data-drawer-open="content-image-answer">查看大模型回答内容</a>
+            </p>
           </div>
 
           <div class="content-unit">
-
-            <h3 id="改进措施">改进措施</h3>
-            <ul class="list-badge-led">
-              <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：在 <code>&lt;img&gt;</code> 上写有意义说明（如「API 层级架构图」），而非 <code>zh-cn_image_xxx.png</code>；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>图片内容转写：将节点、层级、箭头关系写成正文——渲染页须有可见等价物（图下「图片内容转写」段落，或成长地图用正文 <code>&lt;ol&gt;</code> 列表）；</li>
-              <li><span class="badge badge-priority badge-must">必要</span>装饰图标标记 <code>aria-hidden</code> 或改为文本，纯装饰 PNG 从渲染页移除；</li>
-              <li><span class="badge badge-priority badge-should">可选</span>架构 / 流程图提供 Mermaid / SVG 可编辑源，入库时优先解析替代不可读 PNG。</li>
+            <h3>3. 问题洞察</h3>
+            <p>大模型的回答指向两点结论：</p>
+            <ul>
+              <li><strong>图意未入库</strong>：6 张信息型 PNG 在转文本管道中<strong>完全不出现在 chunk 中</strong>——API 分层、成长地图等图意对人类可见，对 RAG 不可见。</li>
+              <li><strong>仅有文件名</strong>：HTML 仅见 <code>zh-cn_image_xxx.png</code>，<strong>无 alt 与内容转写</strong>——问「API 有几层」时知识库无对应 chunk。</li>
             </ul>
-
-            <h3>改进示例</h3>
-
-            <h4>API 分层图</h4>
-            <p>转写须在页面上可见，默认抓取与人类读者均能读到：</p>
-            <div class="ui-demo ui-demo--plain" id="content-image-ui-demo-api">
-              <div class="compare-grid compare-grid--stack">
-                <h4 class="compare-label compare-label--machine">❌ 当前渲染</h4>
-                <div class="compare-col machine"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">zh-cn_image_0000002531512958.png</div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;img class="eddx" src="figure/zh-cn_image_0000002531512958.png"&gt;</div><p class="rf-muted">知识库 chunk：<em>（无）</em> 或仅含无意义文件名。</p></div>
-                <h4 class="compare-label compare-label--human">✅ 亲和渲染</h4>
-                <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">API 层级架构图</div><p class="rf-caption"><strong>图1</strong> Ascend C 多层级 API 体系</p><div class="rf-transcript"><strong>图片内容转写：</strong>Ascend C API 自下而上分为五层：1. 语言扩展层 C API — 指针编程，芯片级能力；2. 基础 API — Tensor 级 C++ 类库；3. 高阶 API — 卷积、矩阵等公共算法；4. 算子模板库 — Tiling 模板；5. Python 前端 — PyAsc。</div></div><p class="compare-sublabel">HTML 源码</p><div class="arch-diagram">&lt;figure id="ascend-c-api-layers"&gt;
-  &lt;img src="figure/zh-cn_image_0000002531512958.png"
-       alt="Ascend C API 层级：语言扩展层 C API、基础 API、高阶 API、算子模板库、Python 前端"&gt;
-  &lt;figcaption&gt;图1 Ascend C 多层级 API 体系&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;&lt;strong&gt;图片内容转写：&lt;/strong&gt;Ascend C API 自下而上分为五层：
-  1. 语言扩展层 C API — 指针编程，芯片级能力
-  2. 基础 API — Tensor 级 C++ 类库
-  3. 高阶 API — 卷积、矩阵等公共算法
-  4. 算子模板库 — Tiling 模板
-  5. Python 前端 — PyAsc&lt;/p&gt;</div><p class="rf-muted">知识库 chunk：可检索「API 分层」「C API 与高阶 API 关系」。</p></div>
-              </div>
-            </div>
-
-            <h4>管道切片</h4>
-            <p>机器层从 <code>doc_center/source</code> 导出时，解析 alt + 内容转写写入 chunk：</p>
-            <div class="arch-diagram">源 HTML
-    │
-    ├──► 人类层：PNG + 热区 + 可见转写正文
-    │
-    └──► 机器层：MD / JSON
-              └── alt + 内容转写 → chunk
-              └── 架构图优先 Mermaid / SVG 源</div>
-
-            </div>
-
+          </div>
             </section>
+
+    <section class="section" id="content-image-root-cause">
+      <h2 id="solution">根因分析</h2>
+
+      <div class="content-unit">
+        <p>图片图意丢失的核心原因是：<strong>无 alt、无内容转写、装饰图与信息图未区分</strong>。</p>
+
+        <h3>1. 无 alt 语义</h3>
+        <p><code>&lt;img&gt;</code> 仅有 PNG 文件名，入库 chunk 不含图意描述。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>为信息型图片写有意义 <code>alt</code> 与 <code>figcaption</code>。</p>
+        </div>
+
+        <h3>2. 图意未转写正文</h3>
+        <p>架构图、成长地图等关键信息只存在于像素里，未写为可检索段落。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>图下补充「图片内容转写」段落，或成长地图用正文 <code>&lt;ol&gt;</code> 列表（详见 <a href="principles-image.html">图片内容转译</a>）。</p>
+        </div>
+
+        <h3>3. 装饰图未标记</h3>
+        <p>纯装饰 PNG 与信息图混排，管道无法区分优先级。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>装饰图标标记 <code>aria-hidden</code> 或改为文本，从机器层移除。</p>
+        </div>
+
+        <h3>4. 缺可编辑图源</h3>
+        <p>架构 / 流程图仅有位图，无法结构化解析。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>提供 Mermaid / SVG 可编辑源，入库优先解析（见 <a href="principles-image.html">亲和原则</a>）。</p>
+        </div>
+
+      </div>
+    </section>
 
 
   </main>
@@ -163,11 +121,42 @@
     ></iframe>
   </aside></div>
 
+
+<div class="answer-drawer" id="answer-drawer" aria-hidden="true">
+  <div class="answer-drawer-overlay" data-drawer-close></div>
+  <aside class="answer-drawer-panel" role="dialog" aria-labelledby="answer-drawer-title">
+    <header class="answer-drawer-header">
+      <h2 id="answer-drawer-title">对话详情</h2>
+      <button type="button" class="answer-drawer-close" data-drawer-close aria-label="关闭">×</button>
+    </header>
+    <div class="answer-drawer-body"></div>
+  </aside>
+</div>
+
+<template data-drawer-template="content-image-answer" data-drawer-title="大模型回答">
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">用户</span>
+    <div class="dialog-card-body">
+      <p>我在看什么是 Ascend C（CANN 9.0.0），能帮我解释一下里面的 Ascend C 层级架构图吗？</p>
+    </div>
+  </div>
+
+  <div class="dialog-card">
+    <span class="dialog-card-role">大模型</span>
+    <div class="dialog-card-body">
+      <p>Ascend C 文档里通常会用架构图说明 API 分层与学习路径，但我实际读到的正文主要是文字定义和列表。</p>
+      <p>如果图片没有被转写为 alt / figcaption / 正文，我<strong>无法从入库 chunk 还原图里的层级关系</strong>——例如「有几层 API」「成长地图分几个阶段」这类问题，可能只能泛泛回答，或依赖训练记忆而非页面图意。</p>
+    </div>
+  </div>
+</template>
+
 <footer class="site-footer">
   模块 02 · 问题论证 · Ascend C 文档大模型亲和规则研究
 </footer>
 
 <script src="assets/js/module-sidebar.js"></script>
 <script src="assets/js/preview-drawer.js"></script>
+<script src="assets/js/answer-drawer.js"></script>
 </body>
 </html>

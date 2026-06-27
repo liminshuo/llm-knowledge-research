@@ -223,7 +223,7 @@ def iter_content_units(html):
 CUSTOM = {
     "problems-answer-generate.html": """        <h3>改进措施</h3>
         <h4>1. 承接检索池治理</h4>
-        <p>针对<strong>900 未进入生成溯源</strong>：生成质量上限由检索池决定——先落实 <a href="problems-answer-search.html#solution">检索阶段 · 解决方案</a>（llms.txt、双轨交付、版本 过滤）；检索默认 900 + 生成阶段 version 过滤。</p>
+        <p>针对<strong>900 未进入生成溯源</strong>：生成质量上限由检索池决定——先落实 <a href="problems-answer-search.html#answer-search-root-cause">检索阶段 · 根因分析</a>（llms.txt、双轨交付、版本 过滤）；检索默认 900 + 生成阶段 version 过滤。</p>
         <h4>2. 补充元数据与溯源 <span class="badge badge-priority badge-must">P0</span></h4>
         <p>针对<strong>脚注仅裸 URL</strong>：chunk 附带 <code>version</code>、<code>doc_id</code>、<code>source_url</code>，生成时默认过滤 900 社区版，脚注回链稳定；输出 <code>doc_id</code> + 人类层/机器层双 URL。详见 <a href="principles-structure-metadata.html">亲和原则 · 元数据字段规范</a>。</p>
         <h4>3. 规范信源标注 <span class="badge badge-priority badge-should">P1</span></h4>

@@ -26,7 +26,7 @@
 
     <div class="page-header">
       <div class="page-header-top">
-        <h1>检索阶段 <span class="badge badge-status badge-should">官方信源感知弱</span></h1>
+        <h1>检索阶段</h1>
       </div>
     </div>
 
@@ -35,26 +35,18 @@
       <span class="page-desc-line">本页统计该池中昇腾社区（<code>hiascend.com</code>）官方 URL 占比。</span>
     </p>
 
-    <div class="component-problem">
-      <div class="cp-label">核心结论</div>
-      <ul>
-        <li><strong>社区官方占比偏低</strong>：Claude <strong>21%</strong>、DeepSeek <strong>33%</strong> 均未过半；千问界面未显示检索链接。</li>
-        <li><strong>非社区信源占主导</strong>：Claude 第三方 <strong>79%</strong>；DeepSeek 华为系其他渠道 <strong>56%</strong>——与「基于官方资料」约束错位。</li>
-      </ul>
-    </div>
-
     <section class="section" id="answer-search-problem">
       <h2>问题实测</h2>
 
       <div class="content-unit">
-        <h3>测试问题</h3>
+        <h3>1. 向模型提问</h3>
         <div class="test-prompt-card">
           <p>我想基于官方资料了解一下 Ascend C 算子开发，能介绍一下吗？</p>
         </div>
       </div>
 
       <div class="content-unit">
-        <h3>回答源件</h3>
+        <h3>2. 大模型回答</h3>
         <p>
           <a href="https://claude.ai/share/0bd836f0-e4f6-4e90-acd7-c2d0b8a14885" target="_blank" rel="noopener">Claude AI</a>
           · <a href="https://chat.deepseek.com/share/ms9wokoa8dj11ic25x" target="_blank" rel="noopener">DeepSeek</a>
@@ -63,7 +55,7 @@
       </div>
 
       <div class="content-unit">
-      <h3>统计结果</h3>
+      <h3>3. 统计结果</h3>
       <div class="answer-card-grid">
 
         <div class="answer-card answer-card--claude">
@@ -95,9 +87,8 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>联网检索共获取 19 条 URL。</li>
-            <li>其中，昇腾社区 4 条（占比 21%），第三方来源 15 条（占比 79%）。</li>
-            <li>官方结果中包含 8.5 alpha 及 9.1 beta 导读内容，未见 CANN 9.0 社区版；第三方来源以 CSDN、知乎、博客园为主。</li>
+            <li>19 条 URL 中社区官方仅 4 条，第三方（CSDN / 知乎 / 博客园）占主导。</li>
+            <li>官方结果停留在 8.5α / 9.1β，未见 CANN 9.0 社区版。</li>
           </ul>
 
           <button type="button" class="answer-card-link" data-drawer-open="claude-search">查看检索网页列表</button>
@@ -112,7 +103,7 @@
             <div class="source-row">
               <span class="source-row-label">昇腾社区官方</span>
               <span class="source-bar"><span class="source-bar-fill official" style="width:33%"></span></span>
-              <span class="source-row-val">33%</span>
+              <span class="source-row-val low">33%</span>
             </div>
             <div class="source-row">
               <span class="source-row-label">其他官方渠道</span>
@@ -132,9 +123,8 @@
           </div>
 
           <ul class="answer-card-summary answer-card-summary--points">
-            <li>共浏览 27 页（含 PDF 锚点）。</li>
-            <li>分布如下：昇腾社区 9 条（占比 33%），华为开发者 8 条（占比 30%），华为云博客 7 条（占比 26%），百度系 3 条（占比 11%）。</li>
-            <li>内容多为 CANN 8.0 / 8.1 / 8.2 RC 版的 PDF 文档，未见 CANN 9.0 相关内容。</li>
+            <li>27 页中社区官方仅 9 条，多数来自华为开发者、华为云博客等其他渠道。</li>
+            <li>内容多为 CANN 8.x RC 版 PDF，未见 CANN 9.0。</li>
           </ul>
 
           <button type="button" class="answer-card-link" data-drawer-open="deepseek-search">查看检索网页列表</button>
@@ -149,7 +139,7 @@
             <div class="source-row">
               <span class="source-row-label">昇腾社区官方</span>
               <span class="source-bar"><span class="source-bar-fill official" style="width:0%"></span></span>
-              <span class="source-row-val">0%</span>
+              <span class="source-row-val low">0%</span>
             </div>
             <div class="source-row">
               <span class="source-row-label">其他官方渠道</span>
@@ -175,7 +165,7 @@
 
       </div>
 
-      <div class="source-type-defs surface-card">
+      <div class="source-type-defs">
         <p class="source-type-defs-title">来源类型说明</p>
         <table class="data-table">
           <thead>
@@ -190,27 +180,50 @@
         </table>
       </div>
       </div>
-    </section>
-
-    <section class="section" id="answer-search-solution">
-      <h2 id="solution">解决方案</h2>
 
       <div class="content-unit">
-        <h3>改进目标</h3>
-        <p>提升检索阶段昇腾社区官方 URL 的占比，同时确保拉取的内容为低噪声机器层（<code>doc_center/source/</code> 或声明的 Markdown 出口），而非高噪声的渲染页及旧版路径。</p>
-      </div>
-
-      <div class="content-unit">
-
-        <h3 id="改进措施">改进措施</h3>
-        <ul class="list-badge-led">
-          <li><span class="badge badge-priority badge-must">必要</span><strong>补充机器发现层</strong>：针对官方占比偏低（如 Claude 仅 <strong>21%</strong>），部署 <code>llms.txt</code>，声明 canonical 源与主推版本 900；通过 sitemap 引导官方机器层，避免 Agent 自行猜测入口（详见 <a href="problems-structure-llms.html#solution">机器发现层 · 解决方案</a>）；</li>
-          <li><span class="badge badge-priority badge-must">必要</span><strong>落实双轨交付与格式</strong>：针对第三方教程主导问题，官方文档以机器层 Markdown / 源 HTML 并行发布，提升官方 Markdown 的可索引性与排序权重，使联网检索优先暴露低噪声 URL（详见 <a href="problems-format.html#solution">格式交付 · 解决方案</a>）；</li>
-          <li><span class="badge badge-priority badge-should">可选</span><strong>强化版本与元数据过滤</strong>：针对检索 URL 版本混杂，主推版本 900，旧版路径标注「已弃用」；入库携带 <code>version</code> 字段，检索默认过滤 CANN 9.0.0（详见 <a href="problems-timeliness.html#timeliness-solution">版本滞后 · 解决方案</a>、<a href="problems-structure-metadata.html#solution">页级元数据 · 解决方案</a>）。</li>
+        <h3>4. 问题洞察</h3>
+        <ul>
+          <li><strong>社区官方占比偏低</strong>：Claude <strong>21%</strong>、DeepSeek <strong>33%</strong> 均未过半；千问界面未显示检索链接。</li>
+          <li><strong>非社区信源占主导</strong>：Claude 第三方 <strong>79%</strong>；DeepSeek 华为系其他渠道 <strong>56%</strong>——与「基于官方资料」约束错位。</li>
         </ul>
       </div>
+    </section>
 
-      
+    <section class="section" id="answer-search-root-cause">
+      <h2>根因分析</h2>
+
+      <div class="content-unit">
+        <p>官方占比低的核心原因是：<strong>机器入口不清、第三方排序占优、官方渠道分散、版本信号缺失</strong>。</p>
+
+        <h3>1. 机器入口不清</h3>
+        <p>无 <code>llms.txt</code>，<code>/doc_center/</code> 被 robots 屏蔽，sitemap 只引导渲染页（详见 <a href="problems-structure-llms.html">机器发现层缺失</a>）。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>部署 <code>llms.txt</code>，放行并优先声明 <code>/doc_center/source/</code>，让 Agent 默认抓社区机器源。</p>
+        </div>
+
+        <h3>2. 第三方排序占优</h3>
+        <p>Claude 检索池中第三方教程占 <strong>79%</strong>；Prompt 的「官方资料」约束无法直接过滤检索 URL。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>双轨交付官方 Markdown / 源 HTML，提高官方内容的可索引性与排序权重（详见 <a href="problems-format.html#solution">格式交付</a>）。</p>
+        </div>
+
+        <h3>3. 官方渠道分散</h3>
+        <p>DeepSeek 拉取华为开发者 <strong>30%</strong>、华为云博客 <strong>26%</strong>；Agent 容易把「华为官方」泛化为社区官方。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>将 <code>hiascend.com</code> 声明为 canonical 入口，并用 <code>source_channel</code> 区分社区官方与华为系其他渠道。</p>
+        </div>
+
+        <h3>4. 版本信号缺失</h3>
+        <p>检索结果多为 8.x、8.5 alpha、9.1 beta，<strong>未见 CANN 9.0 社区版</strong>（详见 <a href="problems-timeliness.html#timeliness-problem">版本滞后</a>）。</p>
+        <div class="fix-suggestion">
+          <h4>修改建议</h4>
+          <p>在 sitemap / <code>llms.txt</code> 中声明主推版本 900，并用页级 <code>version</code> 字段做默认过滤。</p>
+        </div>
+      </div>
     </section>
 
 

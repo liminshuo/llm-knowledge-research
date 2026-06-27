@@ -62,7 +62,13 @@
       </div>
       <h3>示例</h3>
 
-      <h4><code>llms.txt</code></h4>
+      <h4>HTML 源码</h4>
+      <pre><code>&lt;head&gt;
+  &lt;link rel="llms" href="/llms.txt" type="text/markdown"&gt;
+  &lt;link rel="alternate" type="text/markdown" href="/doc_center/source/.../operator_dev.md"&gt;
+&lt;/head&gt;</code></pre>
+
+      <h4>Markdown 导出（<code>llms.txt</code>）</h4>
       <p class="text-auxiliary"><strong>机器怎么用</strong>：Agent 接到文档相关任务时，先访问 <code>/llms.txt</code> 拿到「该读哪些页」的清单，再按链接去抓具体文档——不用在人类渲染页里自己猜入口。参考样例：<a href="https://docs.anthropic.com/llms.txt" target="_blank" rel="noopener">Anthropic llms.txt</a></p>
       <pre><code># CANN 社区版 9.0.0
 &gt; 主推版本 · 机器优先读取 source HTML
@@ -77,7 +83,7 @@
 ## 已归档
 - [CANN 8.0 文档索引](https://www.hiascend.com/.../deprecated/): 仅供历史版本对照</code></pre>
 
-      <h4><code>llms-full.txt</code></h4>
+      <h4>Markdown 导出（<code>llms-full.txt</code>）</h4>
       <p class="text-auxiliary"><strong>机器怎么用</strong>：Agent 把 <code>/llms-full.txt</code> 整个读进上下文，一次拿到索引里所有文档的正文——不用逐个 URL 去抓，适合需要跨多篇查资料的场景。参考样例：<a href="https://docs.anthropic.com/llms-full.txt" target="_blank" rel="noopener">Anthropic llms-full.txt</a></p>
       <pre><code># CANN 社区版 9.0.0 · 机器可读全文
 
