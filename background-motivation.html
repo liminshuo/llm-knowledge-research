@@ -43,7 +43,7 @@
     <section class="section" id="scope">
       <h2>研究范围</h2>
       <p>
-        以 Ascend C 算子开发为典型场景，用户旅程图按开发时序划分为六个阶段：了解入门、环境配置、算子编写、编译构建、运行调试与故障排查。针对每一阶段，分别汇整用户意图、实测问句、采样页面及语义结论，形成完整的体验映射。
+        以 Ascend C 算子开发为典型场景，用户旅程图按开发时序划分为五个阶段：了解选型、上手引导、环境配置、算子编写与编译验证。针对每一阶段，分别汇整用户意图、实测问句、采样页面及语义结论，形成完整的体验映射。
       </p>
 
       <figure class="journey-map surface-card" id="scope-journey-map" aria-label="Ascend C 开发者用户旅程图">
@@ -56,7 +56,6 @@
               <col class="journey-map__col-stage">
               <col class="journey-map__col-stage">
               <col class="journey-map__col-stage">
-              <col class="journey-map__col-narrow">
             </colgroup>
             <thead>
               <tr>
@@ -86,11 +85,6 @@
                   <span class="journey-map__stage-name">编译跑通</span>
                   <span class="journey-map__stage-phase">验证结果</span>
                 </th>
-                <th scope="col" class="journey-map__stage journey-map__stage--outline journey-map__stage--narrow">
-                  <span class="journey-map__stage-index">⑥</span>
-                  <span class="journey-map__stage-name">调试求助</span>
-                  <span class="journey-map__stage-phase">深度排障</span>
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +95,6 @@
                 <td>安装 CANN、配置 SDK 环境</td>
                 <td>手动编写 Ascend C 算子</td>
                 <td>编译跑通并验证结果</td>
-                <td>性能优化与运行时排障</td>
               </tr>
               <tr>
                 <th scope="row" class="journey-map__row-label">测试问题</th>
@@ -198,7 +191,6 @@
                     </div>
                   </div>
                 </td>
-                <td class="journey-map__cell-empty"><span class="journey-map__muted">—</span></td>
               </tr>
               <tr>
                 <th scope="row" class="journey-map__row-label">官方文档</th>
@@ -210,7 +202,6 @@
                 </td>
                 <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a></td>
                 <td><a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a></td>
-                <td><span class="journey-map__muted">未单独采样</span></td>
               </tr>
               <tr>
                 <th scope="row" class="journey-map__row-label">语义维度</th>
@@ -247,7 +238,6 @@
                     <p><span class="journey-map__finding-label">代码语义</span><span class="journey-map__finding-desc">行号污染、缺语言标注</span></p>
                   </div>
                 </td>
-                <td class="journey-map__cell-empty"><span class="journey-map__muted">—</span></td>
               </tr>
             </tbody>
           </table>

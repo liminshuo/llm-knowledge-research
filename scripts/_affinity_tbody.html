@@ -23,7 +23,7 @@
           </tr>
           <tr id="principle-b3">
             <td class="col-id">4</td>
-            <td>元数据丰富化<br><span class="badge badge-primary">研发已识别</span></td>
+            <td>元数据丰富化<br><span class="badge badge-primary">阳狮团队已识别</span></td>
             <td><strong>元数据位置和样式设计</strong>：<br>1.版本信息：版本号、版本的更新日期、版本的生命周期状态<br>2. 适用产品：适用芯片、设备信息<br><strong>摘要前置设计</strong>：<br>1.文档摘要：每篇文档前补充摘要 150个字符以内</td>
             <td><strong>元数据内容补充</strong>：<br>每个文档页面建议在&lt;head&gt;中包含丰富的结构化元数据，优先使用JSON-LD格式。</td>
             <td><strong>元数据补充</strong>：<br>1. &lt;head&gt; 输出完整 JSON-LD（@id/doc_id、BreadcrumbList、TechArticle），同步 &lt;meta name=&quot;doc_id&quot;&gt;；doc_id 复用于 /docs/{doc_id}/ 路径<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta<br><strong>渲染方式改HTML</strong>：<br>左侧导航、面包屑、关联关系（上一篇、下一篇）改为 HTML 可抓取形式。</td>
@@ -88,7 +88,7 @@
           <tr id="principle-d1">
             <td class="col-dim" rowspan="1">易读取</td>
             <td class="col-id">13</td>
-            <td>双轨交付<br><span class="badge badge-primary">研发已识别</span></td>
+            <td>双轨交付<br><span class="badge badge-primary">阳狮团队已识别</span></td>
             <td>—</td>
             <td>—</td>
             <td><strong>双轨交付</strong>：<br>HTML 版本 &amp; Markdown 版本双轨交付。源码为 HTML，可反向生成 MD。<br><strong>HTML源码优化</strong>：<br>不使用 .md 的渲染页面，采用 .html 渲染页面，需尽量在前端输出，不通过服务端动态渲染。</td>

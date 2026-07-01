@@ -121,6 +121,9 @@
     html += "<ul class=\"sidebar-nav sidebar-phase-nav sidebar-module-title\">";
     html += "<li class=\"nav-group-label\">亲和原则</li>";
     html += "<li><a href=\"principles-affinity.html\"" + (page === "affinity" ? " class=\"active\"" : "") + ">亲和性原则</a></li>";
+    html += "<li><a href=\"principles-affinity-content.html\"" + (page === "affinity-content" ? " class=\"active\"" : "") + ">文档内容建议汇总</a></li>";
+    html += "<li><a href=\"principles-affinity-design.html\"" + (page === "affinity-design" ? " class=\"active\"" : "") + ">设计UI 建议汇总</a></li>";
+    html += "<li><a href=\"principles-affinity-dev.html\"" + (page === "affinity-dev" ? " class=\"active\"" : "") + ">前端调整建议汇总</a></li>";
     html += "</ul>";
   }
   function navItemActive(item) {
@@ -150,7 +153,7 @@ function initPageToc() {
   var module = document.body.getAttribute("data-module");
   var page = document.body.getAttribute("data-page");
   if (module !== "problems" && module !== "principles") return;
-  if (page === "affinity") return;
+  if (page === "affinity" || page === "affinity-content" || page === "affinity-design" || page === "affinity-dev") return;
   if (!document.getElementById("module-sidebar")) return;
 
   var main = document.querySelector(".main-content");

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文档内容建议汇总 · 亲和原则 · 大模型知识获取研究</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inner-page" data-module="principles" data-page="affinity-content">
+
+<header class="site-header">
+  <div class="site-logo">大模型知识获取研究</div>
+  <nav class="site-nav">
+    <a href="index.html">首页</a>
+    <a href="background-motivation.html">研究概览</a>
+    <a href="problems-answer-search.html">问题论证</a>
+    <a href="principles-affinity.html" class="active">亲和原则</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+
+  <aside id="module-sidebar"></aside>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>文档内容建议汇总</h1>
+      <p class="page-desc">从亲和性原则汇总表摘出的文档内容调整建议。完整三列表见 <a href="principles-affinity.html">亲和性原则</a>。</p>
+    </div>
+
+    <section class="section" id="affinity-catalog">
+
+      <h3 class="affinity-group-title">能找到</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity data-table--affinity-summary">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-content">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>文档内容调整</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-a1">
+            <td class="col-id">1</td>
+            <td>llms.txt / sitemap 部署<br><span class="badge badge-primary">阳狮团队已识别</span></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">能找准</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity data-table--affinity-summary">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-content">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>文档内容调整</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-b1">
+            <td class="col-id">2</td>
+            <td>版本外显</td>
+            <td>每个文档页面必须在其元数据区域以结构化（机器可优先读）和自然语言（人类可读）两种形式，明确声明：产品/项目名称、文档对应的软件版本号（遵循SemVer）、该版本的发布日期、该版本的生命周期状态（如当前稳定版、维护中、已启用、EOS）、（可选）文档版本自身的版本号。所有版本差异必须使用表格进行条目化描述，禁止使用模糊散文。</td>
+          </tr>
+          <tr id="principle-b2">
+            <td class="col-id">3</td>
+            <td>失效状态显化</td>
+            <td>失效状态显性化。版本、上线、废弃、灰度、兼容边界明确写明，AI自动过滤失效内容；已废弃章节在页顶展示弃用提示，并链接代替文档。<br>a.功能/接口失效<br>任何已弃用、将下线、或对特定环境无效的功能、API端点、配置参数、必须在描述它的最靠近的标题下方使用显著的警告块进行标记。该警告必须说明：弃用/失效的时间点（或版本）、影响范围、以及代替方案（链接到新文档）。<br>b.文档失效<br>对于已停止维护的文档版本或章节，必须在页面顶部（H1上方）展示一个清晰的提示框，说明“此文档适用于已停止维护的[产品名]vX.Y”，并提供一个指向最新版本推荐文档的醒目链接。</td>
+          </tr>
+          <tr id="principle-b3">
+            <td class="col-id">4</td>
+            <td>元数据丰富化<br><span class="badge badge-primary">阳狮团队已识别</span></td>
+            <td>元数据字段填写：每篇文档在 Markdown frontmatter 中填写 doc_id、version、date_modified、applicable_devices、parent_topic 等字段，这是两轨交付和 JSON-LD 自动生成的数据来源<br>文档摘要补充：每篇文档 H1 下方补充 60-120 字的摘要块，说明&quot;这篇文档是关于什么产品、面向什么读者、解决什么问题&quot;，严格控制在 150 字符以内</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">能读取</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity data-table--affinity-summary">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-content">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>文档内容调整</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-c1">
+            <td class="col-id">5</td>
+            <td>图文图意</td>
+            <td>架构图、流程图、时序图、界面截图关键信息、核心结论采用文本介绍，图片做辅助展示。<br>a.代替文本<br>每一张图（&lt;img&gt;）必须提供非空的alt属性。alt文本应简洁描述图片的内容和功能<br>b.禁止“见上图/下图”<br>正文中禁止出现“见上图/下图”等仅依赖视觉位置进行引用的语句。图片引用必须将图片中的关键信息用文字复述一遍<br>c.复杂图表转写<br>对于包含复杂逻辑的图表，必须在图片下方提供一个“图表内容转写”段落，用文字完整描述图表所表达的全部关键信息。<br>d.替代格式优先<br>对于流程图、时序图、架构图，优先使用Mermaid 等文本可渲染的图表格式代替不可读的PNG/JPG图片<br>e.装饰图片<br>纯装饰性的图标、分割线图片等，应使用CSS背景图或标记 alt=“”（空字符串）</td>
+          </tr>
+          <tr id="principle-c2">
+            <td class="col-id">6</td>
+            <td>图片热区</td>
+            <td>对于包含可点击区域（ImageMap，既带有&lt;map&gt;和&lt;area&gt;标签的图片），图片下方必须提供给一个完整的、无序列表样式的链接清淡，清单中列出所有热区对应的跳转目标。每个清淡项必须包含：热区所代表的描述性文字，以及完整的跳转URL。禁止在清单中使用“区域1”、“链接2”等无意义的描述。</td>
+          </tr>
+          <tr id="principle-c3">
+            <td class="col-id">7</td>
+            <td>链接语义</td>
+            <td>内容引用超链接采用描述性、可见文字显性标注跳转目标，实现AI可访问性和搜索索引性。<br>a.描述性锚文本<br>超链接的可点击文本必须能够在不依赖上下文的情况下，独立描述链接的目标内容或操作。禁止使用“点击这里”、“更多”、“链接”作为锚文本。<br>b.站外来源标注<br>对于指向其他域名的链接，应在锚文本旁添加显式标识，如[外部]或图标+目标域名<br>c.内联上下文<br>链接应嵌入在具有上下文的句子中，而不是孤立地列出<br>d.用途说明<br>对于下载链接、API参考链接等，可在链接后附带括号说明文件类型、大小或用途。</td>
+          </tr>
+          <tr id="principle-c4">
+            <td class="col-id">8</td>
+            <td>代码语义</td>
+            <td>代码示例格式清晰，提供完整可运行示例和预期输出。<br>a.独立可运行<br>代码示例应尽可能自包含，用户可以复制后直接运行<br>b.语言标注<br>每个代码块必须标注编程语言（如&#x27;&quot;python）<br>c.注释清晰<br>关键行应包含注释，解释其作用<br>d.预期输出<br>对于执行类代码，应在代码块后提供“预期输出”块<br>e.格式分离<br>代码行号应由前端CSS或代码高亮库生成，严禁在代码文本中手动写入行号<br>f.区块语义<br>代码块应使用&lt;pre&gt;&lt;code&gt;语义标签包裹<br>g.元信息<br>代码块上方（可选单推荐）显示该代码的文件名、适用语言和场景。</td>
+          </tr>
+          <tr id="principle-c5">
+            <td class="col-id">9</td>
+            <td>表格语义</td>
+            <td>表格中的符号需要替换为文本。<br>a.符号替换；<br>表格单元格中禁止使用仅靠形状表达含义的符号，如✅、❌、-、N/A等，所有状态必须使用完整的文字表达，如 是/否、支持/不支持<br>b.结构化标题<br>表格必须使用&lt;caption&gt;标签提供表格标题/摘要。列名称必须使用&lt;th&gt;标签 ；<br>c.作用域 &lt;th&gt;标签应尽可能指定 scope=&quot;col&quot;或scope=&quot;row&quot;</td>
+          </tr>
+          <tr id="principle-c6">
+            <td class="col-id">10</td>
+            <td>安全警示语义</td>
+            <td>Note、注意、警告等安全警示提示正文在页面上完整展示，不折叠、不同tooltip藏字。<br>a.完整可见；<br>所有安全警示、注意事项、提示信息的内容必须完全在页面上展示，禁止使用折叠块、点击展开、鼠标悬停Tooltip、模态框等需要用户交互才能看到完整的内容的方式<br>b.文字前缀：<br>警示信息必须使用文字前缀明确表示其类型，如：**注意**、**警告**、**危险**。禁止仅使用图标来传递类型信息<br>c.结构化<br>建议为不同类型的安全警示定义固定的CSS类。</td>
+          </tr>
+          <tr id="principle-c7">
+            <td class="col-id">11</td>
+            <td>隐藏语义</td>
+            <td>避免折叠、隐藏或采用交互形式内容。<br>a.避免交互内容<br>核心文档内容应该以静态HTML/Markdown的形式存在。应避免使用依赖Java Script才能显示内容的交互式组件（Tab标签页、折叠/手风琴块、轮播图、动态加载）<br>b.Tab全量可见<br>如果必须使用Tab页签页，则必须提供一种无需点击即可访问所有Tab内容的方法<br>c.折叠默认展开<br>如果必须使用折叠组件（如&lt;details&gt;）,其open属性必须默认为true。关键步骤和说明禁止放在折叠区内。<br>d.折叠标题可读<br>折叠组件的标题（&lt;summary&gt;）必须包含有语义的文本</td>
+          </tr>
+          <tr id="principle-e9">
+            <td class="col-id">12</td>
+            <td>FAQ结构化</td>
+            <td>任何以问题/答案对（Q&amp;A）形式呈现的内容，必须使用明确的视觉标记（如问：/答：前缀）和语义标记（如Schema.org 的Question/Answer类型），通常通过JSON-LD实现），将FAQ内容与普通叙述文本区分开。FAQ区块应有一个包裹容器（如 &lt; div itemtype=“https://schema.org/FAQPage&quot;&gt;)。</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="affinity-group-title">易读取</h3>
+      <div class="affinity-table-wrap">
+      <table class="data-table data-table--affinity data-table--affinity-summary">
+        <colgroup>
+          <col class="col-id">
+          <col class="col-item">
+          <col class="col-content">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>原则名称</th>
+            <th>文档内容调整</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="principle-d1">
+            <td class="col-id">13</td>
+            <td>双轨交付<br><span class="badge badge-primary">阳狮团队已识别</span></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+  </main></div>
+
+<footer class="site-footer">
+  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+</footer>
+
+<script src="assets/js/module-sidebar.js"></script>
+</body>
+</html>

@@ -343,17 +343,29 @@ body[data-page="structure-llms"] #dev-side {
 
 .page-nav .next { text-align: right; margin-left: auto; }
 
-/* ── Affinity catalog table (principles-affinity.html) ── */
-body[data-page="affinity"] {
+/* ── Affinity catalog table (principles-affinity*.html) ── */
+body[data-page="affinity"],
+body[data-page="affinity-content"],
+body[data-page="affinity-design"],
+body[data-page="affinity-dev"] {
   --content-max-width: 1280px;
 }
 
-body[data-page="affinity"]:has(#module-sidebar) .main-content {
+body[data-page="affinity"]:has(#module-sidebar) .main-content,
+body[data-page="affinity-content"]:has(#module-sidebar) .main-content,
+body[data-page="affinity-design"]:has(#module-sidebar) .main-content,
+body[data-page="affinity-dev"]:has(#module-sidebar) .main-content {
   overflow-x: auto;
 }
 
 body[data-page="affinity"] .main-content > .page-header,
-body[data-page="affinity"] .main-content > .section {
+body[data-page="affinity"] .main-content > .section,
+body[data-page="affinity-content"] .main-content > .page-header,
+body[data-page="affinity-content"] .main-content > .section,
+body[data-page="affinity-design"] .main-content > .page-header,
+body[data-page="affinity-design"] .main-content > .section,
+body[data-page="affinity-dev"] .main-content > .page-header,
+body[data-page="affinity-dev"] .main-content > .section {
   max-width: 1280px;
   width: 1280px;
   box-sizing: border-box;
@@ -378,9 +390,16 @@ body[data-page="affinity"] .main-content > .section {
 .data-table--affinity col.col-content,
 .data-table--affinity col.col-code { width: 28%; }
 
+.data-table--affinity-summary col.col-id { width: 6%; }
+.data-table--affinity-summary col.col-item { width: 18%; }
+.data-table--affinity-summary col.col-content,
+.data-table--affinity-summary col.col-design,
+.data-table--affinity-summary col.col-code { width: 76%; }
+
 .data-table.data-table--affinity td:nth-child(3) strong,
 .data-table.data-table--affinity td:nth-child(4) strong,
-.data-table.data-table--affinity td:nth-child(5) strong {
+.data-table.data-table--affinity td:nth-child(5) strong,
+.data-table.data-table--affinity-summary td:nth-child(3) strong {
   color: #000;
   font-weight: 600;
 }
