@@ -345,6 +345,7 @@ body[data-page="structure-llms"] #dev-side {
 
 /* ── Affinity catalog table (principles-affinity*.html) ── */
 body[data-page="affinity"],
+body[data-page="affinity-full"],
 body[data-page="affinity-content"],
 body[data-page="affinity-design"],
 body[data-page="affinity-dev"] {
@@ -352,20 +353,28 @@ body[data-page="affinity-dev"] {
 }
 
 body[data-page="affinity"]:has(#module-sidebar) .main-content,
+body[data-page="affinity-full"]:has(#module-sidebar) .main-content,
 body[data-page="affinity-content"]:has(#module-sidebar) .main-content,
 body[data-page="affinity-design"]:has(#module-sidebar) .main-content,
 body[data-page="affinity-dev"]:has(#module-sidebar) .main-content {
   overflow-x: auto;
 }
 
-body[data-page="affinity"] .main-content > .page-header,
-body[data-page="affinity"] .main-content > .section,
-body[data-page="affinity-content"] .main-content > .page-header,
-body[data-page="affinity-content"] .main-content > .section,
-body[data-page="affinity-design"] .main-content > .page-header,
-body[data-page="affinity-design"] .main-content > .section,
-body[data-page="affinity-dev"] .main-content > .page-header,
-body[data-page="affinity-dev"] .main-content > .section {
+body.inner-page[data-page="affinity"]:has(#module-sidebar) .main-content > .page-header,
+body.inner-page[data-page="affinity"]:has(#module-sidebar) .main-content > .section,
+body.inner-page[data-page="affinity-full"]:has(#module-sidebar) .main-content > .page-header,
+body.inner-page[data-page="affinity-full"]:has(#module-sidebar) .main-content > .affinity-full-toolbar,
+body.inner-page[data-page="affinity-full"]:has(#module-sidebar) .main-content > .section {
+  max-width: 1400px;
+  width: 1400px;
+  box-sizing: border-box;
+}
+body.inner-page[data-page="affinity-content"]:has(#module-sidebar) .main-content > .page-header,
+body.inner-page[data-page="affinity-content"]:has(#module-sidebar) .main-content > .section,
+body.inner-page[data-page="affinity-design"]:has(#module-sidebar) .main-content > .page-header,
+body.inner-page[data-page="affinity-design"]:has(#module-sidebar) .main-content > .section,
+body.inner-page[data-page="affinity-dev"]:has(#module-sidebar) .main-content > .page-header,
+body.inner-page[data-page="affinity-dev"]:has(#module-sidebar) .main-content > .section {
   max-width: 1280px;
   width: 1280px;
   box-sizing: border-box;
@@ -384,11 +393,65 @@ body[data-page="affinity-dev"] .main-content > .section {
   font-size: 14px;
 }
 
-.data-table--affinity col.col-id { width: 5%; }
-.data-table--affinity col.col-item { width: 11%; }
+.data-table--affinity col.col-id { width: 3%; }
+.data-table--affinity td.col-id {
+  font-size: 11px;
+  white-space: nowrap;
+  text-align: center;
+}
+.data-table--affinity col.col-item { width: 10%; }
 .data-table--affinity col.col-design,
 .data-table--affinity col.col-content,
-.data-table--affinity col.col-code { width: 28%; }
+.data-table--affinity col.col-code { width: 20%; }
+.data-table--affinity col.col-source { width: 9%; }
+.data-table--affinity col.col-basis { width: 9%; }
+
+.data-table--affinity td.col-source,
+.data-table.data-table--affinity th:nth-child(6) {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.data-table--affinity td.col-basis {
+  font-size: 12px;
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.8;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.data-table--affinity td.col-basis .copy-explain {
+  border-bottom-color: var(--color-text);
+}
+
+/* Tooltip 右对齐，防止最右列溢出 */
+.data-table--affinity td.col-basis .copy-explain::after {
+  left: auto;
+  right: 0;
+  transform: none;
+  max-width: 340px;
+}
+
+a.source-diagnosis-link {
+  text-decoration: none;
+}
+a.source-diagnosis-link:hover {
+  opacity: 0.8;
+}
+
+.data-table--affinity td.col-source .badge {
+  font-size: 11px;
+  padding: 2px 7px;
+}
+
+.data-table--affinity td.col-source .col-source-secondary {
+  display: block;
+  margin-top: 6px;
+  white-space: nowrap;
+}
 
 .data-table--affinity-summary col.col-id { width: 6%; }
 .data-table--affinity-summary col.col-item { width: 18%; }
@@ -447,5 +510,292 @@ body[data-page="affinity-dev"] .main-content > .section {
 
 .data-table.data-table--affinity tbody tr:target td {
   background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+/* ── 全量亲和原则：标题 + 筛选工具栏 ── */
+body[data-page="affinity-full"] .affinity-full-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--color-heading-rule);
+}
+
+body[data-page="affinity-full"] .affinity-full-filter {
+  flex-shrink: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+body[data-page="affinity-full"] .affinity-filter-count {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+body[data-page="affinity-full"] .affinity-full-filter-select {
+  font-size: 14px;
+  line-height: 22px;
+  padding: 6px 36px 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 12px 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  color: var(--color-text);
+  min-width: 200px;
+  cursor: pointer;
+}
+
+body[data-page="affinity-full"] .affinity-full-filter-select:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  outline-offset: 1px;
+  border-color: var(--color-primary);
+}
+
+/* ── 全量亲和原则：来源图例 ── */
+body[data-page="affinity-full"] .affinity-source-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  margin: 0 0 28px;
+  padding: 10px 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+body[data-page="affinity-full"] .affinity-source-legend-label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-right: 4px;
+}
+
+body[data-page="affinity-full"] .affinity-source-legend .badge {
+  padding: 2px 8px;
+  font-size: 11.5px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+}
+
+body[data-page="affinity-full"] .affinity-source-legend .badge-ok {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+body[data-page="affinity-full"] .affinity-source-legend .badge-should {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+body[data-page="affinity-full"] .affinity-source-legend .badge-primary {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+body[data-page="affinity-full"] .affinity-source-legend .badge-muted {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border) !important;
+}
+
+body[data-page="affinity-full"] .affinity-source-legend-text {
+  color: var(--color-text-secondary);
+  margin-right: 8px;
+}
+
+/* ── 全量亲和原则：节点分组标题内联信息 ── */
+body[data-page="affinity-full"] .affinity-group-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 10px;
+}
+
+body[data-page="affinity-full"] .affinity-group-count {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+body[data-page="affinity-full"] .affinity-group-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  border-left: 1px solid var(--color-border);
+  padding-left: 10px;
+}
+
+/* ── 问题论证：范围说明（入口页） ── */
+.problem-scope-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-primary-block-bg);
+  border: 1px solid var(--color-primary-hover-border);
+  border-radius: 8px;
+  margin-bottom: 36px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.problem-scope-notice p { margin: 0; }
+
+/* ── 问题论证：原则归属标注（各问题页底部，置于最后 section 之后） ── */
+.problem-principle-ref {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0 0 48px;
+  padding: 12px 16px;
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+
+.problem-principle-ref-label {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.problem-principle-ref-node {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.problem-principle-ref-sep {
+  color: var(--color-text-secondary);
+  margin: 0 2px;
+}
+
+.problem-principle-ref-link {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.problem-principle-ref-fp {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-muted, #f5f5f5);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* ── 问题论证：读不顺节点扩展说明 ── */
+.problem-node-extend-note {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.problem-node-extend-note p { margin: 0; }
+
+/* ── 推导原则标签（background-motivation.html #framework-intro 合并列） ── */
+.principle-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin: 2px 3px 2px 0;
+  background: var(--color-primary-light);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+a.principle-tag {
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s, border-style 0.15s;
+}
+
+a.principle-tag:hover {
+  border-style: dashed;
+}
+
+a.principle-tag--empirical:hover {
+  border-color: #1a56db;
+}
+
+a.principle-tag--pending:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.principle-tag--empirical {
+  background: #e8f0fe;
+  color: #1a56db;
+  border-color: #bfcffd;
+  font-weight: 600;
+}
+
+.principle-tag--pending {
+  background: #fafafa;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  border-style: dashed;
+}
+
+.principle-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.principle-legend-label {
+  color: var(--color-text-secondary);
+  margin-right: 8px;
+}
+
+.principle-legend-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid #d1d5db;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.principle-legend-swatch--empirical {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.principle-legend-swatch--pending {
+  background: #fafafa;
+  border: 1px dashed var(--color-border);
+}
+
+.data-table--affinity tr[id^="principle-full-"] {
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+.data-table--affinity tr.principle-row--target {
+  outline: 2px solid #93c5fd;
+  outline-offset: -2px;
 }
 

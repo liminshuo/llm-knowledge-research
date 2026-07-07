@@ -143,6 +143,15 @@
 
 td.scope-cell .badge + .badge { margin-left: 4px; }
 
+/* 来源标签：待实测（灰色） */
+.data-table td .badge-muted,
+.badge-status.badge-muted,
+.affinity-source-legend .badge-muted {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
 .principle-guide {
   margin-top: 28px;
 }

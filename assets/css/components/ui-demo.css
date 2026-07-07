@@ -59,8 +59,8 @@
 }
 
 .render-frame {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
   border-radius: 6px;
   padding: 14px 16px;
   font-size: 13px;

@@ -77,11 +77,11 @@
   --space-p: 12px;
   --space-section: 48px;
   --space-page-header: 36px;
-  /* 正文内容区最大宽度（1920 视口下为 1000px） */
-  --content-max-width: 1000px;
+  /* 正文内容区最大宽度（1920 视口下为 1200px） */
+  --content-max-width: 1200px;
   --content-wide-pad-x: clamp(24px, 4vw, 48px);
-  --content-main-pad-left-max: 200px;
-  --content-main-pad-left: clamp(24px, 10.4167vw, 200px);
+  --content-main-pad-left-max: 110px;
+  --content-main-pad-left: clamp(16px, 5.73vw, 110px);
   --content-main-pad-top-max: 48px;
   --content-main-pad-top: clamp(32px, 2.5vw, 48px);
   /* 无侧栏页正文左缘 = 侧栏占位 + main 左 padding，与有侧栏内页对齐 */

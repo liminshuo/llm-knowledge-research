@@ -1,5 +1,5 @@
           <tr id="principle-a1">
-            <td class="col-dim" rowspan="1">能找到</td>
+            <td class="col-dim" rowspan="1">找的到</td>
             <td class="col-id">1</td>
             <td>llms.txt / sitemap 部署</td>
             <td><strong>机器发现入口位置和样式设计</strong>：<br>每个文档页脚增加&quot;机器可读版本&quot;入口视觉提示</td>
@@ -7,7 +7,7 @@
             <td><strong>补充机器发现层</strong>：<br>1. 部署 /llms.txt，按&quot;产品线-版本&quot;分组列出核心文档URL+一句话描述<br>2. 提供 /llms-full.txt，将索引内文档 source Markdown 全文聚合为单文件，供 Agent 单次加载上下文<br>3. /sitemap.xml 优先收录 /doc_center/source/ 机器源<br>4. robots.txt 放行 source/ 路径，禁止爬取 /assets/、/api/</td>
           </tr>
           <tr id="principle-b1">
-            <td class="col-dim" rowspan="3">能找准</td>
+            <td class="col-dim" rowspan="3">找的准</td>
             <td class="col-id">2</td>
             <td>版本号外显</td>
             <td><strong>元数据位置和样式设计，每个文档页面，展示</strong>：<br>a.文档版本号;<br>b.该版本的发布日期（格式为 YYYY-MM-DD）;<br>c.标签形式展示该版本的生命周期状态（正式主推版=绿色、RC版=蓝色、beta版=橙色）</td>
@@ -29,7 +29,7 @@
             <td><strong>元数据补充</strong>：<br>1. &lt;head&gt; 输出完整 JSON-LD（@id/doc_id、BreadcrumbList、TechArticle），同步 &lt;meta name=&quot;doc_id&quot;&gt;；doc_id 复用于 /docs/{doc_id}/ 路径<br>2. 提供 /docs/{doc_id}/metadata.json 端点供机器读取<br>3. prev/next/parent_topic 关系链写入 meta<br><strong>渲染方式改HTML</strong>：<br>左侧导航、面包屑、关联关系（上一篇、下一篇）改为 HTML 可抓取形式。</td>
           </tr>
           <tr id="principle-c1">
-            <td class="col-dim" rowspan="7">能读取</td>
+            <td class="col-dim" rowspan="7">读的懂</td>
             <td class="col-id">5</td>
             <td>图片内容转译</td>
             <td><strong>更换可解析的图片形式</strong>：<br>1. 流程图优先使用Mermaid编写；若不能使用Mermaid，则使用SVG形式<br><strong>内容转写位置&amp;样式</strong>：<br>1.图片底部预留“figcaption注释（包括图片内容转写）”设计位。<br><strong>Chunk切片交互</strong>：<br>3.&quot;figcaption注释&quot;段落（或周围正文）后，在视觉上配有&quot;复制链接&quot;按钮,点击后给出“已复制链接”的轻提示（toast）</td>
@@ -86,7 +86,7 @@
             <td><strong>管道自动生成</strong>：<br>1. 管道自动从「问/答」配对生成 JSON-LD 注入 &lt;head&gt;<br><strong>Chunk 切片</strong>：<br>2. 每个 FAQ 条目独立切片，不跨条混切<br>3. 切片后保留「问：」「答：」前缀</td>
           </tr>
           <tr id="principle-d1">
-            <td class="col-dim" rowspan="1">易读取</td>
+            <td class="col-dim" rowspan="1">读的顺</td>
             <td class="col-id">13</td>
             <td>双轨交付<br><span class="badge badge-primary">阳狮团队已识别</span></td>
             <td>—</td>

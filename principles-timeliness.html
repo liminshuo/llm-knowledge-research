@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>版本外显 · 亲和原则 · 大模型知识获取研究</title>
+  <title>版本外显 · 亲和原则 · 社区AI亲和分析</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="timeliness">
 
 <header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
+  <div class="site-logo">社区AI亲和分析</div>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-affinity.html" class="active">亲和原则</a>
+    <a href="problems-answer-search.html">实测问题</a>
+    <a href="principles-affinity-full.html" class="active">亲和原则</a>
   </nav>
 </header>
 
@@ -24,74 +24,156 @@
 
   <main class="main-content">
 
-    <div class="page-header">
+<div class="page-header">
       <h1>版本号外显</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">在每篇文档的渲染页与元数据中<strong>显式展示版本号、发布日期与生命周期状态</strong>，让人和机器都能一眼确认这是哪一版、是否为当前主推版本。</span>
-        <span class="page-desc-line">能找准 · 序号 2 · 对应 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>。</span>
+        <span class="page-desc-line">找的准 · 序号 2 · 对应 <a href="problems-timeliness.html">问题论证 · 版本滞后</a>。</span>
       </p>
     </div>
 
-    <section class="section" id="solution">
-      <h2 id="design">设计侧</h2>
-      <div class="principle-deliverable">
-        <h3>元数据位置和样式设计（每个文档页面展示）</h3>
-        <ol>
-          <li>文档版本号</li>
-          <li>该版本的发布日期（格式为 YYYY-MM-DD）</li>
-          <li>标签形式展示该版本的生命周期状态（正式主推版 = 绿色、RC 版 = 蓝色、beta 版 = 橙色）</li>
-        </ol>
-      </div>
-      <h3 id="design-example">示例</h3>
+    <section class="section" id="design-ui">
+      <h2>设计UI调整</h2>
 
-      <h4>示例 1 · 文章头部展示版本徽章</h4>
-      <div class="ui-demo ui-demo--plain" id="ver-01">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><span class="rf-badge">CANN 8.0.RC1</span><span class="rf-badge">Ascend C</span><div class="rf-h1">算子开发入门</div></div></div>
+      <h3 id="design-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>版本元数据展示，不使用JS动态渲染</strong>：在页面固定位置（参考 NV 放顶部导航栏或 H1 下方）展示产品名、版本号、发布日期、生命周期状态，位置全站统一。</li>
+        <li><strong>生命周期状态标签</strong>：稳定版、维护中、已弃用、EOS 用不同颜色的标签组件区分，与失效状态原则的警告色保持一致的色彩语义体系，不能各自定义颜色。</li>
+        <li><strong>版本差异表格样式（可选）</strong>：版本对比内容必须用表格呈现，表格列头（版本号、差异项、说明）样式清晰，设计上禁止用列表或段落替代表格来呈现版本差异。</li>
+      </ul>
+
+      <h3 id="design-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 版本元数据展示</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无版本信息</h4>
+          <div class="compare-col machine">
+            <div class="render-frame">
+              <div class="rf-h1">算子开发入门</div>
+              <p class="rf-muted">页面无任何版本标注</p>
+            </div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 版本徽章 + 生命周期标签</h4>
+          <div class="compare-col human">
+            <div class="render-frame"><span class="rf-badge">CANN 9.0.0</span><span class="rf-badge">稳定版</span><div class="rf-h1">算子开发入门</div></div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <h2 id="content-side">内容侧</h2>
-      <div class="principle-deliverable">
-        <h3>元数据内容补充</h3>
-        <p>每个文档页面必须在其元数据区域以<strong>结构化（机器可优先读）</strong>和<strong>自然语言（人类可读）</strong>两种形式，明确声明：产品 / 项目名称、文档对应的软件版本号、该版本的发布日期、该版本的生命周期状态、（可选）文档版本自身的版本号。所有版本差异必须使用表格进行条目化描述，禁止使用模糊散文。</p>
-      </div>
+    <section class="section" id="content-adjust">
+      <h2>文档内容调整</h2>
 
-      <h2 id="dev-side">研发侧</h2>
-      <div class="principle-deliverable">
-        <h3>元数据补充</h3>
-        <ol>
-          <li><code>&lt;head&gt;</code> 中写入 <code>&lt;meta name="version" content="9.0.0"&gt;</code></li>
-        </ol>
-        <h3>定义主推版本</h3>
-        <ol>
-          <li><code>llms.txt</code> / sitemap 声明 canonical 指向主推版本</li>
-          <li>RAG 索引默认 <code>filter(version="CANN社区版 9.0.0")</code></li>
-        </ol>
-      </div>
-      <h3>示例</h3>
+      <h3 id="content-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>每个文档页面必须在其元数据区域以结构化（机器可优先读）和自然语言（人类可读）两种形式，明确声明</strong>：产品/项目名称、文档对应的软件版本号（遵循SemVer）、该版本的发布日期、该版本的生命周期状态（如当前稳定版、维护中、已启用、EOS）、（可选）文档版本自身的版本号。所有版本差异必须使用表格进行条目化描述，禁止使用模糊散文。</li>
+      </ul>
 
-      <h4>HTML 源码</h4>
-      <pre><code>&lt;meta name="version" content="9.0.0"&gt;
-&lt;meta name="release_date" content="2026-06-01"&gt;
-&lt;meta name="lifecycle_status" content="stable"&gt;
-&lt;link rel="canonical" href="https://www.hiascend.com/doc_center/source/.../900/operator_dev.html"&gt;</code></pre>
+      <h3 id="content-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 版本元数据在 Frontmatter 中声明</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无版本声明</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram"># 算子开发入门
 
-      <h4>Markdown 导出</h4>
-      <pre><code>---
+本文介绍 Ascend C 算子开发基本流程…</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 完整版本 Frontmatter</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">---
+product: CANN
 version: "9.0.0"
 release_date: "2026-06-01"
-lifecycle_status: stable
-canonical_url: https://www.hiascend.com/doc_center/source/.../900/operator_dev.html
----</code></pre>
+lifecycle_status: stable   # stable | rc | beta | deprecated
+---
+
+# 算子开发入门
+
+本文介绍 Ascend C 算子开发基本流程…</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="frontend-adjust">
+      <h2>前端调整</h2>
+
+      <h3 id="frontend-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>版本元数据结构化字段</strong>：CMS 中为每个页面增加强制填写的结构化字段：product-name、software-version（SemVer 格式校验）、release-date、lifecycle-status，发布时校验必填，缺失则阻断。</li>
+        <li><strong>元数据机器可读输出</strong>：版本信息同步写入页面 &lt;head&gt; 的 &lt;meta&gt; 标签和 JSON-LD，如 softwareVersion、datePublished、releaseNotes 字段，供大模型直接读取，不依赖解析页面正文。</li>
+        <li><strong>SemVer 格式校验</strong>：CMS 在版本号字段录入时强制校验 SemVer 格式（X.Y.Z），拒绝模糊写法如"最新版"、"V2"。</li>
+        <li><strong>版本元数据在大纲接口中透传</strong>：页面大纲接口返回结果中包含版本元数据字段，大模型消费接口时可直接获取版本上下文，无需进入页面解析。</li>
+      </ul>
+
+      <h3 id="frontend-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 元数据写入 &lt;head&gt;</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 缺失版本元数据</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;head&gt;
+  &lt;title&gt;算子开发入门&lt;/title&gt;
+  &lt;!-- 无版本信息 --&gt;
+&lt;/head&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 完整结构化元数据</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;meta name="version" content="9.0.0"&gt;
+&lt;meta name="release_date" content="2026-06-01"&gt;
+&lt;meta name="lifecycle_status" content="stable"&gt;
+&lt;link rel="canonical" href="https://…/900/operator_dev.html"&gt;</pre>
+          </div>
+        </div>
+      </div>
+      <div class="principle-example">
+        <h4>2. JSON-LD softwareVersion 机器可读版本声明</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无 JSON-LD 版本字段</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "算子开发入门"
+}
+&lt;/script&gt;
+&lt;!-- 缺少 softwareVersion / datePublished /
+     releaseNotes，Agent 无法判断版本时效 --&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 完整版本字段</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "算子开发入门",
+  "softwareVersion": "9.0.0",
+  "datePublished": "2026-06-01",
+  "dateModified": "2026-06-15",
+  "releaseNotes": "https://…/900/changelogs.html",
+  "isBasedOn": {
+    "@type": "SoftwareApplication",
+    "name": "CANN",
+    "softwareVersion": "9.0.0",
+    "applicationCategory": "AI Framework"
+  }
+}
+&lt;/script&gt;</pre>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main></div>
 
 <footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+  模块 03 · 亲和原则 · 社区AI亲和分析
 </footer>
 
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/site-init.js"></script>
 <script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

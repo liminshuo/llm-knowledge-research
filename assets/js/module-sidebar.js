@@ -4,16 +4,16 @@
   "background": [],
   "problems": [
     {
-      "group": "找不到",
+      "group": "抓不到",
       "id": "structure-llms",
       "href": "problems-structure-llms.html",
-      "label": "机器发现层缺失"
+      "label": "机器发现层"
     },
     {
       "group": "找不准",
       "id": "timeliness",
       "href": "problems-timeliness.html",
-      "label": "版本滞后"
+      "label": "版本滞后 & 多版本并存"
     },
     {
       "group": null,
@@ -25,77 +25,72 @@
       "group": null,
       "id": "structure-cross",
       "href": "problems-structure-cross.html",
-      "label": "跨页关系未结构化"
+      "label": "跨页关系未显性化"
     },
     {
-      "group": "读不了",
+      "group": "读不懂",
       "id": "content-image",
       "href": "problems-content-image.html",
-      "label": "图片图意"
+      "label": "图片语义缺失"
     },
     {
       "group": null,
       "id": "content-hotzone",
       "href": "problems-content-hotzone.html",
-      "label": "图片热区"
+      "label": "热区信息缺失"
     },
     {
       "group": null,
       "id": "content-table",
       "href": "problems-content-table.html",
-      "label": "表格的结构语义"
+      "label": "表格语义缺失"
     },
     {
       "group": null,
       "id": "content-code",
       "href": "problems-content-code.html",
-      "label": "代码语义"
+      "label": "代码块语义缺失"
     },
     {
       "group": null,
       "id": "content-link",
       "href": "problems-content-link.html",
-      "label": "链接语义"
+      "label": "链接锚文本无效"
     },
     {
       "group": null,
       "id": "content-note",
       "href": "problems-content-note.html",
-      "label": "注意提示（Note）语义"
+      "label": "警示级别缺失"
     },
     {
       "group": null,
       "id": "content-tab",
       "href": "problems-content-tab.html",
-      "label": "隐藏语义 · Tab"
-    },
-    {
-      "group": null,
-      "id": "content-collapse",
-      "href": "problems-content-collapse.html",
-      "label": "隐藏语义 · 折叠"
+      "label": "隐藏语义缺失",
+      "pageIds": ["content-tab", "content-collapse"]
     },
     {
       "group": "读不顺",
       "id": "format",
       "href": "problems-format.html",
-      "label": "交付载体不适配"
+      "label": "HTML 适配不足"
     }
   ],
   "principles": [
-    { "group": "能找到", "id": "a1", "href": "principles-structure-llms.html", "label": "llms.txt / sitemap 部署", "pageIds": ["structure-llms"] },
-    { "group": "能找准", "id": "b1", "href": "principles-timeliness.html", "label": "版本号外显", "pageIds": ["timeliness"] },
-    { "group": null, "id": "b2", "href": "principles-a2.html", "label": "失效/弃用状态显化" },
+    { "group": "找的到", "id": "a1", "href": "principles-structure-llms.html", "label": "llms.txt / sitemap 部署", "pageIds": ["structure-llms"] },
+    { "group": null, "id": "content-retrievable", "href": "principles-content-retrievable.html", "label": "内容可检索", "pageIds": ["content-retrievable"] },
+    { "group": "找的准", "id": "b1", "href": "principles-timeliness.html", "label": "版本号外显", "pageIds": ["timeliness"] },
+    { "group": null, "id": "b2", "href": "principles-a2.html", "label": "失效/弃用状态显化", "pageIds": ["a2"] },
     { "group": null, "id": "b3", "href": "principles-structure-metadata.html", "label": "元数据丰富化", "pageIds": ["structure-metadata"] },
-    { "group": "能读取", "id": "c1", "href": "principles-image.html", "label": "图片内容转译", "pageIds": ["image"] },
+    { "group": "读的懂", "id": "c1", "href": "principles-image.html", "label": "图片内容转译", "pageIds": ["image"] },
     { "group": null, "id": "c2", "href": "principles-hotzone.html", "label": "图片热区转译", "pageIds": ["hotzone"] },
     { "group": null, "id": "c3", "href": "principles-table.html", "label": "表格语义化", "pageIds": ["table"] },
     { "group": null, "id": "c4", "href": "principles-code.html", "label": "代码块语义化", "pageIds": ["code"] },
     { "group": null, "id": "c5", "href": "principles-link.html", "label": "链接语义化", "pageIds": ["link"] },
     { "group": null, "id": "c6", "href": "principles-note.html", "label": "安全警示语义化", "pageIds": ["note"] },
     { "group": null, "id": "c7", "href": "principles-tab.html", "label": "隐藏语义：Tab/折叠全量展开", "pageIds": ["tab", "collapse"] },
-    { "group": null, "id": "e9", "href": "principles-e9.html", "label": "FAQ 转译" },
-    { "group": "易读取", "id": "d1", "href": "principles-format.html", "label": "双轨交付", "pageIds": ["format"] }
+    { "group": "读的顺", "id": "d1", "href": "principles-format.html", "label": "双轨交付", "pageIds": ["format"] }
   ]
 };
 
@@ -110,20 +105,10 @@
   }
 
   var html = "";
-  if (module === "problems") {
-    html += "<ul class=\"sidebar-nav sidebar-phase-nav\">";
-    html += "<li class=\"nav-group-label\">链路观测</li>";
-    html += "<li><a href=\"problems-answer-search.html\"" + (page === "answer-search" ? " class=\"active\"" : "") + ">检索阶段</a></li>";
-    html += "<li><a href=\"problems-answer-generate.html\"" + (page === "answer-generate" ? " class=\"active\"" : "") + ">生成阶段</a></li>";
-    html += "</ul>";
-  }
   if (module === "principles") {
     html += "<ul class=\"sidebar-nav sidebar-phase-nav sidebar-module-title\">";
     html += "<li class=\"nav-group-label\">亲和原则</li>";
-    html += "<li><a href=\"principles-affinity.html\"" + (page === "affinity" ? " class=\"active\"" : "") + ">亲和性原则</a></li>";
-    html += "<li><a href=\"principles-affinity-content.html\"" + (page === "affinity-content" ? " class=\"active\"" : "") + ">文档内容建议汇总</a></li>";
-    html += "<li><a href=\"principles-affinity-design.html\"" + (page === "affinity-design" ? " class=\"active\"" : "") + ">设计UI 建议汇总</a></li>";
-    html += "<li><a href=\"principles-affinity-dev.html\"" + (page === "affinity-dev" ? " class=\"active\"" : "") + ">前端调整建议汇总</a></li>";
+    html += "<li><a href=\"principles-affinity-full.html\"" + (page === "affinity-full" ? " class=\"active\"" : "") + ">全量亲和原则</a></li>";
     html += "</ul>";
   }
   function navItemActive(item) {
@@ -136,6 +121,10 @@
   items.forEach(function (item) {
     if (item.group && item.group !== lastGroup) {
       html += "<li class=\"nav-group-label\">" + item.group + "</li>";
+      if (module === "problems" && item.group === "抓不到") {
+        html += "<li><a href=\"problems-answer-search.html\"" + (page === "answer-search" ? " class=\"active\"" : "") + ">检索阶段</a></li>";
+        html += "<li><a href=\"problems-answer-generate.html\"" + (page === "answer-generate" ? " class=\"active\"" : "") + ">生成阶段</a></li>";
+      }
       lastGroup = item.group;
     }
     var active = navItemActive(item) ? " class=\"active\"" : "";
@@ -153,7 +142,7 @@ function initPageToc() {
   var module = document.body.getAttribute("data-module");
   var page = document.body.getAttribute("data-page");
   if (module !== "problems" && module !== "principles") return;
-  if (page === "affinity" || page === "affinity-content" || page === "affinity-design" || page === "affinity-dev") return;
+  if (page === "affinity" || page === "affinity-full") return;
   if (!document.getElementById("module-sidebar")) return;
 
   var main = document.querySelector(".main-content");

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>图片内容转译 · 亲和原则 · 大模型知识获取研究</title>
+  <title>图片内容转译 · 亲和原则 · 社区AI亲和分析</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="image">
 
 <header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
+  <div class="site-logo">社区AI亲和分析</div>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-affinity.html" class="active">亲和原则</a>
+    <a href="problems-answer-search.html">实测问题</a>
+    <a href="principles-affinity-full.html" class="active">亲和原则</a>
   </nav>
 </header>
 
@@ -24,99 +24,140 @@
 
   <main class="main-content">
 
-    <div class="page-header">
+<div class="page-header">
       <h1>图片内容转译</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">把信息型图片的图意<strong>转写为可检索正文</strong>（alt、figcaption、内容转写或 Mermaid），让图中的结构与结论不再只存在于像素里。</span>
-        <span class="page-desc-line">能读取 · 序号 5 · 对应 <a href="problems-content-image.html">问题论证 · 图片图意</a>。</span>
+        <span class="page-desc-line">读的懂 · 序号 5 · 对应 <a href="problems-content-image.html">问题论证 · 图片图意</a>。</span>
       </p>
     </div>
 
-    <section class="section" id="solution">
-      <h2 id="design">设计侧</h2>
-      <div class="principle-deliverable">
-        <h3>更换可解析的图片形式</h3>
-        <ol>
-          <li>流程图优先使用 Mermaid 编写；若不能使用 Mermaid，则使用 SVG 形式</li>
-        </ol>
-        <h3>内容转写位置 &amp; 样式</h3>
-        <ol>
-          <li>图片底部预留「figcaption 注释（包括图片内容转写）」设计位</li>
-        </ol>
-        <h3>Chunk 切片交互</h3>
-        <ol>
-          <li>「figcaption 注释」段落（或周围正文）后，在视觉上配有「复制链接」按钮，点击后给出「已复制链接」的轻提示（toast）</li>
-        </ol>
-      </div>
-      <h3 id="design-example">示例</h3>
+    <section class="section" id="design-ui">
+      <h2>设计UI调整</h2>
 
-      <h4>示例 1 · API 分层图（转写 + 图注）</h4>
-      <div class="ui-demo ui-demo--plain" id="img-ui-label">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">API 层级架构图</div><p class="rf-caption"><strong>图1</strong> Ascend C 多层级 API 体系</p><div class="rf-transcript"><strong>图片内容转写：</strong>Ascend C API 自下而上分为五层：1. 语言扩展层 C API — 指针编程，芯片级能力；2. 基础 API — Tensor 级 C++ 类库；3. 高阶 API — 卷积、矩阵等公共算法；4. 算子模板库 — Tiling 模板；5. Python 前端 — PyAsc。</div></div></div>
+      <h3 id="design-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>图表格式规范</strong>：所有流程图、时序图、架构图，在交付给研发时优先提供 Mermaid 源码，而不是导出 PNG/JPG；如果 Mermaid 表达不了，提供 SVG 源文件。</li>
+        <li><strong>图片排版预留 figcaption 位</strong>：每张图片下方在设计稿中预留 figcaption 注释区域，作为内容转写的展示位，纳入排版规范，不能设计成没有这个位置的图文布局。</li>
+        <li><strong>复制链接按钮设计</strong>：在 figcaption 段落旁设计"复制链接"按钮，以及点击后的 toast 轻提示样式（文案如"已复制链接"，持续约 2 秒后消失），需出现在每个 figcaption 区域。</li>
+        <li><strong>装饰性图片识别</strong>：在设计交付标注中，明确标出哪些图片是装饰性的（图标、分割线等），告知研发这些元素标记 aria-hidden="true" 或使用 CSS 背景图实现。</li>
+      </ul>
+
+      <h3 id="design-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 图片格式规范（Mermaid 优先）</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · PNG 图片</h4>
+          <div class="compare-col machine">
+            <div class="render-frame"><div class="rf-img-placeholder">流程图（PNG）</div><p class="rf-muted">爬虫无法解析图中文字</p></div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · Mermaid 文本图表</h4>
+          <div class="compare-col human">
+            <div class="render-frame"><pre class="rf-code">graph LR; A[源码] --&gt; B[bisheng] --&gt; C[kernel]</pre><p class="rf-caption"><strong>图2</strong> Ascend C 编译流程（Mermaid）</p></div>
+          </div>
         </div>
       </div>
 
-      <hr class="example-divider">
-
-      <h4>示例 2 · 成长地图学习路径</h4>
-      <div class="ui-demo ui-demo--plain" id="img-02">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-img-placeholder">成长地图</div><p class="rf-h2">Ascend C 学习路径</p><ol><li>了解概念 — 什么是 Ascend C、编程模型概述</li><li>环境准备 — 安装 CANN、配置环境变量</li><li>编写算子 — 首个 Ascend C 算子样例</li><li>…</li></ol></div></div>
+      <div class="principle-example">
+        <h4>2. 图片排版预留正文转译位置</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无 figcaption 位</h4>
+          <div class="compare-col machine">
+            <div class="render-frame">
+              <div class="rf-img-placeholder">API 层级架构图</div>
+              <p class="rf-muted">图片下方无任何说明区域</p>
+            </div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 图片 + figcaption 转译区</h4>
+          <div class="compare-col human">
+            <div class="render-frame">
+              <div class="rf-img-placeholder">API 层级架构图</div>
+              <p class="rf-caption"><strong>图1</strong> Ascend C 多层级 API 体系</p>
+              <div class="rf-transcript"><strong>图片内容转写：</strong>Ascend C API 自下而上分为五层：1. 语言扩展层 C API；2. 基础 API；3. 高阶 API；4. 算子模板库；5. Python 前端。</div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <hr class="example-divider">
+    <section class="section" id="content-adjust">
+      <h2>文档内容调整</h2>
 
-      <h4>示例 3 · 流程 / 架构图 Mermaid 呈现</h4>
-      <div class="ui-demo ui-demo--plain" id="img-ui-mermaid">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><pre class="rf-code">graph LR; A[源码] --&gt; B[bisheng] --&gt; C[kernel]</pre><p class="rf-caption"><strong>图2</strong> Ascend C 编译流程（Mermaid）</p></div></div>
+      <h3 id="content-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>替代文本</strong>：每一张图（&lt;img&gt;）必须提供非空的alt属性，简洁描述图片的内容和功能。 b.</li>
+        <li><strong>禁止"见上图/下图"</strong>：正文中禁止出现"见上图/下图"等仅依赖视觉位置进行引用的语句，图片引用必须将图片中的关键信息用文字复述一遍。 c.</li>
+        <li><strong>复杂图表转写</strong>：对于包含复杂逻辑的图表，必须在图片下方提供一个"图表内容转写"段落，用文字完整描述图表所表达的全部关键信息。 d.</li>
+        <li><strong>替代格式优先</strong>：对于流程图、时序图、架构图，优先使用Mermaid等文本可渲染的图表格式代替不可读的PNG/JPG图片。 e.</li>
+        <li><strong>装饰图片</strong>：纯装饰性的图标、分割线图片等，应使用CSS背景图或标记 alt=""（空字符串）。</li>
+      </ul>
+
+      <h3 id="content-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 图片 alt 文本与内容转写段落</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无 alt 与转写</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">如图所示，Ascend C API 层次如下：
+
+![](api-arch.png)</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · alt + 内容转写段落</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">Ascend C API 自下而上分为五层：语言扩展层 C API、
+基础 API、高阶 API、算子模板库、Python 前端。
+
+![Ascend C 多层级 API 体系架构图](api-arch.svg)
+
+*图1 Ascend C API 自下而上分为五层：语言扩展层
+C API、基础 API、高阶 API、算子模板库、Python 前端。*</pre>
+          </div>
         </div>
       </div>
+    </section>
 
-      <h2 id="content-side">内容侧</h2>
-      <div class="principle-deliverable">
-        <h3>内容转写</h3>
-        <p>架构图、流程图、时序图、界面截图关键信息、核心结论采用文本介绍，图片做辅助展示。</p>
+    <section class="section" id="frontend-adjust">
+      <h2>前端调整</h2>
+
+      <h3 id="frontend-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>HTML 结构实现</strong>：每张图片用 &lt;figure&gt; + &lt;figcaption&gt; 包裹，&lt;img&gt; 上填写 alt、title、data-llm-transcription 三个字段，每个 &lt;figure&gt; 需要有唯一 id 作为锚点。</li>
+        <li><strong>复制链接按钮功能</strong>：figcaption 旁实现"复制链接"按钮，点击后将当前图片的锚点 URL 写入剪贴板，同时触发 toast 提示"已复制链接"，2秒后自动消失。</li>
+        <li><strong>Mermaid / SVG 渲染支持</strong>：研发侧引入 Mermaid 渲染库，支持在文档内容中直接嵌入 Mermaid 代码块并渲染为可交互图表；SVG 图表直接内联到 HTML 中，而不是作为 &lt;img&gt; 引用，保证文本可提取。</li>
+        <li><strong>Chunk 切片管道</strong>：将每张图片的 alt + figcaption 文字 + 图片前后的正文段落拼接为一个连续文本块，作为该图片的语义 chunk 供向量化索引使用；装饰性图片（aria-hidden="true"）跳过，不参与切片。</li>
+      </ul>
+
+      <h3 id="frontend-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. figure + figcaption 语义结构</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 裸 &lt;img&gt;</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;img src="api-arch.png"&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 完整语义结构</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;figure id="fig-api-arch"&gt;
+  &lt;img src="api-arch.svg"
+       alt="Ascend C 多层级 API 体系架构图"
+       data-llm-transcription="API 自下而上分为五层：…"&gt;
+  &lt;figcaption&gt;图1 Ascend C API 自下而上分为五层：
+  语言扩展层 C API、基础 API、高阶 API、
+  算子模板库、Python 前端。&lt;/figcaption&gt;
+&lt;/figure&gt;</pre>
+          </div>
+        </div>
       </div>
-
-      <h2 id="dev-side">研发侧</h2>
-      <div class="principle-deliverable">
-        <h3>alt + 内容转写</h3>
-        <ol>
-          <li>所有 <code>&lt;img&gt;</code> 填写有意义的 <code>alt</code>（禁止「图片1」「截图」等无意义文字）</li>
-          <li>每张图片下方用完整句 <code>figcaption</code> 描述图片核心信息</li>
-        </ol>
-        <h3>Chunk 切片</h3>
-        <ol>
-          <li>管道将 alt + figcaption + 周围正文拼接为连续文本，供切片使用</li>
-        </ol>
-        <h3>其他</h3>
-        <ol>
-          <li>装饰类图片 <code>&lt;img role="presentation"&gt;</code> 或 <code>aria-hidden="true"</code>，不参与内容提取</li>
-        </ol>
-      </div>
-      <h3>示例</h3>
-
-      <h4>HTML 源码</h4>
-      <pre><code>&lt;figure&gt;
-  &lt;img src="api-arch.svg" alt="Ascend C 多层级 API 体系架构图"&gt;
-  &lt;figcaption&gt;图1 Ascend C API 自下而上分为五层：语言扩展层 C API、基础 API、高阶 API、算子模板库、Python 前端。&lt;/figcaption&gt;
-&lt;/figure&gt;</code></pre>
-
-      <h4>Markdown 导出</h4>
-      <pre><code>![Ascend C 多层级 API 体系架构图](api-arch.svg)
-
-*图1 Ascend C API 自下而上分为五层：语言扩展层 C API、基础 API、高阶 API、算子模板库、Python 前端。*</code></pre>
     </section>
 
   </main></div>
 
 <footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+  模块 03 · 亲和原则 · 社区AI亲和分析
 </footer>
 
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/site-init.js"></script>
 <script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

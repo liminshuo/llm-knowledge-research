@@ -16,3 +16,8 @@
 .section .summary-card > p {
   margin-bottom: 0;
 }
+
+.summary-card > p strong {
+  font-weight: 700;
+  color: var(--color-text);
+}

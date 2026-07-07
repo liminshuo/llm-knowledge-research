@@ -210,17 +210,23 @@ body.inner-page:has(#module-sidebar) .main-content {
   margin-top: 4px;
 }
 
-/* 分组标签上方分割线（含「总原则」等独立项后的首个分组；链路观测区由 .sidebar-phase-nav 底部分割） */
+/* 分组标签上方分割线（非首个分组） */
 .sidebar-nav > .nav-group-label {
   border-top: 1px solid var(--color-border);
   margin-top: 8px;
   padding-top: 12px;
 }
 
-.sidebar-phase-nav + .sidebar-nav > .nav-group-label:first-child {
+/* 侧栏首个分组标签：无上分割线，与模块标题区 Y 轴对齐 */
+.sidebar-nav > .nav-group-label:first-child {
   border-top: none;
-  margin-top: 4px;
+  margin-top: 0;
   padding-top: 10px;
+}
+
+/* 原则模块维度分组：紧贴模块标题区 */
+.sidebar-phase-nav + .sidebar-nav > .nav-group-label:first-child {
+  margin-top: 4px;
 }
 
 .sidebar-module-title {
@@ -321,7 +327,17 @@ body.inner-page:not(:has(#module-sidebar)) .main-content > .content-tabs {
   font-weight: 700;
   line-height: 1.25;
   color: var(--color-text);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.hero-subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 40px;
+  height: 80px;
+  color: rgba(0, 0, 0, 0.8);
+  max-width: min(720px, 100%);
+  margin: 0 0 16px;
 }
 
 .hero-desc {
@@ -340,7 +356,7 @@ body.inner-page:not(:has(#module-sidebar)) .main-content > .content-tabs {
   min-height: calc(100vh - var(--header-height));
   padding-top: var(--content-main-pad-top);
   padding-bottom: 32px;
-  padding-left: var(--content-offset-left);
+  padding-left: var(--content-wide-pad-x);
   padding-right: var(--content-wide-pad-x);
   box-sizing: border-box;
 }
@@ -351,7 +367,7 @@ body.inner-page:not(:has(#module-sidebar)) .main-content > .content-tabs {
 .main-content.content-wide > .module-grid {
   width: 100%;
   max-width: var(--content-max-width);
-  margin-inline: 0;
+  margin-inline: auto;
   padding-left: 0;
   padding-right: 0;
   box-sizing: border-box;

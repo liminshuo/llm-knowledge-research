@@ -5,6 +5,49 @@
   border-radius: var(--radius);
 }
 
+.principle-deliverable {
+  padding: 20px 24px;
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
+}
+
+.principle-deliverable p {
+  margin: 0 0 12px;
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
+  color: var(--color-text-secondary);
+}
+
+.principle-deliverable p:last-child {
+  margin-bottom: 0;
+}
+
+.principle-deliverable p strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.principle-suggestions {
+  margin: 0 0 24px;
+  padding-left: 20px;
+  font-size: var(--text-body);
+  line-height: var(--text-body-lh);
+}
+
+.principle-suggestions li {
+  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+}
+
+.principle-suggestions li:last-child {
+  margin-bottom: 0;
+}
+
+.principle-suggestions li strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
 .summary-card .cp-label {
   display: block;
   font-size: 11px;

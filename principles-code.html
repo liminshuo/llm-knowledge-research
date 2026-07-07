@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>代码块语义化 · 亲和原则 · 大模型知识获取研究</title>
+  <title>代码块语义化 · 亲和原则 · 社区AI亲和分析</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="code">
 
 <header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
+  <div class="site-logo">社区AI亲和分析</div>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-affinity.html" class="active">亲和原则</a>
+    <a href="problems-answer-search.html">实测问题</a>
+    <a href="principles-affinity-full.html" class="active">亲和原则</a>
   </nav>
 </header>
 
@@ -24,100 +24,158 @@
 
   <main class="main-content">
 
-    <div class="page-header">
+<div class="page-header">
       <h1>代码块语义化</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">代码块<strong>标注语言与场景、分离行号、还原 HTML 实体</strong>，确保入库源码干净可直接复用。</span>
-        <span class="page-desc-line">能读取 · 序号 8 · 对应 <a href="problems-content-code.html">问题论证 · 代码语义</a>。</span>
+        <span class="page-desc-line">读的懂 · 序号 8 · 对应 <a href="problems-content-code.html">问题论证 · 代码语义</a>。</span>
       </p>
     </div>
 
-    <section class="section" id="solution">
-      <h2 id="design">设计侧</h2>
-      <div class="principle-deliverable">
-        <h3>语言标注视觉样式</h3>
-        <ol>
-          <li>代码块左上角展示语言标签（如 Python、C++、Bash）</li>
-        </ol>
-      </div>
-      <h3 id="design-example">示例</h3>
+    <section class="section" id="design-ui">
+      <h2>设计UI调整</h2>
 
-      <h4>示例 1 · 行号与代码分离（CSS 渲染）</h4>
-      <div class="ui-demo ui-demo--plain" id="code-02">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-code-head">main.cpp · C++</div><pre class="rf-code">int main() {
-  return 0;
-}</pre><p class="rf-muted">行号由 CSS 伪元素渲染，不进 code 文本</p></div></div>
+      <h3 id="design-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>定义代码块组件规范</strong>：设计代码块组件，包含：a. 顶部元信息栏（文件名、语言类型、适用场景，如 hello_world.cu | C++ | 基础编译场景）；b. 代码区（行号由 CSS 渲染，不出现在可选中文本中）；c. 底部预期输出块（执行类代码必须配套，样式与代码块区分）；d. 右上角复制按钮。纳入设计系统组件库。</li>
+        <li><strong>预期输出块样式设计</strong>：预期输出块与代码块视觉上明确区分，标题固定为"预期输出"，不使用"输出结果""运行结果"等变体，纳入格式规范。</li>
+        <li><strong>元信息文案交付</strong>：内容交付时，每个代码块同步提供：文件名（如有）、语言类型、适用场景描述（一句话）、预期输出内容。</li>
+      </ul>
+
+      <h3 id="design-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 代码块组件规范</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无元信息 / 无复制按钮</h4>
+          <div class="compare-col machine">
+            <div class="render-frame"><pre class="rf-code">#include &lt;acl/acl.h&gt;
+int Init() { … }</pre></div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 完整代码块组件</h4>
+          <div class="compare-col human">
+            <div class="render-frame"><div class="rf-code-head">kernel_add.cpp · Ascend C · 矢量算子示例</div><pre class="rf-code">// kernel 实现…</pre></div>
+          </div>
         </div>
       </div>
-
-      <hr class="example-divider">
-
-      <h4>示例 2 · 弃用 highlighttable 布局</h4>
-      <div class="ui-demo ui-demo--plain" id="code-03">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><pre class="rf-code">#include &lt;acl/acl.h&gt;
-int Init() { … }</pre></div></div>
+      <div class="principle-example">
+        <h4>2. 预期输出块——独立区分的视觉设计</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 代码块后无预期输出，或混在正文段落中</h4>
+          <div class="compare-col machine">
+            <div class="render-frame">
+              <div class="rf-code-head">run_add.sh · bash · 编译运行示例</div>
+              <pre class="rf-code">bash run_add.sh</pre>
+              <p>运行后控制台会打印成功信息。</p>
+              <p class="rf-muted">预期输出散在正文，Agent 无法与代码块关联</p>
+            </div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 独立"预期输出"块紧随代码块</h4>
+          <div class="compare-col human">
+            <div class="render-frame">
+              <div class="rf-code-head">run_add.sh · bash · 编译运行示例</div>
+              <pre class="rf-code">bash run_add.sh</pre>
+              <div class="rf-code-output-head">预期输出</div>
+              <pre class="rf-code rf-code--output">[INFO] kernel Add executed successfully.
+elapsed time: 2.3 ms</pre>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <hr class="example-divider">
+    <section class="section" id="content-adjust">
+      <h2>文档内容调整</h2>
 
-      <h4>示例 3 · 代码块上方标注文件名与场景</h4>
-      <div class="ui-demo ui-demo--plain" id="code-04">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-code-head">kernel_add.cpp · Ascend C · 矢量算子示例</div><pre class="rf-code">// kernel 实现…</pre></div></div>
-        </div>
-      </div>
+      <h3 id="content-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>独立可运行</strong>：代码示例应尽可能自包含，用户可以复制后直接运行。 b.</li>
+        <li><strong>语言标注</strong>：每个代码块必须标注编程语言（如 python、cpp）。 c.</li>
+        <li><strong>注释清晰</strong>：关键行应包含注释，解释其作用。 d.</li>
+        <li><strong>预期输出</strong>：对于执行类代码，应在代码块后提供"预期输出"块。 e.</li>
+        <li><strong>格式分离</strong>：代码行号应由前端CSS或代码高亮库生成，严禁在代码文本中手动写入行号。 f.</li>
+        <li><strong>区块语义</strong>：代码块应使用 &lt;pre&gt;&lt;code&gt; 语义标签包裹。</li>
+      </ul>
 
-      <h2 id="content-side">内容侧</h2>
-      <div class="principle-deliverable">
-        <h3>增强示例可执行性</h3>
-        <p>代码示例格式清晰，提供完整「可运行示例」和「预期输出」。</p>
-      </div>
-
-      <h2 id="dev-side">研发侧</h2>
-      <div class="principle-deliverable">
-        <h3>语言标注</h3>
-        <ol>
-          <li><code>&lt;pre&gt;&lt;code&gt;</code> 需要包含 <code>class="language-xxx"</code></li>
-        </ol>
-        <h3>HTML 实体解码</h3>
-        <ol>
-          <li>将 <code>&amp;quot;</code>、<code>&amp;lt;</code>、<code>&amp;gt;</code>、<code>&amp;amp;</code> 等 HTML 实体还原为可读字符</li>
-        </ol>
-        <h3>Chunk 切片</h3>
-        <ol>
-          <li>做好代码块元数据增强和章节级切片</li>
-        </ol>
-      </div>
-      <h3>示例</h3>
-
-      <h4>HTML 源码</h4>
-      <pre><code>&lt;pre&gt;&lt;code class="language-cpp"&gt;
-__aicore__ inline void Add(const LocalTensor&lt;float&gt; &amp;z,
-                           const LocalTensor&lt;float&gt; &amp;x,
-                           const LocalTensor&lt;float&gt; &amp;y) {
+      <h3 id="content-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 语言标注 + 预期输出块</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无语言标注，无预期输出</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">```
+__aicore__ inline void Add(...) {
     Add(z, x, y, TILE_LENGTH);
 }
-&lt;/code&gt;&lt;/pre&gt;</code></pre>
+```</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 语言 + 注释 + 预期输出</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">```cpp
+// kernel_add.cpp · Ascend C · 矢量加法算子示例
+__aicore__ inline void Add(
+    const LocalTensor&lt;float&gt; &amp;z,
+    const LocalTensor&lt;float&gt; &amp;x,
+    const LocalTensor&lt;float&gt; &amp;y) {
+    Add(z, x, y, TILE_LENGTH); // 执行向量加法
+}
+```
 
-      <h4>Markdown 导出</h4>
-      <pre><code>```cpp
-__aicore__ inline void Add(const LocalTensor&lt;float&gt; &amp;z,
-                           const LocalTensor&lt;float&gt; &amp;x,
-                           const LocalTensor&lt;float&gt; &amp;y) {
+**预期输出：**
+
+```
+[INFO] kernel Add executed successfully.
+```</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="frontend-adjust">
+      <h2>前端调整</h2>
+
+      <h3 id="frontend-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>&lt;pre&gt;&lt;code&gt; 语义结构实现</strong>：所有代码块使用 &lt;pre&gt;&lt;code&gt; 包裹，&lt;code&gt; 上标注 language-xxx 类名，禁止使用 highlighttable 表格布局。</li>
+        <li><strong>行号 CSS 渲染，禁止写入文本节点</strong>：行号通过 CSS counter 实现，不写入 &lt;code&gt; 文本内容，确保复制代码时不包含行号，切片管道拿到的是纯净代码文本。</li>
+        <li><strong>HTML 实体解码</strong>：切片管道入模前，将代码文本中的 HTML 实体还原为可读字符。</li>
+        <li><strong>弃用 highlighttable 布局</strong>：将现有使用 highlighttable 表格承载代码的结构全部迁移为 &lt;pre&gt;&lt;code&gt; 结构；构建管道中加入检测，发现 highlighttable class 时阻断发布。</li>
+        <li><strong>Chunk 切片管道追加规则</strong>：提取 &lt;code class="language-xxx"&gt; 的语言类型作为 chunk 元数据；提取 .code-meta 内的文件名和场景描述，拼接到代码 chunk 头部；code-output 块与对应代码块绑定为同一 chunk，不拆分。</li>
+      </ul>
+
+      <h3 id="frontend-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. &lt;pre&gt;&lt;code&gt; 语义结构替代 highlighttable</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · highlighttable 布局</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;table class="highlighttable"&gt;
+  &lt;tr&gt;&lt;td class="linenos"&gt;1&lt;/td&gt;
+      &lt;td class="code"&gt;…&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 纯净 &lt;pre&gt;&lt;code&gt;</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;pre&gt;&lt;code class="language-cpp"&gt;
+__aicore__ inline void Add(
+  const LocalTensor&lt;float&gt; &amp;z,
+  const LocalTensor&lt;float&gt; &amp;x,
+  const LocalTensor&lt;float&gt; &amp;y) {
     Add(z, x, y, TILE_LENGTH);
 }
-```</code></pre>
+&lt;/code&gt;&lt;/pre&gt;</pre>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main></div>
 
 <footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+  模块 03 · 亲和原则 · 社区AI亲和分析
 </footer>
 
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/site-init.js"></script>
 <script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>安全警示语义化 · 亲和原则 · 大模型知识获取研究</title>
+  <title>安全警示语义化 · 亲和原则 · 社区AI亲和分析</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="note">
 
 <header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
+  <div class="site-logo">社区AI亲和分析</div>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-affinity.html" class="active">亲和原则</a>
+    <a href="problems-answer-search.html">实测问题</a>
+    <a href="principles-affinity-full.html" class="active">亲和原则</a>
   </nav>
 </header>
 
@@ -24,80 +24,141 @@
 
   <main class="main-content">
 
-    <div class="page-header">
+<div class="page-header">
       <h1>安全警示语义化</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">Note / 警告 / 危险等提示<strong>正文完整展开、用文字前缀标明类型</strong>，不靠折叠或图标承载语义。</span>
-        <span class="page-desc-line">能读取 · 序号 10 · 对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。</span>
+        <span class="page-desc-line">读的懂 · 序号 10 · 对应 <a href="problems-content-note.html">问题论证 · 注意提示（Note）语义</a>。</span>
       </p>
     </div>
 
-    <section class="section" id="solution">
-      <h2 id="design">设计侧</h2>
-      <div class="principle-deliverable">
-        <h3>警示类型视觉样式设计</h3>
-        <ol>
-          <li>注意 / 警告 / 危险使用标准视觉组件（不同色块 + 图标 + 文字语义），但正文完整展示，不折叠</li>
-          <li>调整图标定位：图标作为「视觉增强」而非「唯一标识」</li>
-        </ol>
-      </div>
-      <h3 id="design-example">示例</h3>
+    <section class="section" id="design-ui">
+      <h2>设计UI调整</h2>
 
-      <h4>示例 1 · Note 正文完整展开（环境准备 set_env.sh）</h4>
-      <div class="ui-demo ui-demo--plain" id="note-02">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，需执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量，否则无法调用算子 API。</div></div></div></div>
+      <h3 id="design-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>警示块完整展示</strong>：所有 Note/注意/警告内容必须直接渲染在页面上，禁止折叠、tooltip、模态框等交互形式，设计稿不出现任何需要点击才能看到警示内容的方案。</li>
+        <li><strong>文字前缀必须可见</strong>：警示类型必须用文字（"注意："、"警告："、"危险："）标注，图标只能作为辅助装饰，不能作为唯一的类型标识。</li>
+        <li><strong>不同警示级别的视觉区分</strong>：Note、注意、警告、危险用不同颜色的容器组件区分，颜色语义全站统一（如黄色=注意、红色=危险），与失效状态、生命周期状态的色彩体系保持一致。</li>
+      </ul>
+
+      <h3 id="design-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 警示级别视觉区分</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 所有警示同样式</h4>
+          <div class="compare-col machine">
+            <div class="render-frame"><div class="rf-note"><span>注意：</span>...</div><div class="rf-note"><span>警告：</span>...</div></div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 颜色区分级别</h4>
+          <div class="compare-col human">
+            <div class="render-frame"><div class="rf-note rf-note--info"><span class="rf-note-label">注意：</span>安装 CANN 后需设置环境变量。</div><div class="rf-note rf-note--good"><span class="rf-note-label">警告：</span>升级前请备份 /usr/local/Ascend。</div></div>
+          </div>
         </div>
       </div>
-
-      <hr class="example-divider">
-
-      <h4>示例 2 · 类型文本前缀（移除装饰图标）</h4>
-      <div class="ui-demo ui-demo--plain" id="note-03">
-        <div class="compare-grid compare-grid--stack">
-          <div class="compare-col human"><p class="compare-sublabel">页面渲染</p><div class="render-frame"><div class="rf-note rf-note--good"><div><span class="rf-note-label">注意：</span>安装 CANN 后，使用 CANN 运行用户进行编译、运行时，需要执行 <code>source ${INSTALL_DIR}/set_env.sh</code> 设置环境变量。</div></div></div></div>
+      <div class="principle-example">
+        <h4>2. 步骤内嵌警示——保持嵌套层级，警示附属于所属步骤</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 警示脱离步骤，扁平放在列表外</h4>
+          <div class="compare-col machine">
+            <div class="render-frame">
+              <ol class="rf-ol">
+                <li>安装 CANN Toolkit。</li>
+                <li>配置环境变量。</li>
+                <li>运行验证脚本。</li>
+              </ol>
+              <div class="rf-note"><span class="rf-note-label">注意：</span>升级前请备份 /usr/local/Ascend。</div>
+              <p class="rf-muted">警示与步骤脱离，Agent 无法判断它属于第几步</p>
+            </div>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 警示嵌套在所属步骤内</h4>
+          <div class="compare-col human">
+            <div class="render-frame">
+              <ol class="rf-ol">
+                <li>安装 CANN Toolkit。</li>
+                <li>
+                  配置环境变量。
+                  <div class="rf-note rf-note--info" style="margin-top:6px"><span class="rf-note-label">注意：</span>安装后需执行 <code>source set_env.sh</code>，否则算子 API 不可用。</div>
+                </li>
+                <li>运行验证脚本。</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <h2 id="content-side">内容侧</h2>
-      <div class="principle-deliverable">
-        <h3>警示语义转化</h3>
-        <p>Note、注意、警告等警示提示正文在页面上完整展示，不折叠、不用 tooltip 藏字。</p>
-        <ol>
-          <li>完整可见</li>
-          <li>文字前缀：警示信息必须使用文字前缀明确表示其类型，如「注意」「警告」「危险」</li>
-          <li>结构化：建议为不同类型的安全警示定义固定的 CSS 类</li>
-        </ol>
+    <section class="section" id="content-adjust">
+      <h2>文档内容调整</h2>
+
+      <h3 id="content-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>完整可见</strong>：所有安全警示内容必须完全在页面上展示，禁止使用折叠块、点击展开、鼠标悬停Tooltip、模态框等需要用户交互才能看到完整内容的方式。 b.</li>
+        <li><strong>文字前缀</strong>：警示信息必须使用文字前缀明确表示其类型，如"注意"、"警告"、"危险"；禁止仅使用图标来传递类型信息。 c.</li>
+        <li><strong>结构化</strong>：建议为不同类型的安全警示定义固定的CSS类。</li>
+      </ul>
+
+      <h3 id="content-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 完整警示正文 + 文字前缀</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 折叠 / 仅图标，无文字前缀</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">安装 CANN 后需进行环境配置。
+<!-- 警示内容被折叠或藏在 tooltip 中 --></pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · blockquote 展开 + 文字前缀</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">安装 CANN 后需进行环境配置。
+
+> **注意**：安装 CANN 后，需执行
+> `source ${INSTALL_DIR}/set_env.sh`
+> 设置环境变量，否则无法调用算子 API。</pre>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <h2 id="dev-side">研发侧</h2>
-      <div class="principle-deliverable">
-        <h3>结构化标记</h3>
-        <ol>
-          <li>使用 <code>data-admonition-type="note|warning|danger"</code> 标识警示类型</li>
-        </ol>
-        <h3>定义 Markdown 导出格式</h3>
-        <ol>
-          <li>导出为 <code>&gt; **注意**：</code> 引用块格式，确保纯文本可读</li>
-        </ol>
+    <section class="section" id="frontend-adjust">
+      <h2>前端调整</h2>
+
+      <h3 id="frontend-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>data-admonition-type 属性标注</strong>：每个警示块容器加 data-admonition-type="note|warning|tip|danger"，大模型可直接识别警示级别，不依赖解析图标或颜色。</li>
+        <li><strong>文字前缀写入 DOM</strong>：警示类型文字（"注意："、"警告："）必须作为真实文本节点输出到 HTML，禁止通过 CSS 伪元素 ::before 或图片生成，确保爬虫和大模型能直接读取。</li>
+        <li><strong>嵌套层级保留</strong>：步骤列表 &lt;ol&gt;&lt;li&gt; 内嵌的警示块，DOM 结构中必须保持嵌套关系，禁止渲染时扁平化输出，确保大模型能识别"这条警告属于第几步"。</li>
+      </ul>
+
+      <h3 id="frontend-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. data-admonition-type 标注</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无语义属性</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;div class="note"&gt;
+  ⚠ 升级前请备份…
+&lt;/div&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 语义化警示标注</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;div class="admonition"
+     data-admonition-type="warning"&gt;
+  &lt;span class="admonition-label"&gt;警告：&lt;/span&gt;
+  升级前请备份 /usr/local/Ascend。
+&lt;/div&gt;</pre>
+          </div>
+        </div>
       </div>
-      <h3>示例</h3>
-
-      <h4>HTML 源码</h4>
-      <pre><code>&lt;div class="admonition" data-admonition-type="warning"&gt;
-  &lt;span class="admonition-label"&gt;警告：&lt;/span&gt;升级前请备份 /usr/local/Ascend。
-&lt;/div&gt;</code></pre>
-
-      <h4>Markdown 导出</h4>
-      <pre><code>&gt; **警告**：升级前请备份 /usr/local/Ascend。</code></pre>
     </section>
 
   </main></div>
 
 <footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+  模块 03 · 亲和原则 · 社区AI亲和分析
 </footer>
 
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/site-init.js"></script>
 <script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

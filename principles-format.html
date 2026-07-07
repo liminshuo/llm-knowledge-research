@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>双轨交付 · 亲和原则 · 大模型知识获取研究</title>
+  <title>双轨交付 · 亲和原则 · 社区AI亲和分析</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="inner-page" data-module="principles" data-page="format">
 
 <header class="site-header">
-  <div class="site-logo">大模型知识获取研究</div>
+  <div class="site-logo">社区AI亲和分析</div>
   <nav class="site-nav">
     <a href="index.html">首页</a>
     <a href="background-motivation.html">研究概览</a>
-    <a href="problems-answer-search.html">问题论证</a>
-    <a href="principles-affinity.html" class="active">亲和原则</a>
+    <a href="problems-answer-search.html">实测问题</a>
+    <a href="principles-affinity-full.html" class="active">亲和原则</a>
   </nav>
 </header>
 
@@ -24,52 +24,78 @@
 
   <main class="main-content">
 
-    <div class="page-header">
+<div class="page-header">
       <h1>双轨交付</h1>
       <p class="page-desc page-desc--split">
         <span class="page-desc-line">同源双发——人类访问 HTML 渲染页，机器读取由同一来源导出的 <strong>Markdown / 纯净正文</strong>，并在页面提供可见的「机器可读版本」入口。</span>
-        <span class="page-desc-line">易读取 · 序号 12 · 对应 <a href="problems-format.html">问题论证 · 交付载体不适配</a>。</span>
+        <span class="page-desc-line">读的顺 · 序号 12 · 对应 <a href="problems-format.html">问题论证 · 交付载体不适配</a>。</span>
       </p>
     </div>
 
-    <section class="section" id="solution">
-      <h2 id="dev-side">研发侧</h2>
-      <div class="principle-deliverable">
-        <h3>双轨交付</h3>
-        <p>HTML 版本 &amp; Markdown 版本双轨交付。源码为 HTML，可反向生成 MD。</p>
-      </div>
-      <h3>示例</h3>
+    <section class="section" id="frontend-adjust">
+      <h2>前端调整</h2>
 
-      <h4>HTML 源码</h4>
-      <pre><code>&lt;footer class="doc-footer"&gt;
-  &lt;a href="/doc_center/source/.../operator_dev.html"&gt;机器可读版本（source HTML）&lt;/a&gt;
-&lt;/footer&gt;</code></pre>
+      <h3 id="frontend-suggestions">调整建议</h3>
+      <ul class="principle-suggestions">
+        <li><strong>Markdown 源文件对外可访问</strong>：/doc_center/source/ 路径下的 Markdown 文件必须可直接访问和下载，不做鉴权拦截，配合 robots.txt 放行和 llms.txt 索引。</li>
+        <li><strong>两轨内容一致性校验</strong>：构建流程中对比 Markdown 源文件与生成的 HTML 内容，检测是否存在渲染层单独修改导致的内容不一致，不一致则阻断发布。</li>
+        <li><strong>Markdown 文件元数据同步</strong>：Markdown 文件头部的 frontmatter（版本号、日期、状态等）与 HTML 页面 &lt;head&gt; 中的 meta 和 JSON-LD 字段保持自动同步，由构建管道统一处理，不依赖人工双向维护。</li>
+        <li><strong>HTML 源码优化</strong>：不使用 .md 的渲染页面，采用 .html 渲染页面，需尽量在前端输出，不通过服务端动态渲染。</li>
+      </ul>
 
-      <h4>Markdown 导出</h4>
-      <pre><code>---
-source_url: /doc_center/source/.../operator_dev.html
-render_url: /document/detail/.../operator_dev.html
----
-
-# 什么是 Ascend C
-
-Ascend C 是面向昇腾平台的算子开发语言…</code></pre>
-
-      <hr class="example-divider">
-
-      <h4>同源双发链路</h4>
-      <pre><code>/doc_center/source/.../operator_dev.html   ← 单一来源（纯净 HTML）
+      <h3 id="frontend-example">调整示例</h3>
+      <div class="principle-example">
+        <h4>1. 同源双发链路</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 仅 HTML 渲染页</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">/document/detail/…/operator_dev.html
+← 唯一入口，带导航/样式，不适合机器直读</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 同源双轨</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">/doc_center/source/…/operator_dev.html
         │
-        ├──► 人类：/document/detail/...           渲染页（带导航 / 样式）
-        └──► 机器：/.../operator_dev.md           管道导出 Markdown</code></pre>
+        ├──► 人类：/document/detail/…    渲染页（带导航/样式）
+        └──► 机器：/.../operator_dev.md  管道导出 Markdown</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="principle-example">
+        <h4>2. 机器可读入口与 Markdown frontmatter</h4>
+        <div class="compare-grid compare-grid--stack compare-grid--no-mid-divider">
+          <h4 class="compare-label compare-label--machine">Before · 无 Markdown 源</h4>
+          <div class="compare-col machine">
+            <pre class="arch-diagram">&lt;footer&gt;
+  &lt;!-- 无机器可读入口 --&gt;
+&lt;/footer&gt;</pre>
+          </div>
+          <h4 class="compare-label compare-label--human">After · 页脚入口 + frontmatter 同步</h4>
+          <div class="compare-col human">
+            <pre class="arch-diagram">&lt;footer class="doc-footer"&gt;
+  &lt;a href="/doc_center/source/…/operator_dev.html"&gt;
+    机器可读版本（source HTML）
+  &lt;/a&gt;
+&lt;/footer&gt;
+
+---
+source_url: /doc_center/source/…/operator_dev.html
+render_url: /document/detail/…/operator_dev.html
+---</pre>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main></div>
 
 <footer class="site-footer">
-  模块 03 · 亲和原则 · Ascend C 文档大模型亲和规则研究
+  模块 03 · 亲和原则 · 社区AI亲和分析
 </footer>
 
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/site-init.js"></script>
 <script src="assets/js/module-sidebar.js"></script>
 </body>
 </html>

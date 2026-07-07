@@ -80,15 +80,17 @@
 .data-table tr:last-child td { border-bottom: none; }
 .data-table tr:hover td { background: var(--color-bg); }
 /* ── Architecture Diagram ── */
+/* 源码块：深色卡片 */
 .arch-diagram {
   background: var(--color-code-text);
-  color: var(--color-border);
+  color: #e8e8e8;
+  border: 1px solid var(--color-code-text);
   border-radius: var(--radius);
-  padding: 24px 28px;
+  padding: 16px 20px;
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 1.9;
-  margin: 16px 0;
+  line-height: 1.7;
+  margin: 0;
   overflow-x: auto;
   white-space: pre;
 }
@@ -221,20 +223,11 @@
   border-color: #64748b;
 }
 
-.journey-map__stage-index {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  opacity: 0.85;
-  line-height: 1.2;
-}
-
 .journey-map__stage-name {
   display: block;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.35;
-  margin-top: 2px;
 }
 
 .journey-map__stage-phase {
@@ -285,6 +278,14 @@
 
 .journey-map__grid td a {
   color: var(--color-primary);
+}
+
+.journey-map__grid td .journey-map__prompt-tags a {
+  color: var(--color-warning);
+}
+
+.journey-map__grid td .journey-map__prompt-tags a:hover {
+  color: var(--color-warning);
 }
 
 .journey-map__grid tbody td.journey-map__cell-empty {
@@ -358,17 +359,17 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 4px;
-  background: var(--color-primary-subtle);
-  border: 1px solid var(--color-primary-hover-border);
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
   font-size: 10px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4;
   text-decoration: none;
-  color: var(--color-primary);
+  color: var(--color-warning);
 }
 
 .journey-map__prompt-tags a:hover {
-  background: var(--color-primary-tint);
+  background: var(--color-warning-tint);
 }
 
 .journey-map__grid .journey-map__prompts p {
