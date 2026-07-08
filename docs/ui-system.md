@@ -47,6 +47,15 @@
 | `--color-accent` | `#7c3aed` | 辅助强调色 |
 | `--color-accent-tint` | `rgba(124, 58, 237, 0.12)` | 辅助色徽章底 |
 | `--color-accent-block-bg` | `rgba(124, 58, 237, 0.07)` | 辅助色区块底 |
+| `--color-principle-empirical` | `#1a56db` | 实测锚点原则文字 / 顶条 |
+| `--color-principle-empirical-bg` | `#e8f0fe` | 实测锚点浅底 |
+| `--color-principle-empirical-border` | `#bfcffd` | 实测锚点描边 |
+| `--color-principle-generalize` | `#6d28d9` | 根因泛化原则文字 / 顶条 |
+| `--color-principle-generalize-bg` | `#f5f3ff` | 根因泛化浅底 |
+| `--color-principle-generalize-border` | `#ddd6fe` | 根因泛化描边 |
+| `--color-principle-standard` | `#047857` | 行业标准原则文字 / 顶条 |
+| `--color-principle-standard-bg` | `#ecfdf5` | 行业标准浅底 |
+| `--color-principle-standard-border` | `#6ee7b7` | 行业标准描边 |
 | `--color-neutral-bg` | `rgba(89, 89, 89, 0.08)` | 未知 / 中性区块底 |
 | `--color-neutral-tint` | `rgba(89, 89, 89, 0.12)` | 未知 / 中性徽章底 |
 | `--color-overlay` | `rgba(30, 41, 59, 0.45)` | 抽屉遮罩（基于 `--color-code-text`） |
@@ -303,6 +312,28 @@
 <ul class="list-badge-led">
   <li><span class="badge badge-priority badge-must">必要</span><code>alt</code>：…</li>
 </ul>
+```
+
+### 原则来源标签（`.principle-tag`）
+
+研究概览推导链 / 行业标准 / 理论映射表中的原则名称用彩色标签展示；可加 `href` 链到全量原则页锚点。
+
+| 属性 | 值 |
+|------|-----|
+| 高度 | **24px**（`inline-flex` + `padding: 0 8px`） |
+| 字号 / 字重 | 12px / **400**（不加粗） |
+| 圆角 | 4px |
+| 描边悬停 | `border-style: dashed`（链接触发） |
+
+| Modifier | 用途 | 色（令牌） |
+|----------|------|------------|
+| `principle-tag--empirical` | 实测锚点原则 | `--color-principle-empirical*` |
+| `principle-tag--generalize` | 根因泛化原则 | `--color-principle-generalize*` |
+| `principle-tag--standard` | 行业标准原则 | `--color-principle-standard*` |
+| `principle-tag--pending` | 待定 / 未归类 | 中性虚线描边 |
+
+```html
+<a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-29">#3 多语言锚点</a>
 ```
 
 ---

@@ -24,7 +24,7 @@
     if (value === "all") return true;
     if (value === "diagnosis") {
       var cell = row.querySelector("td.col-source");
-      return cell !== null && cell.querySelector(".badge") !== null;
+      return cell !== null && cell.querySelector(".badge-accent") !== null;
     }
     return true;
   }

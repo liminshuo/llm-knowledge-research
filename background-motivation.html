@@ -41,12 +41,37 @@
     </section>
 
     <section class="section" id="scope">
-      <h2>研究方法</h2>
-      <p>
-        以 Ascend C 算子开发为典型场景，我们按开发时序将用户旅程分为五个阶段，并针对每个阶段系统梳理用户意图、典型问句与采样页面，形成完整的体验映射。在此基础上，通过模拟用户在各阶段向大模型提出常见技术问题，并分析模型返回结果，反向验证该映射中的文档内容是否被准确理解和调用，从而精准定位缺陷，为优化提供明确方向。
-      </p>
 
-      <figure class="journey-map surface-card" id="scope-journey-map" aria-label="Ascend C 开发者用户旅程图">
+      <h2 id="methodology">论证方法</h2>
+      <p>本论证方法模拟用户提问获取大模型回答，再由模型自提改进建议，人工对比友商方案，反向验证文档理解与调用的准确性，精准定位缺陷、明确优化方向。</p>
+      <figure class="method-flow" aria-labelledby="methodology">
+        <div class="method-flow__track">
+          <fieldset class="method-flow__group">
+            <legend>发现问题阶段</legend>
+            <div class="method-flow__loop">
+              <span class="method-flow__step">向大模型提问</span>
+              <span class="method-flow__cycle" aria-hidden="true">
+                <span class="method-flow__cycle-arrow method-flow__cycle-arrow--fwd">→</span>
+                <span class="method-flow__cycle-arrow method-flow__cycle-arrow--bwd">←</span>
+              </span>
+              <span class="method-flow__step">大模型回答问题</span>
+            </div>
+          </fieldset>
+          <span class="method-flow__connector" aria-hidden="true">→</span>
+          <fieldset class="method-flow__group">
+            <legend>收敛&amp;定义亲和原则阶段</legend>
+            <div class="method-flow__chain">
+              <span class="method-flow__step">大模型提出改进建议</span>
+              <span class="method-flow__connector" aria-hidden="true">→</span>
+              <span class="method-flow__step">人工对比友商</span>
+            </div>
+          </fieldset>
+        </div>
+      </figure>
+
+      <h2 id="scope-scenario">典型场景</h2>
+      <p>以 Ascend C 算子开发为例，按开发时序划分用户旅程为五阶段，梳理各阶段用户意图、用户典型问句及官方采样页面，从而构建完整的体验映射体系。</p>
+      <figure class="journey-map surface-card" id="scope-journey-map" aria-labelledby="scope-scenario">
         <div class="journey-map__scroll">
           <table class="journey-map__grid">
             <colgroup>
@@ -59,7 +84,7 @@
             </colgroup>
             <thead>
               <tr>
-                <th scope="col" class="journey-map__corner"></th>
+                <th scope="col" class="journey-map__corner">阶段</th>
                 <th scope="col" class="journey-map__stage journey-map__stage--outline">
                   <span class="journey-map__stage-name">落地.找入口.选型</span>
                   <span class="journey-map__stage-phase">感知了解</span>
@@ -85,105 +110,105 @@
             <tbody>
               <tr>
                 <th scope="row" class="journey-map__row-label">用户意图</th>
-                <td>了解 Ascend C 算子开发是什么、能做什么</td>
+                <td>了解 Ascend C 算子开发，能做什么</td>
                 <td>学习 Ascend C 入门与文档阅读</td>
                 <td>安装 CANN、配置 SDK 环境</td>
                 <td>手动编写 Ascend C 算子</td>
                 <td>编译跑通并验证结果</td>
               </tr>
               <tr>
-                <th scope="row" class="journey-map__row-label">测试问题</th>
+                <th scope="row" class="journey-map__row-label">测试提问</th>
                 <td class="journey-map__cell-list">
                   <div class="journey-map__prompts">
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我想基于官方资料了解一下 Ascend C 算子开发，能介绍一下吗？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-answer-search.html">检索阶段</a>
                         <a href="problems-answer-generate.html">生成阶段</a>
                         <a href="problems-timeliness.html">版本滞后 &amp; 多版本并存</a>
                       </div>
-                      <p class="journey-map__prompt">我想基于官方资料了解一下 Ascend C 算子开发，能介绍一下吗？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我想让 AI 自动读昇腾社区文档，站点有没有告诉爬虫该从哪抓？实际联网检索一般会落到哪类页面？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-structure-llms.html">机器发现层</a>
                       </div>
-                      <p class="journey-map__prompt">我想让 AI 自动读昇腾社区文档，站点有没有告诉爬虫该从哪抓？实际联网检索一般会落到哪类页面？</p>
                     </div>
                   </div>
                 </td>
                 <td class="journey-map__cell-list">
                   <div class="journey-map__prompts">
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a>，能帮我解释一下里面的 Ascend C 层级架构图吗？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-image.html">图片语义缺失</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C</a>，能帮我解释一下里面的 Ascend C 层级架构图吗？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">成长地图里的学习顺序是怎么安排的？环境准备和 HelloWorld 分别在什么阶段？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-hotzone.html">热区信息缺失</a>
                       </div>
-                      <p class="journey-map__prompt">成长地图里的学习顺序是怎么安排的？环境准备和 HelloWorld 分别在什么阶段？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">「环境准备」算入门教程还是安装文档？看完什么是 Ascend C 之后，官方建议下一篇读什么？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-structure-cross.html">跨页关系未显性化</a>
                       </div>
-                      <p class="journey-map__prompt">「环境准备」算入门教程还是安装文档？看完什么是 Ascend C 之后，官方建议下一篇读什么？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，文档里说的完整样例代码要去哪里找？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-link.html">链接锚文本无效</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，文档里说的完整样例代码要去哪里找？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a>，想保存这篇入门介绍——浏览器地址改成 .md 和 .html，读到的内容一样吗？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-format.html">HTML 适配不足</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0002.html" target="_blank" rel="noopener">什么是 Ascend C（CANN 9.0.0）</a>，想保存这篇入门介绍——浏览器地址改成 .md 和 .html，读到的内容一样吗？</p>
                     </div>
                   </div>
                 </td>
                 <td class="journey-map__cell-list">
                   <div class="journey-map__prompts">
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a>，想给 Atlas 800 训练款做离线安装，对应的下载命令和安装说明在哪里？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-tab.html">隐藏语义缺失</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/cann/download?versionId=735&amp;ids=d806%2Ch0501%2Ch0601%2Ch0703" target="_blank" rel="noopener">CANN 软件下载</a>，想给 Atlas 800 训练款做离线安装，对应的下载命令和安装说明在哪里？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，怎么知道对应 CANN 9.0 还是 8.5？算入门教程还是安装文档？引用时有没有固定的文档编号？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-structure-metadata.html">页级元数据未结构化</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，怎么知道对应 CANN 9.0 还是 8.5？算入门教程还是安装文档？引用时有没有固定的文档编号？</p>
                     </div>
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，安装完 CANN 之后环境变量要怎么配？文档是用「注意」还是普通正文来提示的？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-note.html">警示级别缺失</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0003.html" target="_blank" rel="noopener">环境准备</a>，安装完 CANN 之后环境变量要怎么配？文档是用「注意」还是普通正文来提示的？</p>
                     </div>
                   </div>
                 </td>
                 <td class="journey-map__cell-list">
                   <div class="journey-map__prompts">
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a>，表 1 里输入 x 的 shape 和 dtype 是什么？核函数叫什么？主要用到哪些接口？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-table.html">表格语义缺失</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0006.html" target="_blank" rel="noopener">Add 自定义算子开发</a>，表 1 里输入 x 的 shape 和 dtype 是什么？核函数叫什么？主要用到哪些接口？</p>
                     </div>
                   </div>
                 </td>
                 <td class="journey-map__cell-list">
                   <div class="journey-map__prompts">
                     <div class="journey-map__prompt-item">
+                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，<code>hello_world.asc</code> 核函数开头几行是什么样的？复制出来能直接编译吗？</p>
                       <div class="journey-map__prompt-tags">
                         <a href="problems-content-code.html">代码块语义缺失</a>
                       </div>
-                      <p class="journey-map__prompt">我在看 <a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/900/programug/Ascendcopdevg/atlas_ascendc_map_10_0005.html" target="_blank" rel="noopener">HelloWorld</a>，<code>hello_world.asc</code> 核函数开头几行是什么样的？复制出来能直接编译吗？</p>
                     </div>
                   </div>
                 </td>
@@ -206,21 +231,21 @@
     </section>
 
     <section class="section" id="problems-overview">
-      <h2>实测问题分布</h2>
-      <p>以下 14 项实测问题均有模型对话 / 截图 / 日志为证，按四失效层归类，并对应 <strong>Barnett et al.（2024）在 <em>Seven Failure Points When Engineering a Retrieval Augmented Generation System</em> 中定义的 RAG 失效机制（FP1–FP7）</strong>与本研究推导出的亲和原则。</p>
+      <h2 id="problems-overview-heading">发现问题&amp;定义实测诊断原则 · 13 条</h2>
+      <p>以下 14 项实测问题按四个失效维度聚类，映射至 <a href="https://arxiv.org/abs/2401.05856" class="theory-ref" target="_blank" rel="noopener"><strong>Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》</strong></a> 所定义的 RAG 失效框架（FP1–FP7），并同步指出各问题对应亲和原则。</p>
       <table class="data-table">
         <colgroup>
-          <col style="width:6%">
-          <col style="width:20%">
-          <col style="width:42%">
+          <col style="width:10%">
+          <col style="width:18%">
+          <col style="width:40%">
           <col style="width:32%">
         </colgroup>
         <thead>
           <tr>
-            <th>失效层</th>
+            <th>失效维度</th>
             <th>Barnett FP · 失效机制</th>
-            <th>实测问题</th>
-            <th>对应原则</th>
+            <th>发现问题</th>
+            <th>对应亲和原则（实测诊断原则）</th>
           </tr>
         </thead>
         <tbody>
@@ -261,7 +286,8 @@
             </td>
             <td>
               <ul>
-                <li>#5 失效状态显化 · #6 版本外显</li>
+                <li>#5 失效状态显化</li>
+                <li>#6 版本外显</li>
                 <li>#8 元数据丰富化</li>
               </ul>
             </td>
@@ -323,11 +349,166 @@
     </section>
 
     <section class="section" id="framework-intro">
-      <h2>从实测问题到 35 条原则</h2>
-      <p>亲和原则由<strong>实测诊断</strong>与<strong>理论泛化</strong>两条轨道合并而成：13 条直接对应昇腾社区文档实测中可复现的缺陷；其余 22 条在实测根因向上泛化，并参照业界研究与标准作本土化验证。下表按 Barnett et al.（2024）的 RAG 失效机制（FP1–FP7）归类各原则；另两项关键理论依据——Liu et al.（2023）的 context 位置效应与 Aggarwal et al.（2024）的 GEO 框架——补充覆盖检索窗口内信息编排与生成式搜索可见性维度。WCAG、Schema.org 等标准依据见表末「补充依据」行。</p>
+      <h2>扩展原则 · 22条</h2>
+      <p>在 13 条实测诊断之上，经根因树展开 16 条泛化原则，并用 WCAG、Schema.org、GEO 补 6 条行业标准——本节共 22 条扩展原则。先看构成，再看推导。</p>
+
+      <h3 id="principle-accounting">原则构成</h3>
+      <p><a href="#problems-overview">14 项实测问题</a>归并为 <strong>13 条实测诊断</strong>；根因树向上展开 <strong>16 条泛化</strong>；行业标准补 <strong>6 条</strong>（WCAG · Schema.org · GEO）——全量 <strong>35 条</strong>可执行原则。</p>
+
+      <div class="principle-stat-total" aria-label="35 条原则来源构成">
+        <article class="principle-stat-card principle-stat-card--empirical">
+          <span class="principle-stat-card__value">13</span>
+          <span class="principle-stat-card__label">实测诊断原则</span>
+          <p class="principle-stat-card__desc">昇腾社区 14 项实测问题去重归并。可复现缺陷的直接观测，推导起点。</p>
+        </article>
+        <span class="principle-stat-op" aria-hidden="true">+</span>
+        <article class="principle-stat-card principle-stat-card--generalize">
+          <span class="principle-stat-card__value">16</span>
+          <span class="principle-stat-card__label">根因泛化原则</span>
+          <p class="principle-stat-card__desc">对每条实测诊断追问：修这里，还必须修哪些相邻能力？沿 RAG 链路向上展开。</p>
+        </article>
+        <span class="principle-stat-op" aria-hidden="true">+</span>
+        <article class="principle-stat-card principle-stat-card--standard">
+          <span class="principle-stat-card__value">6</span>
+          <span class="principle-stat-card__label">行业标准原则</span>
+          <p class="principle-stat-card__desc">WCAG 2.1 · Schema.org · GEO 2024 已有规范的本土化验证。</p>
+        </article>
+        <span class="principle-stat-op principle-stat-op--eq" aria-hidden="true">=</span>
+        <article class="principle-stat-card principle-stat-card--result">
+          <span class="principle-stat-card__value">35</span>
+          <span class="principle-stat-card__label">AI 亲和原则</span>
+          <p class="principle-stat-card__desc">全量可执行清单</p>
+        </article>
+      </div>
+
+
+      <h3 id="derive-flow">根因泛化原则 · 16条</h3>
+
+      <p>对每条实测诊断追问：修好这一处，还须同步改哪些相邻能力？据此沿 RAG 链路推出 16 条泛化原则；下表列出来源实测诊断、根因逻辑与理论依据。</p>
+
+      <div class="data-table-wrap">
+        <table class="data-table derive-chain-table">
+          <thead>
+            <tr>
+              <th style="width:17%">根因泛化原则</th>
+              <th style="width:17%">推导自实测诊断原则</th>
+              <th style="width:46%">根因推导 · 解决问题</th>
+              <th style="width:20%">理论依据</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="derive-chain-table__group-header">
+              <th colspan="4">抓不到</th>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-29">#3 多语言锚点</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-1">#1 llms.txt</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-26">#2 内容可检索</a></td>
+              <td><strong>根因推导</strong>：<br>中文站有发现入口，但多语言版本没有 hreflang 关联，AI 无法把各语言页建立对应关系<br><strong>解决问题</strong>：<br>多语言站不同语言版本互相不可见，导致 AI 只能发现其中一个语言</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Schema.org 结构化数据标准：通过 JSON-LD / Microdata 为页面添加机器可读语义，提升 AI 和搜索引擎理解能力">Schema.org</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
+            </tr>
+
+            <tr class="derive-chain-table__group-header">
+              <th colspan="4">找不准</th>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-12">#7 明确更新日期</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-10">#5 失效状态显化</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-11">#6 版本外显</a></td>
+              <td><strong>根因推导</strong>：<br>版本号可见，但缺时间戳；RAG 检索器无法排序新旧内容，仍会召回过期版本<br><strong>解决问题</strong>：<br>同版本号多次更新时，AI 无法判断哪份最新</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP6 Incorrect Specificity：答案方向正确但版本 / 范围不符">Barnett FP6</span><br><span class="copy-explain" tabindex="0" data-tip="Schema.org 结构化数据标准：通过 JSON-LD / Microdata 为页面添加机器可读语义，提升 AI 和搜索引擎理解能力">Schema.org</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-31">#9 跨文档一致性</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-27">#8 元数据丰富化</a></td>
+              <td><strong>根因推导</strong>：<br>单页元数据充分，但跨页同一产品/版本标签不统一；检索过滤按字段匹配，一处不一致全部失效<br><strong>解决问题</strong>：<br>元数据各自为政，同一实体在不同页面有不同标签，检索无法正确归并</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP6 Incorrect Specificity：答案方向正确但版本 / 范围不符">Barnett FP6</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
+            </tr>
+
+            <tr class="derive-chain-table__group-header">
+              <th colspan="4">读不懂</th>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-5">#11 段落锚点</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-17">#14 图文图意</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-25">#22 隐藏语义</a></td>
+              <td><strong>根因推导</strong>：<br>语义标注做好了，但 chunk 粒度是整页；AI 引用图表或步骤时只能指向整页 URL，无法精确定位到段落<br><strong>解决问题</strong>：<br>切片后无锚点，LLM 无法精确引用内容块，造成引用模糊或丢失</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP3 Not in Context：文档被召回但未纳入 LLM context 窗口">Barnett FP3</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-9">#12 步骤列表化</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-22">#19 代码语义</a></td>
+              <td><strong>根因推导</strong>：<br>代码块语义已标注，但前后操作步骤用散文段落描述，LLM 无法识别步骤顺序，提取出的操作序列混乱<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP4 Not Extracted：内容在 context 中但 LLM 无法提取">FP4</span>：内容在 context 中但 LLM 无法正确提取有序操作</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP4 Not Extracted：内容在 context 中但 LLM 无法提取">Barnett FP4</span><br><span class="copy-explain" tabindex="0" data-tip="Schema.org HowTo / HowToStep：规范步骤包含 name（动作）、text（详情）和 HowToTip（预期结果），是「操作对象 + 动作 + 预期结果」三要素的行业规范原型">Schema.org HowToStep</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-15">#13 验证区块</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-22">#19 代码语义</a></td>
+              <td><strong>根因推导</strong>：<br>有步骤，有代码，但缺预期输出；LLM 生成答案时无法表达「操作成功的判断标准」，答案残缺<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP4 Not Extracted：内容在 context 中但 LLM 无法提取">FP4</span>：代码可读但 LLM 不知道「对不对」，答案缺验证维度</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP4 Not Extracted：内容在 context 中但 LLM 无法提取">Barnett FP4</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-19">#16 降噪纯净</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-25">#22 隐藏语义</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-17">#14 图文图意</a></td>
+              <td><strong>根因推导</strong>：<br>显式内容已有语义标注，但导航栏/广告/Tab 壳层同样进入 chunk，污染了切片内容，降低提取准确率<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP3 Not in Context：文档被召回但未纳入 LLM context 窗口">FP3</span>：噪声进入 context 压缩了有效内容窗口，LLM 利用率下降</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP3 Not in Context：文档被召回但未纳入 LLM context 窗口">Barnett FP3</span><br><span class="copy-explain" tabindex="0" data-tip="Liu 等（2023）《Lost in the Middle: How Language Models Use Long Contexts》（TACL 2024）：LLM 对 context 中段内容利用率显著低于首尾，内容位置直接影响答案质量">Liu 2023</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-21">#18 格式规范统一</a></td>
+              <td><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-22">#19 代码语义</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-23">#20 表格语义</a><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-24">#21 安全警示语义</a></td>
+              <td><strong>根因推导</strong>：<br>各页格式各异，LLM 无法跨页建立一致的解析模式；同一类内容识别失败率不稳定<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP5 Wrong Format：内容提取到了但格式不符合查询预期">FP5</span>：内容正确但格式不可预测，模型提取时模式识别失效</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP5 Wrong Format：内容提取到了但格式不符合查询预期">Barnett FP5</span></td>
+            </tr>
+
+            <tr class="derive-chain-table__group-header">
+              <th colspan="4">读不顺（内容侧）</th>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-2">#25 内容自包含</a></td>
+              <td rowspan="8"><a class="principle-tag principle-tag--empirical" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-35">#24 双轨交付</a></td>
+              <td><strong>根因推导</strong>：<br>双轨交付后 chunk 被切割，孤立片段缺少「这是关于谁/什么条件/要做什么」的上下文，LLM 无法独立理解<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>：答案方向正确但缺必要前提，因为 chunk 丢失了归属信息</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP7</span><br><span class="copy-explain" tabindex="0" data-tip="Liu 等（2023）《Lost in the Middle: How Language Models Use Long Contexts》（TACL 2024）：LLM 对 context 中段内容利用率显著低于首尾，内容位置直接影响答案质量">Liu 2023</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-3">#26 结论前置</a></td>
+              <td><strong>根因推导</strong>：<br>双轨 Markdown 平铺后，结论通常在段落末尾；受「Lost in the Middle」效应，LLM 对中部内容利用率低，提取出的答案缺核心结论<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>：正确结论在段落中后段，LLM 抽取不到</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Liu 等（2023）《Lost in the Middle: How Language Models Use Long Contexts》（TACL 2024）：LLM 对 context 中段内容利用率显著低于首尾，内容位置直接影响答案质量">Liu 2023</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-7">#29 内容结构模式</a></td>
+              <td><strong>根因推导</strong>：<br>双轨暴露了结构无规范：同类内容（教程/故障排查/API参考）各有各的组织方式，LLM 无法按查询意图类型找到完整答案<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP5 Wrong Format：内容提取到了但格式不符合查询预期；FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP5/FP7</span>：结构不可预测，模型按意图类型提取时失败</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP5 Wrong Format：内容提取到了但格式不符合查询预期；FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP5/FP7</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-13">#30 短语连接词</a></td>
+              <td><strong>根因推导</strong>：<br>句子之间逻辑连接词缺失；chunk 被切断后，LLM 无法推断因果/条件/转折关系，答案中逻辑链断裂<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>：信息在 context 里但逻辑关系不明，LLM 拼不出完整推理链</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP7</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a></td>
+              <td><strong>根因推导</strong>：<br>同一概念（如「算子」「op」「Operator」）在不同页混用，检索时匹配不上（<span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP6 Incorrect Specificity：答案方向正确但版本 / 范围不符">FP6</span>），答案中术语前后不一（<span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>）<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP6 Incorrect Specificity：答案方向正确但版本 / 范围不符；FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP6+FP7</span>：术语歧义同时影响检索召回和答案质量</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP6 Incorrect Specificity：答案方向正确但版本 / 范围不符；FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP6/FP7</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-16">#32 消除模糊指代</a></td>
+              <td><strong>根因推导</strong>：<br>「它」「这个」「上述」在 chunk 被切断后指代对象丢失，LLM 无法恢复语义，生成答案时引入错误对象<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>：代词跨越了 chunk 边界，LLM 答案中指代错误或丢失</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP7</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-28">#33 可交互示例</a></td>
+              <td><strong>根因推导</strong>：<br>静态代码格式正确，但缺乏可验证性和权威性信号；GEO 框架指出交互性内容提升生成式搜索引用率<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP5 Wrong Format：内容提取到了但格式不符合查询预期">FP5</span>：内容正确但无交互验证，AI 引用时无权威性加成</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--generalize" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-34">#35 明确边界</a></td>
+              <td><strong>根因推导</strong>：<br>文档只描述支持的场景，缺少「不支持/已废弃/限制条件」；chunk 中没有负面边界，LLM 倾向补全幻觉<br><strong>解决问题</strong>：<br><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">FP7</span>：答案缺失边界说明，LLM 在边界模糊处产生幻觉</td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Barnett 等（2024）《Seven Failure Points When Engineering a Retrieval Augmented Generation System》· FP7 Incomplete Answer：答案方向正确但缺少必要细节">Barnett FP7</span><br><span class="copy-explain" tabindex="0" data-tip="Liu 等（2023）《Lost in the Middle: How Language Models Use Long Contexts》（TACL 2024）：LLM 对 context 中段内容利用率显著低于首尾，内容位置直接影响答案质量">Liu 2023</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 id="fp-principle-map">理论依据</h4>
 
       <div class="ref-grid ref-grid--3">
-        <div class="ref-card">
+        <div class="ref-card" id="ref-barnett">
           <h4>Barnett et al. · 2024</h4>
           <p><em>Seven Failure Points When Engineering a Retrieval Augmented Generation System</em>（CAIN 2024）。从 RAG 工程实践中归纳 7 类失效点（FP1–FP7），为本研究「四失效层」分类与原则映射提供主框架。</p>
           <a class="ref-link" href="https://arxiv.org/abs/2401.05856" target="_blank" rel="noopener">arXiv:2401.05856 ↗</a>
@@ -344,114 +525,249 @@
         </div>
       </div>
 
-      <div class="principle-legend">
-        <span class="principle-legend-swatch principle-legend-swatch--empirical"></span><span class="principle-legend-label">实测诊断（13 条）</span>
-        <span class="principle-legend-swatch"></span><span class="principle-legend-label">根因泛化 / 行业标准（22 条）</span>
-        <span class="principle-legend-swatch principle-legend-swatch--pending"></span><span class="principle-legend-label">待实测验证</span>
+      <h3 id="industry-standard-principles">行业标准原则 · 6条</h3>
+
+      <div class="data-table-wrap">
+        <table class="data-table industry-standard-table">
+          <thead>
+            <tr>
+              <th style="width:18%">行业标准原则</th>
+              <th style="width:22%">依据标准</th>
+              <th style="width:60%">对应条款</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-4">#27 标题明确</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：生成式搜索引擎内容可见性优化框架">GEO 2024</span></td>
+              <td>结构优化维度：描述性标题与 <code>headline</code> 信号，提升生成式搜索引用率</td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-6">#28 FAQ 结构化</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Schema.org 结构化数据标准：通过 JSON-LD / Microdata 为页面添加机器可读语义，提升 AI 和搜索引擎理解能力">Schema.org</span></td>
+              <td><code>FAQPage</code> · <code>Question</code> · <code>acceptedAnswer</code> 类型体系；JSON-LD 与 Microdata 双轨标注</td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-8">#4 单文档结构感知</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="WCAG 2.1 Web Content Accessibility Guidelines：无障碍标准，语义化标记同步提升 AI 对页面结构的解析质量">WCAG 2.1</span></td>
+              <td>SC 1.3.1 信息与关系：标题层级（<code>h1</code>–<code>h6</code>）、列表与段落等语义嵌套须可程序化识别，禁止布局性空元素</td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-30">#23 内容可访问性</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="WCAG 2.1 Web Content Accessibility Guidelines：无障碍标准，无障碍改造同步提升 AI 对页面语义的解析质量">WCAG 2.1</span></td>
+              <td>SC 1.3.1（语义结构）· SC 1.1.1（非文本替代文本）· SC 1.4.3（对比度 AA）· SC 2.1.1（键盘可操作）· SC 4.1.2（表单标签关联）</td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-32">#34 内容可测试性</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Schema.org HowTo / HowToStep：规范步骤包含 name（动作）、text（详情）和 HowToTip（预期结果），是「操作对象 + 动作 + 预期结果」三要素的行业规范原型">Schema.org HowTo</span></td>
+              <td><code>HowToStep</code>：<code>name</code>（动作）· <code>text</code>（详情）· <code>HowToTip</code>（预期结果）三要素</td>
+            </tr>
+            <tr>
+              <td><a class="principle-tag principle-tag--standard" target="_blank" rel="noopener" href="principles-affinity-full.html#principle-full-33">#10 内容可追溯性</a></td>
+              <td><span class="copy-explain" tabindex="0" data-tip="Schema.org TechArticle：citation（引用来源）和 isBasedOn（派生来源）字段，是「内容来源标注」的行业规范落点">Schema.org</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal 等（2024）《GEO: Generative Engine Optimization》（KDD 2024）：来源权威性信号是提升生成式搜索引用率的核心因素">GEO 2024</span></td>
+              <td><code>TechArticle</code>：<code>citation</code> · <code>isBasedOn</code> 来源标注；GEO 权威性维度本土化验证</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <table class="data-table">
+      <h4 id="industry-standard-basis">理论依据</h4>
+
+      <div class="ref-grid ref-grid--3">
+        <div class="ref-card" id="ref-wcag">
+          <h4>WCAG · 2.1</h4>
+          <p><em>Web Content Accessibility Guidelines 2.1</em>（W3C 2018）。规定语义化 HTML、非文本替代文本、颜色对比度、键盘可操作等可访问性要求；无障碍改造同步提升 AI 对页面结构与语义的解析质量。</p>
+          <a class="ref-link" href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener">W3C TR/WCAG21 ↗</a>
+        </div>
+        <div class="ref-card" id="ref-schema">
+          <h4>Schema.org</h4>
+          <p>结构化数据词汇表（Google · Microsoft · Yahoo · Yandex 共同维护）。<code>FAQPage</code>、<code>HowTo</code>、<code>TechArticle</code> 等类型为文档语义标注提供机器可读规范，支撑 JSON-LD / Microdata 双轨输出。</p>
+          <a class="ref-link" href="https://schema.org/" target="_blank" rel="noopener">schema.org ↗</a>
+        </div>
+        <div class="ref-card" id="ref-geo">
+          <h4>Aggarwal et al. · 2024</h4>
+          <p><em>GEO: Generative Engine Optimization</em>（KDD 2024）。提出生成式搜索引擎内容可见性优化框架，支撑标题明确、FAQ 结构化、术语一致性、内容可追溯性等内容侧原则。</p>
+          <a class="ref-link" href="https://arxiv.org/abs/2311.09735" target="_blank" rel="noopener">arXiv:2311.09735 ↗</a>
+        </div>
+      </div>
+
+      <h2 id="theory-distribution">35条亲和原则 × 理论映射</h2>
+
+      <div class="principle-legend">
+        <span class="principle-legend-swatch principle-legend-swatch--empirical"></span><span class="principle-legend-label">实测诊断原则</span>
+        <span class="principle-legend-swatch principle-legend-swatch--generalize"></span><span class="principle-legend-label">根因泛化原则</span>
+        <span class="principle-legend-swatch principle-legend-swatch--standard"></span><span class="principle-legend-label">行业标准原则</span>
+      </div>
+
+      <table class="data-table theory-distribution-table">
         <colgroup>
+          <col style="width:18%">
           <col style="width:28%">
-          <col style="width:72%">
+          <col style="width:54%">
         </colgroup>
         <thead>
           <tr>
-            <th>Barnett FP · 失效机制</th>
-            <th>对应原则</th>
+            <th class="col-theory">理论名称</th>
+            <th class="col-mechanism">对应失效 / 规则机制</th>
+            <th class="col-principles">对应亲和原则</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
+            <td class="col-theory" rowspan="7">
+              <strong>Barnett et al. · 2024</strong><br>
+              <span class="text-auxiliary">Seven Failure Points</span>
+            </td>
+            <td class="col-mechanism">
               <strong>FP1</strong> Missing Content<br>
               <span class="text-auxiliary">内容未进入知识库（入口 / 索引层）</span>
             </td>
-            <td>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-1">#1 llms.txt / sitemap 部署</a>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-26">#2 内容可检索</a>
+            <td class="col-principles">
+              <div class="principle-tag-flow">
+                <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-1">#1 llms.txt / sitemap 部署</a>
+                <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-26">#2 内容可检索</a>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="col-mechanism">
+              <strong>FP2</strong> Missed Top Ranked Docs<br>
+              <span class="text-auxiliary">文档在库中但未被检索召回</span>
+            </td>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-29">#3 多语言锚点</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-4">#27 标题明确</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-6">#28 FAQ 结构化</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-mechanism">
               <strong>FP3</strong> Not in Context<br>
               <span class="text-auxiliary">召回但未纳入 LLM context 窗口</span>
             </td>
-            <td>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-17">#14 图文图意</a>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-17">#14 图文图意</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-18">#15 图片热区</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-25">#22 隐藏语义</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-5">#11 段落锚点</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-19">#16 降噪纯净</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-5">#11 段落锚点</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-19">#16 降噪纯净</a></div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="col-mechanism">
               <strong>FP4</strong> Not Extracted<br>
               <span class="text-auxiliary">在 context 中但 LLM 无法提取</span>
             </td>
-            <td>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-20">#17 链接语义</a>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-20">#17 链接语义</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-22">#19 代码语义</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-23">#20 表格语义</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-24">#21 安全警示语义</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-9">#12 步骤列表化</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-15">#13 验证区块</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-21">#18 格式规范统一</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-30">#23 内容可访问性 <span style="font-size:10px;opacity:.7">WCAG</span></a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-9">#12 步骤列表化</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-15">#13 验证区块</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-21">#18 格式规范统一</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-30">#23 内容可访问性</a></div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="col-mechanism">
               <strong>FP5</strong> Wrong Format<br>
               <span class="text-auxiliary">格式不符合查询预期</span>
             </td>
-            <td>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-35">#24 双轨交付</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-7">#29 内容结构模式</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-4">#27 标题明确 <span style="font-size:10px;opacity:.7">GEO</span></a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-6">#28 FAQ 结构化 <span style="font-size:10px;opacity:.7">Schema.org</span></a>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-35">#24 双轨交付</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-7">#29 内容结构模式</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-4">#27 标题明确</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-6">#28 FAQ 结构化</a></div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="col-mechanism">
               <strong>FP6</strong> Incorrect Specificity<br>
               <span class="text-auxiliary">版本 / 范围不精确</span>
             </td>
-            <td>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-8">#4 单文档结构感知</a>
-              <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-10">#5 失效状态显化</a>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-10">#5 失效状态显化</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-11">#6 版本外显</a>
               <a class="principle-tag principle-tag--empirical" href="principles-affinity-full.html#principle-full-27">#8 元数据丰富化</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-12">#7 明确更新日期</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-31">#9 跨文档一致性</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-14">#31 术语一致性 <span style="font-size:10px;opacity:.7">GEO</span></a>
-              <a class="principle-tag principle-tag--pending" href="principles-affinity-full.html#principle-full-33">#10 内容可追溯性 <span style="font-size:10px;opacity:.7">待实测</span></a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-12">#7 明确更新日期</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-31">#9 跨文档一致性</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-8">#4 单文档结构感知</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-33">#10 内容可追溯性</a></div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="col-mechanism">
               <strong>FP7</strong> Incomplete Answer<br>
               <span class="text-auxiliary">答案方向正确但缺少必要细节</span>
             </td>
-            <td>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-2">#25 内容自包含</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-7">#29 内容结构模式</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-13">#30 短语连接词</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-16">#32 消除模糊指代</a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-34">#35 明确边界</a>
-              <a class="principle-tag principle-tag--pending" href="principles-affinity-full.html#principle-full-32">#34 内容可测试性 <span style="font-size:10px;opacity:.7">待实测</span></a>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-2">#25 内容自包含</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-7">#29 内容结构模式</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-13">#30 短语连接词</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-16">#32 消除模糊指代</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-34">#35 明确边界</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-32">#34 内容可测试性</a></div>
             </td>
           </tr>
           <tr>
-            <td>
-              <span class="text-auxiliary">补充依据<br>Liu 2023 · GEO 2024 · WCAG</span>
+            <td class="col-theory">
+              <strong>Liu et al. · 2023</strong><br>
+              <span class="text-auxiliary">Lost in the Middle</span>
             </td>
-            <td>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-3">#26 结论前置 <span style="font-size:10px;opacity:.7">Liu 2023</span></a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-29">#3 多语言锚点 <span style="font-size:10px;opacity:.7">Schema.org</span></a>
-              <a class="principle-tag" href="principles-affinity-full.html#principle-full-28">#33 可交互示例 <span style="font-size:10px;opacity:.7">GEO 2024</span></a>
+            <td class="col-mechanism">
+              Context 中段利用率显著低于首尾<br>
+              <span class="text-auxiliary">内容位置直接影响答案质量</span>
+            </td>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-3">#26 结论前置</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-theory">
+              <strong>GEO 2024</strong><br>
+              <span class="text-auxiliary">Aggarwal et al.</span>
+            </td>
+            <td class="col-mechanism">
+              Generative Engine Optimization<br>
+              <span class="text-auxiliary">结构信号 · 权威性 · 可见性</span>
+            </td>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-14">#31 术语一致性</a>
+              <a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-28">#33 可交互示例</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-4">#27 标题明确</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-33">#10 内容可追溯性</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-theory">
+              <strong>Schema.org</strong>
+            </td>
+            <td class="col-mechanism">
+              <code>FAQPage</code> · <code>HowTo</code> · <code>TechArticle</code><br>
+              <span class="text-auxiliary">机器可读语义类型 / 字段</span>
+            </td>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--generalize" href="principles-affinity-full.html#principle-full-29">#3 多语言锚点</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-6">#28 FAQ 结构化</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-32">#34 内容可测试性</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-33">#10 内容可追溯性</a></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-theory">
+              <strong>WCAG 2.1</strong>
+            </td>
+            <td class="col-mechanism">
+              SC 1.3.1 · 1.1.1 · 1.4.3 · 2.1.1 · 4.1.2<br>
+              <span class="text-auxiliary">语义结构 · 替代文本 · 对比度 · 键盘 · 标签关联</span>
+            </td>
+            <td class="col-principles">
+              <div class="principle-tag-flow"><a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-8">#4 单文档结构感知</a>
+              <a class="principle-tag principle-tag--standard" href="principles-affinity-full.html#principle-full-30">#23 内容可访问性</a></div>
             </td>
           </tr>
         </tbody>

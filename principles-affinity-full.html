@@ -186,8 +186,8 @@
             <td>文档所有内容变更都有明确的追溯记录，包括变更时间、变更人、变更内容、变更原因，核心内容的来源有明确的标注，可追溯到原始来源。</td>
             <td>—</td>
             <td><strong>CMS 版本控制</strong>：<br>每次内容发布自动记录变更时间、变更人、变更内容的 diff，支持回溯任意历史版本，不依赖人工填写变更日志。<br><strong>变更原因字段</strong>：<br>CMS 发布流程中增加必填的变更原因字段，发布时强制填写，与 diff 记录绑定存储。<br><strong>内容来源标注字段</strong>：<br>CMS 中为内容块提供可选的来源字段（原始文档链接、规范标准编号、代码仓库 PR 链接等），渲染时可选择是否对用户展示。<br><strong>变更历史接口</strong>：<br>页面级变更记录通过接口对外暴露，供大模型判断内容的时效性和权威性，与&quot;明确更新日期&quot;原则的 dateModified 字段联动。</td>
-            <td class="col-source">—</td>
-            <td class="col-basis"><span class="copy-explain" tabindex="0" data-tip="Barnett et al. 2024 · FP6 Incorrect Specificity：召回了错误版本或版本粒度不匹配的文档">Barnett FP6</span></td>
+            <td class="col-source"><span class="badge badge-primary">行业标准</span></td>
+            <td class="col-basis"><span class="copy-explain" tabindex="0" data-tip="Barnett et al. 2024 · FP6 Incorrect Specificity：召回了错误版本或版本粒度不匹配的文档">Barnett FP6</span><br><span class="copy-explain" tabindex="0" data-tip="Schema.org TechArticle：citation（引用来源）和 isBasedOn（派生来源）字段，是「内容来源标注」的行业规范落点">Schema.org</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal et al. 2024 · Generative Engine Optimization：来源权威性信号是提升生成式搜索引用率的核心因素，内容可追溯性是其「权威性」维度的本土化实现">GEO 2024</span></td>
           </tr>
         </tbody>
       </table>
@@ -458,8 +458,8 @@
             <td>操作类文档的所有步骤都具备可复现性、可验证性，每个操作步骤都有明确的操作对象、操作动作、预期结果，读者可按照步骤完全复现操作过程，并验证操作结果。</td>
             <td>—</td>
             <td><strong>步骤完整性检测</strong>：<br>在发布流程中检测操作类文档的每个 &lt;ol&gt;&lt;li&gt; 步骤项，识别缺少&quot;操作对象&quot;、&quot;操作动作&quot;或&quot;预期结果&quot;三要素的步骤，给出告警提示内容侧补充。<br><strong>验证区块存在性校验</strong>：<br>与&quot;验证区块&quot;原则的 CMS 校验联动，操作类文档发布前强制检查是否包含验证章节，已在验证区块原则中实现，此处复用即可。</td>
-            <td class="col-source">—</td>
-            <td class="col-basis"><span class="copy-explain" tabindex="0" data-tip="Barnett et al. 2024 · FP7 Incomplete Answer：LLM 生成的答案仅部分正确或缺失关键信息">Barnett FP7</span></td>
+            <td class="col-source"><span class="badge badge-primary">行业标准</span></td>
+            <td class="col-basis"><span class="copy-explain" tabindex="0" data-tip="Barnett et al. 2024 · FP7 Incomplete Answer：LLM 生成的答案仅部分正确或缺失关键信息">Barnett FP7</span><br><span class="copy-explain" tabindex="0" data-tip="Schema.org HowTo / HowToStep：规范步骤包含 name（动作）、text（详情）和 HowToTip（预期结果），是「操作对象 + 动作 + 预期结果」三要素的行业规范原型，Google 等引擎用于结构化摘要抽取">Schema.org HowTo</span></td>
           </tr>
           <tr id="principle-full-34" data-adjust-content="1" data-adjust-design="1" data-adjust-dev="1">
             <td class="col-id">35</td>

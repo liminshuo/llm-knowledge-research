@@ -174,6 +174,10 @@
   margin-top: 48px;
 }
 
+#problems-overview > h2:first-child {
+  margin-top: 0;
+}
+
 body[data-page="structure-llms"] #design,
 body[data-page="structure-llms"] #dev-side {
   margin-top: 48px;
@@ -445,6 +449,26 @@ a.source-diagnosis-link:hover {
 .data-table--affinity td.col-source .badge {
   font-size: 11px;
   padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+/* 原则来源：实测诊断 = 蓝，阳狮团队已识别 = 橙 */
+.data-table--affinity td.col-source .badge-accent {
+  background: var(--color-principle-empirical-bg);
+  color: var(--color-principle-empirical);
+  border-color: var(--color-principle-empirical-border);
+}
+
+.data-table--affinity td.col-source .col-source-secondary.badge-primary {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: var(--color-warning-border);
+}
+
+a.source-diagnosis-link.badge-accent:hover {
+  opacity: 1;
+  border-color: var(--color-principle-empirical);
 }
 
 .data-table--affinity td.col-source .col-source-secondary {
@@ -713,9 +737,14 @@ body[data-page="affinity-full"] .affinity-group-desc {
 
 /* ── 推导原则标签（background-motivation.html #framework-intro 合并列） ── */
 .principle-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 24px;
   font-size: 12px;
-  padding: 2px 8px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 0 8px;
   border-radius: 4px;
   margin: 2px 3px 2px 0;
   background: var(--color-primary-light);
@@ -730,23 +759,44 @@ a.principle-tag {
   transition: border-color 0.15s, border-style 0.15s;
 }
 
+/* 覆盖全局 a:hover 变色；Hover 仅改描边，文字色保持不动 */
 a.principle-tag:hover {
   border-style: dashed;
-}
-
-a.principle-tag--empirical:hover {
-  border-color: #1a56db;
-}
-
-a.principle-tag--pending:hover {
-  border-color: var(--color-text-secondary);
+  text-decoration: none;
+  color: inherit;
 }
 
 .principle-tag--empirical {
-  background: #e8f0fe;
-  color: #1a56db;
-  border-color: #bfcffd;
-  font-weight: 600;
+  background: var(--color-principle-empirical-bg);
+  color: var(--color-principle-empirical);
+  border-color: var(--color-principle-empirical-border);
+}
+
+a.principle-tag--empirical:hover {
+  color: var(--color-principle-empirical);
+  border-color: var(--color-principle-empirical);
+}
+
+.principle-tag--generalize {
+  background: var(--color-principle-generalize-bg);
+  color: var(--color-principle-generalize);
+  border-color: var(--color-principle-generalize-border);
+}
+
+a.principle-tag--generalize:hover {
+  color: var(--color-principle-generalize);
+  border-color: var(--color-principle-generalize);
+}
+
+.principle-tag--standard {
+  background: var(--color-principle-standard-bg);
+  color: var(--color-principle-standard);
+  border-color: var(--color-principle-standard-border);
+}
+
+a.principle-tag--standard:hover {
+  color: var(--color-principle-standard);
+  border-color: #059669;
 }
 
 .principle-tag--pending {
@@ -756,12 +806,17 @@ a.principle-tag--pending:hover {
   border-style: dashed;
 }
 
+a.principle-tag--pending:hover {
+  color: var(--color-text-secondary);
+  border-color: var(--color-text-secondary);
+}
+
 .principle-legend {
   display: flex;
   align-items: center;
   gap: 6px 16px;
   flex-wrap: wrap;
-  margin-bottom: 14px;
+  margin: 12px 0 14px;
   font-size: 13px;
 }
 
@@ -781,13 +836,54 @@ a.principle-tag--pending:hover {
 }
 
 .principle-legend-swatch--empirical {
-  background: #dbeafe;
-  border-color: #93c5fd;
+  background: var(--color-principle-empirical-bg);
+  border-color: var(--color-principle-empirical-border);
+}
+
+.principle-legend-swatch--generalize {
+  background: var(--color-principle-generalize-bg);
+  border-color: var(--color-principle-generalize-border);
+}
+
+.principle-legend-swatch--standard {
+  background: var(--color-principle-standard-bg);
+  border-color: var(--color-principle-standard-border);
 }
 
 .principle-legend-swatch--pending {
   background: #fafafa;
   border: 1px dashed var(--color-border);
+}
+
+.theory-distribution-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.theory-distribution-table td.col-theory[rowspan] {
+  vertical-align: middle;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.theory-distribution-table .col-mechanism {
+  color: var(--color-text);
+}
+
+.theory-distribution-table .col-mechanism code {
+  font-size: 0.75rem;
+}
+
+/* 对应亲和原则列：内层 flex 换行，避免直接改 td display 破坏 rowspan 列对齐 */
+.theory-distribution-table .principle-tag-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theory-distribution-table .principle-tag-flow .principle-tag {
+  margin: 0;
 }
 
 .data-table--affinity tr[id^="principle-full-"] {

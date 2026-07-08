@@ -5,6 +5,16 @@
   --color-primary-light: #F5F5F5;
   --color-primary-dark: #1476FF;
   --color-accent: #7c3aed;
+  /* 原则三类来源色：实测锚点 / 根因泛化 / 行业标准 */
+  --color-principle-empirical: #1a56db;
+  --color-principle-empirical-bg: #e8f0fe;
+  --color-principle-empirical-border: #bfcffd;
+  --color-principle-generalize: #6d28d9;
+  --color-principle-generalize-bg: #f5f3ff;
+  --color-principle-generalize-border: #ddd6fe;
+  --color-principle-standard: #047857;
+  --color-principle-standard-bg: #ecfdf5;
+  --color-principle-standard-border: #6ee7b7;
   --color-bg: #F5F5F5;
   --color-surface: #ffffff;
   --color-card-bg: #FAFAFA;
