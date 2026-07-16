@@ -53,7 +53,34 @@ int Init() { … }</pre></div>
           </div>
           <h4 class="compare-label compare-label--human">After · 完整代码块组件</h4>
           <div class="compare-col human">
-            <div class="render-frame"><div class="rf-code-head">kernel_add.cpp · Ascend C · 矢量算子示例</div><pre class="rf-code">// kernel 实现…</pre></div>
+            <div class="render-frame">
+              <div class="rf-code-block">
+                <div class="rf-code-toolbar">
+                  <div class="rf-code-langs" role="tablist" aria-label="语言">
+                    <span class="rf-code-lang">Shell</span>
+                    <span class="rf-code-lang rf-code-lang--active">C++</span>
+                    <span class="rf-code-lang">Python</span>
+                  </div>
+                  <span class="rf-code-copy" title="复制" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  </span>
+                </div>
+                <pre class="rf-code">#include &lt;acl/acl.h&gt;
+
+int Init() {
+  return aclInit(nullptr);
+}</pre>
+              </div>
+              <div class="rf-code-block">
+                <div class="rf-code-toolbar">
+                  <span class="rf-code-output-label">Output</span>
+                  <span class="rf-code-copy" title="复制" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  </span>
+                </div>
+                <pre class="rf-code rf-code--output">ACL_SUCCESS (0)</pre>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,12 +99,99 @@ int Init() { … }</pre></div>
           <h4 class="compare-label compare-label--human">After · 独立"预期输出"块紧随代码块</h4>
           <div class="compare-col human">
             <div class="render-frame">
-              <div class="rf-code-head">run_add.sh · bash · 编译运行示例</div>
-              <pre class="rf-code">bash run_add.sh</pre>
-              <div class="rf-code-output-head">预期输出</div>
-              <pre class="rf-code rf-code--output">[INFO] kernel Add executed successfully.
+              <div class="rf-code-block">
+                <div class="rf-code-toolbar">
+                  <div class="rf-code-langs" role="tablist" aria-label="语言">
+                    <span class="rf-code-lang rf-code-lang--active">Bash</span>
+                    <span class="rf-code-lang">Shell</span>
+                  </div>
+                  <span class="rf-code-copy" title="复制" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  </span>
+                </div>
+                <pre class="rf-code">bash run_add.sh</pre>
+              </div>
+              <div class="rf-code-block">
+                <div class="rf-code-toolbar">
+                  <span class="rf-code-output-label">Output</span>
+                  <span class="rf-code-copy" title="复制" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  </span>
+                </div>
+                <pre class="rf-code rf-code--output">[INFO] kernel Add executed successfully.
 elapsed time: 2.3 ms</pre>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="principle-example">
+        <h4>3. 友商参考 · Anthropic · 语言 Tab + 独立 Output</h4>
+        <p class="principle-example-note">Claude 平台文档采用多语言 Tab、右上角复制，以及独立 <code>Output</code> / 示例响应块；场景说明放在正文，不挤进顶栏。来源：<a href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" target="_blank" rel="noopener">Handling stop reasons</a>。</p>
+        <div class="render-frame">
+          <div class="rf-code-block">
+            <div class="rf-code-toolbar">
+              <div class="rf-code-langs" role="tablist" aria-label="语言">
+                <span class="rf-code-lang">cURL</span>
+                <span class="rf-code-lang">CLI</span>
+                <span class="rf-code-lang rf-code-lang--active">Python</span>
+                <span class="rf-code-lang">TypeScript</span>
+                <span class="rf-code-lang">C#</span>
+                <span class="rf-code-lang">Go</span>
+                <span class="rf-code-lang">Java</span>
+              </div>
+              <span class="rf-code-copy" title="复制" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
+            </div>
+            <pre class="rf-code">client = anthropic.Anthropic()
+
+response = client.messages.create(
+    model="claude-opus-4-8",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello!"}],
+)
+if response.stop_reason == "end_turn":
+    print(response.content[0].text)</pre>
+          </div>
+          <div class="rf-code-block">
+            <div class="rf-code-toolbar">
+              <span class="rf-code-output-label">Output</span>
+              <span class="rf-code-copy" title="复制" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
+            </div>
+            <pre class="rf-code rf-code--output">{
+  "id": "msg_01234",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    { "type": "text", "text": "Here's the answer to your question..." }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": { "input_tokens": 100, "output_tokens": 50 }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="principle-example">
+        <h4>4. 友商参考 · Mintlify · 包管理器 Tab</h4>
+        <p class="principle-example-note">Mintlify 文档用 <code>CodeGroup</code> 切换 npm / pnpm，右上角提供复制等操作；源码围栏虽为 <code>bash</code>，界面顶栏不展示语言字样，安装说明写在章节标题与正文。来源：<a href="https://www.mintlify.com/docs/cli/install" target="_blank" rel="noopener">Install the CLI</a>。</p>
+        <div class="render-frame">
+          <div class="rf-code-block">
+            <div class="rf-code-toolbar">
+              <div class="rf-code-langs" role="tablist" aria-label="包管理器">
+                <span class="rf-code-lang rf-code-lang--active">npm</span>
+                <span class="rf-code-lang">pnpm</span>
+              </div>
+              <span class="rf-code-copy" title="复制" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </span>
+            </div>
+            <pre class="rf-code">npm i -g mint</pre>
           </div>
         </div>
       </div>

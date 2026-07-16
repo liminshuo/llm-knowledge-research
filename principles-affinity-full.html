@@ -168,7 +168,7 @@
             <td><strong>每个文档页面建议在&lt;head&gt;中包含丰富的结构化元数据，优先使用JSON-LD格式，至少嵌入</strong>：、FAQPage)、headline、description(150-160字符) 、inLanguage、datePublished、dataModified、keywords、author/publisher。</td>
             <td>—</td>
             <td><strong>JSON-LD 模板化输出</strong>：<br>在页面模板中统一注入 JSON-LD，字段从 CMS 结构化数据中动态读取，覆盖所有文档页面，不依赖人工逐页添加。<br><strong>必填字段完整性校验</strong>：<br>发布流程中检测 JSON-LD 是否包含所有必填字段（@type、headline、description、inLanguage、datePublished、dateModified、keywords、author/publisher），缺失字段则阻断发布。<br><strong>type 按页面类型自动匹配</strong>：<br>文档类型（HowTo、TechArticle、FAQPage 等）在 CMS 中作为页面属性维护，JSON-LD 的 @type 由系统根据页面类型自动填入，不依赖人工判断</td>
-            <td class="col-source"><a href="problems-structure-metadata.html" class="badge badge-accent source-diagnosis-link">实测诊断</a><span class="badge badge-primary col-source-secondary">阳狮团队已识别</span></td>
+            <td class="col-source"><a href="problems-structure-metadata.html" class="badge badge-accent source-diagnosis-link">实测诊断</a></td>
             <td class="col-basis"><span class="copy-explain" tabindex="0" data-tip="Barnett et al. 2024 · FP6 Incorrect Specificity：召回了错误版本或版本粒度不匹配的文档">Barnett FP6</span><br><span class="copy-explain" tabindex="0" data-tip="Schema.org 结构化数据标准：通过 JSON-LD / Microdata 为页面添加机器可读语义，提升 AI 和搜索引擎理解能力">Schema.org</span><br><span class="copy-explain" tabindex="0" data-tip="Aggarwal et al. 2024 · Generative Engine Optimization：优化内容结构与权威性信号，使其更易被生成式搜索引擎引用">GEO 2024</span></td>
           </tr>
           <tr id="principle-full-31" data-adjust-content="1" data-adjust-design="1" data-adjust-dev="1">

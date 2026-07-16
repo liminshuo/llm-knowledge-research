@@ -141,6 +141,17 @@
   border-top: 1px dashed var(--color-border);
 }
 
+.principle-example-note {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.principle-example-note a {
+  font-weight: 600;
+}
+
 .example-divider {
   border: none;
   border-top: 1px dashed var(--color-border);
